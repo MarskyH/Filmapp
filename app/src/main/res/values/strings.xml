@@ -1,3 +1,153 @@
 <resources>
     <string name="app_name">Filmapp</string>
+
+    <!--STRINGS DA TELA LOGIN -->
+    <string name="botao_entrar_login">ENTRAR</string>
+    <string name="botao_cadastre_se_login">CADASTRE-SE</string>
+    <string name="titulo_toolbar_login">Faça login no app</string>
+    <string name="editText_email_login">Usuário ou e-mail</string>
+    <string name="editText_senha_login">Senha</string>
+    <string name="textView_senhaEsquecida_login">Esqueceu sua senha?</string>
+    <string name="textView_ou_login">OU</string>
+    <string name="botao_facebook_login">ENTRE COM FACEBOOK</string>
+    <string name="botao_twitter_login">ENTRE COM TWITTER</string>
+    <string name="botao_google_login">ENTRE COM GOOGLE</string>
+
+    <!--STRINGS DA TELA CADASTRO -->
+    <string name="titulo_toolbar_cadastro">Cadastre-se no app</string>
+    <string name="editText_email_cadastro">Email</string>
+    <string name="editText_nomeUsuario_cadastro">Nome de Usuário</string>
+    <string name="editText_senha_cadatro">Senha</string>
+    <string name="editText_confirmeSenha_cadatro">Comfirmar Senha</string>
+    <string name="textView_novidades_email_cadastro">Desejo receber novidades no email</string>
+    <string name="botao_cadastrar_cadastro">Desejo receber novidades no email</string>
+
+    <!--STRINGS DA TELA GENERO -->
+    <string name="titulo_toolbar_genero">Gênero</string>
+    <string name="textView_caixaSelecao_acao_genero">Ação</string>
+    <string name="textView_caixaSelecao_animacao_genero">Animação</string>
+    <string name="textView_caixaSelecao_aventura_genero">Aventura</string>
+    <string name="textView_caixaSelecao_anime_genero">Anime</string>
+    <string name="textView_caixaSelecao_comedia_genero">Comédia</string>
+    <string name="textView_caixaSelecao_documentario_genero">Doxumentário</string>
+    <string name="textView_caixaSelecao_espionagem_genero">Espionagem</string>
+    <string name="textView_caixaSelecao_ficcao_genero">Ficção Ciêntifica</string>
+    <string name="textView_caixaSelecao_drama_genero">Drama</string>
+    <string name="textView_caixaSelecao_suspense_genero">Suspense</string>
+
+    <!--STRINGS DA TELA ENTRE COM FACEBOOK -->
+    <string name="titulo_toolbar_facebook">ENTRE COM FACEBOOK</string>
+    <string name="textViewPerfil_facebook">Continue como Digital House</string>
+    <string name="textViewInfoAbaixoPerfil_facebook">FilmApp irá acessa seu perfil público</string>
+    <string name="textViewSaibaMais_facebook">Saiba mais</string>
+    <string name="textViewInfoFinal_facebook">Isso não permite que o aplicativo poste no Facebook</string>
+
+    <!--STRINGS DA TELA ENTRE COM TWITTER -->
+    <string name="titulo_toolbar_twitter">ENTRAR</string>
+    <string name="lateral_toolbar_twitter">Inscreva-se</string>
+    <string name="editText_email_twitter">Usuário ou Email</string>
+    <string name="editText_senha_twitter">Senha</string>
+    <string name="textView_senhaEsquecida_twitter">Esqueceu sua senha?</string>
+    <string name="botao_entre_twitter">Entre</string>
+
+    <!--STRINGS DA TELA ENTRE COM GOOGLE -->
+    <string name="titulo_toolbar_google">Entre com google</string>
+    <string name="textView_abaixo_logo_google">Entre com sua conta do google</string>
+    <string name="editText_email_google">Email</string>
+    <string name="editText_senha_google">Senha</string>
+    <string name="textView_ajuda_google">Precisa de ajuda?</string>
+    <string name="botao_entre_google">Entre</string>
+
+    <!--STRINGS DA TELA HOME -->
+    <string name="titulo_toolbar_home">FilmApp</string>
+    <string name="icone_home_home">Home</string>
+    <string name="icone_series_home">Séries</string>
+    <string name="icone_filmes_home">Filmes</string>
+    <string name="icone_descubra_home">Descubra</string>
+    <string name="icone_acompanhando_home">Acompanhando</string>
+    <string name="icone_alta_home">Em Alta</string>
+    <string name="icone_melhores_home">Melhores</string>
+    <string name="icone_ajuda_home">Ajuda</string>
+    <string name="icone_agenda_home">Agenda</string>
+    <string name="icone_historico_home">Histórico</string>
+    <string name="icone_populares_home">Populares</string>
+    <string name="icone_favoritos_home">Favoritos</string>
+
+    <!--STRINGS DA TELA EM ALTA -->
+    <string name="titulo_toolbar_alta">Em Alta</string>
+    <string name="textView_semana_alta">Melhores da Semana</string>
+    <string name="textView_cartaz_alta">Em cartaz</string>
+    <string name="textView_episodios_alta">Novos Episódios</string>
+
+    <!--STRINGS DA TELA AGENDA -->
+    <string name="titulo_toolbar_agenda">Agenda</string>
+    <string name="textView_assistirMaisTarde_agenda">Assistir mais tarde</string>
+    <string name="textView_tituloSerie_agenda">The Boys</string>
+    <string name="textView_tipo_agenda">Série</string>
+    <string name="textView_ep_agenda">2x08 - O Que Eu Sei </string>
+    <string name="textView_data_agenda">Data: 09/10/2020</string>
+    <string name="textView_onde_agenda">Onde: Amazon Prime Video</string>
+    <string name="textView_pesquisa_agenda">Digite o nome da Série ou Filme</string>
+    <string name="textView_info_agenda">Receber notifição no email</string>
+
+    <!--STRINGS DA TELA DESCUBRA -->
+    <string name="textView_pesquisa_descubra">Digite o nome da Série ou Filme</string>
+
+    <!--STRINGS DA TELA ACOMPANHANDO -->
+    <string name="titulo_toolbar_acompnahndo">Acompanhando</string>
+    <string name="textView_tituloSerie_acompanhando">The Boys</string>
+    <string name="textView_info_acompanhando">Você está em:</string>
+    <string name="textView_descricao_acompanhando">2x06 - Malditas Portas:</string>
+
+    <!--STRINGS DA TELA MELHORES -->
+    <string name="titulo_toolbar_melhores">Agenda</string>
+    <string name="tab_series_melhores">SÉRIES</string>
+    <string name="tab_filmes_melhores">FILMES</string>
+
+    <!--STRINGS DA TELA HISTÓRICO -->
+    <string name="titulo_toolbar_historico">Histórico</string>
+
+    <!--STRINGS DA TELA AJUDA -->
+    <string name="titulo_toolbar_ajuda">Ajuda</string>
+    <string name="editext_duvida_ajuda">Qual é a sua dúvida</string>
+    <string name="textView_novidades_ajuda">Novidades</string>
+    <string name="textView_duvidas_ajuda">Dúvidas Frequentes</string>
+    <string name="textView_pergunta_ajuda">O que é o FilmApp</string>
+    <string name="textView_descricao_ajuda">Film App é um aplicativo voltado ao entretenimento com foco em filmes e séries, um guia.</string>
+
+    <!--STRINGS DA TELA SÉRIE -->
+    <string name="tab_geral_serie">Visão Geral</string>
+    <string name="tab_temporadas_serie">Temporadas</string>
+    <string name="tab_midia_serie">Mídia</string>
+    <string name="textView_sinopse_serie">Sinopse</string>
+    <string name="textView_temporada1_serie">Temporada 1</string>
+    <string name="textView_tempoarada2_serie">Temporada 2</string>
+
+    <!--STRINGS DA TELA FILME -->
+    <string name="tab_geral_filme">Visão Geral</string>
+    <string name="tab_semelhantes_filme">Semelhantes</string>
+    <string name="tab_midia_filme">Mídia</string>
+    <string name="textView_sinopse_filme">Sinopse</string>
+
+    <!--STRINGS DA TELA CONFIGURAÇÔES -->
+    <string name="titulo_toolbar_configuracoes"> Configurações</string>
+    <string name="editText_nome_configuracoes">Nome</string>
+    <string name="editText_nomeUsuario_configuracoes">Nome de Usuário</string>
+    <string name="editText_sobrenome_configuracoes">Sobrenome</string>
+    <string name="editText_data_configuracoes">Data de Nascimento</string>
+    <string name="botao_atualizar_configuracoes">ATUALIZAR</string>
+    <string name="botao_sair_configuracoes">SAIR DA CONTA</string>
+    <string name="botao_destivar_configuracoes">DESATIVAR A CONTA</string>
+    <string name="tab_seguranca_configuracoes">Segurança</string>
+    <string name="tab_design_configuracoes">Design</string>
+    <string name="editText_senhaAtual_configuracoes">Senha atual</string>
+    <string name="editText_novaSnha_configuracoes">Nova senha</string>
+    <string name="editText_confirmarSrnha_configuracoes">Confirmar Senha</string>
+    <string name="editText_novoEmail_configuracoes">Novo e-mail</string>
+    <string name="editText_ConfirmarEmail_configuracoes">Confirmar e-mail</string>
+    <string name="textView_senhaEsquecida_configuracoes">Esqueceu sua senha?</string>
+
+
+
+
 </resources>
