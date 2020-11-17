@@ -146,8 +146,7 @@
     <string name="editText_novoEmail_configuracoes">Novo e-mail</string>
     <string name="editText_ConfirmarEmail_configuracoes">Confirmar e-mail</string>
     <string name="textView_senhaEsquecida_configuracoes">Esqueceu sua senha?</string>
-
-
+    <string name="TheBoys">The Boys</string>
 
 
 </resources>
