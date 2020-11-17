@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context=".home.HomeActivity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        android:background="@color/Principal">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:text="Home"
+            android:icon="@drawable/ic_home_branco"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:text="Home"
+            android:icon="@drawable/ic_home_branco"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+</LinearLayout>

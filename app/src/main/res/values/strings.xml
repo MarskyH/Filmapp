@@ -82,6 +82,7 @@
     <!--STRINGS DA TELA AGENDA -->
     <string name="titulo_toolbar_agenda">Agenda</string>
     <string name="textView_assistirMaisTarde_agenda">Assistir mais tarde</string>
+    <string name="textView_proximos_agenda">Próximos</string>
     <string name="textView_tituloSerie_agenda">The Boys</string>
     <string name="textView_tipo_agenda">Série</string>
     <string name="textView_ep_agenda">2x08 - O Que Eu Sei </string>
@@ -146,8 +147,8 @@
     <string name="editText_novoEmail_configuracoes">Novo e-mail</string>
     <string name="editText_ConfirmarEmail_configuracoes">Confirmar e-mail</string>
     <string name="textView_senhaEsquecida_configuracoes">Esqueceu sua senha?</string>
-
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
