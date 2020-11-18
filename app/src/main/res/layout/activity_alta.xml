@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/title_melhoresDaSemana_EmAlta"
+                android:id="@+id/title_melhoresDaSemana_emAlta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_semana_alta"

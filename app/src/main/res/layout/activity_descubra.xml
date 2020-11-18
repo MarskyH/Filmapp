@@ -1,13 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/Dark"
-    tools:context=".home.AgendaActivity">
+    android:orientation="vertical"
+    tools:context=".home.DescubraActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_lupa_roxo" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            app:boxStrokeColor="@color/Principal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_agendamento"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:hint="@string/textView_pesquisa_agenda"
+                android:textColor="@color/Grey"
+                android:textSize="20dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,59 +45,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/title_assistirMaisTarde_agenda"
+                android:id="@+id/title_series_descubra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/textView_assistirMaisTarde_agenda"
+                android:text="@string/textView_series_descubra"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView_assistirMaisTarde_agenda"
+                android:id="@+id/recycleView_series_descubra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"
-                tools:listitem="" />
+                tools:listitem=""/>
 
             <TextView
-                android:id="@+id/title_proximos_agenda"
+                android:id="@+id/title_filmes_descubra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/textView_proximos_agenda"
+                android:text="@string/textView_filmes_descubra"
                 android:textColor="@color/white"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView_proximos_agenda"
+                android:id="@+id/recycleView_filmes_descubra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="" />
+                tools:listitem=""/>
 
         </LinearLayout>
 
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingButton_agendar_agenda"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        android:src="@drawable/ic_acompanhar_ou_add" />
-
-</FrameLayout>
+</LinearLayout>

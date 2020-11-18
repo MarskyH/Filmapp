@@ -92,6 +92,8 @@
     <string name="textView_info_agenda">Receber notifição no email</string>
 
     <!--STRINGS DA TELA DESCUBRA -->
+    <string name="textView_series_descubra">Séries</string>
+    <string name="textView_filmes_descubra">Filmes</string>
     <string name="textView_pesquisa_descubra">Digite o nome da Série ou Filme</string>
 
     <!--STRINGS DA TELA ACOMPANHANDO -->
@@ -110,7 +112,7 @@
 
     <!--STRINGS DA TELA AJUDA -->
     <string name="titulo_toolbar_ajuda">Ajuda</string>
-    <string name="editext_duvida_ajuda">Qual é a sua dúvida</string>
+    <string name="textView_duvida_ajuda">Qual é a sua dúvida?</string>
     <string name="textView_novidades_ajuda">Novidades</string>
     <string name="textView_duvidas_ajuda">Dúvidas Frequentes</string>
     <string name="textView_pergunta_ajuda">O que é o FilmApp</string>
