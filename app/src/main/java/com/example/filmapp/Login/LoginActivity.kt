@@ -1,6 +1,24 @@
 package com.example.filmapp.Login
 
-import androidx.appcompat.app.AppCompatActivity
 
-class LoginActivity: AppCompatActivity() {
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.example.filmapp.R
+import com.example.filmapp.Series.SerieSelectedActivity
+import kotlinx.android.synthetic.main.layout_login.*
+import java.time.Instant
+
+
+class LoginActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.layout_login)
+
+        imageView.setOnClickListener{
+            val intent = Intent(this, SerieSelectedActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
 }
