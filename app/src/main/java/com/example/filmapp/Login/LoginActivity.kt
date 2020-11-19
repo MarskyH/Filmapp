@@ -5,9 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.SerieSelectedActivity
+import com.example.filmapp.Series.Ui.SerieSelectedActivity
 import kotlinx.android.synthetic.main.layout_login.*
-import java.time.Instant
 
 
 class LoginActivity : AppCompatActivity() {

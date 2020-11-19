@@ -1,4 +1,4 @@
-package com.example.filmapp.Series
+package com.example.filmapp.Series.Adapter
 
 import android.icu.text.CaseMap
 import android.view.ViewGroup

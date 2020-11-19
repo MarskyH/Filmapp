@@ -1,4 +1,4 @@
-package com.example.filmapp.Series
+package com.example.filmapp.Series.Fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import com.example.filmapp.R
 
 
-class SeasonsFragment : Fragment() {
+class MideaFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
+        val view: View = inflater!!.inflate(R.layout.fragment_series_midea, container, false)
         return  view
     }
 
@@ -28,7 +28,7 @@ class SeasonsFragment : Fragment() {
 
     companion object{
         @JvmStatic
-        fun newInstance(msg: Int) = SeasonsFragment().apply {
+        fun newInstance(msg: Int) = MideaFragment().apply {
 
             }
         }

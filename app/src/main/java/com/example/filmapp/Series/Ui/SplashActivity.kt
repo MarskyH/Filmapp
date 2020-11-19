@@ -1,12 +1,11 @@
-package com.example.filmapp
+package com.example.filmapp.Series.Ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Login.LoginActivity
+import com.example.filmapp.R
 
 lateinit var handler: Handler
 
