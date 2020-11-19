@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
-        <activity android:name=".Login.LoginActivity"/>
-        <activity android:name=".SplashActivity">
+        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"></activity>
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Series.Ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
