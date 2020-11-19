@@ -1,13 +1,9 @@
 package com.example.filmapp.Login
 
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.SerieSelectedActivity
-import kotlinx.android.synthetic.main.layout_login.*
-import java.time.Instant
 
 
 class LoginActivity : AppCompatActivity() {
@@ -15,10 +11,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_login)
 
-        imageView.setOnClickListener{
-            val intent = Intent(this, SerieSelectedActivity::class.java)
-            startActivity(intent)
-        }
+
 
     }
 }
