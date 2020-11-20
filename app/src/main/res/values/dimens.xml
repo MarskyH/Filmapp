@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="posterPequeno_altura">225dp</dimen>
+    <dimen name="posterPequeno_largura">140dp</dimen>
+    <dimen name="strarEvaluation">27dp</dimen>
+</resources>
