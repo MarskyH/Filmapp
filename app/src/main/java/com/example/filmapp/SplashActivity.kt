@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Login.LoginActivity
+import com.example.filmapp.home.HomeActivity
 
 lateinit var handler: Handler
 
@@ -19,7 +20,7 @@ class SplashActivity: AppCompatActivity() {
 
         handler.postDelayed({
 
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
 
-        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"></activity>
+
+
         <activity android:name=".Login.LoginActivity" />
-        <activity android:name="com.example.filmapp.Series.Ui.SplashActivity">
-        <activity android:name=".home.MelhoresActivity"></activity>
+        <activity android:name=".Series.Ui.SerieSelectedActivity"/>
+        <activity android:name=".home.MelhoresActivity"/>
         <activity android:name=".home.AjudaActivity" />
         <activity android:name=".home.HistoricoActivity" />
         <activity android:name=".home.AcompanhandoActivity" />
-        <activity android:name=".home.DescubraActivity"></activity>
+        <activity android:name=".home.DescubraActivity"/>
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
         <activity android:name=".home.HomeActivity"/>
 
-       <activity android:name=".Login.LoginActivity"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,9 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Series.SerieSelectedActivity" />
-        <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".SplashActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
