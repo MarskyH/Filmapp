@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
+
+        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"></activity>
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name="com.example.filmapp.Series.Ui.SplashActivity">
         <activity android:name=".home.MelhoresActivity"></activity>
         <activity android:name=".home.AjudaActivity" />
         <activity android:name=".home.HistoricoActivity" />
