@@ -92,6 +92,7 @@
     <string name="textView_info_agenda">Receber notifição no email</string>
 
     <!--STRINGS DA TELA DESCUBRA -->
+    <string name="titulo_toolbar_descubra">Descubra</string>
     <string name="textView_series_descubra">Séries</string>
     <string name="textView_filmes_descubra">Filmes</string>
     <string name="textView_pesquisa_descubra">Digite o nome da Série ou Filme</string>
@@ -103,7 +104,7 @@
     <string name="textView_descricao_acompanhando">2x06 - Malditas Portas:</string>
 
     <!--STRINGS DA TELA MELHORES -->
-    <string name="titulo_toolbar_melhores">Agenda</string>
+    <string name="titulo_toolbar_melhores">Melhores</string>
     <string name="tab_series_melhores">SÉRIES</string>
     <string name="tab_filmes_melhores">FILMES</string>
 
@@ -152,9 +153,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-=======
+    =======
     <string name="TheBoys">The Boys</string>
->>>>>>> Desenvolvimento
+    <string name="title_activity_teste">TesteActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    >>>>>>> Desenvolvimento
 
 
 </resources>
