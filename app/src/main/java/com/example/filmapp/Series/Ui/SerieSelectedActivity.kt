@@ -9,7 +9,6 @@ import com.example.filmapp.Series.Fragments.MideaFragment
 import com.example.filmapp.Series.Fragments.SeasonsFragment
 import com.example.filmapp.Series.Interfaces.ContractSerieSelectedActivity
 import kotlinx.android.synthetic.main.activity_serie_selected.*
-import kotlinx.android.synthetic.main.fragment_series_geral.*
 
 class SerieSelectedActivity : AppCompatActivity(), ContractSerieSelectedActivity {
 

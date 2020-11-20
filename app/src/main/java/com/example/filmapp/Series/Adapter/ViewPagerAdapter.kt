@@ -1,7 +1,5 @@
 package com.example.filmapp.Series.Adapter
 
-import android.icu.text.CaseMap
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter

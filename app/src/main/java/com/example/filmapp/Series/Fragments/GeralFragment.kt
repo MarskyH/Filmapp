@@ -6,10 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import com.example.filmapp.R
-import com.example.filmapp.Series.Interfaces.ContractSerieSelectedActivity
-import kotlinx.android.synthetic.main.fragment_series_geral.*
 
 
 class GeralFragment : Fragment() {
