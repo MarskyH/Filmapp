@@ -16,7 +16,10 @@
         <activity android:name=".home.DescubraActivity"></activity>
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
-        <activity android:name=".home.HomeActivity">
+        <activity android:name=".home.HomeActivity"/>
+
+       <activity android:name=".Login.LoginActivity"/>
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
