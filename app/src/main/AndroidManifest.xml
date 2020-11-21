@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
-        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"></activity>
+        <activity android:name=".Series.Ui.SerieTemporadaActivity" />
+        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"/>
         <activity android:name=".Login.LoginActivity" />
         <activity android:name="com.example.filmapp.Series.Ui.SplashActivity">
             <intent-filter>

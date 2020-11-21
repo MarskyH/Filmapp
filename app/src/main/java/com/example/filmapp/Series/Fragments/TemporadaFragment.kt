@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.filmapp.R
+import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import kotlinx.android.synthetic.main.fragment_series_midea.*
 import kotlinx.android.synthetic.main.fragment_series_midea.view.*
+import kotlinx.android.synthetic.main.fragment_series_temporada.view.*
 
 
-class MideaFragment : Fragment() {
+class TemporadaFragment : Fragment()  {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    override  fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
     }
@@ -24,11 +27,8 @@ class MideaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater!!.inflate(R.layout.fragment_series_midea, container, false)
 
-        view.bt_teste.setOnClickListener {
-            Toast.makeText(activity, "teste", Toast.LENGTH_LONG).show()
-        }
+        var view = inflater!!.inflate(R.layout.fragment_series_temporada, container, false)
 
         return view
     }

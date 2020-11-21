@@ -4,10 +4,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class ViewPagerAdapter(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerSerieAdapter(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
+    private val mFragmentImgList = ArrayList<Unit>()
 
 
     override fun getItem(position: Int): Fragment {
@@ -26,5 +27,6 @@ class ViewPagerAdapter(supportFragmentManager: FragmentManager): FragmentPagerAd
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
     }
+
 
 }

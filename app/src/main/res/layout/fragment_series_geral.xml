@@ -12,8 +12,9 @@
    >
 
     <androidx.cardview.widget.CardView
-        android:layout_width="182dp"
-        android:layout_height="289dp"
+        android:id="@+id/cardView"
+        android:layout_width="149dp"
+        android:layout_height="253dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -44,29 +45,30 @@
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        app:layout_constraintVertical_bias="0.462" />
 
     <me.biubiubiu.justifytext.library.JustifyTextView
         android:id="@+id/textView2"
-        android:layout_width="367dp"
-        android:layout_height="144dp"
+        android:layout_width="369dp"
+        android:layout_height="186dp"
         android:layout_gravity="center_vertical|end"
         android:fontFamily="@font/montserrat"
-        android:gravity="start"
+        android:gravity="center_horizontal"
         android:text="Na trama, conhecemos um mundo onde super-heróis são as maiores celebridades do planeta, e rotineiramente abusa, de seus poderes ao invés de usarem para o bem da sociedade e do mundo "
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.613"
+        app:layout_constraintHorizontal_bias="0.69"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.681" />
+        app:layout_constraintVertical_bias="0.769" />
 
     <ImageView
+        android:id="@+id/imgAvaliar"
         android:layout_width="65dp"
         android:layout_height="69dp"
         android:layout_marginTop="40dp"
@@ -79,6 +81,7 @@
         app:layout_constraintVertical_bias="0.862" />
 
     <ImageView
+        android:id="@+id/imgCompart"
         android:layout_width="53dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_compartilhar"
@@ -90,6 +93,7 @@
         app:layout_constraintVertical_bias="0.868" />
 
     <ImageView
+        android:id="@+id/imgFav"
         android:layout_width="53dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_favorito_branco"
@@ -101,6 +105,7 @@
         app:layout_constraintVertical_bias="0.868" />
 
     <ImageView
+        android:id="@+id/imgTarde"
         android:layout_width="53dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_assistir_mais_tarde"
