@@ -10,11 +10,13 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_episodios"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="17dp"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/card_series_temporadas">
+        tools:listitem="@layout/card_series_episodio">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -1,24 +1,17 @@
 package com.example.filmapp.Series.Fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.R
 import com.example.filmapp.Series.Adapter.EpisodiosAdapter
-import com.example.filmapp.Series.Adapter.SeriesAdapter
 import com.example.filmapp.Series.Classes.Episodio
-import com.example.filmapp.Series.Classes.Serie
 import kotlinx.android.synthetic.main.fragment_series_espisodios.view.*
-import kotlinx.android.synthetic.main.fragment_series_midea.*
-import kotlinx.android.synthetic.main.fragment_series_midea.view.*
-import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
+
 
 
 class EpisodiosFragment : Fragment(), EpisodiosAdapter.OnEpisodioClickListener {
@@ -26,18 +19,12 @@ class EpisodiosFragment : Fragment(), EpisodiosAdapter.OnEpisodioClickListener {
     var adapter = EpisodiosAdapter(listaEpisodios, this)
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
         view.rv_episodios.adapter = adapter
-        view.rv_episodios.layoutManager =
-            GridLayoutManager(activity, 3, LinearLayoutManager.VERTICAL, false)
+        view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
         view.rv_episodios.setHasFixedSize(true)
-        return view
+        return  view
 
     }
 

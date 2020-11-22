@@ -1,5 +1,6 @@
 package com.example.filmapp.Series.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,6 +45,7 @@ class GeralFragment : Fragment() {
         }
         view.imgCompart.setOnClickListener {
             AlteraIconCompartilhar()
+            AbrirCompartilhar()
         }
         return view
     }
@@ -104,6 +106,15 @@ class GeralFragment : Fragment() {
     fun updateProgressBar() {
         progress_circular.progress = progr
         tvProgress.text = "$progr%"
+    }
+
+    fun AbrirCompartilhar() {
+        val ShareIntent = Intent().apply {
+            this.action = Intent.ACTION_SEND
+            this.putExtra(Intent.EXTRA_TEXT, "Compartilhe com amigos o que gostou!")
+            this.type = "text/plain"
+        }
+        startActivity(ShareIntent)
     }
 
 

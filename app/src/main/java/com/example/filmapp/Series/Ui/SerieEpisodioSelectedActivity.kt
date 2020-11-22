@@ -16,6 +16,10 @@ class SerieEpisodioSelectedActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_serie_episodio_selected)
         setUpTabs()
+
+        toolbarEpisodioSelected.setNavigationOnClickListener {
+            finish()
+        }
     }
 
 
