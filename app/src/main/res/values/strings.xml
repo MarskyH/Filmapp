@@ -20,7 +20,7 @@
     <string name="editText_senha_cadatro">Senha</string>
     <string name="editText_confirmeSenha_cadatro">Comfirmar Senha</string>
     <string name="textView_novidades_email_cadastro">Desejo receber novidades no email</string>
-    <string name="botao_cadastrar_cadastro">Desejo receber novidades no email</string>
+    <string name="btn_cadastrar">CADASTRAR</string>
 
     <!--STRINGS DA TELA GENERO -->
     <string name="titulo_toolbar_genero">Gênero</string>

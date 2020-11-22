@@ -1,10 +1,8 @@
 package com.example.filmapp
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.home.HomeActivity
@@ -20,7 +18,7 @@ class SplashActivity: AppCompatActivity() {
 
         handler.postDelayed({
 
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)
