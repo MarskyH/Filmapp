@@ -7,24 +7,25 @@ import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Login.LoginActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import com.example.filmapp.home.HomeActivity
-
-lateinit var handler: Handler
-
 class SplashActivity: AppCompatActivity() {
+    val scope = CoroutineScope(Dispatchers.Main)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_splash)
+        splashCoroutine()
 
-        handler = Handler()
-
-        handler.postDelayed({
-
-            val intent = Intent(this, HomeActivity::class.java)
+    }
+    fun splashCoroutine(){
+        val intent = Intent(this, LoginActivity::class.java)
+        scope.launch {
+            delay(2000)
             startActivity(intent)
             finish()
-        }, 3000)
-
-
+        }
     }
 }
