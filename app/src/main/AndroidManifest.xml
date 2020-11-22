@@ -11,13 +11,13 @@
         android:theme="@style/Theme.Filmapp">
         <activity android:name=".Series.Ui.SerieTemporadaActivity" />
         <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"/>
-        <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
-        <activity android:name=".home.MelhoresActivity"></activity>
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".home.MelhoresActivity"/>
         <activity android:name=".home.AjudaActivity" />
         <activity android:name=".home.HistoricoActivity" />
         <activity android:name=".home.AcompanhandoActivity" />
-        <activity android:name=".home.DescubraActivity"></activity>
+        <activity android:name=".home.DescubraActivity"/>
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
         <activity android:name=".home.HomeActivity"/>
