@@ -12,6 +12,7 @@
         <activity android:name=".Series.Ui.SerieTemporadaActivity" />
         <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"/>
         <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
         <activity android:name=".home.MelhoresActivity"></activity>
         <activity android:name=".home.AjudaActivity" />
         <activity android:name=".home.HistoricoActivity" />

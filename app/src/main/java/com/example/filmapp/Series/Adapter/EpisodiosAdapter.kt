@@ -1,5 +1,7 @@
 package com.example.filmapp.Series.Adapter
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
 import com.example.filmapp.Series.Classes.Episodio
-import com.example.filmapp.Series.Classes.Serie
+import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
 
 
 class EpisodiosAdapter(private var listEpisodios: ArrayList<Episodio>, val listener: OnEpisodioClickListener): RecyclerView.Adapter<EpisodiosAdapter.EpisodiosViewHolder>() {
@@ -27,7 +29,16 @@ class EpisodiosAdapter(private var listEpisodios: ArrayList<Episodio>, val liste
        var episodio = listEpisodios.get(position)
 
         holder.tvTitulo.text = episodio.titulo
-        holder.imgTemporada.setImageResource(episodio.img)
+        holder.imgEpisodio.setImageResource(episodio.img)
+        holder.imgEpisodio.setOnClickListener {
+            val intent = Intent(holder.itemView.context, SerieEpisodioSelectedActivity::class.java)
+            var bundle = Bundle()
+            bundle.putInt("Episodio", episodio.id)
+            bundle.putInt("Imagem Episodio", episodio.img)
+            intent.putExtras(bundle)
+            holder.itemView.context.startActivity(intent)
+        }
+
     }
 
     interface OnEpisodioClickListener{
@@ -37,7 +48,7 @@ class EpisodiosAdapter(private var listEpisodios: ArrayList<Episodio>, val liste
 
     inner class EpisodiosViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val tvTitulo: TextView = itemView.findViewById(R.id.tv_titulo_ep)
-        val imgTemporada: ImageView = itemView.findViewById(R.id.img_SerieEpisodio)
+        val imgEpisodio: ImageView = itemView.findViewById(R.id.img_SerieEpisodio)
 
         init {
             itemView.setOnClickListener(this)

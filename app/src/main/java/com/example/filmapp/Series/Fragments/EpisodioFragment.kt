@@ -1,49 +1,56 @@
 package com.example.filmapp.Series.Fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.filmapp.R
-import kotlinx.android.synthetic.main.fragment_series_geral.*
-import kotlinx.android.synthetic.main.fragment_series_geral.view.*
+import kotlinx.android.synthetic.main.fragment_series_episodio.*
+import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
+import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
+import kotlinx.android.synthetic.main.fragment_series_geral.imgFav
+import kotlinx.android.synthetic.main.fragment_series_geral.imgTarde
+import kotlinx.android.synthetic.main.fragment_series_geral.view.imgCompart
+import kotlinx.android.synthetic.main.fragment_series_geral.view.imgFav
+import kotlinx.android.synthetic.main.fragment_series_geral.view.imgTarde
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class GeralFragment : Fragment() {
+class EpisodioFragment : Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
     var selcomp: Boolean = false
-    var selAvaliar: Boolean = false
-    var progr = 0
+    var selVisto: Boolean = false
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val view: View = inflater!!.inflate(R.layout.fragment_series_geral, container, false)
-
-        view.progress_circular.setOnClickListener{
-            incrCircleBar()
-        }
-
+        val view: View = inflater!!.inflate(R.layout.fragment_series_episodio, container, false)
         view.imgTarde.setOnClickListener {
             AlteraIconAssistirMaisTarde()
         }
-        view.imgAvaliar.setOnClickListener {
+        view.imgVisto.setOnClickListener {
             AlteraIconAvaliar()
         }
         view.imgFav.setOnClickListener {
             AlteraIconFavorito()
         }
         view.imgCompart.setOnClickListener {
+            AbrirCompartilhar()
             AlteraIconCompartilhar()
+        }
+        view.imgLogo.setOnClickListener {
+            AbrirSiteLogo()
         }
         return view
     }
@@ -82,32 +89,33 @@ class GeralFragment : Fragment() {
         }
     }
 
-    fun AlteraIconAvaliar() {
-        if (selAvaliar == false) {
-            imgAvaliar.setImageResource(R.drawable.ic_estrela_vazia_roxo)
-            selAvaliar = true
-        } else if (selAvaliar == true) {
-            imgAvaliar.setImageResource(R.drawable.ic_estrela_vazia)
-            selAvaliar = false
-        }
-    }
-
-    fun incrCircleBar() {
-
-        if (progr <= 90) {
-            progr += 10
-            updateProgressBar()
+        fun AlteraIconAvaliar() {
+            if (selVisto == false) {
+                imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+                selVisto = true
+            } else if (selVisto == true) {
+                imgVisto.setImageResource(R.drawable.ic_visto_branco)
+                selVisto = false
+            }
         }
 
+        fun AbrirSiteLogo() {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://www.primevideo.com/?_encoding=UTF8&language=pt_BR")
+            )
+            startActivity(intent)
+        }
+
+        fun AbrirCompartilhar() {
+            val ShareIntent = Intent().apply {
+                this.action = Intent.ACTION_SEND
+                this.putExtra(Intent.EXTRA_TEXT, "Compartilhe com amigos o que gostou!")
+                this.type = "text/plain"
+            }
+            startActivity(ShareIntent)
+        }
+
     }
-
-    fun updateProgressBar() {
-        progress_circular.progress = progr
-        tvProgress.text = "$progr%"
-    }
-
-
-}
-
 
 
