@@ -8,6 +8,10 @@
     <color name="White">#FFFFFF</color>
     <color name="Grey">#8492A6</color>
     <color name="GoldenStar">#FFD100</color>
+    <color name="Transparent">#80000000</color>
+    <color name="Face">#3B5598</color>
+    <color name="Twitter">#00ACEE</color>
+    <color name="Google">#EA3345</color>
     <!--CORES DO APP -->
 
     <color name="purple_200">#FFBB86FC</color>

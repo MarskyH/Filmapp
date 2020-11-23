@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.filmapp">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,15 +9,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
-        <activity android:name=".home.MelhoresActivity"></activity>
+        <activity android:name=".Configuracaoes.ConfiguracoesActivity"></activity>
+        <activity android:name=".Login.AcessActivity" />
+        <activity android:name=".sign_in_body" />
+        <activity android:name=".Login.SignInActivity" />
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Series.Ui.SerieSelectedActivity" />
+        <activity android:name=".home.MelhoresActivity" />
+        <activity android:name=".Series.Ui.SerieTemporadaActivity" />
+        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"/>
+        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".home.MelhoresActivity"/>
         <activity android:name=".home.AjudaActivity" />
         <activity android:name=".home.HistoricoActivity" />
         <activity android:name=".home.AcompanhandoActivity" />
-        <activity android:name=".home.DescubraActivity"></activity>
+        <activity android:name=".home.DescubraActivity" />
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
-        <activity android:name=".home.HomeActivity" />
-        <activity android:name=".Login.LoginActivity" />
+
+        <<<<<<< HEAD
+=======
+        <activity android:name=".home.HomeActivity"/>
+>>>>>>> e35fc38a95b02f293ec163e2880174a6f97b0a2a
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +39,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Series.SerieSelectedActivity" />
-        <activity android:name=".Login.LoginActivity" />
+<<<<<<< HEAD
+=======
+>>>>>>> e35fc38a95b02f293ec163e2880174a6f97b0a2a
 
         <meta-data
             android:name="preloaded_fonts"
