@@ -1,5 +1,9 @@
 package com.example.filmapp.Series.Adapter
 
+import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +12,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
 import com.example.filmapp.Series.Classes.Serie
+import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 
 
 class SeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: OnSerieClickListener): RecyclerView.Adapter<SeriesAdapter.SeriesViewHolder>() {
+
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,6 +34,14 @@ class SeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: OnSe
 
         holder.tvTemporada.text = serie.temporada
         holder.imgTemporada.setImageResource(serie.imgTemporada)
+        holder.imgTemporada.setOnClickListener {
+            val intent = Intent(holder.itemView.context, SerieTemporadaActivity::class.java)
+            var bundle = Bundle()
+            bundle.putString("Temporada", serie.temporada)
+            bundle.putInt("Imagem Temporada", serie.imgTemporada)
+            intent.putExtras(bundle)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     interface OnSerieClickListener{

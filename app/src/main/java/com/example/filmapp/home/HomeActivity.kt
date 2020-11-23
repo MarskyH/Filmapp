@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import com.example.filmapp.R
+import com.example.filmapp.Series.Fragments.HomeSerieFragment
 import com.example.filmapp.home.fragments.HomeFragment
 import com.example.filmapp.home.fragments.adapters.ViewPagerHomeAdapter
 import kotlinx.android.synthetic.main.activity_home.*
@@ -28,12 +29,13 @@ class HomeActivity : AppCompatActivity() {
     private fun setTabs(){
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
-
+        adapter.addFragment(HomeSerieFragment(), "Series")
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
 
         //Definição dos ícones de cada tab
         tabLayout_HomePage.getTabAt(0)!!.setIcon(R.drawable.ic_home_roxo)
+        tabLayout_HomePage.getTabAt(1)!!.setIcon(R.drawable.ic_series_roxo)
     }
 
 }

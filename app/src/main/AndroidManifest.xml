@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.filmapp">
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,13 +16,18 @@
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Series.Ui.SerieSelectedActivity" />
         <activity android:name=".home.MelhoresActivity" />
+        <activity android:name=".Series.Ui.SerieTemporadaActivity" />
+        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"/>
+        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".home.MelhoresActivity"/>
         <activity android:name=".home.AjudaActivity" />
         <activity android:name=".home.HistoricoActivity" />
         <activity android:name=".home.AcompanhandoActivity" />
         <activity android:name=".home.DescubraActivity" />
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
-        <activity android:name=".home.HomeActivity" />
+        <activity android:name=".home.HomeActivity"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
