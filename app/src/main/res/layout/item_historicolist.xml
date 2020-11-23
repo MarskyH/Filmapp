@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/iv_mediaImage_historicoItem"
-                android:layout_width="@dimen/posterPequeno_largura"
-                android:layout_height="@dimen/posterPequeno_altura"
+                android:layout_width="@dimen/poster_largura"
+                android:layout_height="@dimen/poster_altura"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/flash_image01" />

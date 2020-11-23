@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Ajuda
@@ -44,8 +45,24 @@ class AjudaActivity : AppCompatActivity(), AjudaAdapter.onAjudaItemClickListener
 
     //Usado para add o Menu a Toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_configuracoes_apenas, menu)
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
+    }
+
+    //Usado pra add ações de click aos itens do Menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.descubra_toolbarMenu -> {
+                callDescubraPage()
+                true
+            }
+
+            R.id.configurações_toolbarMenu -> {
+                callConfiguracoesPage()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun callHome(){
@@ -82,6 +99,15 @@ class AjudaActivity : AppCompatActivity(), AjudaAdapter.onAjudaItemClickListener
 //            commit()
 //        }
 
+    }
+
+    fun callDescubraPage(){
+        val intent = Intent(this, DescubraActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun callConfiguracoesPage(){
+        Toast.makeText(this, "Chamando ConfiguraçõesPage", Toast.LENGTH_SHORT).show()
     }
 
 }

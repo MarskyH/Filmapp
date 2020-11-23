@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/iv_mediaImage_acompanhandoItem"
-                android:layout_width="@dimen/posterPequeno_largura"
-                android:layout_height="@dimen/posterPequeno_altura"
+                android:layout_width="@dimen/poster_largura"
+                android:layout_height="@dimen/poster_altura"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/flash_image01" />
@@ -74,14 +74,14 @@
                 android:textSize="13dp"
                 android:textStyle="bold" />
 
-            <TextView
+            <ProgressBar
+                android:id="@+id/progressBar_serieProgress_acompanhandoItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:text="---------------------LINHA"
-                android:textColor="@color/Principal"
-                android:textSize="13dp"
-                android:textStyle="bold" />
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressBackgroundTint="@color/white"
+                android:progress="84"
+                android:progressTint="@color/Principal"/>
 
         </LinearLayout>
 

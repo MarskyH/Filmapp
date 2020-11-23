@@ -16,7 +16,7 @@ class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>): Recycle
         viewType: Int
     ): AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder {
         val itemView=
-            LayoutInflater.from(parent.context).inflate(R.layout.item_poster_grande, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return AssistirMaisTardeViewHolder(itemView)
     }
 
@@ -35,8 +35,8 @@ class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>): Recycle
     }
 
     class AssistirMaisTardeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val mediaName: TextView = itemView.findViewById(R.id.mediaName_posterGrande)
-        val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage_posterGrande)
+        val mediaName: TextView = itemView.findViewById(R.id.mediaName)
+        val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
     }
 }

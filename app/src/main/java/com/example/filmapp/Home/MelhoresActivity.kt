@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import com.example.filmapp.R
 import com.example.filmapp.Home.fragments.MelhoresFilmesFragment
 import com.example.filmapp.Home.fragments.MelhoresSeriesFragment
@@ -26,8 +28,24 @@ class MelhoresActivity : AppCompatActivity() {
 
     //Usado para add o Menu a Toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_configuracoes_apenas, menu)
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
+    }
+
+    //Usado pra add ações de click aos itens do Menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.descubra_toolbarMenu -> {
+                callDescubraPage()
+                true
+            }
+
+            R.id.configurações_toolbarMenu -> {
+                callConfiguracoesPage()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun callHome(){
@@ -43,6 +61,15 @@ class MelhoresActivity : AppCompatActivity() {
 
         viewPager_MelhoresPage.adapter = adapter
         tabLayout_MelhoresPage.setupWithViewPager(viewPager_MelhoresPage)
+    }
+
+    fun callDescubraPage(){
+        val intent = Intent(this, DescubraActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun callConfiguracoesPage(){
+        Toast.makeText(this, "Chamando ConfiguraçõesPage", Toast.LENGTH_SHORT).show()
     }
 
 }

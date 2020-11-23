@@ -19,9 +19,9 @@
             app:cardCornerRadius="20dp">
 
             <ImageView
-                android:id="@+id/mediaImage_posterGrande"
-                android:layout_width="@dimen/posterGrande_largura"
-                android:layout_height="@dimen/posterGrande_altura"
+                android:id="@+id/mediaImage"
+                android:layout_width="@dimen/poster_largura"
+                android:layout_height="@dimen/poster_altura"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/flash_image01" />
@@ -29,12 +29,12 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/mediaName_posterGrande"
-            android:gravity="center_horizontal"
-            android:layout_width="@dimen/posterGrande_largura"
+            android:id="@+id/mediaName"
+            android:gravity="center"
+            android:layout_width="@dimen/poster_largura"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="The Walking Dead"
+            android:text="The Flash"
             android:textColor="@color/White"
             android:textSize="20dp"
             android:textStyle="bold" />

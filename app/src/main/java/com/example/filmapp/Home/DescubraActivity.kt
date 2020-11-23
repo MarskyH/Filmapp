@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
@@ -38,20 +40,26 @@ class DescubraActivity : AppCompatActivity() {
         setSupportActionBar(toolbarDescubraPage)
 
         toolbarDescubraPage.setNavigationOnClickListener {
-            callHome()
+            onBackPressed()
         }
 
     }
 
     //Usado para add o Menu a Toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_configuracoes_apenas, menu)
+        menuInflater.inflate(R.menu.menu_toolbar_config, menu)
         return true
     }
 
-    fun callHome(){
-        val intent = Intent(this, HomeActivity::class.java)
-        startActivity(intent)
+    //Usado pra add ações de click aos itens do Menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+            R.id.configurações_toolbarConfig -> {
+                callConfiguracoesPage()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun getSeriesList(): ArrayList<Media>{
@@ -67,5 +75,9 @@ class DescubraActivity : AppCompatActivity() {
             Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "Quando: 08/08/12", "Onde:Cinemas", "02h 55min", "Policial, Drama"),
             Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "Quando: 21/08/18", "Onde: Amazon", "02h 55min", "Policial, Drama"),
         )
+    }
+
+    fun callConfiguracoesPage(){
+        Toast.makeText(this, "Chamando ConfiguraçõesPage", Toast.LENGTH_SHORT).show()
     }
 }

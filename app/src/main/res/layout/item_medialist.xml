@@ -22,8 +22,8 @@
 
             <ImageView
                 android:id="@+id/iv_mediaImage_medialist"
-                android:layout_width="@dimen/posterPequeno_largura"
-                android:layout_height="@dimen/posterPequeno_altura"
+                android:layout_width="@dimen/poster_largura"
+                android:layout_height="@dimen/poster_altura"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/flash_image01" />
@@ -55,35 +55,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/estrela1_medialist"
-                    android:layout_width="@dimen/strarEvaluation"
-                    android:layout_height="@dimen/strarEvaluation"
-                    android:src="@drawable/ic_estrela_cheia"/>
-
-                <ImageView
-                    android:id="@+id/estrela2_medialist"
-                    android:layout_width="@dimen/strarEvaluation"
-                    android:layout_height="@dimen/strarEvaluation"
-                    android:src="@drawable/ic_estrela_cheia"/>
-
-                <ImageView
-                    android:id="@+id/estrela3_medialist"
-                    android:layout_width="@dimen/strarEvaluation"
-                    android:layout_height="@dimen/strarEvaluation"
-                    android:src="@drawable/ic_estrela_cheia"/>
-
-                <ImageView
-                    android:id="@+id/estrela4_medialist"
-                    android:layout_width="@dimen/strarEvaluation"
-                    android:layout_height="@dimen/strarEvaluation"
-                    android:src="@drawable/ic_estrela_cheia"/>
-
-                <ImageView
-                    android:id="@+id/estrela5_medialist"
-                    android:layout_width="@dimen/strarEvaluation"
-                    android:layout_height="@dimen/strarEvaluation"
-                    android:src="@drawable/ic_estrela_cheia"/>
+                <RatingBar
+                    android:id="@+id/ratingsBar_mediaItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
+                    android:scaleY=".8"
+                    android:layout_gravity="left"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="2.5"
+                    android:progressTint="@color/GoldenStar"
+                    android:progressBackgroundTint="@color/Grey"
+                    android:secondaryProgressTint="@color/GoldenStar"/>
 
 
             </LinearLayout>
