@@ -27,11 +27,7 @@
         <activity android:name=".home.DescubraActivity" />
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
-
-        <<<<<<< HEAD
-=======
         <activity android:name=".home.HomeActivity"/>
->>>>>>> e35fc38a95b02f293ec163e2880174a6f97b0a2a
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,9 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-=======
->>>>>>> e35fc38a95b02f293ec163e2880174a6f97b0a2a
 
         <meta-data
             android:name="preloaded_fonts"
