@@ -3,6 +3,7 @@ package com.example.filmapp.Login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.home.HomeActivity
 import kotlinx.android.synthetic.main.access_body.*
@@ -27,11 +28,11 @@ class AcessActivity : AppCompatActivity() {
     }
 
     fun callHome(){
-        var intent = Intent(this, HomeActivity::class.java)
+        var intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
     }
     fun callLogin(){
-        var intent = Intent(this, LoginActivity::class.java)
+        var intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
     }
 

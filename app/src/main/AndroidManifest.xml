@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
-        <activity android:name=".Login.AcessActivity"></activity>
+        <activity android:name=".Configuracaoes.ConfiguracoesActivity"></activity>
+        <activity android:name=".Login.AcessActivity" />
         <activity android:name=".sign_in_body" />
         <activity android:name=".Login.SignInActivity" />
         <activity android:name=".Login.LoginActivity" />
