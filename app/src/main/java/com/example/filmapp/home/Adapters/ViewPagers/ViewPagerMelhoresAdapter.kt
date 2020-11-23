@@ -8,7 +8,7 @@ class ViewPagerMelhoresAdapter(supportFragmentManager: FragmentManager): Fragmen
 
     private val fragmentsList = ArrayList<Fragment>()
     private val fragmentsNamesList = ArrayList<String>()
-
+//teste
     override fun getCount(): Int {
         return fragmentsList.size
     }
