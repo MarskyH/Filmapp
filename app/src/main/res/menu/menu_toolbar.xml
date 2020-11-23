@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/descubra_toolbarHome"
+        android:id="@+id/descubra_toolbarMenu"
+        android:title="@string/icone_descubra_home"
+        android:icon="@drawable/ic_lupa_branco"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/configurações_toolbarMenu"
         android:title="@string/titulo_toolbar_configuracoes"
         android:icon="@drawable/ic_user_photo"
         app:showAsAction="always"/>

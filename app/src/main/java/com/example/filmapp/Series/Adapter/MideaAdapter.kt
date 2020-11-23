@@ -1,20 +1,15 @@
 package com.example.filmapp.Series.Adapter
 
-import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
-import com.example.filmapp.Series.Classes.Episodio
-import com.example.filmapp.Series.Classes.Midea
-import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
+import com.example.filmapp.Series.Classes.Media
 
 
-class MideaAdapter(private var listMideas: ArrayList<Midea>, val listener: OnMideaClickListener): RecyclerView.Adapter<MideaAdapter.MideasViewHolder>() {
+class MideaAdapter(private var listMedia: ArrayList<Media>, val listener: OnMideaClickListener): RecyclerView.Adapter<MideaAdapter.MideasViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -23,11 +18,11 @@ class MideaAdapter(private var listMideas: ArrayList<Midea>, val listener: OnMid
         return MideasViewHolder(itemView)
     }
 
-    override fun getItemCount() = listMideas.size
+    override fun getItemCount() = listMedia.size
 
 
     override fun onBindViewHolder(holder: MideasViewHolder, position: Int) {
-       var midea = listMideas.get(position)
+       var midea = listMedia.get(position)
         holder.imgMidea.setImageResource(midea.img)
 
     }

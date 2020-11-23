@@ -1,9 +1,6 @@
 package com.example.filmapp.Series.Fragments
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.R
 import com.example.filmapp.Series.Adapter.MideaAdapter
-import com.example.filmapp.Series.Adapter.SeriesAdapter
-import com.example.filmapp.Series.Classes.Midea
-import com.example.filmapp.Series.Classes.Serie
+import com.example.filmapp.Series.Classes.Media
 import kotlinx.android.synthetic.main.fragment_series_midea.*
 import kotlinx.android.synthetic.main.fragment_series_midea.view.*
-import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
 
 
 class MideaFragment : Fragment(), MideaAdapter.OnMideaClickListener {
@@ -50,14 +44,14 @@ class MideaFragment : Fragment(), MideaAdapter.OnMideaClickListener {
 
     }
 
-    fun getAllMideas(): ArrayList<Midea> {
-        val midea1 = Midea(1, R.drawable.midea_the_boys_image01)
-        val midea2 = Midea(2, R.drawable.midea_the_boys_image02)
-        val midea3 = Midea(3, R.drawable.midea_the_boys_image03)
-        val midea4 = Midea(4, R.drawable.midea_the_boys_image04)
-        val midea5 = Midea(5, R.drawable.midea_the_boys_image01)
-        val midea6 = Midea(6, R.drawable.midea_the_boys_image02)
-        val midea7 = Midea(7, R.drawable.midea_the_boys_image03)
+    fun getAllMideas(): ArrayList<Media> {
+        val midea1 = Media(1, R.drawable.midea_the_boys_image01)
+        val midea2 = Media(2, R.drawable.midea_the_boys_image02)
+        val midea3 = Media(3, R.drawable.midea_the_boys_image03)
+        val midea4 = Media(4, R.drawable.midea_the_boys_image04)
+        val midea5 = Media(5, R.drawable.midea_the_boys_image01)
+        val midea6 = Media(6, R.drawable.midea_the_boys_image02)
+        val midea7 = Media(7, R.drawable.midea_the_boys_image03)
         return arrayListOf(midea1, midea2, midea3, midea4, midea5, midea6, midea7)
     }
 
