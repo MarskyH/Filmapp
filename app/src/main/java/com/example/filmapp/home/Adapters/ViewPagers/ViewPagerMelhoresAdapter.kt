@@ -21,6 +21,7 @@ class ViewPagerMelhoresAdapter(supportFragmentManager: FragmentManager): Fragmen
         return fragmentsNamesList[position]
     }
 
+
     fun addFragment(newFragment: Fragment, nameFragment: String){
         fragmentsList.add(newFragment)
         fragmentsNamesList.add(nameFragment)
