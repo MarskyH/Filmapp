@@ -1,4 +1,4 @@
-package com.example.filmapp.home.fragments
+package com.example.filmapp.Home.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.filmapp.R
 
-class MelhoresFilmesFragment : Fragment() {
-
+class AjudaDetailsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
@@ -18,7 +18,11 @@ class MelhoresFilmesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_melhores_filmes, container, false)
+        return inflater.inflate(R.layout.fragment_ajuda_details, container, false)
+    }
+
+    companion object{
+        fun newInstance() = AjudaDetailsFragment()
     }
 
 }

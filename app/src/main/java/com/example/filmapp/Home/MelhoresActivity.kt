@@ -1,16 +1,13 @@
-package com.example.filmapp.home
+package com.example.filmapp.Home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import com.example.filmapp.R
-import com.example.filmapp.home.fragments.HomeFragment
-import com.example.filmapp.home.fragments.MelhoresFilmesFragment
-import com.example.filmapp.home.fragments.MelhoresSeriesFragment
-import com.example.filmapp.home.fragments.adapters.ViewPagerHomeAdapter
-import com.example.filmapp.home.fragments.adapters.ViewPagerMelhoresAdapter
-import kotlinx.android.synthetic.main.activity_home.*
+import com.example.filmapp.Home.fragments.MelhoresFilmesFragment
+import com.example.filmapp.Home.fragments.MelhoresSeriesFragment
+import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerMelhoresAdapter
 import kotlinx.android.synthetic.main.activity_melhores.*
 
 class MelhoresActivity : AppCompatActivity() {

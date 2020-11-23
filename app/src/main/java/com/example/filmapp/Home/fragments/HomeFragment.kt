@@ -1,4 +1,4 @@
-package com.example.filmapp.home.fragments
+package com.example.filmapp.Home.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.filmapp.R
-import com.example.filmapp.home.*
+import com.example.filmapp.Home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment() {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".home.AjudaActivity">
+    tools:context=".Home.AjudaActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar_AjudaPage"
@@ -49,7 +49,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp">
@@ -60,7 +60,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/title_novidades_ajudaPage"
+                    android:id="@+id/tv_titleNovidades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -70,16 +70,16 @@
                     android:textSize="20dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycleView_novidades_ajudaPage"
+                    android:id="@+id/rc_novidades_ajudaPage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_topicoslist_ajuda" />
+                    tools:listitem="@layout/item_ajudalists" />
 
                 <TextView
-                    android:id="@+id/title_principaisdDuvidas_ajudaPage"
+                    android:id="@+id/tv_titlePrincipaisdDuvidas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -89,22 +89,22 @@
                     android:textSize="20dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycleView_principaisdDuvidas_ajudaPage"
+                    android:id="@+id/rc_duvidasFrequentes_ajudaPage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_topicoslist_ajuda" />
+                    tools:listitem="@layout/item_ajudalists" />
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/fl_duvida"
+        android:id="@+id/fl_ajudaDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appBar_AjudaPage"/>

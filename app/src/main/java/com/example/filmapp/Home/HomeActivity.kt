@@ -1,11 +1,11 @@
-package com.example.filmapp.home
+package com.example.filmapp.Home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import com.example.filmapp.R
-import com.example.filmapp.home.fragments.HomeFragment
-import com.example.filmapp.home.fragments.adapters.ViewPagerHomeAdapter
+import com.example.filmapp.Home.fragments.HomeFragment
+import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
