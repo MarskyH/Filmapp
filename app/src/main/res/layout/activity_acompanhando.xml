@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/Dark"
     android:orientation="vertical"
-    tools:context=".home.AcompanhandoActivity">
+    tools:context=".Home.AcompanhandoActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView_acompanhandoList"
+        android:id="@+id/rv_acompanhandoList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
