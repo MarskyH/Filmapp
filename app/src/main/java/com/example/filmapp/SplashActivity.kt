@@ -4,8 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import com.example.filmapp.Login.LoginActivity
-import com.example.filmapp.home.HomeActivity
+import com.example.filmapp.Home.HomeActivity
 
 
 import kotlinx.coroutines.CoroutineScope
