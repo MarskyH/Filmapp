@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Filmes.Fragments.HomeFilmeFragment
 import com.example.filmapp.R
 import com.example.filmapp.Home.fragments.HomeFragment
 import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
@@ -50,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
         adapter.addFragment(HomeSerieFragment() ,"Séries" )
+        adapter.addFragment(HomeSerieFragment(), "Filmes")
 
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
@@ -57,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
         //Definição dos ícones de cada tab
         tabLayout_HomePage.getTabAt(0)!!.setIcon(R.drawable.ic_home_roxo)
         tabLayout_HomePage.getTabAt(1)!!.setIcon(R.drawable.ic_series_roxo)
+        tabLayout_HomePage.getTabAt(2)!!.setIcon(R.drawable.ic_claquete_flaticon)
     }
 
     fun callDescubraPage(){
