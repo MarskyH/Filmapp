@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.fragments
+package com.example.filmapp.Home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,41 +11,45 @@ import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
 import com.example.filmapp.R
 import com.example.filmapp.Series.Ui.SerieSelectedActivity
-import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
+import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
-class MelhoresSeriesFragment : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
-    private val mediaList = getMediaList()
-    private val adapter = DescubraListsAdapter(mediaList, this)
+class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
+    private val filmesList = getFilmesList()
+    private val filmesList_adapter = DescubraListsAdapter(filmesList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_melhores_series, container, false)
+        var view = inflater.inflate(R.layout.fragrecycler_filmesdescubra, container, false)
 
-        //Iniciando o ReciclerView Séries
-        view.rc_melhoresSeriesList.adapter = adapter
-        view.rc_melhoresSeriesList.layoutManager = LinearLayoutManager(context)
-        view.rc_melhoresSeriesList.isHorizontalFadingEdgeEnabled
-        view.rc_melhoresSeriesList.setHasFixedSize(true)
+        //Iniciando o ReciclerView Dúvidas Frequentes
+        view.rv_filmesDescubra.adapter = filmesList_adapter
+        view.rv_filmesDescubra.layoutManager = LinearLayoutManager(context)
+        view.rv_filmesDescubra.isHorizontalFadingEdgeEnabled
+        view.rv_filmesDescubra.setHasFixedSize(true)
 
         return view
     }
 
-    fun getMediaList(): ArrayList<Media>{
+    companion object{
+        fun newInstance() = FragRecycler_filmesDescubra()
+    }
+
+    fun getFilmesList(): ArrayList<Media>{
         return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "Quando: 21/08/12", "Onde: Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "Quando: 21/09/12", "Onde: Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "Quando: 75/08/12", "Onde: Netflix", "1 Temporadas", "10 Episodeos")
+            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "Quando: 08/08/12", "Onde:Cinemas", "02h 55min", "Policial, Drama"),
+            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "Quando: 21/08/18", "Onde: Amazon", "02h 55min", "Policial, Drama"),
         )
     }
 
     override fun descubraItemClick(position: Int) {
-        val serie = mediaList.get(position)
+        val filme = filmesList.get(position)
 
         val intent = Intent(context, SerieSelectedActivity::class.java)
         startActivity(intent)

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class HistoricoAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
+class HistoricoAdapter(private val mediaList: ArrayList<Media>, val listener: onHistoricoItemClickListener): RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,12 +38,28 @@ class HistoricoAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ad
         return mediaList.size
     }
 
-    class HistoricoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    interface onHistoricoItemClickListener{
+        fun historicoItemClick(position: Int)
+    }
+
+    inner class HistoricoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_historicoItem)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_historicoItem)
         val serieEpisode: TextView = itemView.findViewById(R.id.tv_serieEpisode_historicoItem)
         val mediaType: TextView = itemView.findViewById(R.id.tv_mediaType_historicoItem)
         val mediaPreviewDate: TextView = itemView.findViewById(R.id.tv_mediaPreviewDate_historicoItem)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.historicoItemClick(position)
+            }
+        }
+
 
     }
 }

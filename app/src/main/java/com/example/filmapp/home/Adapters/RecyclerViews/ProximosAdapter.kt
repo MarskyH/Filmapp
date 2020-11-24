@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class ProximosAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<ProximosAdapter.ProximosViewHolder>() {
+class ProximosAdapter(private val mediaList: ArrayList<Media>, val listener: onProximosItemClickListener): RecyclerView.Adapter<ProximosAdapter.ProximosViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,7 +38,11 @@ class ProximosAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ada
         return mediaList.size
     }
 
-    class ProximosViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    interface onProximosItemClickListener{
+        fun proximosItemClick(position: Int)
+    }
+
+    inner class ProximosViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_proximosItem)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_proximosItem)
         val mediaLaunchSite: TextView = itemView.findViewById(R.id.tv_mediaLaunchSite_proximosItem)
@@ -46,5 +50,15 @@ class ProximosAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ada
         val mediaType: TextView = itemView.findViewById(R.id.tv_mediaType_proximosItem)
         val serieEpisode: TextView = itemView.findViewById(R.id.tv_serieEpisode__proximosItem)
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.proximosItemClick(position)
+            }
+        }
     }
 }

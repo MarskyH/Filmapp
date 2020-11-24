@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>, val listener: onMelhoresDaSemanaItemClickListener): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,9 +34,23 @@ class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>): Recycler
         return mediaList.size
     }
 
-    class MelhoresDaSemanaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    interface onMelhoresDaSemanaItemClickListener{
+        fun melhoresDaSemanaItemClick(position: Int)
+    }
+
+    inner class MelhoresDaSemanaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.melhoresDaSemanaItemClick(position)
+            }
+        }
     }
 }
