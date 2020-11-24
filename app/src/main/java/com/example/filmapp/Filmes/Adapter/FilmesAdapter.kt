@@ -26,7 +26,6 @@ class FilmesAdapter(private var listFilmes: ArrayList<Filme>, val listener: OnFi
     override fun onBindViewHolder(holder: FilmesViewHolder, position: Int) {
         var filme = listFilmes.get(position)
 
-        holder.tvFilme.text = filme.titulo
         holder.imgFilme.setImageResource(filme.imgFilme)
     }
 
@@ -36,8 +35,7 @@ class FilmesAdapter(private var listFilmes: ArrayList<Filme>, val listener: OnFi
     }
 
     inner class FilmesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
-        val tvFilme: TextView = itemView.findViewById(R.id.tv_filme)
-        val imgFilme: ImageView = itemView.findViewById(R.id.img_FilmeSemelhante)
+        val imgFilme: ImageView = itemView.findViewById(R.id.img_movieSerie)
 
         init {
             itemView.setOnClickListener(this)

@@ -15,19 +15,19 @@ import com.example.filmapp.Series.Classes.Serie
 import com.example.filmapp.Series.Ui.SerieSelectedActivity
 
 
-class HomeFilmesAdapter(private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnHomeFilmeClickListener): RecyclerView.Adapter<HomeFilmesAdapter.HomeSeriesViewHolder>() {
+class HomeFilmesAdapter(private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnHomeFilmeClickListener): RecyclerView.Adapter<HomeFilmesAdapter.HomeFilmesViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomeSeriesViewHolder {
+    ): HomeFilmesViewHolder {
         var itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
-        return HomeSeriesViewHolder(itemView)
+        return HomeFilmesViewHolder(itemView)
     }
 
     override fun getItemCount() = listMedias.size
 
 
-    override fun onBindViewHolder(holder: HomeSeriesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeFilmesViewHolder, position: Int) {
        var homeMedia = listMedias.get(position)
         holder.img.setImageResource(homeMedia.mediaImage)
         holder.titulo.text = homeMedia.mediaName
@@ -44,7 +44,7 @@ class HomeFilmesAdapter(private var listMedias: ArrayList<com.example.filmapp.Cl
 
     }
 
-    inner class HomeSeriesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class HomeFilmesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val img: ImageView = itemView.findViewById(R.id.mediaImage)
         val titulo: TextView = itemView.findViewById(R.id.mediaName)
 

@@ -55,11 +55,12 @@ class HomeFilmeFragment : Fragment(), HomeFilmesAdapter.OnHomeFilmeClickListener
 
     fun getMediaList(): ArrayList<Media>{
         return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "21/08/12", "Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "08/08/12", "Amazon", "8 Temporadas", "2 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "21/09/12", "Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "21/08/18", "Amazon", "7 Temporadas", "87 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "10 Episodeos")
+            Media(1,R.drawable.fim,"2012", "Série", "2x08 - O Que Eu Sei", "21/08/12", "Netflix", "4 Temporadas", "37 Episodeos"),
+            Media(1,R.drawable.star_born,"Nasce um Estrela", "Filme", "", "08/08/12", "Amazon", "8 Temporadas", "2 Episodeos"),
+            Media(1,R.drawable.star_wars,"Star Wars: A Ascensão Skywalker", "Série", "2x08 - O Que Eu Sei", "21/09/12", "Netflix", "3 Temporadas", "7 Episodeos"),
+            Media(1,R.drawable.regresso,"O Regresso", "Filme", "", "21/08/18", "Amazon", "7 Temporadas", "87 Episodeos"),
+            Media(1,R.drawable.animais,"Animais Fantásticos e os Crimes de Grindelwald", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "10 Episodeos"),
+            Media(1,R.drawable.ultimato,"Vingadores: Ultimato", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "10 Episodeos")
         )
     }
 

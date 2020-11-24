@@ -10,9 +10,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_semelhantes"
-        style="@style/rv_semelhantes"
+        android:layout_marginStart="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/card_filmes_semelhantes">
+        tools:listitem="@layout/card_series_temporadas">
 
     </androidx.recyclerview.widget.RecyclerView>
 

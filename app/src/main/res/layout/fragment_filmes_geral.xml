@@ -30,7 +30,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/no_country_for_old_men_image01" />
+            android:src="@drawable/fim" />
     </androidx.cardview.widget.CardView>
 
 
@@ -49,14 +49,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.499" />
 
-    <me.biubiubiu.justifytext.library.JustifyTextView
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="366dp"
         android:layout_height="158dp"
         android:layout_gravity="center_vertical|end"
         android:fontFamily="@font/montserrat"
         android:gravity="start"
-        android:text="O filme conta a história de um caçador que encontra por coincidência uma grande quantia de dinheiro numa cena de um crime, desencadeando uma perseguição por parte do receptor original do dinheiro na região desértica do oeste do Texas em 1980. "
+        android:text="O Filme mostra literalmente, os fins dos tempos, quando o mundo, a natureza se revolta contra os humanos e começa desastres naturais em todo o mundo, e uma família corre em busca de uma salvação"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,10 +67,11 @@
         app:layout_constraintVertical_bias="0.71" />
 
     <ImageView
+        android:id="@+id/imgAcompanhar"
         android:layout_width="65dp"
         android:layout_height="69dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_estrela_vazia"
+        android:src="@drawable/ic_acompanhando"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.923"
@@ -79,6 +80,7 @@
         app:layout_constraintVertical_bias="0.862" />
 
     <ImageView
+        android:id="@+id/imgCompart"
         android:layout_width="53dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_compartilhar"
@@ -90,6 +92,7 @@
         app:layout_constraintVertical_bias="0.868" />
 
     <ImageView
+        android:id="@+id/imgFav"
         android:layout_width="53dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_favorito_branco"
@@ -101,6 +104,7 @@
         app:layout_constraintVertical_bias="0.868" />
 
     <ImageView
+        android:id="@+id/imgTarde"
         android:layout_width="53dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_assistir_mais_tarde"
@@ -123,7 +127,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.126"
-        tools:progress="60" />
+        tools:progress="100" />
 
     <TextView
         android:id="@+id/tvProgress"
