@@ -12,12 +12,14 @@ import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.Home.Adapters.RecyclerViews.HistoricoAdapter
 import com.example.filmapp.Home.Adapters.RecyclerViews.MelhoresDaSemanaAdapter
 import com.example.filmapp.R
+import com.example.filmapp.Series.Ui.SerieSelectedActivity
+import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import kotlinx.android.synthetic.main.activity_alta.*
 import kotlinx.android.synthetic.main.activity_historico.*
 
-class HistoricoActivity : AppCompatActivity() {
+class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemClickListener {
     private val mediaList = getMediaList()
-    private val adapter = HistoricoAdapter(mediaList)
+    private val adapter = HistoricoAdapter(mediaList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +82,13 @@ class HistoricoActivity : AppCompatActivity() {
 
     fun callConfiguracoesPage(){
         val intent = Intent(this, ConfiguracoesActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun historicoItemClick(position: Int) {
+        val media = mediaList.get(position)
+
+        val intent = Intent(this, SerieSelectedActivity::class.java)
         startActivity(intent)
     }
 

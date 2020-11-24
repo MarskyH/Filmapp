@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class EmCartazAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>() {
+class EmCartazAdapter(private val mediaList: ArrayList<Media>, val listener: onEmCartazItemClickListener): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,9 +34,24 @@ class EmCartazAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ada
         return mediaList.size
     }
 
-    class EmCartazViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    interface onEmCartazItemClickListener{
+        fun emCartazItemClick(position: Int)
+    }
+
+    inner class EmCartazViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.emCartazItemClick(position)
+            }
+        }
 
     }
 }

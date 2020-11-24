@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
+class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>, val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,9 +34,24 @@ class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>): RecyclerVi
         return mediaList.size
     }
 
-    class NovosEpisodiosViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    interface onNovosEpisodiosItemClickListener{
+        fun novosEpisodiosItemClick(position: Int)
+    }
+
+    inner class NovosEpisodiosViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.novosEpisodiosItemClick(position)
+            }
+        }
 
     }
 }

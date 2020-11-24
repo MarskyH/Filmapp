@@ -12,30 +12,30 @@ import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.Home.Adapters.RecyclerViews.AssistirMaisTardeAdapter
 import com.example.filmapp.Home.Adapters.RecyclerViews.MelhoresDaSemanaAdapter
 import com.example.filmapp.Home.Adapters.RecyclerViews.ProximosAdapter
+import com.example.filmapp.Home.FragRecyclers.FragRecycler_asssistirMaisTarde
+import com.example.filmapp.Home.FragRecyclers.FragRecycler_melhoresDaSemana
+import com.example.filmapp.Home.FragRecyclers.FragRecycler_proximosAgenda
 import com.example.filmapp.R
 import kotlinx.android.synthetic.main.activity_agenda.*
 import kotlinx.android.synthetic.main.activity_alta.*
 
 class AgendaActivity : AppCompatActivity() {
-    private val mediaList = getMediaList()
-    private val assistirMaisTarde_adapter = AssistirMaisTardeAdapter(mediaList)
-    private val proximos_adapter = ProximosAdapter(mediaList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agenda)
 
-        //Iniciando o ReciclerView Assistir Mais Tarde
-        rv_assistirMaisTarde_agenda.adapter = assistirMaisTarde_adapter
-        rv_assistirMaisTarde_agenda.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rv_assistirMaisTarde_agenda.isHorizontalFadingEdgeEnabled
-        rv_assistirMaisTarde_agenda.setHasFixedSize(true)
+        //Inflando o RecyclerView de Assistir Mais Tarde (FragRecycler_assistirMaisTarde)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragRecycler_assistirMaisTardeSpace, FragRecycler_asssistirMaisTarde.newInstance())
+            commit()
+        }
 
-        //Iniciando o ReciclerView Próximos
-        rv_proximos_agenda.adapter = proximos_adapter
-        rv_proximos_agenda.layoutManager = LinearLayoutManager(this)
-        rv_proximos_agenda.isHorizontalFadingEdgeEnabled
-        rv_proximos_agenda.setHasFixedSize(true)
+        //Inflando o RecyclerView de Próximos (FragRecycler_proximosAgenda)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragRecycler_proximosSpace, FragRecycler_proximosAgenda.newInstance())
+            commit()
+        }
 
         setSupportActionBar(toolbarAgendaPage)
 
@@ -73,17 +73,6 @@ class AgendaActivity : AppCompatActivity() {
     fun callHome(){
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
-    }
-
-
-    fun getMediaList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "Quando: 21/08/12", "Onde: Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "Quando: 08/08/12", "Onde:Cinemas", "8 Temporadas", "2 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "Quando: 21/09/12", "Onde: Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "Quando: 21/08/18", "Onde: Amazon", "7 Temporadas", "87 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "Quando: 75/08/12", "Onde: Netflix", "1 Temporadas", "10 Episodeos")
-        )
     }
 
     fun callDescubraPage(){
