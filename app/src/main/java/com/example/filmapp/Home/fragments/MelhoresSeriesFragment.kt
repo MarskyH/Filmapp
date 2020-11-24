@@ -6,13 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
 import com.example.filmapp.R
 import com.example.filmapp.Series.Ui.SerieSelectedActivity
-import kotlinx.android.synthetic.main.activity_descubra.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
 
 class MelhoresSeriesFragment : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {

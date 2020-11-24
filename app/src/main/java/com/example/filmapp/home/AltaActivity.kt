@@ -5,15 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
-import com.example.filmapp.Home.Adapters.RecyclerViews.EmCartazAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.MelhoresDaSemanaAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.NovosEpisodiosAdapter
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_emCartaz
-import com.example.filmapp.Home.FragRecyclers.FragRecycler_filmesDescubra
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_melhoresDaSemana
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_novosEpisodios
 import com.example.filmapp.R

@@ -5,17 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.ProximosAdapter
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_filmesDescubra
-import com.example.filmapp.Home.FragRecyclers.FragRecycler_novidadesList
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_seriesDescubra
 import com.example.filmapp.R
-import kotlinx.android.synthetic.main.activity_agenda.*
 import kotlinx.android.synthetic.main.activity_descubra.*
 
 class DescubraActivity : AppCompatActivity() {
