@@ -5,19 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.Home.Adapters.RecyclerViews.AcompanhandoAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
 import com.example.filmapp.R
+import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import kotlinx.android.synthetic.main.activity_acompanhando.*
-import kotlinx.android.synthetic.main.activity_descubra.*
 
-class AcompanhandoActivity : AppCompatActivity() {
+class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener {
     private val mediaList = getMediaList()
-    private val adapter = AcompanhandoAdapter(mediaList)
+    private val adapter = AcompanhandoAdapter(mediaList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +76,13 @@ class AcompanhandoActivity : AppCompatActivity() {
 
     fun callConfiguracoesPage(){
         val intent = Intent(this, ConfiguracoesActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun AcompanhandoItemClick(position: Int) {
+        val serie = mediaList.get(position)
+
+        val intent = Intent(this, SerieTemporadaActivity::class.java)
         startActivity(intent)
     }
 }

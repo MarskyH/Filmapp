@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
-import com.example.filmapp.Series.Classes.Episodio
 import com.example.filmapp.Series.Classes.Serie
-import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
 import com.example.filmapp.Series.Ui.SerieSelectedActivity
 
 
@@ -20,7 +17,7 @@ class HomeSeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: 
         parent: ViewGroup,
         viewType: Int
     ): HomeSeriesViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_home_series, parent, false)
+        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_home, parent, false)
         return HomeSeriesViewHolder(itemView)
     }
 

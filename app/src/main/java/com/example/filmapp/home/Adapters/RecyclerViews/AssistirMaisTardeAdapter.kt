@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
+class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>, val listener: onAssistirMaisTardeItemClickListener): RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,9 +34,23 @@ class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>): Recycle
         return mediaList.size
     }
 
-    class AssistirMaisTardeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    interface onAssistirMaisTardeItemClickListener{
+        fun assistirMaisTardeItemClick(position: Int)
+    }
+
+    inner class AssistirMaisTardeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.assistirMaisTardeItemClick(position)
+            }
+        }
     }
 }
