@@ -1,5 +1,7 @@
 package com.example.filmapp.Home.Adapters.RecyclerViews
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +15,7 @@ import kotlinx.android.synthetic.main.item_medialist.view.*
 
 class DescubraListsAdapter(
     private val mediaList: ArrayList<Media>,
-    val listener: onDescubraItemClickListener
-) : RecyclerView.Adapter<DescubraListsAdapter.DescubraListsViewHolder>() {
+    val listener: onDescubraItemClickListener) : RecyclerView.Adapter<DescubraListsAdapter.DescubraListsViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -35,6 +36,9 @@ class DescubraListsAdapter(
         holder.mediaDetail1.setText(currentItem.mediaDetail1)
         holder.mediaDetail2.setText(currentItem.mediaDetail2)
         holder.mediaImage.setImageResource(currentItem.mediaImage)
+
+        holder.mediaName.setOnClickListener {
+        }
 
     }
 

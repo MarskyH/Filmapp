@@ -2,6 +2,7 @@ package com.example.filmapp.Series.Ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -67,7 +68,9 @@ class SerieEpisodioSelectedActivity: AppCompatActivity() {
         val bundle = intent.extras
         val adapter = ViewPagerSerieAdapter(supportFragmentManager)
         if (bundle != null) {
-            adapter.addFragment(EpisodioFragment(), "Temporada 2 - Episódio ${bundle.getInt("Episodio")}")
+            val titulo = "Temporada 2 - Episódio ${bundle.getInt("Episodio")}"
+            val img = bundle.getInt("imagem")
+            adapter.addFragmentImage(EpisodioFragment(img), titulo, img)
         }
 
         viewPagerSeriesEpisodio.adapter = adapter

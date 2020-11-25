@@ -27,6 +27,10 @@ class ViewPagerSerieAdapter(supportFragmentManager: FragmentManager): FragmentPa
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
     }
+    fun addFragmentImage(fragment: Fragment, title: String, img: Int){
+        mFragmentList.add(fragment)
+        mFragmentTitleList.add(title)
+    }
 
 
 }

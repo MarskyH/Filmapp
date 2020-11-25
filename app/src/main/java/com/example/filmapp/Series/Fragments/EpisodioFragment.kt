@@ -22,7 +22,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class EpisodioFragment : Fragment() {
+class EpisodioFragment(val img: Int): Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
@@ -36,6 +36,9 @@ class EpisodioFragment : Fragment() {
     ): View? {
 
         val view: View = inflater!!.inflate(R.layout.fragment_series_episodio, container, false)
+
+        view.imgEp.setImageResource(img)
+
         view.imgTarde.setOnClickListener {
             AlteraIconAssistirMaisTarde()
         }
