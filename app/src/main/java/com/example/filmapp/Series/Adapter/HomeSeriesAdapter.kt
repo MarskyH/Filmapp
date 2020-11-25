@@ -9,31 +9,31 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
-import com.example.filmapp.Series.Classes.Episodio
+import com.example.filmapp.Series.Classes.Media
 import com.example.filmapp.Series.Classes.Serie
-import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
 import com.example.filmapp.Series.Ui.SerieSelectedActivity
 
 
-class HomeSeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: OnHomeSerieClickListener): RecyclerView.Adapter<HomeSeriesAdapter.HomeSeriesViewHolder>() {
+class HomeSeriesAdapter(private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnHomeSerieClickListener): RecyclerView.Adapter<HomeSeriesAdapter.HomeSeriesViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): HomeSeriesViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_home_series, parent, false)
+        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return HomeSeriesViewHolder(itemView)
     }
 
-    override fun getItemCount() = listSeries.size
+    override fun getItemCount() = listMedias.size
 
 
     override fun onBindViewHolder(holder: HomeSeriesViewHolder, position: Int) {
-       var homeSerie = listSeries.get(position)
-        holder.img.setImageResource(homeSerie.imgTemporada)
+       var homeMedia = listMedias.get(position)
+        holder.img.setImageResource(homeMedia.mediaImage)
+        holder.titulo.text = homeMedia.mediaName
         holder.img.setOnClickListener {
             val intent = Intent(holder.itemView.context, SerieSelectedActivity::class.java)
             var bundle = Bundle()
-            bundle.putInt("imagem", homeSerie.imgTemporada)
+            bundle.putInt("imagem", homeMedia.mediaImage)
             intent.putExtras(bundle)
             holder.itemView.context.startActivity(intent)
         }
@@ -47,7 +47,8 @@ class HomeSeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: 
     }
 
     inner class HomeSeriesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
-        val img: ImageView = itemView.findViewById(R.id.img_SerieHome)
+        val img: ImageView = itemView.findViewById(R.id.mediaImage)
+        val titulo: TextView = itemView.findViewById(R.id.mediaName)
 
         init {
             itemView.setOnClickListener(this)

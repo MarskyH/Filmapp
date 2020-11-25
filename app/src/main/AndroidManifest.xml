@@ -9,18 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
-        <activity android:name=".Series.Ui.SerieTemporadaActivity" />
-        <activity android:name="com.example.filmapp.Series.Ui.SerieSelectedActivity"/>
-        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
+        <activity android:name=".Configuracaoes.ConfiguracoesActivity"></activity>
+        <activity android:name=".Login.AcessActivity" />
+        <activity android:name=".Login.SignInActivity" />
         <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".home.MelhoresActivity"/>
-        <activity android:name=".home.AjudaActivity" />
-        <activity android:name=".home.HistoricoActivity" />
-        <activity android:name=".home.AcompanhandoActivity" />
-        <activity android:name=".home.DescubraActivity"/>
-        <activity android:name=".home.AgendaActivity" />
-        <activity android:name=".home.AltaActivity" />
-        <activity android:name=".home.HomeActivity"/>
+        <activity android:name=".Series.Ui.SerieSelectedActivity" />
+        <activity android:name=".Series.Ui.SerieTemporadaActivity" />
+        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
+
+        <activity android:name=".Home.MelhoresActivity"/>
+        <activity android:name=".Home.AjudaActivity" />
+        <activity android:name=".Home.HistoricoActivity" />
+        <activity android:name=".Home.AcompanhandoActivity" />
+        <activity android:name=".Home.DescubraActivity"/>
+        <activity android:name=".Home.AgendaActivity" />
+        <activity android:name=".Home.AltaActivity" />
+        <activity android:name=".Home.HomeActivity"/>
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

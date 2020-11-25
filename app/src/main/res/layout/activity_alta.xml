@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".home.AltaActivity">
+    tools:context=".Home.AltaActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/title_melhoresDaSemana_emAlta"
+                android:id="@+id/tv_titleMelhoresDaSemana_emAlta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_semana_alta"
@@ -43,17 +43,13 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView_melhoresDaSemana_EmAlta"
+            <FrameLayout
+                android:id="@+id/fragRecycler_melhoresDaSemanaSpace"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_cartaz" />
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/title_emCartaz_EmAlta"
+                android:id="@+id/tv_titleEmCartaz_EmAlta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_cartaz_alta"
@@ -62,17 +58,13 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView_emCartaz_EmAlta"
+            <FrameLayout
+                android:id="@+id/fragRecycler_emCartazSpace"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_cartaz" />
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/title_novosEpisodeos_EmAlta"
+                android:id="@+id/tv_titleNovosEpisodeos_EmAlta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_episodios_alta"
@@ -81,14 +73,10 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycleView_novosEpisodeos_EmAlta"
+            <FrameLayout
+                android:id="@+id/fragRecycler_novosEpisodiosSpace"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_cartaz" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

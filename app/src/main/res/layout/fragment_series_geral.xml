@@ -50,29 +50,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.462" />
 
-    <me.biubiubiu.justifytext.library.JustifyTextView
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="369dp"
         android:layout_height="186dp"
         android:layout_gravity="center_vertical|end"
         android:fontFamily="@font/montserrat"
-        android:gravity="center_horizontal"
+        android:gravity=""
         android:text="Na trama, conhecemos um mundo onde super-heróis são as maiores celebridades do planeta, e rotineiramente abusa, de seus poderes ao invés de usarem para o bem da sociedade e do mundo "
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.69"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.769" />
+        app:layout_constraintVertical_bias="0.712" />
 
     <ImageView
-        android:id="@+id/imgAvaliar"
+        android:id="@+id/imgAcompanhar"
         android:layout_width="65dp"
         android:layout_height="69dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_estrela_vazia"
+        android:src="@drawable/ic_acompanhando"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.923"

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 import com.example.filmapp.Series.Adapter.HomeSeriesAdapter
 import com.example.filmapp.Series.Adapter.SeriesAdapter
@@ -31,8 +32,8 @@ import kotlinx.coroutines.launch
 
 class HomeSerieFragment : Fragment(), HomeSeriesAdapter.OnHomeSerieClickListener {
     val scope = CoroutineScope(Dispatchers.Main)
-    var listaSeries = getAllHomeSeries()
-    var adapter = HomeSeriesAdapter(listaSeries, this)
+    var listaMedias = getMediaList()
+    var adapter = HomeSeriesAdapter(listaMedias, this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,21 +51,19 @@ class HomeSerieFragment : Fragment(), HomeSeriesAdapter.OnHomeSerieClickListener
         return view
     }
 
-    fun getAllHomeSeries(): ArrayList<Serie>{
-        val serie1 = Serie(1, "The Boys", "Temporada 1", R.drawable.the_boys_image02)
-        val serie2 = Serie(2, "The Boys", "Temporada 2", R.drawable.the_walking_dead_image01)
-        val serie3 = Serie(1, "The Boys", "Temporada 1", R.drawable.flash_image01)
-        val serie4 = Serie(2, "The Boys", "Temporada 2", R.drawable.grey_image01)
-        val serie5 = Serie(1, "The Boys", "Temporada 1", R.drawable.the_walking_dead_image01)
-        val serie6 = Serie(2, "The Boys", "Temporada 2", R.drawable.the_boys_image03)
-        val serie7 = Serie(2, "The Boys", "Temporada 2", R.drawable.lucifer_image01)
-
-        return arrayListOf(serie1, serie2, serie3, serie4, serie5, serie6, serie7)
+    fun getMediaList(): ArrayList<Media>{
+        return arrayListOf<Media>(
+            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "21/08/12", "Netflix", "4 Temporadas", "37 Episodeos"),
+            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "08/08/12", "Amazon", "8 Temporadas", "2 Episodeos"),
+            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "21/09/12", "Netflix", "3 Temporadas", "7 Episodeos"),
+            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "21/08/18", "Amazon", "7 Temporadas", "87 Episodeos"),
+            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "10 Episodeos")
+        )
     }
 
 
     override fun homeSerieClick(position: Int) {
-        val serie = listaSeries.get(position)
+        val serie = listaMedias.get(position)
         adapter.notifyItemChanged(position)
     }
 

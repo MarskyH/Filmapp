@@ -1,4 +1,4 @@
-package com.example.filmapp.home.fragments.adapters
+package com.example.filmapp.Home.Adapters.ViewPagers
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -8,7 +8,7 @@ class ViewPagerMelhoresAdapter(supportFragmentManager: FragmentManager): Fragmen
 
     private val fragmentsList = ArrayList<Fragment>()
     private val fragmentsNamesList = ArrayList<String>()
-
+//teste
     override fun getCount(): Int {
         return fragmentsList.size
     }
@@ -20,6 +20,7 @@ class ViewPagerMelhoresAdapter(supportFragmentManager: FragmentManager): Fragmen
     override fun getPageTitle(position: Int): CharSequence? {
         return fragmentsNamesList[position]
     }
+
 
     fun addFragment(newFragment: Fragment, nameFragment: String){
         fragmentsList.add(newFragment)

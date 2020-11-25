@@ -20,7 +20,7 @@ class GeralFragment : Fragment() {
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
     var selcomp: Boolean = false
-    var selAvaliar: Boolean = false
+    var selAcompanhar: Boolean = false
     var progr = 0
 
     override fun onCreateView(
@@ -37,8 +37,8 @@ class GeralFragment : Fragment() {
         view.imgTarde.setOnClickListener {
             AlteraIconAssistirMaisTarde()
         }
-        view.imgAvaliar.setOnClickListener {
-            AlteraIconAvaliar()
+        view.imgAcompanhar.setOnClickListener {
+            AlteraIconAcompanhar()
         }
         view.imgFav.setOnClickListener {
             AlteraIconFavorito()
@@ -84,13 +84,13 @@ class GeralFragment : Fragment() {
         }
     }
 
-    fun AlteraIconAvaliar() {
-        if (selAvaliar == false) {
-            imgAvaliar.setImageResource(R.drawable.ic_estrela_vazia_roxo)
-            selAvaliar = true
-        } else if (selAvaliar == true) {
-            imgAvaliar.setImageResource(R.drawable.ic_estrela_vazia)
-            selAvaliar = false
+    fun AlteraIconAcompanhar() {
+        if (selAcompanhar == false) {
+            imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+            selAcompanhar = true
+        } else if (selAcompanhar == true) {
+            imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+            selAcompanhar = false
         }
     }
 

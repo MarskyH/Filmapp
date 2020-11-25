@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="0dp"
     app:cardBackgroundColor="#00FFFFFF"
@@ -18,9 +18,9 @@
             app:cardCornerRadius="20dp">
 
             <ImageView
-                android:id="@+id/mediaImage"
-                android:layout_width="@dimen/posterPequeno_largura"
-                android:layout_height="@dimen/posterPequeno_altura"
+                android:id="@+id/iv_mediaImage_proximosItem"
+                android:layout_width="@dimen/poster_largura"
+                android:layout_height="@dimen/poster_altura"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/flash_image01" />
@@ -30,13 +30,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/mediaName"
+                android:id="@+id/tv_mediaName_proximosItem"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/nameMedia_maxDeight"
+                android:autoSizeTextType="uniform"
                 android:fontFamily="@font/montserrat"
                 android:text="The Flash"
                 android:textColor="@color/Principal"
@@ -44,7 +45,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mediaType"
+                android:id="@+id/tv_mediaType_proximosItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -54,7 +55,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/serieEpisode"
+                android:id="@+id/tv_serieEpisode__proximosItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -64,7 +65,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mediaReleaseDate"
+                android:id="@+id/tv_mediaReleaseDate_proximosItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
@@ -75,7 +76,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/mediaLaunchSite"
+                android:id="@+id/tv_mediaLaunchSite_proximosItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
