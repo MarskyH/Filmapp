@@ -38,7 +38,6 @@ class HomeSeriesAdapter(private var listMedias: ArrayList<com.example.filmapp.Cl
             holder.itemView.context.startActivity(intent)
         }
 
-
     }
 
     interface OnHomeSerieClickListener{

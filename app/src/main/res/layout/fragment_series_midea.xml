@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp">
@@ -37,10 +37,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="0dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:listitem="@layout/card_series_midea">
+                tools:listitem="@layout/card_media_medias">
 
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

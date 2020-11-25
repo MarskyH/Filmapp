@@ -8,12 +8,9 @@ import android.view.MenuItem
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Adapter.ViewPagerSerieAdapter
+import com.example.filmapp.Series.Adapter.ViewPagerSerieMedia
 import com.example.filmapp.Series.Fragments.*
-import kotlinx.android.synthetic.main.activity_serie_episodio_selected.*
-import kotlinx.android.synthetic.main.activity_serie_selected.viewPagerSeries
 import kotlinx.android.synthetic.main.activity_serie_temporada_selected.*
-import kotlinx.android.synthetic.main.fragment_series_temporada.*
 
 open class SerieTemporadaActivity : AppCompatActivity() {
 
@@ -63,7 +60,7 @@ open class SerieTemporadaActivity : AppCompatActivity() {
 
     fun setUpTabs() {
         val bundle = intent.extras
-        val adapter = ViewPagerSerieAdapter(supportFragmentManager)
+        val adapter = ViewPagerSerieMedia(supportFragmentManager)
         if (bundle != null) {
             adapter.addFragment(TemporadaFragment(), "The Boys - ${bundle.getString("Temporada")}")
         }

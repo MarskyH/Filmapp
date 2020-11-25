@@ -14,7 +14,7 @@ class MideaAdapter(private var listMedia: ArrayList<Media>, val listener: OnMide
         parent: ViewGroup,
         viewType: Int
     ): MideasViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_series_midea, parent, false)
+        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_media_medias, parent, false)
         return MideasViewHolder(itemView)
     }
 
@@ -33,7 +33,7 @@ class MideaAdapter(private var listMedia: ArrayList<Media>, val listener: OnMide
     }
 
     inner class MideasViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
-        val imgMidea: ImageView = itemView.findViewById(R.id.img_SerieMidea)
+        val imgMidea: ImageView = itemView.findViewById(R.id.img_MediaMedias)
 
         init {
             itemView.setOnClickListener(this)

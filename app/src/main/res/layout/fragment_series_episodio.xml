@@ -30,6 +30,7 @@
         app:layout_constraintVertical_bias="0.015" >
 
         <ImageView
+            android:id="@+id/imgEp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/the_boys_image01" />

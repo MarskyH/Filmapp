@@ -1,14 +1,15 @@
-package com.example.filmapp.Series.Adapter
+package com.example.filmapp.Filmes.Adapter
 
+import android.icu.text.CaseMap
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class ViewPagerSerieAdapter(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class ViewPagerAdapter(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
-    private val mFragmentImgList = ArrayList<Unit>()
 
 
     override fun getItem(position: Int): Fragment {
@@ -27,6 +28,5 @@ class ViewPagerSerieAdapter(supportFragmentManager: FragmentManager): FragmentPa
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
     }
-
 
 }

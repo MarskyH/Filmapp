@@ -1,7 +1,5 @@
 package com.example.filmapp.Series.Adapter
 
-import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +20,7 @@ class SeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: OnSe
         parent: ViewGroup,
         viewType: Int
     ): SeriesViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_series_temporadas, parent, false)
+        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_media_especifica, parent, false)
         return SeriesViewHolder(itemView)
     }
 
@@ -50,8 +48,8 @@ class SeriesAdapter(private var listSeries: ArrayList<Serie>, val listener: OnSe
     }
 
     inner class SeriesViewHolder(itemView: View):RecyclerView.ViewHolder(itemView), View.OnClickListener{
-        val tvTemporada: TextView = itemView.findViewById(R.id.tv_temporada)
-        val imgTemporada: ImageView = itemView.findViewById(R.id.img_SerieTemporada)
+        val tvTemporada: TextView = itemView.findViewById(R.id.tv_mediaEspecifica)
+        val imgTemporada: ImageView = itemView.findViewById(R.id.img_MediaEspecifica)
 
         init {
             itemView.setOnClickListener(this)

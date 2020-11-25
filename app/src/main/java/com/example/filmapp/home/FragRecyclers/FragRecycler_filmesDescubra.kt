@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
 class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
     private val filmesList = getFilmesList()
-    private val filmesList_adapter = DescubraListsAdapter(filmesList, this)
+    private val filmesList_adapter = DescubraListsAdapter(filmesList, this,)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

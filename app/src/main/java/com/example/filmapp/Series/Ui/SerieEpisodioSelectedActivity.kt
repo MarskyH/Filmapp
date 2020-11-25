@@ -8,12 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Adapter.ViewPagerSerieAdapter
+import com.example.filmapp.Series.Adapter.ViewPagerSerieMedia
 import com.example.filmapp.Series.Fragments.EpisodioFragment
-import com.example.filmapp.Series.Fragments.TemporadaFragment
 
 import kotlinx.android.synthetic.main.activity_serie_episodio_selected.*
-import kotlinx.android.synthetic.main.activity_serie_selected.*
 
 
 class SerieEpisodioSelectedActivity: AppCompatActivity() {
@@ -65,9 +63,11 @@ class SerieEpisodioSelectedActivity: AppCompatActivity() {
 
     private fun setUpTabs() {
         val bundle = intent.extras
-        val adapter = ViewPagerSerieAdapter(supportFragmentManager)
+        val adapter = ViewPagerSerieMedia(supportFragmentManager)
         if (bundle != null) {
-            adapter.addFragment(EpisodioFragment(), "Temporada 2 - Episódio ${bundle.getInt("Episodio")}")
+            val titulo = "Temporada 2 - Episódio ${bundle.getInt("Episodio")}"
+            val img = bundle.getInt("imagem")
+            adapter.addFragmentImage(EpisodioFragment(img), titulo, img)
         }
 
         viewPagerSeriesEpisodio.adapter = adapter

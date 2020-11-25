@@ -34,7 +34,7 @@ class EpisodiosAdapter(private var listEpisodios: ArrayList<Episodio>, val liste
             val intent = Intent(holder.itemView.context, SerieEpisodioSelectedActivity::class.java)
             var bundle = Bundle()
             bundle.putInt("Episodio", episodio.id)
-            bundle.putInt("Imagem Episodio", episodio.img)
+            bundle.putInt("imagem", episodio.img)
             intent.putExtras(bundle)
             holder.itemView.context.startActivity(intent)
         }
