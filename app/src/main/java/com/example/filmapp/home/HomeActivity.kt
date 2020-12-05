@@ -3,6 +3,7 @@ package com.example.filmapp.Home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -39,11 +40,11 @@ class HomeActivity : AppCompatActivity() {
 
         setTabs()
 
-//        viewModel.listRes.observe ( this ) {
-//            Log.i("Tag HOME", it.toString())
-//        }
-//
-//        viewModel.getAllResults()
+        viewModel.listRes.observe ( this ) {
+            Log.i("Tag HOME", it.toString())
+        }
+
+        viewModel.getAllResults()
     }
 
     //Usado para add o Menu a Toolbar

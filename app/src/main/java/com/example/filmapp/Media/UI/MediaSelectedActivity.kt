@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
@@ -12,11 +15,22 @@ import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.MediaFragment
 import com.example.filmapp.R
 import com.example.filmapp.Media.Adapters.ViewPagerSerieMedia
+import com.example.filmapp.Media.Models.MediaViewModel
+import com.example.filmapp.Services.MainViewModel
+import com.example.filmapp.Services.service
 
 import kotlinx.android.synthetic.main.activity_media_selected.*
 
 
 class MediaSelectedActivity : AppCompatActivity() {
+
+    private val viewModel by viewModels<MediaViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return MainViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

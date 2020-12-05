@@ -82,6 +82,7 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
     override fun AcompanhandoItemClick(position: Int) {
         val serie = mediaList.get(position)
 
+
         val intent = Intent(this, MediaSelectedActivity::class.java)
         startActivity(intent)
     }

@@ -21,7 +21,16 @@ interface Service {
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("page") page: Int,
-    ): Results
+    ): Res
+
+    @GET("/3/tv/{category}")
+    suspend fun getAllResultsSeries(
+        @Path("category") category: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+    ): Res
+
 }
 
 val urlApiMovies = "https://developers.themoviedb.org"
