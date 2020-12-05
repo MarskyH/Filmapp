@@ -7,10 +7,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.Adapters.RecyclerViews.HistoricoAdapter
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Ui.SerieSelectedActivity
 import kotlinx.android.synthetic.main.activity_historico.*
 
 class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemClickListener {
@@ -84,7 +84,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
     override fun historicoItemClick(position: Int) {
         val media = mediaList.get(position)
 
-        val intent = Intent(this, SerieSelectedActivity::class.java)
+        val intent = Intent(this, MediaSelectedActivity::class.java)
         startActivity(intent)
     }
 

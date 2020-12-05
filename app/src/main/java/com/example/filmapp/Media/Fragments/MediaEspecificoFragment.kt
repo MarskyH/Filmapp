@@ -1,6 +1,5 @@
 package com.example.filmapp.Media.Fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,10 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Media.Adapters.MediasAdapter
 import com.example.filmapp.R
-import com.example.filmapp.Series.Adapter.SeriesAdapter
-import com.example.filmapp.Series.Classes.Media
-import com.example.filmapp.Series.Classes.Serie
-import kotlinx.android.synthetic.main.fragment_series_seasons.*
 import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
 
 

@@ -5,17 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.MediaFragment
 import com.example.filmapp.R
-import com.example.filmapp.Series.Adapter.ViewPagerSerieMedia
-import com.example.filmapp.Series.Fragments.MideaFragment
-import com.example.filmapp.Series.Fragments.SeasonsFragment
+import com.example.filmapp.Media.Adapters.ViewPagerSerieMedia
+
 import kotlinx.android.synthetic.main.activity_media_selected.*
-import kotlinx.android.synthetic.main.activity_serie_selected.*
+
 
 class MediaSelectedActivity : AppCompatActivity() {
 

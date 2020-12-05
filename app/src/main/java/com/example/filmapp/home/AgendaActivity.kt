@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_asssistirMaisTarde
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_proximosAgenda
 import com.example.filmapp.R

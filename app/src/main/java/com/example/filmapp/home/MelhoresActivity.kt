@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.Home.fragments.MelhoresFilmesFragment
 import com.example.filmapp.Home.fragments.MelhoresSeriesFragment

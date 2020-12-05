@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Media.Adapters.MediaAdapter
 import com.example.filmapp.R
-import com.example.filmapp.Series.Adapter.MideaAdapter
-import com.example.filmapp.Series.Classes.Media
 import kotlinx.android.synthetic.main.fragment_media_medias.view.*
 import kotlinx.android.synthetic.main.fragment_series_midea.*
-import kotlinx.android.synthetic.main.fragment_series_midea.view.*
 import kotlinx.android.synthetic.main.fragment_series_midea.view.video_view
 
 

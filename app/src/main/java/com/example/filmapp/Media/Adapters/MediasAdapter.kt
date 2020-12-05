@@ -1,7 +1,6 @@
 package com.example.filmapp.Media.Adapters
 
-import android.content.Intent
-import android.os.Bundle
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
-import com.example.filmapp.Series.Classes.Media
-import com.example.filmapp.Series.Ui.SerieTemporadaActivity
+
 
 
 class MediasAdapter(private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnMediaClickListener): RecyclerView.Adapter<MediasAdapter.MediasViewHolder>() {

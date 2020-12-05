@@ -1,10 +1,10 @@
-package com.example.filmapp.Configuracaoes
+package com.example.filmapp.Media.Adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class ViewPagerConfigAdapter(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class ViewPagerSerieMedia(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
@@ -27,5 +27,10 @@ class ViewPagerConfigAdapter(supportFragmentManager: FragmentManager): FragmentP
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
     }
+    fun addFragmentImage(fragment: Fragment, title: String, img: Int){
+        mFragmentList.add(fragment)
+        mFragmentTitleList.add(title)
+    }
+
 
 }

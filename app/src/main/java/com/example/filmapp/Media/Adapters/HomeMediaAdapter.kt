@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Ui.SerieSelectedActivity
 
 class HomeMediaAdapter (private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnHomeMediaClickListener, val Movie: Boolean): RecyclerView.Adapter<HomeMediaAdapter.HomeMediasViewHolder>() {
     override fun onCreateViewHolder(

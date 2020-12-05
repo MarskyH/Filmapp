@@ -3,14 +3,13 @@ package com.example.filmapp.Home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Classes.Media
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.Home.fragments.HomeFragment
 import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter

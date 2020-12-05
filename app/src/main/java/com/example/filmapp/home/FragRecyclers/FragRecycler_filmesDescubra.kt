@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Ui.SerieSelectedActivity
 import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
 class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
@@ -51,7 +51,7 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
     override fun descubraItemClick(position: Int) {
         val filme = filmesList.get(position)
 
-        val intent = Intent(context, SerieSelectedActivity::class.java)
+        val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)
     }
 
