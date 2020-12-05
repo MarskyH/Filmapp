@@ -69,9 +69,15 @@ class MediaSelectedActivity : AppCompatActivity() {
         if (bundle != null) {
             val img = bundle.getInt("imagem")
             val sinopse = bundle.getString("sinopse")
+            val movie = bundle.getBoolean("movie?")
             adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(), "Específico")
+            if (movie == true){
+                adapter.addFragment(MediaEspecificoFragment(movie), "Semelhantes")
+            }else{
+                adapter.addFragment(MediaEspecificoFragment(movie), "Temporadas")
+            }
             adapter.addFragment(MediaFragment(), "Mídia")
+
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         }

@@ -12,10 +12,10 @@ import com.example.filmapp.R
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 
-class HomeMediaFragment(val ListMedia:ArrayList<Media>): Fragment(), HomeMediaAdapter.OnHomeMediaClickListener {
+class HomeMediaFragment(val ListMedia:ArrayList<Media>, val Movie: Boolean): Fragment(), HomeMediaAdapter.OnHomeMediaClickListener {
 
     var listaMedias = getMediaList()
-    var adapter = HomeMediaAdapter(listaMedias, this)
+    var adapter = HomeMediaAdapter(listaMedias, this, Movie)
 
     override fun onCreateView(
         inflater: LayoutInflater,

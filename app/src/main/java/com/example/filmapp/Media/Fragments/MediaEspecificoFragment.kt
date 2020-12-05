@@ -17,13 +17,17 @@ import kotlinx.android.synthetic.main.fragment_series_seasons.*
 import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
 
 
-class MediaEspecificoFragment : Fragment(), MediasAdapter.OnMediaClickListener {
-    var listaMedias = getAllMediasEspecificas()
-    var adapter = MediasAdapter(listaMedias, this)
-
+class MediaEspecificoFragment(val Movie: Boolean): Fragment(), MediasAdapter.OnMediaClickListener {
+    private lateinit var listaMedias: ArrayList<com.example.filmapp.Classes.Media>
+    lateinit var adapter : MediasAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
+        if (Movie == true){
+             listaMedias = getAllMediasSemelhantes()
+        }else{
+            listaMedias = getAllTemporadas()
+        }
+        var adapter = MediasAdapter(listaMedias, this)
         val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
         view.rv_temporada.adapter = adapter
         view.rv_temporada.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
@@ -32,7 +36,7 @@ class MediaEspecificoFragment : Fragment(), MediasAdapter.OnMediaClickListener {
 
     }
     
-    fun getAllMediasEspecificas(): ArrayList<com.example.filmapp.Classes.Media>{
+    fun getAllMediasSemelhantes(): ArrayList<com.example.filmapp.Classes.Media>{
         return arrayListOf(
             com.example.filmapp.Classes.Media(
                 1,
@@ -101,6 +105,14 @@ class MediaEspecificoFragment : Fragment(), MediasAdapter.OnMediaClickListener {
                 "Sinopse de Vingadores Ultimato"
             )
         )
+    }
+
+    fun getAllTemporadas(): ArrayList<com.example.filmapp.Classes.Media>{
+        val media1 = com.example.filmapp.Classes.Media(1,R.drawable.the_boys_image02,"The Boys", "Serie", "", "", "", "", "" )
+        val media2 = com.example.filmapp.Classes.Media(2,R.drawable.the_boys_image03,"The Boys", "Serie", "", "", "", "", "" )
+
+
+        return arrayListOf(media1, media2)
     }
 
     override fun mediaClick(position: Int) {

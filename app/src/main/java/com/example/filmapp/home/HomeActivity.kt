@@ -3,19 +3,33 @@ package com.example.filmapp.Home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.Home.fragments.HomeFragment
 import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
 import com.example.filmapp.Media.Fragments.HomeMediaFragment
+import com.example.filmapp.Services.MainViewModel
+import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
     private var ListFilmes = ArrayList<Media>()
     private var ListSeries = ArrayList<Media>()
+
+    private val viewModel by viewModels<MainViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return MainViewModel(service) as T
+            }
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +39,12 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbarHomePage)
 
         setTabs()
+
+//        viewModel.listRes.observe ( this ) {
+//            Log.i("Tag HOME", it.toString())
+//        }
+//
+//        viewModel.getAllResults()
     }
 
     //Usado para add o Menu a Toolbar
@@ -56,8 +76,8 @@ class HomeActivity : AppCompatActivity() {
 
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
-        adapter.addFragment(HomeMediaFragment(ListSeries) ,"Séries" )
-        adapter.addFragment(HomeMediaFragment(ListFilmes), "Filmes")
+        adapter.addFragment(HomeMediaFragment(ListSeries, false),"Séries" )
+        adapter.addFragment(HomeMediaFragment(ListFilmes, true), "Filmes")
 
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)

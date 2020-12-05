@@ -12,7 +12,7 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Series.Ui.SerieSelectedActivity
 
-class HomeMediaAdapter (private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnHomeMediaClickListener): RecyclerView.Adapter<HomeMediaAdapter.HomeMediasViewHolder>() {
+class HomeMediaAdapter (private var listMedias: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnHomeMediaClickListener, val Movie: Boolean): RecyclerView.Adapter<HomeMediaAdapter.HomeMediasViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,6 +33,7 @@ class HomeMediaAdapter (private var listMedias: ArrayList<com.example.filmapp.Cl
             var bundle = Bundle()
             bundle.putInt("imagem", homeMedia.mediaImage)
             bundle.putString("sinopse", homeMedia.mediaSinopse)
+            bundle.putBoolean("movie?", Movie)
             intent.putExtras(bundle)
             holder.itemView.context.startActivity(intent)
         }

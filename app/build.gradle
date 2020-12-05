@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -67,8 +68,15 @@ dependencies {
     //Texto justificado
     implementation 'me.biubiubiu.justifytext:library:1.1'
 
-
     //Biblioteca usada para implementar o ViewPager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    //Biblioteca usada para implementar o picasso (imagens api)
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //Biblioteca usada para implementar a API
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    compile 'com.google.code.gson:gson:2.6.1'
 
 }
