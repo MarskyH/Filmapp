@@ -40,11 +40,11 @@ class HomeActivity : AppCompatActivity() {
 
         setTabs()
 
-        viewModel.listRes.observe ( this ) {
+        viewModel.listResMovies.observe ( this ) {
             Log.i("Tag HOME", it.toString())
         }
 
-        viewModel.getAllResults()
+        viewModel.getPopularMovies()
     }
 
     //Usado para add o Menu a Toolbar
