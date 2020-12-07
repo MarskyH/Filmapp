@@ -48,9 +48,6 @@ class DescubraListsAdapter(
 
     interface onDescubraItemClickListener {
         fun descubraItemClick(position: Int)
-//        fun assistirMaisTardeIndicationClick(position: Int)
-//        fun evaluationIndicationClick(position: Int)
-//        fun shareIndicationIndicationClick(position: Int)
     }
 
     inner class DescubraListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -59,46 +56,6 @@ class DescubraListsAdapter(
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
         val mediaDetail1: TextView = itemView.findViewById(R.id.tv_mediaDetail1_medialist)
         val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
-
-//        init {
-//            itemView.setOnClickListener {
-//                fun onClick(v: View?) {
-//                    val position = adapterPosition
-//                    if (RecyclerView.NO_POSITION != position) {
-//                        listener.descubraItemClick(position)
-//                    }
-//                }
-//            }
-//
-//            itemView.assistirMaisTardeIndication_medialist.setOnClickListener {
-//                fun onClick(v: View?) {
-//                    val position = adapterPosition
-//                    if (RecyclerView.NO_POSITION != position) {
-//                        listener.assistirMaisTardeIndicationClick(position)
-//                    }
-//                }
-//            }
-//
-//            itemView.evaluationIndication_medialist.setOnClickListener {
-//                fun onClick(v: View?) {
-//                    val position = adapterPosition
-//                    if (RecyclerView.NO_POSITION != position) {
-//                        listener.evaluationIndicationClick(position)
-//                    }
-//                }
-//            }
-//
-//            itemView.shareIndication_medialist.setOnClickListener {
-//                 fun onClick(v: View?) {
-//                    val position = adapterPosition
-//                    if (RecyclerView.NO_POSITION != position) {
-//                        listener.shareIndicationIndicationClick(position)
-//                    }
-//                }
-//            }
-//        }
-//
-//        override fun onClick(v: View?) {
 
         init {
             itemView.setOnClickListener(this)
