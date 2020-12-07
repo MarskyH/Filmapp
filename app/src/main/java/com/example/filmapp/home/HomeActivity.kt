@@ -11,6 +11,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
+import com.example.filmapp.Entities.Movie.BaseMovie
+import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.BaseTv
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import com.example.filmapp.Home.fragments.HomeFragment
 import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
@@ -20,8 +24,8 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
-    private var ListFilmes = ArrayList<Media>()
-    private var ListSeries = ArrayList<Media>()
+    private var ListFilmes = ArrayList<ResultMovie>()
+    private var ListSeries = ArrayList<ResultTv>()
 
     private val viewModel by viewModels<MainViewModel> {
         object : ViewModelProvider.Factory {
@@ -38,13 +42,20 @@ class HomeActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbarHomePage)
 
-        setTabs()
-
-        viewModel.listRes.observe ( this ) {
-            Log.i("Tag HOME", it.toString())
+        viewModel.listResMovies.observe(this) {
+            ListFilmes = it.results
+            Log.i("HomeActivity - filmes",it.toString())
         }
 
-        viewModel.getAllResults()
+        viewModel.listResSeries.observe(this) {
+            ListSeries = it.resultTvs
+            Log.i("HomeActivity - series",it.toString())
+        }
+
+        viewModel.getPopularSeries()
+        viewModel.getPopularMovies()
+
+        setTabs()
     }
 
     //Usado para add o Menu a Toolbar
@@ -55,7 +66,7 @@ class HomeActivity : AppCompatActivity() {
 
     //Usado pra add ações de click aos itens do Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+        return when (item.itemId) {
             R.id.descubra_toolbarMenu -> {
                 callDescubraPage()
                 true
@@ -70,14 +81,15 @@ class HomeActivity : AppCompatActivity() {
     }
 
     //Usado para definir as tabs da Home (Home, Séries e Filmes)
-    private fun setTabs(){
-        setListFilmes()
-        setListSeries()
+    private fun setTabs() {
+
 
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
-        adapter.addFragment(HomeMediaFragment(ListSeries, false),"Séries" )
-        adapter.addFragment(HomeMediaFragment(ListFilmes, true), "Filmes")
+        adapter.addFragment(HomeMediaFragment(ListFilmes, ListSeries, false), "Séries")
+        adapter.addFragment(HomeMediaFragment(ListFilmes, ListSeries, true), "Filmes")
+        Log.i("HomeActivity",ListFilmes.toString())
+        Log.i("HomeActivity",ListSeries.toString())
 
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
@@ -88,38 +100,14 @@ class HomeActivity : AppCompatActivity() {
         tabLayout_HomePage.getTabAt(2)!!.setIcon(R.drawable.ic_claquete_flaticon)
     }
 
-    fun callDescubraPage(){
+    fun callDescubraPage() {
         val intent = Intent(this, DescubraActivity::class.java)
         startActivity(intent)
     }
 
-    fun callConfiguracoesPage(){
+    fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
-    }
-    fun setListSeries(){
-        ListSeries = arrayListOf(
-            Media(1,
-                R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "21/08/12", "Netflix", "4 Temporadas", "Sinopse de The Umbrella Academy"),
-            Media(1,
-                R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "08/08/12", "Amazon", "8 Temporadas", "Sinopse de Fear The Walking Dead"),
-            Media(1,
-                R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "21/09/12", "Netflix", "3 Temporadas", "Sinopse do Flash"),
-            Media(1,
-                R.drawable.the_boys_image01,"The Boys", "Filme", "", "21/08/18", "Amazon", "7 Temporadas", "Sinopse de The boys"),
-            Media(1,
-                R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "Sinopse de Grey Anatomy")
-        )
-    }
-    fun setListFilmes(){
-        ListFilmes = arrayListOf(
-            Media(1,R.drawable.fim,"2012", "Série", "2x08 - O Que Eu Sei", "21/08/12", "Netflix", "4 Temporadas", "Sinopse de 2012"),
-            Media(1,R.drawable.star_born,"Nasce um Estrela", "Filme", "", "08/08/12", "Amazon", "8 Temporadas", "Sinopse de Star"),
-            Media(1,R.drawable.star_wars,"Star Wars: A Ascensão Skywalker", "Série", "2x08 - O Que Eu Sei", "21/09/12", "Netflix", "3 Temporadas", "Sinopse de Star wars"),
-            Media(1,R.drawable.regresso,"O Regresso", "Filme", "", "21/08/18", "Amazon", "7 Temporadas", "Sinopse de O Regresso"),
-            Media(1,R.drawable.animais,"Animais Fantásticos e os Crimes de Grindelwald", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "Sinopse de Animais Fantásticos "),
-            Media(1,R.drawable.ultimato,"Vingadores: Ultimato", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "Sinopse de Vingadores Ultimato")
-        )
     }
 
 }
