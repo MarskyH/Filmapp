@@ -12,11 +12,11 @@ import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Home.DescubraActivity
+import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.ResourcesFragment
 import com.example.filmapp.R
-import com.example.filmapp.Media.Adapters.ViewPagerSerieMedia
 import com.example.filmapp.Media.Models.MediaFragmentViewModel
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
@@ -82,7 +82,7 @@ class MediaSelectedActivity : AppCompatActivity() {
 
 
     private fun setUpTabs() {
-        val adapter = ViewPagerSerieMedia(supportFragmentManager)
+        val adapter = ViewPagerMedia(supportFragmentManager)
         if (type == true) {
             var mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
             val img = mediaSelect?.poster_path

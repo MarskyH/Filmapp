@@ -2,7 +2,7 @@ package com.example.filmapp.Entities.TV
 
 import java.io.Serializable
 
-
+/*Classe para pegar os resultados de filmes, usado junto com a BaseTV*/
 data class ResultTv(
     val id : Int,
     val popularity : Double,

@@ -2,6 +2,7 @@ package com.example.filmapp.Entities.TV
 
 import java.io.Serializable
 
+/*Classe para pegar os detalhes de acordo com um id de uma série, olhar classe service*/
 data class TvDetails(
     val backdrop_path: String,
     val created_by: List<CreatedBy>,

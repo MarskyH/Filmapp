@@ -2,6 +2,7 @@ package com.example.filmapp.Entities.TV
 
 import java.io.Serializable
 
+/*Classe para pegar as imagens de séries*/
 data class ImagesTv(
     val backdrops: List<Backdrop>,
     val id: Int,

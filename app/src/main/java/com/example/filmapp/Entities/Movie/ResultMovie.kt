@@ -2,7 +2,7 @@ package com.example.filmapp.Entities.Movie
 
 import java.io.Serializable
 
-
+/*Classe para pegar os resultados de filmes, usado junto com a BaseMovie*/
 data class ResultMovie(
     val id : Int,
     val popularity : Double,
