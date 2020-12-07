@@ -7,6 +7,7 @@ import com.example.filmapp.Services.Service
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.BaseTv
@@ -24,7 +25,7 @@ class EspecificoFragmentViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             listDetails.value = service.getDetailsSerie(
                 id,
-                "a6baee1eff7d3911f03f59b9b8f43eb",
+                API_KEY,
                 "en-US",
                 1
             )
@@ -34,7 +35,7 @@ class EspecificoFragmentViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             listSimilar.value = service.getSimilarMovies(
                 id,
-                "a6baee1eff7d3911f03f59b9b8f43eb",
+                API_KEY,
                 "en-US",
                 1
             )

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
@@ -29,7 +30,10 @@ class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() 
     var selAcompanhar: Boolean = false
     var progr = 0
     val picasso = Picasso.get()
-    val img = "${poster}".replace("http://","https://")
+
+//    var baseURl = config.images.secure_base_url
+//    var size = config.images.poster_sizes[6]
+//    val img = "${baseURl}${size}${poster}".replace("http://","https://")
 
 
     override fun onCreateView(
@@ -40,7 +44,7 @@ class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
         view.tv_sinopse.text = sinopse
-        picasso.load(img).into(view.img_geral)
+     //   picasso.load(img).into(view.img_geral)
 
         view.progress_circular.setOnClickListener{
             incrCircleBar()

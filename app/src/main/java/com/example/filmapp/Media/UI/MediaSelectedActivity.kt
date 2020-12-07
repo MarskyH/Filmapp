@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Home.DescubraActivity
@@ -30,10 +31,10 @@ class MediaSelectedActivity : AppCompatActivity() {
 
 
 
-    private val viewModel by viewModels<MediaFragmentViewModel> {
+    private val viewModelMediaFragment by viewModels<MediaFragmentViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return MainViewModel(service) as T
+                return MediaFragmentViewModel(service) as T
             }
         }
     }
@@ -84,25 +85,25 @@ class MediaSelectedActivity : AppCompatActivity() {
 
 
     private fun setUpTabs() {
-        var type = intent.getSerializableExtra("movie") as? Boolean
-        Log.i("Movie", type.toString())
+        viewModelMediaFragment.getConfigAPI()
+        var movie = intent.getSerializableExtra("movie") as? Boolean
         val adapter = ViewPagerMedia(supportFragmentManager)
-        if (type == true) {
-            var mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
+        if (movie == true) {
+            val mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
             val img = mediaSelect?.poster_path
             val sinopse = mediaSelect?.overview
             adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(type!!, mediaSelect), "Semelhantes")
-            adapter.addFragment(ResourcesFragment(mediaSelect, type!!), "Mídia")
+            adapter.addFragment(MediaEspecificoFragment(true, mediaSelect), "Semelhantes")
+            adapter.addFragment(ResourcesFragment(mediaSelect, true), "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         } else {
-            var mediaSelect = intent.getSerializableExtra("media") as? ResultTv
+            val mediaSelect = intent.getSerializableExtra("media") as? ResultTv
             val img = mediaSelect?.poster_path
             val sinopse = mediaSelect?.overview
             adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(type!!, mediaSelect), "Temporadas")
-            adapter.addFragment(ResourcesFragment(mediaSelect, type!!), "Mídia")
+            adapter.addFragment(MediaEspecificoFragment(false, mediaSelect), "Temporadas")
+            adapter.addFragment(ResourcesFragment(mediaSelect, false), "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         }

@@ -24,7 +24,8 @@ import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 class HomeMediaFragment(
     val Movie: Boolean
-) : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieClickListener, HomeMediaSerieAdapter.OnHomeMediaSerieClickListener {
+) : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieClickListener,
+    HomeMediaSerieAdapter.OnHomeMediaSerieClickListener {
     private lateinit var MovieAdapter: HomeMediaMovieAdapter
     private lateinit var SerieAdapter: HomeMediaSerieAdapter
     private lateinit var lManager: LinearLayoutManager
@@ -46,7 +47,7 @@ class HomeMediaFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.config.observe(viewLifecycleOwner){
+        viewModel.config.observe(viewLifecycleOwner) {
             config = it
         }
         viewModel.getConfig()
@@ -54,19 +55,16 @@ class HomeMediaFragment(
         if (Movie == true) {
             viewModel.listResMovies.observe(viewLifecycleOwner) {
                 ListMediaMovie = it.results
-                Log.i("HomeActivity - filmes",it.toString())
                 MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
-                Log.i("HomeActivity - filmes", Movie.toString())
                 lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 view.rv_pop.layoutManager = lManager
                 view.rv_pop.adapter = MovieAdapter
                 view.rv_pop.setHasFixedSize(true)
             }
             viewModel.getPopularMovies()
-        }else{
+        } else {
             viewModel.listResSeries.observe(viewLifecycleOwner) {
                 ListMediaSerie = it.results
-                Log.i("HomeActivity - series",it.toString())
                 SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
                 lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                 view.rv_pop.layoutManager = lManager
@@ -79,10 +77,8 @@ class HomeMediaFragment(
     }
 
 
-
-
     override fun homeMediaMovieClick(position: Int) {
-        if (Movie == true){
+        if (Movie == true) {
             val media = ListMediaMovie.get(position)
             MovieAdapter.notifyDataSetChanged()
         }
@@ -90,7 +86,7 @@ class HomeMediaFragment(
     }
 
     override fun homeMediaSerieClick(position: Int) {
-        if (Movie == false){
+        if (Movie == false) {
             val media = ListMediaMovie.get(position)
             MovieAdapter.notifyDataSetChanged()
         }
