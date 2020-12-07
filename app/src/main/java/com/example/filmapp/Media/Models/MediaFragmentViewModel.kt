@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.TV.BaseTv
 import kotlinx.coroutines.launch
 
-class MediaViewModel(val service: Service) : ViewModel() {
+class MediaFragmentViewModel(val service: Service) : ViewModel() {
 
 
     var listRes = MutableLiveData<BaseTv>()

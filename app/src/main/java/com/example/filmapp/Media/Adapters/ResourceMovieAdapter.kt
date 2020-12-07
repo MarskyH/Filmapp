@@ -1,14 +1,18 @@
 package com.example.filmapp.Media.Adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.Movie.ImagesMovie
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 
 
-class MediaAdapter(private var listMedia: ArrayList<com.example.filmapp.Classes.Media>, val listener: OnMideaClickListener): RecyclerView.Adapter<MediaAdapter.MideasViewHolder>() {
+class ResourceMovieAdapter(private var listImagesMovie: ImagesMovie, val listener: OnMideaMovieClickListener): RecyclerView.Adapter<ResourceMovieAdapter.MideasViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -17,17 +21,19 @@ class MediaAdapter(private var listMedia: ArrayList<com.example.filmapp.Classes.
         return MideasViewHolder(itemView)
     }
 
-    override fun getItemCount() = listMedia.size
+    override fun getItemCount() = listImagesMovie.backdrops.size
 
 
     override fun onBindViewHolder(holder: MideasViewHolder, position: Int) {
-       var media = listMedia.get(position)
-        holder.imgMidea.setImageResource(media.mediaImage)
-
+       var movie = listImagesMovie.backdrops.get(position)
+        val picasso = Picasso.get()
+        val pathImg = movie.file_path
+        val img = "${pathImg}".replace("http://","https://")
+        picasso.load(img).into(holder.imgMidea)
     }
 
-    interface OnMideaClickListener{
-         fun mideaClick(position: Int)
+    interface OnMideaMovieClickListener{
+         fun MoviemideaClick(position: Int)
 
     }
 
@@ -41,7 +47,7 @@ class MediaAdapter(private var listMedia: ArrayList<com.example.filmapp.Classes.
         override fun onClick(v: View?){
             val position = adapterPosition
             if(RecyclerView.NO_POSITION != position){
-                listener.mideaClick(position)
+                listener.MoviemideaClick(position)
             }
         }
     }

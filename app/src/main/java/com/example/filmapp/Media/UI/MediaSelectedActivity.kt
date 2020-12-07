@@ -9,13 +9,15 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
+import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
-import com.example.filmapp.Media.Fragments.MediaFragment
+import com.example.filmapp.Media.Fragments.ResourcesFragment
 import com.example.filmapp.R
 import com.example.filmapp.Media.Adapters.ViewPagerSerieMedia
-import com.example.filmapp.Media.Models.MediaViewModel
+import com.example.filmapp.Media.Models.MediaFragmentViewModel
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
 
@@ -24,7 +26,10 @@ import kotlinx.android.synthetic.main.activity_media_selected.*
 
 class MediaSelectedActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<MediaViewModel> {
+    var type = intent.getSerializableExtra("movie") as? Boolean
+
+
+    private val viewModel by viewModels<MediaFragmentViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return MainViewModel(service) as T
@@ -51,7 +56,7 @@ class MediaSelectedActivity : AppCompatActivity() {
 
     //Usado pra add ações de click aos itens do Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+        return when (item.itemId) {
             R.id.descubra_toolbarMenu -> {
                 callDescubraPage()
                 true
@@ -65,38 +70,43 @@ class MediaSelectedActivity : AppCompatActivity() {
         }
     }
 
-    fun callDescubraPage(){
+    fun callDescubraPage() {
         val intent = Intent(this, DescubraActivity::class.java)
         startActivity(intent)
     }
 
-    fun callConfiguracoesPage(){
+    fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
     }
 
 
     private fun setUpTabs() {
-        val bundle = intent.extras
         val adapter = ViewPagerSerieMedia(supportFragmentManager)
-        if (bundle != null) {
-            val img = bundle.getInt("imagem")
-            val sinopse = bundle.getString("sinopse")
-            val movie = bundle.getBoolean("movie?")
+        if (type == true) {
+            var mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
+            val img = mediaSelect?.poster_path
+            val sinopse = mediaSelect?.overview
             adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
-            if (movie == true){
-                adapter.addFragment(MediaEspecificoFragment(movie), "Semelhantes")
-            }else{
-                adapter.addFragment(MediaEspecificoFragment(movie), "Temporadas")
-            }
-            adapter.addFragment(MediaFragment(), "Mídia")
-
+            adapter.addFragment(MediaEspecificoFragment(type!!, mediaSelect), "Semelhantes")
+            adapter.addFragment(ResourcesFragment(mediaSelect, type!!), "Mídia")
+            viewPagerMedias.adapter = adapter
+            tabsMedias.setupWithViewPager(viewPagerMedias)
+        } else {
+            var mediaSelect = intent.getSerializableExtra("media") as? ResultTv
+            val img = mediaSelect?.poster_path
+            val sinopse = mediaSelect?.overview
+            adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
+            adapter.addFragment(MediaEspecificoFragment(type!!, mediaSelect), "Temporadas")
+            adapter.addFragment(ResourcesFragment(mediaSelect, type!!), "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         }
-    }
 
+    }
 }
+
+
 
 
 
