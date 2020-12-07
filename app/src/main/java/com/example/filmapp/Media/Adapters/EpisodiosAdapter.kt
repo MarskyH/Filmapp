@@ -1,19 +1,19 @@
 package com.example.filmapp.Series.Adapter
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.TV.SeasonDetails
 import com.example.filmapp.R
-import com.example.filmapp.Series.Classes.Episodio
 import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
+import com.squareup.picasso.Picasso
 
 
-class EpisodiosAdapter(private var listEpisodios: ArrayList<Episodio>, val listener: OnEpisodioClickListener): RecyclerView.Adapter<EpisodiosAdapter.EpisodiosViewHolder>() {
+class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: OnEpisodioClickListener): RecyclerView.Adapter<EpisodiosAdapter.EpisodiosViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -22,20 +22,22 @@ class EpisodiosAdapter(private var listEpisodios: ArrayList<Episodio>, val liste
         return EpisodiosViewHolder(itemView)
     }
 
-    override fun getItemCount() = listEpisodios.size
+    override fun getItemCount() = listEpisodios.episodes.size
 
 
     override fun onBindViewHolder(holder: EpisodiosViewHolder, position: Int) {
-       var episodio = listEpisodios.get(position)
-
-        holder.tvTitulo.text = episodio.titulo
-        holder.imgEpisodio.setImageResource(episodio.img)
+        val episodio = listEpisodios.episodes.get(position)
+        val picasso = Picasso.get()
+        val pathImg = episodio.still_path
+        val img = "${pathImg}".replace("http://","https://")
+        picasso.load(img).into(holder.imgEpisodio)
+        holder.tvTitulo.text = episodio.name
         holder.imgEpisodio.setOnClickListener {
             val intent = Intent(holder.itemView.context, SerieEpisodioSelectedActivity::class.java)
-            var bundle = Bundle()
-            bundle.putInt("Episodio", episodio.id)
-            bundle.putInt("imagem", episodio.img)
-            intent.putExtras(bundle)
+            intent.putExtra("number_episode", episodio.episode_number)
+            intent.putExtra("sinopse_episode", episodio.overview)
+            intent.putExtra("number_season", episodio.season_number)
+            intent.putExtra("imagem", episodio.still_path)
             holder.itemView.context.startActivity(intent)
         }
 

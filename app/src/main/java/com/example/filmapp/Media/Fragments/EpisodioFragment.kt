@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_series_episodio.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
@@ -22,12 +23,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class EpisodioFragment(val img: Int): Fragment() {
+class EpisodioFragment(val img: String?, val sinopse: String?): Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
     var selcomp: Boolean = false
     var selVisto: Boolean = false
+    val picasso = Picasso.get()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,8 +39,8 @@ class EpisodioFragment(val img: Int): Fragment() {
 
         val view: View = inflater!!.inflate(R.layout.fragment_series_episodio, container, false)
 
-        view.imgEp.setImageResource(img)
-
+        picasso.load(img).into(view.imgEp)
+        view.sinopseEp.text = sinopse
         view.imgTarde.setOnClickListener {
             AlteraIconAssistirMaisTarde()
         }
