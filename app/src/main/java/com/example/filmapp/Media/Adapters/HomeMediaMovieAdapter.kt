@@ -1,22 +1,16 @@
 package com.example.filmapp.Media.Adapters
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.Config
-import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Services.service
 import com.squareup.picasso.Picasso
 
 class HomeMediaMovieAdapter(
@@ -34,9 +28,7 @@ class HomeMediaMovieAdapter(
         return HomeMediasMovieViewHolder(itemView)
     }
 
-
     override fun getItemCount() = listMediaMovie.size
-
 
     override fun onBindViewHolder(holder: HomeMediasMovieViewHolder, position: Int) {
         var homeMovie = listMediaMovie[position]
@@ -49,6 +41,7 @@ class HomeMediaMovieAdapter(
         holder.img.setOnClickListener {
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
             if (homeMovie != null){
+                intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
                 intent.putExtra("media", homeMovie)
                 holder.itemView.context.startActivity(intent)

@@ -22,7 +22,7 @@ class MainViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             listResMovies.value = service.getPopularMovies(
                 "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US",
+                "pt-BR",
                 1
             )
 
@@ -32,7 +32,7 @@ class MainViewModel(val service: Service) : ViewModel() {
             viewModelScope.launch {
                 listResSeries.value = service.getPopularSeries(
                     "4a6baee1eff7d3911f03f59b9b8f43eb",
-                    "en-US",
+                    "pt-BR",
                     1
                 )
 

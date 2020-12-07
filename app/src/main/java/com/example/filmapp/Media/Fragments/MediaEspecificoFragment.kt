@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.ResultTv
@@ -22,19 +23,17 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
 
 
-class MediaEspecificoFragment(
-    val Movie: Boolean,
-    var MediaSelect: Any?
-) : Fragment(),
+class MediaEspecificoFragment (val Movie: Boolean, var MediaSelect: Any?) : Fragment(),
     MediaEspecificoSerieAdapter.OnMediaSerieClickListener,
     MediaEspecificoMovieAdapter.OnMediaMovieClickListener {
     private lateinit var SerieDetails: TvDetails
     private lateinit var listaSemelhantes: SimilarMovies
     lateinit var serieAdapter: MediaEspecificoSerieAdapter
     lateinit var movieAdapter: MediaEspecificoMovieAdapter
+    lateinit var config: Config
 
 
-    private val viewModelFragment by viewModels<EspecificoFragmentViewModel> {
+    private val viewModelEspecificoFragment by viewModels<EspecificoFragmentViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return EspecificoFragmentViewModel(service) as T
@@ -50,26 +49,33 @@ class MediaEspecificoFragment(
         val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
         var idMovie = ((MediaSelect as? ResultMovie)?.id).toString()
         if (Movie == true) {
-            viewModelFragment.listSimilar.observe(viewLifecycleOwner) {
+            viewModelEspecificoFragment.config.observe(viewLifecycleOwner){
+                config = it
+            }
+            viewModelEspecificoFragment.getConfig()
+            viewModelEspecificoFragment.listSimilar.observe(viewLifecycleOwner) {
                 listaSemelhantes = it
-                var adapter = MediaEspecificoMovieAdapter(listaSemelhantes, this, Movie)
+                var adapter = MediaEspecificoMovieAdapter(listaSemelhantes, this, Movie, config)
                 view?.rv_temporada.adapter = adapter
                 view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
                 view?.rv_temporada.setHasFixedSize(true)
             }
-            viewModelFragment.getSimilarMovies(idMovie)
+            viewModelEspecificoFragment.getSimilarMovies(idMovie)
         } else {
-            viewModelFragment.getDetailsSerie((MediaSelect as ResultTv).id.toString())
-            viewModelFragment.listDetails.observe(viewLifecycleOwner) {
+            viewModelEspecificoFragment.config.observe(viewLifecycleOwner){
+                config = it
+            }
+            viewModelEspecificoFragment.getConfig()
+            viewModelEspecificoFragment.getDetailsSerie((MediaSelect as ResultTv).id.toString())
+            viewModelEspecificoFragment.listDetails.observe(viewLifecycleOwner) {
                 SerieDetails = it
-                val adapter = MediaEspecificoSerieAdapter(SerieDetails, this)
+                val adapter = MediaEspecificoSerieAdapter(SerieDetails, this, config)
                 view?.rv_temporada.adapter = adapter
                 view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
                 view?.rv_temporada.setHasFixedSize(true)
             }
         }
         return view
-
     }
 
     override fun SeriemediaClick(position: Int) {
@@ -81,6 +87,4 @@ class MediaEspecificoFragment(
         val movie = listaSemelhantes.results.get(position)
         movieAdapter.notifyItemChanged(position)
     }
-
-
 }

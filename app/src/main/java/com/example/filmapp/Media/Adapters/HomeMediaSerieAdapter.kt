@@ -8,8 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.Config
-import com.example.filmapp.Entities.Movie.BaseMovie
-import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
@@ -27,17 +25,13 @@ class HomeMediaSerieAdapter(
     ): HomeMediasSeriesViewHolder {
         var itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
-
         return HomeMediasSeriesViewHolder(itemView)
     }
 
-
     override fun getItemCount() = listMediaSerie.size
-
 
     override fun onBindViewHolder(holder: HomeMediasSeriesViewHolder, position: Int) {
         var homeSerie = listMediaSerie[position]
-
         var baseURl = config.images.secure_base_url
         var size = config.images.poster_sizes[6]
         val pathImg = homeSerie.poster_path
@@ -47,6 +41,7 @@ class HomeMediaSerieAdapter(
         holder.img.setOnClickListener {
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
             if (homeSerie != null){
+                intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
                 intent.putExtra("media", homeSerie)
                 holder.itemView.context.startActivity(intent)

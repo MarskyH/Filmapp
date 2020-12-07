@@ -41,10 +41,10 @@ class ResourcesFragment(val mediaSelect: Any?, val Movie: Boolean) : Fragment(),
     lateinit var movieAdapter: ResourceSerieAdapter
 
 
-    private val viewModel by viewModels<ResourcesFragmentViewModel> {
+    private val viewModelResourcesFragment by viewModels<ResourcesFragmentViewModel> {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return MainViewModel(service) as T
+                return ResourcesFragmentViewModel(service) as T
             }
         }
     }
@@ -52,8 +52,8 @@ class ResourcesFragment(val mediaSelect: Any?, val Movie: Boolean) : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (Movie == true){
-            viewModel.getImagesMovie((mediaSelect as ResultMovie).id.toString())
-            viewModel.listImagesMovie.observe(viewLifecycleOwner){
+            viewModelResourcesFragment.getImagesMovie((mediaSelect as ResultMovie).id.toString())
+            viewModelResourcesFragment.listImagesMovie.observe(viewLifecycleOwner){
                 MovieImages = it
                 var adapter = ResourceMovieAdapter(MovieImages, this)
                 val view: View = inflater!!.inflate(R.layout.fragment_media_medias, container, false)
@@ -62,8 +62,8 @@ class ResourcesFragment(val mediaSelect: Any?, val Movie: Boolean) : Fragment(),
                 view.rv_medias.setHasFixedSize(true)
             }
         }else{
-            viewModel.getImagesSerie((mediaSelect as ResultTv).id.toString())
-            viewModel.listImagensSerie.observe(viewLifecycleOwner){
+            viewModelResourcesFragment.getImagesSerie((mediaSelect as ResultTv).id.toString())
+            viewModelResourcesFragment.listImagensSerie.observe(viewLifecycleOwner){
                 SerieImages = it
                 var adapter = ResourceSerieAdapter(SerieImages, this)
                 val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)

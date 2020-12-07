@@ -30,15 +30,6 @@ class MediaSelectedActivity : AppCompatActivity() {
 
 
 
-
-    private val viewModelMediaFragment by viewModels<MediaFragmentViewModel> {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return MediaFragmentViewModel(service) as T
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -50,6 +41,30 @@ class MediaSelectedActivity : AppCompatActivity() {
         }
 
         setUpTabs()
+    }
+
+    private fun setUpTabs() {
+        var movie = intent.getSerializableExtra("movie") as? Boolean
+        var poster = intent.getSerializableExtra("poster") as? String
+        val adapter = ViewPagerMedia(supportFragmentManager)
+        if (movie == true) {
+            val mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
+            val sinopse = mediaSelect?.overview
+            adapter.addFragment(GeralMediaFragment(poster, sinopse), "Visão Geral")
+            adapter.addFragment(MediaEspecificoFragment(true, mediaSelect), "Semelhantes")
+            adapter.addFragment(ResourcesFragment(mediaSelect, true), "Mídia")
+            viewPagerMedias.adapter = adapter
+            tabsMedias.setupWithViewPager(viewPagerMedias)
+        } else {
+            val mediaSelect = intent.getSerializableExtra("media") as? ResultTv
+            val sinopse = mediaSelect?.overview
+            adapter.addFragment(GeralMediaFragment(poster, sinopse), "Visão Geral")
+            adapter.addFragment(MediaEspecificoFragment(false, mediaSelect), "Temporadas")
+            adapter.addFragment(ResourcesFragment(mediaSelect, false), "Mídia")
+            viewPagerMedias.adapter = adapter
+            tabsMedias.setupWithViewPager(viewPagerMedias)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -81,33 +96,6 @@ class MediaSelectedActivity : AppCompatActivity() {
     fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
-    }
-
-
-    private fun setUpTabs() {
-        viewModelMediaFragment.getConfigAPI()
-        var movie = intent.getSerializableExtra("movie") as? Boolean
-        val adapter = ViewPagerMedia(supportFragmentManager)
-        if (movie == true) {
-            val mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
-            val img = mediaSelect?.poster_path
-            val sinopse = mediaSelect?.overview
-            adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(true, mediaSelect), "Semelhantes")
-            adapter.addFragment(ResourcesFragment(mediaSelect, true), "Mídia")
-            viewPagerMedias.adapter = adapter
-            tabsMedias.setupWithViewPager(viewPagerMedias)
-        } else {
-            val mediaSelect = intent.getSerializableExtra("media") as? ResultTv
-            val img = mediaSelect?.poster_path
-            val sinopse = mediaSelect?.overview
-            adapter.addFragment(GeralMediaFragment(img, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(false, mediaSelect), "Temporadas")
-            adapter.addFragment(ResourcesFragment(mediaSelect, false), "Mídia")
-            viewPagerMedias.adapter = adapter
-            tabsMedias.setupWithViewPager(viewPagerMedias)
-        }
-
     }
 }
 

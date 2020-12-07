@@ -22,9 +22,7 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 
-class HomeMediaFragment(
-    val Movie: Boolean
-) : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieClickListener,
+class HomeMediaFragment(val Movie: Boolean) : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieClickListener,
     HomeMediaSerieAdapter.OnHomeMediaSerieClickListener {
     private lateinit var MovieAdapter: HomeMediaMovieAdapter
     private lateinit var SerieAdapter: HomeMediaSerieAdapter
@@ -47,12 +45,14 @@ class HomeMediaFragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.config.observe(viewLifecycleOwner) {
-            config = it
-        }
-        viewModel.getConfig()
+
+
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
         if (Movie == true) {
+            viewModel.config.observe(viewLifecycleOwner) {
+                config = it
+            }
+            viewModel.getConfig()
             viewModel.listResMovies.observe(viewLifecycleOwner) {
                 ListMediaMovie = it.results
                 MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
@@ -63,6 +63,10 @@ class HomeMediaFragment(
             }
             viewModel.getPopularMovies()
         } else {
+            viewModel.config.observe(viewLifecycleOwner) {
+                config = it
+            }
+            viewModel.getConfig()
             viewModel.listResSeries.observe(viewLifecycleOwner) {
                 ListMediaSerie = it.results
                 SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
@@ -75,7 +79,6 @@ class HomeMediaFragment(
         }
         return view
     }
-
 
     override fun homeMediaMovieClick(position: Int) {
         if (Movie == true) {
@@ -91,6 +94,8 @@ class HomeMediaFragment(
             MovieAdapter.notifyDataSetChanged()
         }
     }
+
+
 
 
 }

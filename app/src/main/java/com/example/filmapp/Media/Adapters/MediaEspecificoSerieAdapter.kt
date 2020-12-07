@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
@@ -17,7 +18,8 @@ import com.squareup.picasso.Picasso
 
 class MediaEspecificoSerieAdapter(
     private var listMediaEspecifico: TvDetails,
-    val listener: OnMediaSerieClickListener
+    val listener: OnMediaSerieClickListener,
+    val config: Config
 ) : RecyclerView.Adapter<MediaEspecificoSerieAdapter.MediasViewHolder>() {
 
 
@@ -38,8 +40,10 @@ class MediaEspecificoSerieAdapter(
         val season = listMediaEspecifico.seasons[position]
         holder.tvMediaEspecifica.text = "Temporada ${season.season_number}"
         val picasso = Picasso.get()
+        var baseURl = config.images.secure_base_url
+        var size = config.images.poster_sizes[6]
         val pathImg = serie.poster_path
-        val img = "${pathImg}".replace("http://", "https://")
+        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.imgMediaEspecica)
         holder.imgMediaEspecica.setOnClickListener {
             val intent = Intent(holder.itemView.context, SerieTemporadaActivity::class.java)

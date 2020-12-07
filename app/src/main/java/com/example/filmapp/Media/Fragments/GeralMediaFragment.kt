@@ -31,9 +31,6 @@ class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() 
     var progr = 0
     val picasso = Picasso.get()
 
-//    var baseURl = config.images.secure_base_url
-//    var size = config.images.poster_sizes[6]
-//    val img = "${baseURl}${size}${poster}".replace("http://","https://")
 
 
     override fun onCreateView(
@@ -44,7 +41,7 @@ class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
         view.tv_sinopse.text = sinopse
-     //   picasso.load(img).into(view.img_geral)
+      picasso.load(poster).into(view.img_geral)
 
         view.progress_circular.setOnClickListener{
             incrCircleBar()

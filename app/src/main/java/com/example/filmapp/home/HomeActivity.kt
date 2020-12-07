@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Classes.Media
@@ -61,8 +62,8 @@ class HomeActivity : AppCompatActivity() {
 
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
-        adapter.addFragment(HomeMediaFragment( false), "Séries")
-        adapter.addFragment(HomeMediaFragment( true), "Filmes")
+        adapter.addFragment(HomeMediaFragment(false), "Séries")
+        adapter.addFragment(HomeMediaFragment(true), "Filmes")
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
 
