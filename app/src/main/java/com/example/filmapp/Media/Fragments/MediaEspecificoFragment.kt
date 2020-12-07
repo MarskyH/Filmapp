@@ -24,13 +24,13 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
 
 
-class MediaEspecificoFragment(val Movie: Boolean, var MediaSelect: Any?):
+class MediaEspecificoFragment(val Movie: Boolean, var MediaSelect: Any?) :
     Fragment(),
     MediaEspecificoSerieAdapter.OnMediaSerieClickListener,
     MediaEspecificoMovieAdapter.OnMediaMovieClickListener {
     private lateinit var SerieDetails: TvDetails
     private lateinit var listaSemelhantes: SimilarMovies
-    lateinit var serieAdapter : MediaEspecificoSerieAdapter
+    lateinit var serieAdapter: MediaEspecificoSerieAdapter
     lateinit var movieAdapter: MediaEspecificoMovieAdapter
 
     private val viewModel by viewModels<EspecificoFragmentViewModel> {
@@ -41,32 +41,35 @@ class MediaEspecificoFragment(val Movie: Boolean, var MediaSelect: Any?):
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (Movie == true){
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if (Movie == true) {
+            val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
             viewModel.getSimilarMovies((MediaSelect as ResultMovie).id.toString())
-            viewModel.listSimilar.observe(viewLifecycleOwner){
+            viewModel.listSimilar.observe(viewLifecycleOwner) {
                 listaSemelhantes = it
                 var adapter = MediaEspecificoMovieAdapter(listaSemelhantes, this, Movie)
-                val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
                 view.rv_temporada.adapter = adapter
-                view.rv_temporada.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+                view.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
                 view.rv_temporada.setHasFixedSize(true)
             }
-        }else{
+        } else {
+            val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
             viewModel.getDetailsSerie((MediaSelect as ResultTv).id.toString())
-            viewModel.listDetails.observe(viewLifecycleOwner){
+            viewModel.listDetails.observe(viewLifecycleOwner) {
                 SerieDetails = it
-                var adapter = MediaEspecificoSerieAdapter(SerieDetails, this)
-                val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
+                val adapter = MediaEspecificoSerieAdapter(SerieDetails, this)
                 view.rv_temporada.adapter = adapter
-                view.rv_temporada.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+                view.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
                 view.rv_temporada.setHasFixedSize(true)
             }
         }
-        return  view
+        return view
 
     }
-
 
     override fun SeriemediaClick(position: Int) {
         val serie = SerieDetails.seasons.get(position)
@@ -75,7 +78,7 @@ class MediaEspecificoFragment(val Movie: Boolean, var MediaSelect: Any?):
 
     override fun MoviemediaClick(position: Int) {
         val movie = listaSemelhantes.results.get(position)
-        serieAdapter.notifyItemChanged(position)
+        movieAdapter.notifyItemChanged(position)
     }
 
 

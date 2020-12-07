@@ -1,6 +1,7 @@
 package com.example.filmapp.Services
 
 
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
@@ -77,6 +78,13 @@ interface Service {
         @Query("api_key") key: String,
         @Query("language") language: String,
     ): SeasonDetails
+
+    //Segundo a API, isso configura a parte de imagens da API
+    @GET("configuration")
+    suspend fun getApiConfig(
+        @Query("api_key") key: String,
+    ): Config
+
 }
 
 

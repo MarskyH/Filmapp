@@ -24,36 +24,12 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
-    private var ListFilmes = ArrayList<ResultMovie>()
-    private var ListSeries = ArrayList<ResultTv>()
-
-    private val viewModel by viewModels<MainViewModel> {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return MainViewModel(service) as T
-            }
-        }
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         setSupportActionBar(toolbarHomePage)
-
-        viewModel.listResMovies.observe(this) {
-            ListFilmes = it.results
-            Log.i("HomeActivity - filmes",it.toString())
-        }
-
-        viewModel.listResSeries.observe(this) {
-            ListSeries = it.resultTvs
-            Log.i("HomeActivity - series",it.toString())
-        }
-
-        viewModel.getPopularSeries()
-        viewModel.getPopularMovies()
 
         setTabs()
     }
@@ -83,14 +59,10 @@ class HomeActivity : AppCompatActivity() {
     //Usado para definir as tabs da Home (Home, Séries e Filmes)
     private fun setTabs() {
 
-
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
-        adapter.addFragment(HomeMediaFragment(ListFilmes, ListSeries, false), "Séries")
-        adapter.addFragment(HomeMediaFragment(ListFilmes, ListSeries, true), "Filmes")
-        Log.i("HomeActivity",ListFilmes.toString())
-        Log.i("HomeActivity",ListSeries.toString())
-
+        adapter.addFragment(HomeMediaFragment( false), "Séries")
+        adapter.addFragment(HomeMediaFragment( true), "Filmes")
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
 

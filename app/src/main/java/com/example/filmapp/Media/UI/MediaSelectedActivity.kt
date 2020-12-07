@@ -3,6 +3,7 @@ package com.example.filmapp.Media.UI
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_media_selected.*
 
 class MediaSelectedActivity : AppCompatActivity() {
 
-    var type = intent.getSerializableExtra("movie") as? Boolean
+
 
 
     private val viewModel by viewModels<MediaFragmentViewModel> {
@@ -38,6 +39,7 @@ class MediaSelectedActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media_selected)
         setSupportActionBar(toolbarMediasSelected)
@@ -82,6 +84,8 @@ class MediaSelectedActivity : AppCompatActivity() {
 
 
     private fun setUpTabs() {
+        var type = intent.getSerializableExtra("movie") as? Boolean
+        Log.i("Movie", type.toString())
         val adapter = ViewPagerMedia(supportFragmentManager)
         if (type == true) {
             var mediaSelect = intent.getSerializableExtra("media") as? ResultMovie

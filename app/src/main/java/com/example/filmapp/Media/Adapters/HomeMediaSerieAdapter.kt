@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
@@ -17,8 +18,8 @@ import com.squareup.picasso.Picasso
 class HomeMediaSerieAdapter(
     private var listMediaSerie: ArrayList<ResultTv>,
     val listener: OnHomeMediaSerieClickListener,
-    val Movie: Boolean) : RecyclerView.Adapter<HomeMediaSerieAdapter.HomeMediasSeriesViewHolder>() {
-
+    val Movie: Boolean, var config: Config) : RecyclerView.Adapter<HomeMediaSerieAdapter.HomeMediasSeriesViewHolder>() {
+    val picasso = Picasso.get()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -36,14 +37,17 @@ class HomeMediaSerieAdapter(
 
     override fun onBindViewHolder(holder: HomeMediasSeriesViewHolder, position: Int) {
         var homeSerie = listMediaSerie[position]
-        holder.titulo.text = homeSerie.name
-        val picasso = Picasso.get()
+
+        var baseURl = config.images.secure_base_url
+        var size = config.images.poster_sizes[6]
         val pathImg = homeSerie.poster_path
-        val img = "${pathImg}".replace("http://","https://")
+        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.img)
+        holder.titulo.text = homeSerie.name
         holder.img.setOnClickListener {
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
             if (homeSerie != null){
+                intent.putExtra("movie", Movie)
                 intent.putExtra("media", homeSerie)
                 holder.itemView.context.startActivity(intent)
             }
