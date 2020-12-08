@@ -8,13 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Ajuda
 import com.example.filmapp.R
 
-class AjudaAdapter(private val ajudaList: ArrayList<Ajuda>, val listener: onAjudaItemClickListener): RecyclerView.Adapter<AjudaAdapter.AjudaViewHolder>() {
+class AjudaAdapter(
+    val listener: onAjudaItemClickListener
+) : RecyclerView.Adapter<AjudaAdapter.AjudaViewHolder>() {
+
+    var ajudaList = arrayListOf<Ajuda>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): AjudaAdapter.AjudaViewHolder {
-        val itemView=
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_ajudalists, parent, false)
         return AjudaViewHolder(itemView)
     }
@@ -33,11 +37,12 @@ class AjudaAdapter(private val ajudaList: ArrayList<Ajuda>, val listener: onAjud
         return ajudaList.size
     }
 
-    interface onAjudaItemClickListener{
+    interface onAjudaItemClickListener {
         fun ajudaItemClick(position: Int)
     }
 
-    inner class AjudaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class AjudaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val titleAjuda: TextView = itemView.findViewById(R.id.tv_titleAjuda)
 
         init {
@@ -51,4 +56,10 @@ class AjudaAdapter(private val ajudaList: ArrayList<Ajuda>, val listener: onAjud
             }
         }
     }
+
+    fun addList(list: ArrayList<Ajuda>) {
+        ajudaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

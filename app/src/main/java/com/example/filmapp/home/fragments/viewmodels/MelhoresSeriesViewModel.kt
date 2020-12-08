@@ -3,22 +3,23 @@ package com.example.filmapp.home.fragments.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.filmapp.Entities.Movie.BaseMovie
-import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.BaseTv
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
 import kotlinx.coroutines.launch
 
-class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
+class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
 
-    var returnTopMoviesAPI = MutableLiveData<BaseMovie>()
+    var returnTopSeriesAPI = MutableLiveData<BaseTv>()
 
-    fun getTopMoviesList(){
+    fun getTopSeriesList(){
         viewModelScope.launch {
-            returnTopMoviesAPI.value = service.getTopMovies(
+            returnTopSeriesAPI.value = service.getTopSeries(
                 "a6baee1eff7d3911f03f59b9b8f43eb",
                 "en-US"
             )
 
         }
     }
+
 }

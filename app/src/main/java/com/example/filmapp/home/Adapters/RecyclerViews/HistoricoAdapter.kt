@@ -7,15 +7,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 
-class HistoricoAdapter(private val mediaList: ArrayList<Media>, val listener: onHistoricoItemClickListener): RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
+class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
+    RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
+
+    var mediaList = arrayListOf<ResultTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): HistoricoAdapter.HistoricoViewHolder {
-        val itemView=
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_historicolist, parent, false)
         return HistoricoViewHolder(itemView)
     }
@@ -24,13 +28,13 @@ class HistoricoAdapter(private val mediaList: ArrayList<Media>, val listener: on
         holder: HistoricoAdapter.HistoricoViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: ResultTv = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.serieEpisode.setText(currentItem.serieEpisode)
+        holder.mediaName.setText(currentItem.name)
+//        holder.serieEpisode.setText(currentItem.serieEpisode)
         holder.mediaPreviewDate.text = "25/10/2020 - 23:32"
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
-        holder.mediaType.setText(currentItem.mediaType)
+//        holder.mediaImage.setImageResource(currentItem.mediaImage)
+//        holder.mediaType.setText(currentItem.mediaType)
 
     }
 
@@ -38,16 +42,18 @@ class HistoricoAdapter(private val mediaList: ArrayList<Media>, val listener: on
         return mediaList.size
     }
 
-    interface onHistoricoItemClickListener{
+    interface onHistoricoItemClickListener {
         fun historicoItemClick(position: Int)
     }
 
-    inner class HistoricoViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class HistoricoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_historicoItem)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_historicoItem)
         val serieEpisode: TextView = itemView.findViewById(R.id.tv_serieEpisode_historicoItem)
         val mediaType: TextView = itemView.findViewById(R.id.tv_mediaType_historicoItem)
-        val mediaPreviewDate: TextView = itemView.findViewById(R.id.tv_mediaPreviewDate_historicoItem)
+        val mediaPreviewDate: TextView =
+            itemView.findViewById(R.id.tv_mediaPreviewDate_historicoItem)
 
         init {
             itemView.setOnClickListener(this)
@@ -59,7 +65,10 @@ class HistoricoAdapter(private val mediaList: ArrayList<Media>, val listener: on
                 listener.historicoItemClick(position)
             }
         }
+    }
 
-
+    fun addList(list: ArrayList<ResultTv>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
     }
 }

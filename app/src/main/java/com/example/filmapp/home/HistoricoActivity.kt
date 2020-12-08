@@ -5,27 +5,51 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
+import com.example.filmapp.Home.Adapters.RecyclerViews.AcompanhandoAdapter
 import com.example.filmapp.Home.Adapters.RecyclerViews.HistoricoAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
+import com.example.filmapp.Services.service
+import com.example.filmapp.home.activitys.viewmodels.AcompanhandoViewModel
+import com.example.filmapp.home.activitys.viewmodels.HistoricoViewModel
+import kotlinx.android.synthetic.main.activity_acompanhando.*
 import kotlinx.android.synthetic.main.activity_historico.*
 
 class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemClickListener {
-    private val mediaList = getMediaList()
-    private val adapter = HistoricoAdapter(mediaList, this)
+
+    private lateinit var mediaListAdapter: HistoricoAdapter
+    private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
+
+    val viewModel by viewModels<HistoricoViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return HistoricoViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historico)
 
         //Iniciando o ReciclerView Histórico
-        rv_historicoList.adapter = adapter
-        rv_historicoList.layoutManager = LinearLayoutManager(this)
+        mediaListLayoutManager = LinearLayoutManager(this)
+        mediaListAdapter = HistoricoAdapter(this)
+        rv_historicoList.layoutManager = mediaListLayoutManager
+        rv_historicoList.adapter = mediaListAdapter
         rv_historicoList.isHorizontalFadingEdgeEnabled
         rv_historicoList.setHasFixedSize(true)
+
+//        viewModel.returnUserHistoricoAPI.observe(this){
+//            mediaListAdapter.addList(it)
+//        }
 
         setSupportActionBar(toolbarHistoricoPage)
 
@@ -61,16 +85,6 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         startActivity(intent)
     }
 
-    fun getMediaList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "21/08/12", "Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "08/08/12", "Amazon", "8 Temporadas", "2 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "21/09/12", "Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "21/08/18", "Amazon", "7 Temporadas", "87 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "75/08/12", "Netflix", "1 Temporadas", "10 Episodeos")
-        )
-    }
-
     fun callDescubraPage(){
         val intent = Intent(this, DescubraActivity::class.java)
         startActivity(intent)
@@ -82,7 +96,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
     }
 
     override fun historicoItemClick(position: Int) {
-        val media = mediaList.get(position)
+//        val media = mediaList.get(position)
 
         val intent = Intent(this, MediaSelectedActivity::class.java)
         startActivity(intent)

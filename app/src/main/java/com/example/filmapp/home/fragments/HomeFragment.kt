@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.R
 import com.example.filmapp.Home.*
+import com.example.filmapp.Services.service
 import com.example.filmapp.home.fragments.viewmodels.AjudaDetailsViewModel
 import com.example.filmapp.home.fragments.viewmodels.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -20,7 +21,7 @@ class HomeFragment : Fragment() {
     val viewModel by viewModels<HomeFragmentViewModel>{
         object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HomeFragmentViewModel() as T
+                return HomeFragmentViewModel(service) as T
             }
         }
     }

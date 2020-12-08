@@ -1,6 +1,7 @@
 package com.example.filmapp.home.fragments.viewmodels
 
 import androidx.lifecycle.ViewModel
+import com.example.filmapp.Services.Service
 
-class HomeFragmentViewModel() : ViewModel() {
+class HomeFragmentViewModel(val service: Service) : ViewModel() {
 }

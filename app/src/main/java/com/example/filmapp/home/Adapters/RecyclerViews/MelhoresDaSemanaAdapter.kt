@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>, val listener: onMelhoresDaSemanaItemClickListener): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+
+    var mediaList = arrayListOf<>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -53,4 +55,10 @@ class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>, val liste
             }
         }
     }
+
+    fun addList(list: ArrayList<>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

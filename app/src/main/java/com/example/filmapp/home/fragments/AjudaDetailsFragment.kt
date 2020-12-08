@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.R
+import com.example.filmapp.Services.service
 import com.example.filmapp.home.fragments.viewmodels.AjudaDetailsViewModel
 
 class AjudaDetailsFragment : Fragment() {
@@ -15,7 +16,7 @@ class AjudaDetailsFragment : Fragment() {
     val viewModel by viewModels<AjudaDetailsViewModel>{
         object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return AjudaDetailsViewModel() as T
+                return AjudaDetailsViewModel(service) as T
             }
         }
     }

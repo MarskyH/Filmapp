@@ -72,11 +72,11 @@
 
             </LinearLayout>
 
-<!--            Serie:  mediaDetail1 = N° Temporadas-->
-<!--                    mediaDetail2 = N° Episódios-->
+<!--            Serie:  mediaDetail1 = First Air Date-->
+<!--                    mediaDetail2 = Linguagem Original-->
 
-<!--            Filme:  mediaDetail1 = Duração-->
-<!--                    mediaDetail2 = Genero-->
+<!--            Filme:  mediaDetail1 = Data de Lançamento-->
+<!--                    mediaDetail2 = Linguagem Original-->
 
             <TextView
                 android:id="@+id/tv_mediaDetail1_medialist"

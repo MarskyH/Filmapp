@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>, val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
+class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
+
+    var mediaList = arrayListOf<>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -54,4 +56,10 @@ class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>, val listene
         }
 
     }
+
+    fun addList(list: ArrayList<>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

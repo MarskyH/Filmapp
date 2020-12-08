@@ -9,13 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>, val listener: onAssistirMaisTardeItemClickListener): RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
+class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListener) :
+    RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
+
+    var mediaList = arrayListOf<>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder {
-        val itemView=
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return AssistirMaisTardeViewHolder(itemView)
     }
@@ -34,11 +37,12 @@ class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>, val list
         return mediaList.size
     }
 
-    interface onAssistirMaisTardeItemClickListener{
+    interface onAssistirMaisTardeItemClickListener {
         fun assistirMaisTardeItemClick(position: Int)
     }
 
-    inner class AssistirMaisTardeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class AssistirMaisTardeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
@@ -53,4 +57,10 @@ class AssistirMaisTardeAdapter(private val mediaList: ArrayList<Media>, val list
             }
         }
     }
+
+    fun addList(list: ArrayList<>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

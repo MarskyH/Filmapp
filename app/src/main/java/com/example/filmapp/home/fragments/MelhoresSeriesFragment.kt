@@ -6,16 +6,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
+import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraTVAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
+import com.example.filmapp.Services.service
+import com.example.filmapp.home.fragments.viewmodels.MelhoresFilmesViewModel
+import com.example.filmapp.home.fragments.viewmodels.MelhoresSeriesViewModel
+import kotlinx.android.synthetic.main.fragment_melhores_filmes.view.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
 
-class MelhoresSeriesFragment : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
-    private val mediaList = getMediaList()
-    private val adapter = DescubraListsAdapter(mediaList, this)
+class MelhoresSeriesFragment : Fragment(), DescubraTVAdapter.onDescubraTVClickListener {
+
+    private lateinit var melhoresSeriesAdapter: DescubraTVAdapter
+    private lateinit var melhoresSeriesLayoutManager: RecyclerView.LayoutManager
+
+    val viewModel by viewModels<MelhoresSeriesViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return MelhoresSeriesViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +45,18 @@ class MelhoresSeriesFragment : Fragment(), DescubraListsAdapter.onDescubraItemCl
     ): View? {
         val view = inflater.inflate(R.layout.fragment_melhores_series, container, false)
 
-        //Iniciando o ReciclerView Séries
-        view.rc_melhoresSeriesList.adapter = adapter
-        view.rc_melhoresSeriesList.layoutManager = LinearLayoutManager(context)
+        //Iniciando o ReciclerView de Melhores Séries
+        melhoresSeriesLayoutManager = LinearLayoutManager(context)
+        melhoresSeriesAdapter = DescubraTVAdapter(this)
+        view.rc_melhoresSeriesList.layoutManager = melhoresSeriesLayoutManager
+        view.rc_melhoresSeriesList.adapter = melhoresSeriesAdapter
         view.rc_melhoresSeriesList.isHorizontalFadingEdgeEnabled
         view.rc_melhoresSeriesList.setHasFixedSize(true)
+
+        viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            melhoresSeriesAdapter.addList(mediaList)
+        }
 
         return view
     }
@@ -45,22 +70,13 @@ class MelhoresSeriesFragment : Fragment(), DescubraListsAdapter.onDescubraItemCl
     }
 
     override fun descubraItemClick(position: Int) {
-        val serie = mediaList.get(position)
+        viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            val serie = mediaList.get(position)
 
-        val intent = Intent(context, MediaSelectedActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            startActivity(intent)
+        }
     }
-
-//    override fun assistirMaisTardeIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou no Assistir Mais Tarde", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun evaluationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou na Avaliação", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun shareIndicationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou em Compartilhar", Toast.LENGTH_SHORT).show()
-//    }
 
 }

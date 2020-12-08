@@ -6,19 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Ajuda
 import com.example.filmapp.Home.Adapters.RecyclerViews.AjudaAdapter
 import com.example.filmapp.Home.AjudaActivity
 import com.example.filmapp.Home.fragments.AjudaDetailsFragment
 import com.example.filmapp.R
+import com.example.filmapp.Services.service
+import com.example.filmapp.home.FragRecyclers.viewmodels.DuvidasViewModel
 import kotlinx.android.synthetic.main.activity_ajuda.*
 import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.view.*
 import kotlinx.android.synthetic.main.fragrecycler_novidadeslist.view.*
 
 class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickListener {
-    private val novidadesList = getNovidadesList()
-    private val novidadesList_adapter = AjudaAdapter(novidadesList, this)
+
+    private lateinit var novidadesListAdapter: AjudaAdapter
+    private lateinit var novidadesListLayoutManager: RecyclerView.LayoutManager
+
+    val viewModel by viewModels<DuvidasViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return DuvidasViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +47,16 @@ class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickList
         var view = inflater.inflate(R.layout.fragrecycler_novidadeslist, container, false)
 
         //Iniciando o ReciclerView Dúvidas Frequentes
-        view.rc_novidades.adapter = novidadesList_adapter
-        view.rc_novidades.layoutManager = LinearLayoutManager(context)
+        novidadesListLayoutManager = LinearLayoutManager(context)
+        novidadesListAdapter = AjudaAdapter()
+        view.rc_novidades.layoutManager = novidadesListLayoutManager
+        view.rc_novidades.adapter = novidadesListAdapter
         view.rc_novidades.isHorizontalFadingEdgeEnabled
         view.rc_novidades.setHasFixedSize(true)
+
+        viewModel.returnNovidades.observe(this){
+            novidadesListAdapter.addList(it)
+        }
 
         return view
     }

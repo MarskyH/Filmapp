@@ -10,33 +10,35 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import kotlinx.android.synthetic.main.item_medialist.view.*
 
-class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
-    RecyclerView.Adapter<DescubraListsAdapter.DescubraListsViewHolder>() {
+class DescubraTVAdapter(val listener: onDescubraTVClickListener) :
+    RecyclerView.Adapter<DescubraTVAdapter.DescubraListsViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<ResultTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DescubraListsAdapter.DescubraListsViewHolder {
+    ): DescubraTVAdapter.DescubraListsViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
         return DescubraListsViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: DescubraListsAdapter.DescubraListsViewHolder,
+        holder: DescubraTVAdapter.DescubraListsViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: ResultTv = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaDetail1.setText(currentItem.mediaDetail1)
-        holder.mediaDetail2.setText(currentItem.mediaSinopse)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.setText(currentItem.name)
+        holder.mediaDetail1.setText(currentItem.first_air_date)
+        holder.mediaDetail2.setText(currentItem.original_language)
+
+//        holder.mediaImage.setImageResource(currentItem.mediaImage)
 
         holder.mediaName.setOnClickListener {
         }
@@ -47,7 +49,7 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
         return mediaList.size
     }
 
-    interface onDescubraItemClickListener {
+    interface onDescubraTVClickListener {
         fun descubraItemClick(position: Int)
     }
 
@@ -71,7 +73,7 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
 
     }
 
-    fun addList(list: ArrayList<>) {
+    fun addList(list: ArrayList<ResultTv>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }

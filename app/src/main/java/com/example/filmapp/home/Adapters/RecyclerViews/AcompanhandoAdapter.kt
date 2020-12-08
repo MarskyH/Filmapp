@@ -7,12 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 
-class AcompanhandoAdapter(
-    private val mediaList: ArrayList<Media>,
-    val listener: onAcompanhandoItemClickListener
+class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
 ) : RecyclerView.Adapter<AcompanhandoAdapter.AcompanhandoViewHolder>() {
+
+    var mediaList = arrayListOf<ResultTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,12 +29,12 @@ class AcompanhandoAdapter(
         holder: AcompanhandoAdapter.AcompanhandoViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: ResultTv = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.serieEpisode.setText(currentItem.serieEpisode)
+        holder.mediaName.setText(currentItem.name)
+//        holder.serieEpisode.setText(currentItem.serieEpisode)
         holder.serieProgress.text = "89%"
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+//        holder.mediaImage.setImageResource(currentItem.mediaImage)
     }
 
     override fun getItemCount(): Int {
@@ -62,4 +63,10 @@ class AcompanhandoAdapter(
             }
         }
     }
+
+    fun addList(list: ArrayList<ResultTv>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

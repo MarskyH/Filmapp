@@ -62,6 +62,30 @@ interface Service {
         @Query("language") language: String,
     ): ImagesTv
 
+    //PACOTE HOME
+
+    //Retorna os melhores filmes (Classificação)
+    @GET("movie/top_rated")
+    suspend fun getTopMovies(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseMovie
+
+    //Retorna as melhores séries (Classificação)
+    @GET("tv/top_rated")
+    suspend fun getTopSeries(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseTv
+
+    //Retorna a lista de TvShows que o usuário está acompanhando
+    @GET("account/{account_id}/favorite/tv")
+    suspend fun getAcompanhandoList(
+        @Path("account_id") id: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+    ): BaseTv
+
 
 }
 
