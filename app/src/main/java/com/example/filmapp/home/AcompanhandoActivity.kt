@@ -7,8 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.Adapters.RecyclerViews.AcompanhandoAdapter
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import kotlinx.android.synthetic.main.activity_acompanhando.*
@@ -82,7 +83,9 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
     override fun AcompanhandoItemClick(position: Int) {
         val serie = mediaList.get(position)
 
-        val intent = Intent(this, SerieTemporadaActivity::class.java)
+
+
+        val intent = Intent(this, MediaSelectedActivity::class.java)
         startActivity(intent)
     }
 }

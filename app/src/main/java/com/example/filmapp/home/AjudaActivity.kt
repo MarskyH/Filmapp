@@ -5,14 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmapp.Classes.Ajuda
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
-import com.example.filmapp.Home.Adapters.RecyclerViews.AjudaAdapter
+
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_duvidasList
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_novidadesList
-import com.example.filmapp.Home.fragments.AjudaDetailsFragment
 import com.example.filmapp.R
 import kotlinx.android.synthetic.main.activity_ajuda.*
 

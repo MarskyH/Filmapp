@@ -2,20 +2,17 @@ package com.example.filmapp.Home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils.replace
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmapp.Classes.Ajuda
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.*
-import com.example.filmapp.Home.AjudaActivity
-import com.example.filmapp.Home.fragments.AjudaDetailsFragment
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Ui.SerieSelectedActivity
 import kotlinx.android.synthetic.main.activity_ajuda.*
 import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.view.*
 import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.view.*
@@ -63,7 +60,8 @@ class FragRecycler_asssistirMaisTarde : Fragment(), AssistirMaisTardeAdapter.onA
     override fun assistirMaisTardeItemClick(position: Int) {
         val media = mediaList.get(position)
 
-        val intent = Intent(context, SerieSelectedActivity::class.java)
+
+        val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)
     }
 
