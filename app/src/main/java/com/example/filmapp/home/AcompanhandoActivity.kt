@@ -43,10 +43,10 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         rv_acompanhandoList.isHorizontalFadingEdgeEnabled
         rv_acompanhandoList.setHasFixedSize(true)
 
-        viewModel.returnUserAcompanhandoListAPI.observe(this){
-            var mediaList = it.results
-            mediaListAdapter.addList(mediaList)
-        }
+//        viewModel.returnUserAcompanhandoListAPI.observe(this){
+//            var mediaList = it.results
+//            mediaListAdapter.addList(mediaList)
+//        }
 
         setSupportActionBar(toolbarAcompanhandoPage)
 
@@ -93,12 +93,12 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
     }
 
     override fun AcompanhandoItemClick(position: Int) {
-        viewModel.returnUserAcompanhandoListAPI.observe(this){
-            var mediaList = it.results
-            val serie = mediaList.get(position)
-
-            val intent = Intent(this, MediaSelectedActivity::class.java)
-            startActivity(intent)
-        }
+//        viewModel.returnUserAcompanhandoListAPI.observe(this){
+//            var mediaList = it.results
+//            val serie = mediaList.get(position)
+//
+//            val intent = Intent(this, MediaSelectedActivity::class.java)
+//            startActivity(intent)
+//        }
     }
 }

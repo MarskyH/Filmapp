@@ -16,11 +16,12 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.FragRecyclers.viewmodels.FilmesDescubraViewModel
+import com.example.filmapp.home.fragments.DescubraMoviesAdapter
 import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
-class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
+class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubraMovieClickListener {
 
-    private lateinit var mediaListAdapter: DescubraListsAdapter
+    private lateinit var mediaListAdapter: DescubraMoviesAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
 
     val viewModel by viewModels<FilmesDescubraViewModel>{
@@ -44,15 +45,18 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
 
         //Iniciando o ReciclerView Descubra - Filmes
         mediaListLayoutManager = LinearLayoutManager(context)
-        mediaListAdapter = DescubraListsAdapter(this)
+        mediaListAdapter = DescubraMoviesAdapter(this)
         view.rv_filmesDescubra.layoutManager = mediaListLayoutManager
         view.rv_filmesDescubra.adapter = mediaListAdapter
         view.rv_filmesDescubra.isHorizontalFadingEdgeEnabled
         view.rv_filmesDescubra.setHasFixedSize(true)
 
-//        viewModel.returnDescubraFilmesListAPI.observe(this){
-//            mediaListAdapter.addList(it)
-//        }
+        viewModel.returnDescubraFilmesListAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            mediaListAdapter.addList(mediaList)
+        }
+
+//        viewModel.getDescubraFilmesList() //Como implementar isso??
 
         return view
     }
@@ -62,10 +66,13 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
     }
 
     override fun descubraItemClick(position: Int) {
-//        val filme = filmesList.get(position)
+        viewModel.returnDescubraFilmesListAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            var filme = mediaList.get(position)
 
-        val intent = Intent(context, MediaSelectedActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

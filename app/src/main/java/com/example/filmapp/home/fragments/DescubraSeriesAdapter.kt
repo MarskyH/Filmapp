@@ -7,13 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
-class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
-    RecyclerView.Adapter<DescubraMoviesAdapter.DescubraListsViewHolder>() {
+class DescubraSeriesAdapter(val listener: onDescubraSerieClickListener) :
+    RecyclerView.Adapter<DescubraSeriesAdapter.DescubraSerieListsViewHolder>() {
 
-    var mediaList = arrayListOf<ResultMovie>()
+    var mediaList = arrayListOf<ResultTv>()
     private var assistirMaisTardeIndicationBoolean = false
     private var evaluationIndicationBoolean = false
     private var shareIndicationBoolean = false
@@ -21,20 +22,20 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DescubraListsViewHolder {
+    ): DescubraSerieListsViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
-        return DescubraListsViewHolder(itemView)
+        return DescubraSerieListsViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: DescubraListsViewHolder,
+        holder: DescubraSerieListsViewHolder,
         position: Int
     ) {
-        val currentItem: ResultMovie = mediaList[position]
+        val currentItem: ResultTv = mediaList[position]
 
-        holder.mediaName.text = currentItem.title
-        holder.mediaDetail1.text = currentItem.release_date
+        holder.mediaName.text = currentItem.original_name
+        holder.mediaDetail1.text = currentItem.first_air_date
         holder.mediaDetail2.text = currentItem.original_language
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
@@ -76,11 +77,11 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
         return mediaList.size
     }
 
-    interface onDescubraMovieClickListener {
+    interface onDescubraSerieClickListener {
         fun descubraItemClick(position: Int)
     }
 
-    inner class DescubraListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class DescubraSerieListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_medialist)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
@@ -104,7 +105,7 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
 
     }
 
-    fun addList(list: ArrayList<ResultMovie>) {
+    fun addList(list: ArrayList<ResultTv>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }

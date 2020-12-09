@@ -54,6 +54,8 @@ class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickList
             novidadesListAdapter.addList(it)
         }
 
+//        viewModel.getNovidadesList()
+
         return view
     }
 

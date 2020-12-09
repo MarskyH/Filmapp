@@ -41,8 +41,6 @@ class MelhoresFilmesFragment : Fragment(), DescubraMoviesAdapter.onDescubraMovie
     ): View? {
         val view = inflater.inflate(R.layout.fragment_melhores_filmes, container, false)
 
-        Toast.makeText(context, "ABRIU", Toast.LENGTH_SHORT).show()
-
         //Iniciando o ReciclerView de Melhores Filmes
         melhoresFilmesLayoutManager = LinearLayoutManager(context)
         melhoresFilmesAdapter = DescubraMoviesAdapter(this)
@@ -55,6 +53,8 @@ class MelhoresFilmesFragment : Fragment(), DescubraMoviesAdapter.onDescubraMovie
             var mediaList = it.results
             melhoresFilmesAdapter.addList(mediaList)
         }
+
+        viewModel.getTopMoviesList()
 
         return view
     }

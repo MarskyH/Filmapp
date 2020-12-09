@@ -14,7 +14,7 @@ class NovosEpisodiosViewModel(val service: Service) : ViewModel() {
     fun getNovosEpisodiosList(){
         viewModelScope.launch {
             returnNovosEpisodiosListAPI.value = service.getLatest(
-                "a6baee1eff7d3911f03f59b9b8f43eb",
+                "4a6baee1eff7d3911f03f59b9b8f43eb",
                 "en-US"
             )
         }

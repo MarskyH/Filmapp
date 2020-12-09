@@ -54,6 +54,8 @@ class FragRecycler_emCartaz : Fragment(), EmCartazAdapter.onEmCartazItemClickLis
             mediaListAdapter.addList(mediaList)
         }
 
+        viewModel.getEmCartazList()
+
         return view
     }
 

@@ -55,6 +55,8 @@ class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelh
             mediaListAdapter.addList(mediaList)
         }
 
+        viewModel.getMelhoresDaSemanaList()
+
         return view
     }
 

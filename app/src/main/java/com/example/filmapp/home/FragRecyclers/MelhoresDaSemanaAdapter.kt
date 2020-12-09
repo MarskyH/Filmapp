@@ -8,8 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.All.ResultAll
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 
-class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener) :
+    RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
 
     var mediaList = arrayListOf<ResultAll>()
 
@@ -17,7 +19,7 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
         parent: ViewGroup,
         viewType: Int
     ): MelhoresDaSemanaViewHolder {
-        val itemView=
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return MelhoresDaSemanaViewHolder(itemView)
     }
@@ -28,19 +30,21 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
     ) {
         val currentItem: ResultAll = mediaList[position]
 
-        holder.mediaName.setText(currentItem.title)
-        //holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.text = currentItem.title
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
     }
 
     override fun getItemCount(): Int {
         return mediaList.size
     }
 
-    interface onMelhoresDaSemanaItemClickListener{
+    interface onMelhoresDaSemanaItemClickListener {
         fun melhoresDaSemanaItemClick(position: Int)
     }
 
-    inner class MelhoresDaSemanaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class MelhoresDaSemanaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 

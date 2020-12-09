@@ -11,17 +11,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
-import com.example.filmapp.home.FragRecyclers.DescubraTVAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.fragments.viewmodels.MelhoresSeriesViewModel
 import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
 
-class MelhoresSeriesFragment : Fragment(), DescubraTVAdapter.onDescubraTVClickListener {
+class MelhoresSeriesFragment : Fragment(), DescubraSeriesAdapter.onDescubraSerieClickListener {
 
-    private lateinit var melhoresSeriesAdapter: DescubraTVAdapter
+    private lateinit var melhoresSeriesAdapter: DescubraSeriesAdapter
     private lateinit var melhoresSeriesLayoutManager: RecyclerView.LayoutManager
 
     val viewModel by viewModels<MelhoresSeriesViewModel>{
@@ -44,7 +42,7 @@ class MelhoresSeriesFragment : Fragment(), DescubraTVAdapter.onDescubraTVClickLi
 
         //Iniciando o ReciclerView de Melhores Séries
         melhoresSeriesLayoutManager = LinearLayoutManager(context)
-        melhoresSeriesAdapter = DescubraTVAdapter(this)
+        melhoresSeriesAdapter = DescubraSeriesAdapter(this)
         view.rc_melhoresSeriesList.layoutManager = melhoresSeriesLayoutManager
         view.rc_melhoresSeriesList.adapter = melhoresSeriesAdapter
         view.rc_melhoresSeriesList.isHorizontalFadingEdgeEnabled
@@ -55,15 +53,9 @@ class MelhoresSeriesFragment : Fragment(), DescubraTVAdapter.onDescubraTVClickLi
             melhoresSeriesAdapter.addList(mediaList)
         }
 
-        return view
-    }
+        viewModel.getTopSeriesList()
 
-    fun getMediaList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "Quando: 21/08/12", "Onde: Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "Quando: 21/09/12", "Onde: Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "Quando: 75/08/12", "Onde: Netflix", "1 Temporadas", "10 Episodeos")
-        )
+        return view
     }
 
     override fun descubraItemClick(position: Int) {

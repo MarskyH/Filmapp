@@ -52,6 +52,8 @@ class FragRecycler_novosEpisodios : Fragment(), NovosEpisodiosAdapter.onNovosEpi
             mediaListAdapter.addList(it)
         }
 
+        viewModel.getNovosEpisodiosList()
+
         return view
     }
 

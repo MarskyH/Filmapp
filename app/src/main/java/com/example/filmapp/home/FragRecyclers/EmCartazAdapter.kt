@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 
 class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>() {
 
@@ -28,7 +29,10 @@ class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.A
     ) {
         val currentItem: ResultMovie = mediaList[position]
 
-        holder.mediaName.setText(currentItem.title)
+        holder.mediaName.text = currentItem.title
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
+
     }
 
     override fun getItemCount(): Int {

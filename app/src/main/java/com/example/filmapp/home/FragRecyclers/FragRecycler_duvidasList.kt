@@ -54,7 +54,7 @@ class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListen
             duvidasListAdapter.addList(it)
         }
 
-        viewModel.getDuvidasList()
+//        viewModel.getDuvidasList()
 
         return view
     }

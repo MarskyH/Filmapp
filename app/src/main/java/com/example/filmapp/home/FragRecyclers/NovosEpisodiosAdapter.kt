@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.LatestTv
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 
 class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
 
@@ -28,7 +29,9 @@ class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): Re
     ) {
         val currentItem: LatestTv = mediaList[position]
 
-        holder.mediaName.setText(currentItem.id)
+        holder.mediaName.text = currentItem.original_name
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
     }
 
     override fun getItemCount(): Int {

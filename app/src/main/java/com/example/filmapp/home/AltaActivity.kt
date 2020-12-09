@@ -25,16 +25,16 @@ class AltaActivity : AppCompatActivity() {
         }
 
         //Inflando o RecyclerView de Em Cartaz (FragRecycler_emCartaz)
-//        supportFragmentManager.beginTransaction().apply {
-//            replace(R.id.fragRecycler_emCartazSpace, FragRecycler_emCartaz.newInstance())
-//            commit()
-//        }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragRecycler_emCartazSpace, FragRecycler_emCartaz.newInstance())
+            commit()
+        }
 
         //Inflando o RecyclerView de Novos Episódios (FragRecycler_novosEpisodios)
-//        supportFragmentManager.beginTransaction().apply {
-//            replace(R.id.fragRecycler_novosEpisodiosSpace, FragRecycler_novosEpisodios.newInstance())
-//            commit()
-//        }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragRecycler_novosEpisodiosSpace, FragRecycler_novosEpisodios.newInstance())
+            commit()
+        }
 
         setSupportActionBar(toolbarEmAltaPage)
 

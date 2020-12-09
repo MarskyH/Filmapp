@@ -75,18 +75,23 @@ interface Service {
         @Query("language") language: String
     ): BaseAll
 
-    //--------------------------------------------------------------------------
-
-    //Retorna os melhores filmes (Classificação)
-    @GET("movie/top_rated")
-    suspend fun getTopMovies(
+    //Retorna os filmes Em Cartaz
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(
         @Query("api_key") key: String,
         @Query("language") language: String
     ): BaseMovie
 
-    //Retorna os filmes Em Cartaz
-    @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(
+    //Retorna os Novos Episodios das séries
+    @GET("tv/latest")
+    suspend fun getLatest(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): LatestTv
+
+    //Retorna os melhores filmes (Classificação)
+    @GET("movie/top_rated")
+    suspend fun getTopMovies(
         @Query("api_key") key: String,
         @Query("language") language: String
     ): BaseMovie
@@ -98,21 +103,21 @@ interface Service {
         @Query("language") language: String
     ): BaseTv
 
-    //Retorna os Novos Episodios das séries
-    @GET("tv/latest")
-    suspend fun getLatest(
-        @Query("api_key") key: String,
-        @Query("language") language: String
-    ): LatestTv
-
-    //Retorna a lista de TvShows que o usuário está acompanhando
-    @GET("account/{account_id}/favorite/tv")
-    suspend fun getAcompanhandoList(
-        @Path("account_id") id: String,
+    //Pesquisa - Movies
+    @GET("search/movie")
+    suspend fun getSearchMovies(
         @Query("api_key") key: String,
         @Query("language") language: String,
-    ): BaseTv
+        @Query("query") query: String
+    ): BaseMovie
 
+    //Pesquisa - TV
+    @GET("search/tv")
+    suspend fun getSearcTv(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("query") query: String
+    ): BaseTv
 
 }
 

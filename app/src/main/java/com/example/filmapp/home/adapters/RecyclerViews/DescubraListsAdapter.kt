@@ -7,12 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 
 class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
     RecyclerView.Adapter<DescubraListsAdapter.DescubraListsViewHolder>() {
 
-    var mediaList = arrayListOf<Media>()
+    var mediaList = arrayListOf<ResultTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,15 +28,7 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
         holder: DescubraListsAdapter.DescubraListsViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
-
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaDetail1.setText(currentItem.mediaDetail1)
-        holder.mediaDetail2.setText(currentItem.mediaSinopse)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
-
-        holder.mediaName.setOnClickListener {
-        }
+        val currentItem: ResultTv = mediaList[position]
 
     }
 
@@ -67,7 +60,7 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
 
     }
 
-    fun addList(list: ArrayList<Media>) {
+    fun addList(list: ArrayList<ResultTv>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }
