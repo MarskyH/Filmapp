@@ -5,16 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import com.example.filmapp.Configuracaoes.ConfiguracoesActivity
-import com.example.filmapp.Filmes.Fragments.HomeFilmeFragment
+
+import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
-import com.example.filmapp.Home.fragments.HomeFragment
-import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
-import com.example.filmapp.Series.Fragments.HomeSerieFragment
+import com.example.filmapp.home.activitys.ViewPagerHomeAdapter
+import com.example.filmapp.Media.Fragments.HomeMediaFragment
+import com.example.filmapp.home.DescubraActivity
+import com.example.filmapp.home.fragments.HomeFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -32,7 +33,8 @@ class HomeActivity : AppCompatActivity() {
 
     //Usado pra add ações de click aos itens do Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+
+        return when (item.itemId) {
             R.id.descubra_toolbarMenu -> {
                 callDescubraPage()
                 true
@@ -47,12 +49,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     //Usado para definir as tabs da Home (Home, Séries e Filmes)
-    private fun setTabs(){
+    private fun setTabs() {
+
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
-        adapter.addFragment(HomeSerieFragment() ,"Séries" )
-        adapter.addFragment(HomeFilmeFragment(), "Filmes")
 
+        adapter.addFragment(HomeMediaFragment(false), "Séries")
+        adapter.addFragment(HomeMediaFragment(true), "Filmes")
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
 
@@ -62,12 +65,14 @@ class HomeActivity : AppCompatActivity() {
         tabLayout_HomePage.getTabAt(2)!!.setIcon(R.drawable.ic_claquete_flaticon)
     }
 
-    fun callDescubraPage(){
+
+    fun callDescubraPage() {
         val intent = Intent(this, DescubraActivity::class.java)
         startActivity(intent)
     }
 
-    fun callConfiguracoesPage(){
+
+    fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
     }

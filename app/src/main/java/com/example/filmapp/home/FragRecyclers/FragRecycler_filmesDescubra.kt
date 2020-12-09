@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.FragRecyclers
+package com.example.filmapp.home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,31 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.filmapp.Classes.Media
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.home.adapters.RecyclerViews.DescubraListsAdapter
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Ui.SerieSelectedActivity
+import com.example.filmapp.Services.service
+import com.example.filmapp.home.FragRecyclers.viewmodels.FilmesDescubraViewModel
+import com.example.filmapp.home.fragments.DescubraMoviesAdapter
 import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
-class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
-    private val filmesList = getFilmesList()
-    private val filmesList_adapter = DescubraListsAdapter(filmesList, this,)
+class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubraMovieClickListener {
+
+    private lateinit var mediaListAdapter: DescubraMoviesAdapter
+    private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
+
+    val viewModel by viewModels<FilmesDescubraViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return FilmesDescubraViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +43,20 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_filmesdescubra, container, false)
 
-        //Iniciando o ReciclerView Dúvidas Frequentes
-        view.rv_filmesDescubra.adapter = filmesList_adapter
-        view.rv_filmesDescubra.layoutManager = LinearLayoutManager(context)
+        //Iniciando o ReciclerView Descubra - Filmes
+        mediaListLayoutManager = LinearLayoutManager(context)
+        mediaListAdapter = DescubraMoviesAdapter(this)
+        view.rv_filmesDescubra.layoutManager = mediaListLayoutManager
+        view.rv_filmesDescubra.adapter = mediaListAdapter
         view.rv_filmesDescubra.isHorizontalFadingEdgeEnabled
         view.rv_filmesDescubra.setHasFixedSize(true)
+
+        viewModel.returnDescubraFilmesListAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            mediaListAdapter.addList(mediaList)
+        }
+
+//        viewModel.getDescubraFilmesList() //Como implementar isso??
 
         return view
     }
@@ -41,30 +65,14 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
         fun newInstance() = FragRecycler_filmesDescubra()
     }
 
-    fun getFilmesList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "Quando: 08/08/12", "Onde:Cinemas", "02h 55min", "Policial, Drama"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "Quando: 21/08/18", "Onde: Amazon", "02h 55min", "Policial, Drama"),
-        )
-    }
-
     override fun descubraItemClick(position: Int) {
-        val filme = filmesList.get(position)
+        viewModel.returnDescubraFilmesListAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            var filme = mediaList.get(position)
 
-        val intent = Intent(context, SerieSelectedActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            startActivity(intent)
+        }
     }
-
-//    override fun assistirMaisTardeIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou no Assistir Mais Tarde", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun evaluationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou na Avaliação", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun shareIndicationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou em Compartilhar", Toast.LENGTH_SHORT).show()
-//    }
 
 }

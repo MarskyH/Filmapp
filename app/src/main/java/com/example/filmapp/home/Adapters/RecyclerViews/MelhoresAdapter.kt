@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.adapters.RecyclerViews
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class MelhoresAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Adapter<MelhoresAdapter.MelhoresViewHolder>() {
+class MelhoresAdapter(): RecyclerView.Adapter<MelhoresAdapter.MelhoresViewHolder>() {
+
+    var mediaList = arrayListOf<Media>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,7 +30,7 @@ class MelhoresAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ada
 
         holder.mediaName.setText(currentItem.mediaName)
         holder.mediaDetail1.setText(currentItem.mediaDetail1)
-        holder.mediaDetail2.setText(currentItem.mediaDetail2)
+        holder.mediaDetail2.setText(currentItem.mediaSinopse)
         holder.mediaImage.setImageResource(currentItem.mediaImage)
     }
 
@@ -43,4 +45,10 @@ class MelhoresAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ada
         val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
 
     }
+
+    fun addList(list: ArrayList<Media>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }
