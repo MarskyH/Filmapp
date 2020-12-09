@@ -12,8 +12,19 @@
         android:text="@string/botao_entrar_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:background="@drawable/round_login_button"
+        android:textColor="@color/White"
+        android:textSize="20dp" />
+
+
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/round_login_button"
+        android:text="@string/botao_cadastre_se_login"
         android:textColor="@color/White"
         android:textSize="20dp" />
 
@@ -28,39 +39,27 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
             app:srcCompat="@drawable/ic_google_i8" />
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginEnd="10dp"
 
             app:srcCompat="@drawable/ic_facebook" />
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:srcCompat="@drawable/ic_twitter_i8" />
 
 
     </LinearLayout>
-
-
-
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/round_login_button"
-        android:text="@string/botao_cadastre_se_login"
-        android:textColor="@color/White"
-        android:textSize="20dp" />
 
 
 
