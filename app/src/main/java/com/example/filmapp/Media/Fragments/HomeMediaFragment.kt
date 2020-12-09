@@ -29,7 +29,7 @@ class HomeMediaFragment(val Movie: Boolean) : Fragment(), HomeMediaMovieAdapter.
     private lateinit var lManager: LinearLayoutManager
     lateinit var ListMediaMovie: ArrayList<ResultMovie>
     lateinit var ListMediaSerie: ArrayList<ResultTv>
-    lateinit var config: Config
+    var config = Config()
 
 
     private val viewModel by viewModels<MainViewModel> {
