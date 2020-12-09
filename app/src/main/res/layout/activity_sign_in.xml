@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".home.MelhoresActivity"
+    tools:context=".Home.MelhoresActivity"
     android:background="@color/black">
 
     <com.google.android.material.appbar.AppBarLayout
