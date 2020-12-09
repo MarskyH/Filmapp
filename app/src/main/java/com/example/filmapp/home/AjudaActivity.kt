@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_duvidasList
 import com.example.filmapp.Home.FragRecyclers.FragRecycler_novidadesList

@@ -28,6 +28,7 @@ class MelhoresAdapter(private val mediaList: ArrayList<Media>): RecyclerView.Ada
 
         holder.mediaName.setText(currentItem.mediaName)
         holder.mediaDetail1.setText(currentItem.mediaDetail1)
+
         holder.mediaDetail2.setText(currentItem.mediaSinopse)
         holder.mediaImage.setImageResource(currentItem.mediaImage)
     }

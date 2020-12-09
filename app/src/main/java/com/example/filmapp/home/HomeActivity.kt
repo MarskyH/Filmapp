@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -43,6 +44,7 @@ class HomeActivity : AppCompatActivity() {
 
     //Usado pra add ações de click aos itens do Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         return when (item.itemId) {
             R.id.descubra_toolbarMenu -> {
                 callDescubraPage()
@@ -62,6 +64,7 @@ class HomeActivity : AppCompatActivity() {
 
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
+
         adapter.addFragment(HomeMediaFragment(false), "Séries")
         adapter.addFragment(HomeMediaFragment(true), "Filmes")
         viewPager_HomePage.adapter = adapter
@@ -73,10 +76,12 @@ class HomeActivity : AppCompatActivity() {
         tabLayout_HomePage.getTabAt(2)!!.setIcon(R.drawable.ic_claquete_flaticon)
     }
 
+
     fun callDescubraPage() {
         val intent = Intent(this, DescubraActivity::class.java)
         startActivity(intent)
     }
+
 
     fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)

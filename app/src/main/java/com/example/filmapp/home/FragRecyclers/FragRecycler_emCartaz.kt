@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.EmCartazAdapter
+
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import kotlinx.android.synthetic.main.fragrecycler_emcartaz.view.*
@@ -51,7 +52,6 @@ class FragRecycler_emCartaz : Fragment(), EmCartazAdapter.onEmCartazItemClickLis
 
     override fun emCartazItemClick(position: Int) {
         val media = mediaList.get(position)
-
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)
     }

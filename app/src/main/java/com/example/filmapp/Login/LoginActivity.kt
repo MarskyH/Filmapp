@@ -3,20 +3,22 @@ package com.example.filmapp.Login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
+import com.example.filmapp.Home.HomeActivity
 import com.example.filmapp.R
-import kotlinx.android.synthetic.main.login_body.*
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        btnLogin.setOnClickListener{
+        btnLoginAct.setOnClickListener{
             callAcesso()
         }
 
 
-        btnRegister.setOnClickListener{
+        btnRegisterAct.setOnClickListener{
             callCadastro()
         }
     }
@@ -28,7 +30,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun callAcesso(){
-        var intent = Intent(this, AcessActivity::class.java)
+
+        var intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
 

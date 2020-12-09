@@ -2,10 +2,12 @@ package com.example.filmapp.Home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.*
@@ -50,6 +52,7 @@ class FragRecycler_novosEpisodios : Fragment(), NovosEpisodiosAdapter.onNovosEpi
 
     override fun novosEpisodiosItemClick(position: Int) {
         val media = mediaList.get(position)
+
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)

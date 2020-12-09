@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+
 class EpisodioFragment(val img: String?, val sinopse: String?): Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
@@ -38,6 +39,7 @@ class EpisodioFragment(val img: String?, val sinopse: String?): Fragment() {
     ): View? {
 
         val view: View = inflater!!.inflate(R.layout.fragment_series_episodio, container, false)
+
 
         picasso.load(img).into(view.imgEp)
         view.sinopseEp.text = sinopse

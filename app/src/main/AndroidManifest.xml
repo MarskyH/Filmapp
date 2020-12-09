@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
+
         <activity android:name=".Media.UI.MediaSelectedActivity"/>
         <activity android:name=".Series.Ui.SerieTemporadaActivity"/>
         <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity"/>
 
         <activity android:name=".Configuracoes.ConfiguracoesActivity"/>
 
-        <activity android:name=".Login.AcessActivity" />
         <activity android:name=".Login.SignInActivity" />
         <activity android:name=".Login.LoginActivity" />
 

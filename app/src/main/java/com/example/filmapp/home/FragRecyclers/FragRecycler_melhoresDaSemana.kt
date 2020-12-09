@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.Home.Adapters.RecyclerViews.MelhoresDaSemanaAdapter
+
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import kotlinx.android.synthetic.main.fragrecycler_melhoresdasemana.view.*
@@ -51,6 +52,7 @@ class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelh
 
     override fun melhoresDaSemanaItemClick(position: Int) {
         val media = mediaList.get(position)
+
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)
