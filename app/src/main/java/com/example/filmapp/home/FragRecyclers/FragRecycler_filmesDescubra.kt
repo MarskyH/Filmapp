@@ -48,7 +48,7 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
 
         //Iniciando o ReciclerView Descubra - Filmes
         mediaListLayoutManager = LinearLayoutManager(context)
-        mediaListAdapter = DescubraListsAdapter()
+        mediaListAdapter = DescubraListsAdapter(this)
         view.rv_filmesDescubra.layoutManager = mediaListLayoutManager
         view.rv_filmesDescubra.adapter = mediaListAdapter
         view.rv_filmesDescubra.isHorizontalFadingEdgeEnabled
@@ -65,30 +65,11 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
         fun newInstance() = FragRecycler_filmesDescubra()
     }
 
-    fun getFilmesList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "Quando: 08/08/12", "Onde:Cinemas", "02h 55min", "Policial, Drama"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "Quando: 21/08/18", "Onde: Amazon", "02h 55min", "Policial, Drama"),
-        )
-    }
-
     override fun descubraItemClick(position: Int) {
         val filme = filmesList.get(position)
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)
     }
-
-//    override fun assistirMaisTardeIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou no Assistir Mais Tarde", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun evaluationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou na Avaliação", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun shareIndicationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou em Compartilhar", Toast.LENGTH_SHORT).show()
-//    }
 
 }

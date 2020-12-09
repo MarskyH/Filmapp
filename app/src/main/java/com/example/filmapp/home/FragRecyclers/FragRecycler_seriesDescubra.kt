@@ -65,31 +65,11 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
         fun newInstance() = FragRecycler_seriesDescubra()
     }
 
-    fun getSeriesList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "Quando: 21/08/12", "Onde: Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "Quando: 21/09/12", "Onde: Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "Quando: 75/08/12", "Onde: Netflix", "1 Temporadas", "10 Episodeos")
-        )
-    }
-
     override fun descubraItemClick(position: Int) {
         val serie = seriesList.get(position)
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)
     }
-
-//    override fun assistirMaisTardeIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou no Assistir Mais Tarde", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun evaluationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou na Avaliação", Toast.LENGTH_SHORT).show()
-//    }
-//
-//    override fun shareIndicationIndicationClick(position: Int) {
-//        Toast.makeText(context, "Clicou em Compartilhar", Toast.LENGTH_SHORT).show()
-//    }
 
 }

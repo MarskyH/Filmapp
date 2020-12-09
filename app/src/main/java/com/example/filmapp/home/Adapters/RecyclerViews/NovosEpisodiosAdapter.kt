@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.TV.LatestTv
 import com.example.filmapp.R
 
 class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<LatestTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,10 +27,9 @@ class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): Re
         holder: NovosEpisodiosAdapter.NovosEpisodiosViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: LatestTv = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.setText(currentItem.id)
     }
 
     override fun getItemCount(): Int {
@@ -57,8 +57,8 @@ class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): Re
 
     }
 
-    fun addList(list: ArrayList<>) {
-        mediaList.addAll(list)
+    fun addList(item: LatestTv) {
+        mediaList.add(item)
         notifyDataSetChanged()
     }
 

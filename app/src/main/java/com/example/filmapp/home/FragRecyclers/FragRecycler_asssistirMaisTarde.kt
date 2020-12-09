@@ -53,15 +53,15 @@ class FragRecycler_asssistirMaisTarde : Fragment(), AssistirMaisTardeAdapter.onA
 
         //Iniciando o ReciclerView Assistir Mais Tarde
         mediaListLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        mediaListAdapter = AssistirMaisTardeAdapter()
+        mediaListAdapter = AssistirMaisTardeAdapter(this)
         view.rv_assistirMaisTarde.layoutManager = mediaListLayoutManager
         view.rv_assistirMaisTarde.adapter = mediaListAdapter
         view.rv_assistirMaisTarde.isHorizontalFadingEdgeEnabled
         view.rv_assistirMaisTarde.setHasFixedSize(true)
 
-        viewModel.returnUserAssistirMaisTardeAPI.observe(this){
-            mediaListAdapter.addList(it)
-        }
+//        viewModel.returnUserAssistirMaisTardeAPI.observe(this){
+//            mediaListAdapter.addList(it)
+//        }
 
         return view
     }
@@ -70,17 +70,8 @@ class FragRecycler_asssistirMaisTarde : Fragment(), AssistirMaisTardeAdapter.onA
         fun newInstance() = FragRecycler_asssistirMaisTarde()
     }
 
-    fun getMediaList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "12", "21/08/12", "Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "8", "08/08/12", "Amazon", "8 Temporadas", "2 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "85", "21/09/12", "Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "54", "21/08/18", "Amazon", "7 Temporadas", "87 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "78", "75/08/12", "Netflix", "1 Temporadas", "10 Episodeos"))
-    }
-
     override fun assistirMaisTardeItemClick(position: Int) {
-        val media = mediaList.get(position)
+//        val media = mediaList.get(position)
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)

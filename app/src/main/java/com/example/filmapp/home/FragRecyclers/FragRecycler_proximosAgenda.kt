@@ -46,15 +46,15 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
 
         //Iniciando o ReciclerView Próximos da AgendaPage
         mediaListLayoutManager = LinearLayoutManager(context)
-        mediaListAdapter = ProximosAdapter()
+        mediaListAdapter = ProximosAdapter(this)
         view.rv_proximos_agenda.layoutManager = mediaListLayoutManager
         view.rv_proximos_agenda.adapter = mediaListAdapter
         view.rv_proximos_agenda.isHorizontalFadingEdgeEnabled
         view.rv_proximos_agenda.setHasFixedSize(true)
 
-        viewModel.returnProximosListAPI.observe(this){
-            mediaListAdapter.addList(it)
-        }
+//        viewModel.returnProximosListAPI.observe(this){
+//            mediaListAdapter.addList(it)
+//        }
 
         return view
     }
@@ -63,17 +63,8 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
         fun newInstance() = FragRecycler_proximosAgenda()
     }
 
-    fun getMediaList(): ArrayList<Media>{
-        return arrayListOf<Media>(
-            Media(1,R.drawable.academy_image01,"The Umbrella Academy", "Série", "2x08 - O Que Eu Sei", "Data: 21/08/12", "Onde: Netflix", "4 Temporadas", "37 Episodeos"),
-            Media(1,R.drawable.fear_image01,"The Fear Walking Dead", "Filme", "", "Data: 08/08/12", "Onde: Amazon", "8 Temporadas", "2 Episodeos"),
-            Media(1,R.drawable.flash_image01,"The Flash", "Série", "2x08 - O Que Eu Sei", "Data: 21/09/12", "Onde: Netflix", "3 Temporadas", "7 Episodeos"),
-            Media(1,R.drawable.the_boys_image01,"The Boys", "Filme", "", "Data: 21/08/18", "Onde: Amazon", "7 Temporadas", "87 Episodeos"),
-            Media(1,R.drawable.grey_image01,"Grey's Anatomy", "Série", "2x08 - O Que Eu Sei", "Data: 75/08/12", "Onde: Netflix", "1 Temporadas", "10 Episodeos"))
-    }
-
     override fun proximosItemClick(position: Int) {
-        val media = mediaList.get(position)
+//        val media = mediaList.get(position)
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)

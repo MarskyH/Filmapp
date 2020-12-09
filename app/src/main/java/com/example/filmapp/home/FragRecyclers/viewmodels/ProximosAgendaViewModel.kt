@@ -8,12 +8,12 @@ import kotlinx.coroutines.launch
 
 class ProximosAgendaViewModel(val service: Service) : ViewModel() {
 
-    var returnProximosListAPI = MutableLiveData<>()
-
-    fun getProximosList(){
-        viewModelScope.launch {
-            returnProximosListAPI.value = service.
-
-        }
-    }
+//    var returnProximosListAPI = MutableLiveData<>()
+//
+//    fun getProximosList(){
+//        viewModelScope.launch {
+//            returnProximosListAPI.value = service.
+//
+//        }
+//    }
 }

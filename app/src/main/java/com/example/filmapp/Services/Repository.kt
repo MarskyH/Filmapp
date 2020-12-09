@@ -6,6 +6,7 @@ import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ImagesTv
+import com.example.filmapp.Entities.TV.LatestTv
 import com.example.filmapp.Entities.TV.TvDetails
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
@@ -71,12 +72,26 @@ interface Service {
         @Query("language") language: String
     ): BaseMovie
 
+    //Retorna os filmes Em Cartaz
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseMovie
+
     //Retorna as melhores séries (Classificação)
     @GET("tv/top_rated")
     suspend fun getTopSeries(
         @Query("api_key") key: String,
         @Query("language") language: String
     ): BaseTv
+
+    //Retorna os Novos Episodios das séries
+    @GET("tv/latest")
+    suspend fun getLatest(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): LatestTv
 
     //Retorna a lista de TvShows que o usuário está acompanhando
     @GET("account/{account_id}/favorite/tv")

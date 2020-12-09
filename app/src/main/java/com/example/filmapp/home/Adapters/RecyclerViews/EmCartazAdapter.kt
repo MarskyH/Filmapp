@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
 
 class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<ResultMovie>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,10 +27,9 @@ class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.A
         holder: EmCartazAdapter.EmCartazViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: ResultMovie = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.setText(currentItem.title)
     }
 
     override fun getItemCount(): Int {
@@ -57,7 +57,7 @@ class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.A
 
     }
 
-    fun addList(list: ArrayList<>) {
+    fun addList(list: ArrayList<ResultMovie>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }

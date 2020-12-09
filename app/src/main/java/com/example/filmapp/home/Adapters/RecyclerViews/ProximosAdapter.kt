@@ -11,7 +11,7 @@ import com.example.filmapp.R
 
 class ProximosAdapter(val listener: onProximosItemClickListener): RecyclerView.Adapter<ProximosAdapter.ProximosViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<Media>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -64,7 +64,7 @@ class ProximosAdapter(val listener: onProximosItemClickListener): RecyclerView.A
         }
     }
 
-    fun addList(list: ArrayList<>) {
+    fun addList(list: ArrayList<Media>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }

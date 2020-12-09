@@ -8,13 +8,13 @@ import kotlinx.coroutines.launch
 
 class AssistirMaisTardeViewModel(val service: Service) : ViewModel() {
 
-    var returnUserAssistirMaisTardeAPI = MutableLiveData<>()
+//    var returnUserAssistirMaisTardeAPI = MutableLiveData<>()
 
-    fun getUserAssistirMaisTardeList(){
-        viewModelScope.launch {
-            returnUserAssistirMaisTardeAPI.value = service.
-
-        }
-    }
+//    fun getUserAssistirMaisTardeList(){
+//        viewModelScope.launch {
+//            returnUserAssistirMaisTardeAPI.value = service.
+//
+//        }
+//    }
 
 }

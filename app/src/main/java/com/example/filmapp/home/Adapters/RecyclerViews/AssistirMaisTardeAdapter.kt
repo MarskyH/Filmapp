@@ -12,7 +12,7 @@ import com.example.filmapp.R
 class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListener) :
     RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<Media>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -58,7 +58,7 @@ class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListene
         }
     }
 
-    fun addList(list: ArrayList<>) {
+    fun addList(list: ArrayList<Media>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }
