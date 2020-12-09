@@ -52,10 +52,12 @@ class HomeActivity : AppCompatActivity() {
     private fun setTabs() {
 
         val adapter = ViewPagerHomeAdapter(supportFragmentManager)
+        val homeMediaFilme = HomeMediaFragment.newInstance(true)
+        val homeMediaSerie = HomeMediaFragment.newInstance(false)
         adapter.addFragment(HomeFragment(), "Home")
+        adapter.addFragment(homeMediaSerie, "Séries")
+        adapter.addFragment(homeMediaFilme, "Filmes")
 
-        adapter.addFragment(HomeMediaFragment(false), "Séries")
-        adapter.addFragment(HomeMediaFragment(true), "Filmes")
         viewPager_HomePage.adapter = adapter
         tabLayout_HomePage.setupWithViewPager(viewPager_HomePage)
 

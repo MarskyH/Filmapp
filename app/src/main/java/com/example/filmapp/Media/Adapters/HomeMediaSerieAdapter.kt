@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 class HomeMediaSerieAdapter(
     private var listMediaSerie: ArrayList<ResultTv>,
     val listener: OnHomeMediaSerieClickListener,
-    val Movie: Boolean, var config: Config) : RecyclerView.Adapter<HomeMediaSerieAdapter.HomeMediasSeriesViewHolder>() {
+    val Movie: Boolean?, var config: Config) : RecyclerView.Adapter<HomeMediaSerieAdapter.HomeMediasSeriesViewHolder>() {
     val picasso = Picasso.get()
 
     override fun onCreateViewHolder(
@@ -33,7 +33,7 @@ class HomeMediaSerieAdapter(
     override fun onBindViewHolder(holder: HomeMediasSeriesViewHolder, position: Int) {
         var homeSerie = listMediaSerie[position]
         var baseURl = config.images.secure_base_url
-        var size = config.images.poster_sizes[6]
+        var size = "original"
         val pathImg = homeSerie.poster_path
         val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.img)

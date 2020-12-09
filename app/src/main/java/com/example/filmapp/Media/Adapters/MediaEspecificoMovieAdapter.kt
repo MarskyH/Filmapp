@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso
 
 class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies,
                                   val listener: OnMediaMovieClickListener,
-                                  val Movie: Boolean,
+                                  val Movie: Boolean?,
                                   val config: Config): RecyclerView.Adapter<MediaEspecificoMovieAdapter.MediasViewHolder>() {
 
     override fun onCreateViewHolder(

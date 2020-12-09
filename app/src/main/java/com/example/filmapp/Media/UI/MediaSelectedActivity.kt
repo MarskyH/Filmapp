@@ -11,6 +11,7 @@ import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
+import com.example.filmapp.Media.Fragments.HomeMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.ResourcesFragment
 import com.example.filmapp.R
@@ -43,17 +44,23 @@ class MediaSelectedActivity : AppCompatActivity() {
         if (movie == true) {
             val mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
             val sinopse = mediaSelect?.overview
+            val MediaFilme = MediaEspecificoFragment.newInstance(true, mediaSelect)
+            val ResourceFilme = ResourcesFragment.newInstance(true, mediaSelect)
+            Log.i("MediaSelectActivity", mediaSelect.toString())
             adapter.addFragment(GeralMediaFragment(poster, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(true, mediaSelect), "Semelhantes")
-            adapter.addFragment(ResourcesFragment(mediaSelect, true), "Mídia")
+            adapter.addFragment(MediaFilme, "Semelhantes")
+            adapter.addFragment(ResourceFilme, "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         } else {
             val mediaSelect = intent.getSerializableExtra("media") as? ResultTv
             val sinopse = mediaSelect?.overview
+            val MediaSerie = MediaEspecificoFragment.newInstance(false, mediaSelect)
+            val ResourceSerie = ResourcesFragment.newInstance(false, mediaSelect)
+            Log.i("MediaSelectActivity2", mediaSelect.toString())
             adapter.addFragment(GeralMediaFragment(poster, sinopse), "Visão Geral")
-            adapter.addFragment(MediaEspecificoFragment(false, mediaSelect), "Temporadas")
-            adapter.addFragment(ResourcesFragment(mediaSelect, false), "Mídia")
+            adapter.addFragment(MediaSerie, "Temporadas")
+            adapter.addFragment(ResourceSerie, "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         }
@@ -89,6 +96,10 @@ class MediaSelectedActivity : AppCompatActivity() {
     fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
+    }
+
+    fun setObeject(MediaSelect: Any?): Any?{
+        return MediaSelect
     }
 }
 
