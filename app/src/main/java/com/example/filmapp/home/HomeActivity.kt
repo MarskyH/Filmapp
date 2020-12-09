@@ -3,26 +3,15 @@ package com.example.filmapp.Home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 
-import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Entities.Movie.BaseMovie
-import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.BaseTv
-import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
-import com.example.filmapp.Home.fragments.HomeFragment
-import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
+import com.example.filmapp.home.activitys.ViewPagerHomeAdapter
 import com.example.filmapp.Media.Fragments.HomeMediaFragment
-import com.example.filmapp.Services.MainViewModel
-import com.example.filmapp.Services.service
+import com.example.filmapp.home.DescubraActivity
+import com.example.filmapp.home.fragments.HomeFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {

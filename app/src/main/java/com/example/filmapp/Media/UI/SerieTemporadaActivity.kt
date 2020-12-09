@@ -8,10 +8,10 @@ import android.view.MenuItem
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Entities.TV.Season
 import com.example.filmapp.Entities.TV.TvDetails
-import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.R
 import com.example.filmapp.Series.Fragments.*
+import com.example.filmapp.home.DescubraActivity
 import kotlinx.android.synthetic.main.activity_serie_temporada_selected.*
 
 

@@ -19,13 +19,13 @@
         <activity android:name=".Login.SignInActivity" />
         <activity android:name=".Login.LoginActivity" />
 
-        <activity android:name=".Home.MelhoresActivity"/>
-        <activity android:name=".Home.AjudaActivity" />
-        <activity android:name=".Home.HistoricoActivity" />
-        <activity android:name=".Home.AcompanhandoActivity" />
-        <activity android:name=".Home.DescubraActivity"/>
-        <activity android:name=".Home.AgendaActivity" />
-        <activity android:name=".Home.AltaActivity" />
+        <activity android:name=".home.MelhoresActivity"/>
+        <activity android:name=".home.AjudaActivity" />
+        <activity android:name=".home.HistoricoActivity" />
+        <activity android:name=".home.AcompanhandoActivity" />
+        <activity android:name=".home.DescubraActivity"/>
+        <activity android:name=".home.AgendaActivity" />
+        <activity android:name=".home.AltaActivity" />
         <activity android:name=".Home.HomeActivity"/>
 
         <activity android:name=".SplashActivity">

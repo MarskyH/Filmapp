@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,19 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class EmCartazAdapter(private val mediaList: ArrayList<Media>, val listener: onEmCartazItemClickListener): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>() {
+class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListener) :
+    RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
+
+    var mediaList = arrayListOf<Media>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): EmCartazAdapter.EmCartazViewHolder {
-        val itemView=
+    ): AssistirMaisTardeViewHolder {
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
-        return EmCartazViewHolder(itemView)
+        return AssistirMaisTardeViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: EmCartazAdapter.EmCartazViewHolder,
+        holder: AssistirMaisTardeViewHolder,
         position: Int
     ) {
         val currentItem: Media = mediaList[position]
@@ -34,11 +37,12 @@ class EmCartazAdapter(private val mediaList: ArrayList<Media>, val listener: onE
         return mediaList.size
     }
 
-    interface onEmCartazItemClickListener{
-        fun emCartazItemClick(position: Int)
+    interface onAssistirMaisTardeItemClickListener {
+        fun assistirMaisTardeItemClick(position: Int)
     }
 
-    inner class EmCartazViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class AssistirMaisTardeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
@@ -49,9 +53,14 @@ class EmCartazAdapter(private val mediaList: ArrayList<Media>, val listener: onE
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (RecyclerView.NO_POSITION != position) {
-                listener.emCartazItemClick(position)
+                listener.assistirMaisTardeItemClick(position)
             }
         }
-
     }
+
+    fun addList(list: ArrayList<Media>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

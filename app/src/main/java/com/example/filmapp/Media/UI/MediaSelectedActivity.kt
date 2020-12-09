@@ -6,22 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.Home.DescubraActivity
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.ResourcesFragment
 import com.example.filmapp.R
-import com.example.filmapp.Media.Models.MediaFragmentViewModel
-import com.example.filmapp.Services.MainViewModel
-import com.example.filmapp.Services.service
+import com.example.filmapp.home.DescubraActivity
 
 import kotlinx.android.synthetic.main.activity_media_selected.*
 

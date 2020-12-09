@@ -2,13 +2,11 @@ package com.example.filmapp.Services
 
 
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.All.BaseAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
-import com.example.filmapp.Entities.TV.BaseTv
-import com.example.filmapp.Entities.TV.ImagesTv
-import com.example.filmapp.Entities.TV.SeasonDetails
-import com.example.filmapp.Entities.TV.TvDetails
+import com.example.filmapp.Entities.TV.*
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -69,6 +67,61 @@ interface Service {
         @Query("api_key") key: String,
         @Query("language") language: String,
     ): ImagesTv
+
+    //PACOTE HOME
+
+    //Retorna os Melhores da Semana
+    @GET("trending/{media_type}/{time_window}")
+    suspend fun getTrending(
+        @Path("media_type") mediatype: String,
+        @Path("time_window") timeWindow: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseAll
+
+    //Retorna os filmes Em Cartaz
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseMovie
+
+    //Retorna os Novos Episodios das séries
+    @GET("tv/latest")
+    suspend fun getLatest(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): LatestTv
+
+    //Retorna os melhores filmes (Classificação)
+    @GET("movie/top_rated")
+    suspend fun getTopMovies(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseMovie
+
+    //Retorna as melhores séries (Classificação)
+    @GET("tv/top_rated")
+    suspend fun getTopSeries(
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseTv
+
+    //Pesquisa - Movies
+    @GET("search/movie")
+    suspend fun getSearchMovies(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("query") query: String
+    ): BaseMovie
+
+    //Pesquisa - TV
+    @GET("search/tv")
+    suspend fun getSearcTv(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("query") query: String
+    ): BaseTv
 
     //pega os detalhes de uma determinada temporada, passar um id de série e o número da temporada, o Path.
     @GET("/tv/{tv_id}/season/{season_number}")

@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,39 +6,45 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.All.ResultAll
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 
-class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>, val listener: onMelhoresDaSemanaItemClickListener): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener) :
+    RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+
+    var mediaList = arrayListOf<ResultAll>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder {
-        val itemView=
+    ): MelhoresDaSemanaViewHolder {
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return MelhoresDaSemanaViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder,
+        holder: MelhoresDaSemanaViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: ResultAll = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.text = currentItem.title
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
     }
 
     override fun getItemCount(): Int {
         return mediaList.size
     }
 
-    interface onMelhoresDaSemanaItemClickListener{
+    interface onMelhoresDaSemanaItemClickListener {
         fun melhoresDaSemanaItemClick(position: Int)
     }
 
-    inner class MelhoresDaSemanaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class MelhoresDaSemanaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
@@ -53,4 +59,10 @@ class MelhoresDaSemanaAdapter(private val mediaList: ArrayList<Media>, val liste
             }
         }
     }
+
+    fun addList(list: ArrayList<ResultAll>) {
+        mediaList.addAll(list)
+        notifyDataSetChanged()
+    }
+
 }

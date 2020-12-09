@@ -8,7 +8,6 @@ class ViewPagerConfigAdapter(supportFragmentManager: FragmentManager): FragmentP
 
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
-    private val mFragmentImgList = ArrayList<Unit>()
 
 
     override fun getItem(position: Int): Fragment {

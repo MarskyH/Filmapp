@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,28 +6,32 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
+import com.example.filmapp.Entities.TV.LatestTv
 import com.example.filmapp.R
+import com.squareup.picasso.Picasso
 
-class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>, val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
+class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
+
+    var mediaList = arrayListOf<LatestTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): NovosEpisodiosAdapter.NovosEpisodiosViewHolder {
+    ): NovosEpisodiosViewHolder {
         val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return NovosEpisodiosViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: NovosEpisodiosAdapter.NovosEpisodiosViewHolder,
+        holder: NovosEpisodiosViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: LatestTv = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.text = currentItem.original_name
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
     }
 
     override fun getItemCount(): Int {
@@ -54,4 +58,10 @@ class NovosEpisodiosAdapter(private val mediaList: ArrayList<Media>, val listene
         }
 
     }
+
+    fun addList(item: LatestTv) {
+        mediaList.add(item)
+        notifyDataSetChanged()
+    }
+
 }
