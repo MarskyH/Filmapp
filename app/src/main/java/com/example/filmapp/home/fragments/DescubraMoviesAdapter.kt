@@ -1,19 +1,13 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.fragments
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_medialist.view.*
 
 class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
     RecyclerView.Adapter<DescubraMoviesAdapter.DescubraListsViewHolder>() {
@@ -23,14 +17,14 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DescubraMoviesAdapter.DescubraListsViewHolder {
+    ): DescubraListsViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
         return DescubraListsViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: DescubraMoviesAdapter.DescubraListsViewHolder,
+        holder: DescubraListsViewHolder,
         position: Int
     ) {
         val currentItem: ResultMovie = mediaList[position]

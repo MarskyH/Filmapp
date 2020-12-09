@@ -1,6 +1,7 @@
 package com.example.filmapp.Services
 
 
+import com.example.filmapp.Entities.All.BaseAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
@@ -64,6 +65,17 @@ interface Service {
     ): ImagesTv
 
     //PACOTE HOME
+
+    //Retorna os Melhores da Semana
+    @GET("trending/{media_type}/{time_window}")
+    suspend fun getTrending(
+        @Path("media_type") mediatype: String,
+        @Path("time_window") timeWindow: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String
+    ): BaseAll
+
+    //--------------------------------------------------------------------------
 
     //Retorna os melhores filmes (Classificação)
     @GET("movie/top_rated")

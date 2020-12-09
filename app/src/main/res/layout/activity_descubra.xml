@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/Dark"
     android:orientation="vertical"
-    tools:context=".Home.DescubraActivity">
+    tools:context=".home.DescubraActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

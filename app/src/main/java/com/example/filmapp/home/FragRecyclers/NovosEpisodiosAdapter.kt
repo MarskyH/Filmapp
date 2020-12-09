@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Entities.TV.LatestTv
 import com.example.filmapp.R
 
@@ -17,14 +16,14 @@ class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): Re
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): NovosEpisodiosAdapter.NovosEpisodiosViewHolder {
+    ): NovosEpisodiosViewHolder {
         val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return NovosEpisodiosViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: NovosEpisodiosAdapter.NovosEpisodiosViewHolder,
+        holder: NovosEpisodiosViewHolder,
         position: Int
     ) {
         val currentItem: LatestTv = mediaList[position]

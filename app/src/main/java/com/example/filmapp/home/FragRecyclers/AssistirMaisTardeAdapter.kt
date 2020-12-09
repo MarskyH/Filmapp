@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 
-class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener): RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListener) :
+    RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<Media>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder {
-        val itemView=
+    ): AssistirMaisTardeViewHolder {
+        val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
-        return MelhoresDaSemanaViewHolder(itemView)
+        return AssistirMaisTardeViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder,
+        holder: AssistirMaisTardeViewHolder,
         position: Int
     ) {
         val currentItem: Media = mediaList[position]
@@ -36,11 +37,12 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
         return mediaList.size
     }
 
-    interface onMelhoresDaSemanaItemClickListener{
-        fun melhoresDaSemanaItemClick(position: Int)
+    interface onAssistirMaisTardeItemClickListener {
+        fun assistirMaisTardeItemClick(position: Int)
     }
 
-    inner class MelhoresDaSemanaViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    inner class AssistirMaisTardeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
@@ -51,12 +53,12 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (RecyclerView.NO_POSITION != position) {
-                listener.melhoresDaSemanaItemClick(position)
+                listener.assistirMaisTardeItemClick(position)
             }
         }
     }
 
-    fun addList(list: ArrayList<>) {
+    fun addList(list: ArrayList<Media>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }

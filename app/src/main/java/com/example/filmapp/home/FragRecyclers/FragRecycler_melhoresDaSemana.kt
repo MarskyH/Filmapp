@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.FragRecyclers
+package com.example.filmapp.home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,20 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
-import com.example.filmapp.Home.Adapters.RecyclerViews.AssistirMaisTardeAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.MelhoresDaSemanaAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.FragRecyclers.viewmodels.AssistirMaisTardeViewModel
 import com.example.filmapp.home.FragRecyclers.viewmodels.MelhoresDaSemanaViewModel
-import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.view.*
 import kotlinx.android.synthetic.main.fragrecycler_melhoresdasemana.view.*
 
 class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelhoresDaSemanaItemClickListener {
@@ -48,14 +44,15 @@ class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelh
 
         //Iniciando o ReciclerView Melhores da Semana
         mediaListLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        mediaListAdapter = MelhoresDaSemanaAdapter()
+        mediaListAdapter = MelhoresDaSemanaAdapter(this)
         view.rv_melhoresDaSemana_EmAlta.layoutManager = mediaListLayoutManager
         view.rv_melhoresDaSemana_EmAlta.adapter = mediaListAdapter
         view.rv_melhoresDaSemana_EmAlta.isHorizontalFadingEdgeEnabled
         view.rv_melhoresDaSemana_EmAlta.setHasFixedSize(true)
 
-        viewModel.returnMelhoresDaSemanaListAPI.observe(this){
-            mediaListAdapter.addList(it)
+        viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            mediaListAdapter.addList(mediaList)
         }
 
         return view
@@ -66,10 +63,13 @@ class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelh
     }
 
     override fun melhoresDaSemanaItemClick(position: Int) {
-        val media = mediaList.get(position)
+        viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner) {
+            var mediaList = it.results
+            var media = mediaList.get(position)
 
-        val intent = Intent(context, MediaSelectedActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }

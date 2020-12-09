@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.FragRecyclers
+package com.example.filmapp.home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,14 +11,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
+import com.example.filmapp.home.adapters.RecyclerViews.DescubraListsAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.FragRecyclers.viewmodels.FilmesDescubraViewModel
 import com.example.filmapp.home.FragRecyclers.viewmodels.SeriesDescubraViewModel
-import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 import kotlinx.android.synthetic.main.fragrecycler_seriesdescubra.view.*
 
 class FragRecycler_seriesDescubra : Fragment(), DescubraListsAdapter.onDescubraItemClickListener {
@@ -47,15 +44,15 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
 
         //Iniciando o ReciclerView Descubra - Series
         mediaListLayoutManager = LinearLayoutManager(context)
-        mediaListAdapter = DescubraListsAdapter()
+        mediaListAdapter = DescubraListsAdapter(this)
         view.rv_seriesDescubra.layoutManager = mediaListLayoutManager
         view.rv_seriesDescubra.adapter = mediaListAdapter
         view.rv_seriesDescubra.isHorizontalFadingEdgeEnabled
         view.rv_seriesDescubra.setHasFixedSize(true)
 
-        viewModel.returnDescubraSeriesListAPI.observe(this){
-            mediaListAdapter.addList(it)
-        }
+//        viewModel.returnDescubraSeriesListAPI.observe(this){
+//            mediaListAdapter.addList(it)
+//        }
 
 
         return view
@@ -66,7 +63,7 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraListsAdapter.onDescubraI
     }
 
     override fun descubraItemClick(position: Int) {
-        val serie = seriesList.get(position)
+//        val serie = seriesList.get(position)
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)

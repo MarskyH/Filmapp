@@ -1,4 +1,4 @@
-package com.example.filmapp.Home
+package com.example.filmapp.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,16 +10,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Home.Adapters.RecyclerViews.AcompanhandoAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.HistoricoAdapter
+import com.example.filmapp.home.adapters.RecyclerViews.HistoricoAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.activitys.viewmodels.AcompanhandoViewModel
 import com.example.filmapp.home.activitys.viewmodels.HistoricoViewModel
-import kotlinx.android.synthetic.main.activity_acompanhando.*
 import kotlinx.android.synthetic.main.activity_historico.*
 
 class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemClickListener {

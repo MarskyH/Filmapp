@@ -1,4 +1,4 @@
-package com.example.filmapp.Home
+package com.example.filmapp.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,15 +9,12 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
-import com.example.filmapp.Home.fragments.HomeFragment
-import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerHomeAdapter
+import com.example.filmapp.home.fragments.HomeFragment
+import com.example.filmapp.home.activitys.ViewPagerHomeAdapter
 import com.example.filmapp.Media.Fragments.HomeMediaFragment
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
@@ -48,7 +45,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         viewModel.listResSeries.observe(this) {
-            ListSeries = it.resultTvs
+//            ListSeries = it.resultTvs
             Log.i("HomeActivity - series",it.toString())
         }
 

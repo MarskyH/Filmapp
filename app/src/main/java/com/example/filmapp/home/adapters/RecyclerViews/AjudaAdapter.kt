@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.adapters.RecyclerViews
 
 import android.view.LayoutInflater
 import android.view.View

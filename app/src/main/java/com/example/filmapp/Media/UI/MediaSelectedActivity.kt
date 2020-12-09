@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.Home.DescubraActivity
+import com.example.filmapp.home.DescubraActivity
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.ResourcesFragment

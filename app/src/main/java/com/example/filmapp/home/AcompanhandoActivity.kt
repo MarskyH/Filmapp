@@ -1,4 +1,4 @@
-package com.example.filmapp.Home
+package com.example.filmapp.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,22 +6,17 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Home.Adapters.RecyclerViews.AcompanhandoAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
+import com.example.filmapp.home.adapters.RecyclerViews.AcompanhandoAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.activitys.viewmodels.AcompanhandoViewModel
-import com.example.filmapp.home.fragments.viewmodels.MelhoresFilmesViewModel
 import kotlinx.android.synthetic.main.activity_acompanhando.*
-import kotlinx.android.synthetic.main.fragment_melhores_filmes.view.*
 
 class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener {
 

@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.fragments
+package com.example.filmapp.home.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,9 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.R
-import com.example.filmapp.Home.*
+import com.example.filmapp.home.*
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.fragments.viewmodels.AjudaDetailsViewModel
 import com.example.filmapp.home.fragments.viewmodels.HomeFragmentViewModel
 import kotlinx.android.synthetic.main.fragment_home.view.*
 

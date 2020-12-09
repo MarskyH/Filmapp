@@ -1,25 +1,21 @@
-package com.example.filmapp.Home.FragRecyclers
+package com.example.filmapp.home.FragRecyclers
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Ajuda
-import com.example.filmapp.Home.Adapters.RecyclerViews.AjudaAdapter
-import com.example.filmapp.Home.AjudaActivity
-import com.example.filmapp.Home.fragments.AjudaDetailsFragment
+import com.example.filmapp.home.adapters.RecyclerViews.AjudaAdapter
+import com.example.filmapp.home.AjudaActivity
+import com.example.filmapp.home.fragments.AjudaDetailsFragment
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.FragRecyclers.viewmodels.DuvidasViewModel
-import kotlinx.android.synthetic.main.activity_ajuda.*
-import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.view.*
 import kotlinx.android.synthetic.main.fragrecycler_novidadeslist.view.*
 
 class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickListener {

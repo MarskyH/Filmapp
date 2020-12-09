@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.Movie.BaseMovie
-import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Services.Service
 import kotlinx.coroutines.launch
 

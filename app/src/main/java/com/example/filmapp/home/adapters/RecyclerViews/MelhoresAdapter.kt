@@ -1,34 +1,29 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.adapters.RecyclerViews
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
-import kotlinx.android.synthetic.main.item_medialist.view.*
 
-class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
-    RecyclerView.Adapter<DescubraListsAdapter.DescubraListsViewHolder>() {
+class MelhoresAdapter(): RecyclerView.Adapter<MelhoresAdapter.MelhoresViewHolder>() {
 
-    var mediaList = arrayListOf<>()
+    var mediaList = arrayListOf<Media>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DescubraListsAdapter.DescubraListsViewHolder {
-        val itemView =
+    ): MelhoresAdapter.MelhoresViewHolder {
+        val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
-        return DescubraListsViewHolder(itemView)
+        return MelhoresViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: DescubraListsAdapter.DescubraListsViewHolder,
+        holder: MelhoresAdapter.MelhoresViewHolder,
         position: Int
     ) {
         val currentItem: Media = mediaList[position]
@@ -37,42 +32,23 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
         holder.mediaDetail1.setText(currentItem.mediaDetail1)
         holder.mediaDetail2.setText(currentItem.mediaSinopse)
         holder.mediaImage.setImageResource(currentItem.mediaImage)
-
-        holder.mediaName.setOnClickListener {
-        }
-
     }
 
     override fun getItemCount(): Int {
         return mediaList.size
     }
 
-    interface onDescubraItemClickListener {
-        fun descubraItemClick(position: Int)
-    }
-
-    inner class DescubraListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+    class MelhoresViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_medialist)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
         val mediaDetail1: TextView = itemView.findViewById(R.id.tv_mediaDetail1_medialist)
         val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
 
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (RecyclerView.NO_POSITION != position) {
-                listener.descubraItemClick(position)
-            }
-        }
-
     }
 
-    fun addList(list: ArrayList<>) {
+    fun addList(list: ArrayList<Media>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }
+
 }

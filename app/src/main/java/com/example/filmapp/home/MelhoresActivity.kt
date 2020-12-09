@@ -1,4 +1,4 @@
-package com.example.filmapp.Home
+package com.example.filmapp.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
-import com.example.filmapp.Home.fragments.MelhoresFilmesFragment
-import com.example.filmapp.Home.fragments.MelhoresSeriesFragment
-import com.example.filmapp.Home.Adapters.ViewPagers.ViewPagerMelhoresAdapter
+import com.example.filmapp.home.fragments.MelhoresFilmesFragment
+import com.example.filmapp.home.fragments.MelhoresSeriesFragment
+import com.example.filmapp.home.activitys.ViewPagerMelhoresAdapter
 import kotlinx.android.synthetic.main.activity_melhores.*
 
 class MelhoresActivity : AppCompatActivity() {

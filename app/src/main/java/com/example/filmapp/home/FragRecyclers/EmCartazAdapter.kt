@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
 
@@ -17,14 +16,14 @@ class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.A
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): EmCartazAdapter.EmCartazViewHolder {
+    ): EmCartazViewHolder {
         val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
         return EmCartazViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: EmCartazAdapter.EmCartazViewHolder,
+        holder: EmCartazViewHolder,
         position: Int
     ) {
         val currentItem: ResultMovie = mediaList[position]

@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.FragRecyclers
+package com.example.filmapp.home.FragRecyclers
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,15 +11,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
-import com.example.filmapp.Home.Adapters.RecyclerViews.*
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.FragRecyclers.viewmodels.AssistirMaisTardeViewModel
-import com.example.filmapp.home.FragRecyclers.viewmodels.NovidadesViewModel
 import com.example.filmapp.home.FragRecyclers.viewmodels.NovosEpisodiosViewModel
-import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.view.*
 import kotlinx.android.synthetic.main.fragrecycler_novosepisodios.view.*
 class FragRecycler_novosEpisodios : Fragment(), NovosEpisodiosAdapter.onNovosEpisodiosItemClickListener {
 

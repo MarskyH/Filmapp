@@ -1,9 +1,8 @@
-package com.example.filmapp.Home.Adapters.ViewPagers
+package com.example.filmapp.home.activitys
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.filmapp.Classes.Media
 
 class ViewPagerHomeAdapter(supportFragmentManager: FragmentManager): FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 

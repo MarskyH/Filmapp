@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +16,14 @@ class ProximosAdapter(val listener: onProximosItemClickListener): RecyclerView.A
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ProximosAdapter.ProximosViewHolder {
+    ): ProximosViewHolder {
         val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.item_proximoslist_agenda, parent, false)
         return ProximosViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: ProximosAdapter.ProximosViewHolder,
+        holder: ProximosViewHolder,
         position: Int
     ) {
         val currentItem: Media = mediaList[position]

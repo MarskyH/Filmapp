@@ -1,18 +1,13 @@
-package com.example.filmapp.Home.Adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
-import kotlinx.android.synthetic.main.item_medialist.view.*
 
 class DescubraTVAdapter(val listener: onDescubraTVClickListener) :
     RecyclerView.Adapter<DescubraTVAdapter.DescubraListsViewHolder>() {
@@ -22,14 +17,14 @@ class DescubraTVAdapter(val listener: onDescubraTVClickListener) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DescubraTVAdapter.DescubraListsViewHolder {
+    ): DescubraListsViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
         return DescubraListsViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: DescubraTVAdapter.DescubraListsViewHolder,
+        holder: DescubraListsViewHolder,
         position: Int
     ) {
         val currentItem: ResultTv = mediaList[position]

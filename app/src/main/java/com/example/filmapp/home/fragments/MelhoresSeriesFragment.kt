@@ -1,4 +1,4 @@
-package com.example.filmapp.Home.fragments
+package com.example.filmapp.home.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,14 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraListsAdapter
-import com.example.filmapp.Home.Adapters.RecyclerViews.DescubraTVAdapter
+import com.example.filmapp.home.FragRecyclers.DescubraTVAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.fragments.viewmodels.MelhoresFilmesViewModel
 import com.example.filmapp.home.fragments.viewmodels.MelhoresSeriesViewModel
-import kotlinx.android.synthetic.main.fragment_melhores_filmes.view.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
 
 class MelhoresSeriesFragment : Fragment(), DescubraTVAdapter.onDescubraTVClickListener {
