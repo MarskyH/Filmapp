@@ -2,6 +2,7 @@ package com.example.filmapp.Services
 
 
 import com.example.filmapp.Entities.All.BaseAll
+import com.example.filmapp.Entities.All.BaseSearchAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
@@ -103,21 +104,13 @@ interface Service {
         @Query("language") language: String
     ): BaseTv
 
-    //Pesquisa - Movies
-    @GET("search/movie")
-    suspend fun getSearchMovies(
+    //Pesquisa - Todos
+    @GET("search/multi")
+    suspend fun getSearch(
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("query") query: String
-    ): BaseMovie
-
-    //Pesquisa - TV
-    @GET("search/tv")
-    suspend fun getSearcTv(
-        @Query("api_key") key: String,
-        @Query("language") language: String,
-        @Query("query") query: String
-    ): BaseTv
+    ): BaseSearchAll
 
 }
 
