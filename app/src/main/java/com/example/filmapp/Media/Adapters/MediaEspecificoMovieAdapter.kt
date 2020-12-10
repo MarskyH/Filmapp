@@ -32,7 +32,8 @@ class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies
 
 
     override fun onBindViewHolder(holder: MediasViewHolder, position: Int) {
-        val movie = listMediaEspecifico.results[position]
+        val movie = listMediaEspecifico.results.get(position)
+        val movieSelect = movie
         val picasso = Picasso.get()
         val baseURl = config.images.secure_base_url
         val size = "original"
@@ -44,7 +45,7 @@ class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
                 intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
-                intent.putExtra("media", movie)
+                intent.putExtra("mediaMovieSimilar", movieSelect)
                 holder.itemView.context.startActivity(intent)
         }
     }

@@ -64,10 +64,8 @@ class MediaEspecificoFragment() : Fragment(),
             val fragment = MediaEspecificoFragment()
             val args = Bundle()
             args.putBoolean(movie, Movie)
-            Log.i("New Instance movie", (args.putSerializable(mediaselect, MediaSelect)).toString())
             args.putSerializable(mediaselect, MediaSelect)
             fragment.arguments = args
-            Log.i("New Instance media", (args.putSerializable(mediaselect, MediaSelect)).toString())
             return fragment
         }
 
