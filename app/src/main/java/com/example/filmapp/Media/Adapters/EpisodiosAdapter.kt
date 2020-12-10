@@ -49,6 +49,7 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
             intent.putExtra("number_season", episodio.season_number)
             intent.putExtra("imagem", season)
             intent.putExtra("logo", imgLogo)
+            intent.putExtra("homepage", Serie.homepage)
             holder.itemView.context.startActivity(intent)
         }
 

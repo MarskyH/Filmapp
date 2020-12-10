@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 
 
-class EpisodioFragment(val img: String?, val sinopse: String?, val imgLogo: String?): Fragment() {
+class EpisodioFragment(val img: String?, val sinopse: String?, val imgLogo: String?, val homePage: String?): Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
@@ -110,7 +110,7 @@ class EpisodioFragment(val img: String?, val sinopse: String?, val imgLogo: Stri
         fun AbrirSiteLogo() {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://www.primevideo.com/?_encoding=UTF8&language=pt_BR")
+                Uri.parse(homePage)
             )
             startActivity(intent)
         }

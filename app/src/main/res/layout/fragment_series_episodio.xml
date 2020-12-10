@@ -69,6 +69,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
             android:gravity="start"
+            android:nestedScrollingEnabled="true"
             android:text="Na trama, conhecemos um mundo onde super-heróis são as maiores celebridades do planeta, e rotineiramente abusa, de seus poderes ao invés de usarem para o bem da sociedade e do mundo "
             android:textColor="@color/white"
             android:textSize="20sp"

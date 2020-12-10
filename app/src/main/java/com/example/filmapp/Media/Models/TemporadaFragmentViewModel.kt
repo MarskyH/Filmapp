@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.API_KEY
+import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.BaseTv
@@ -26,8 +27,8 @@ class TemporadaFragmentViewModel(val service: Service) : ViewModel() {
             listSeasonDetails.value = service.getSesaonDetails(
                 serieId,
                 seasonNumber,
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US",
+                API_KEY,
+                LANGUAGE,
             )
         }
     }
