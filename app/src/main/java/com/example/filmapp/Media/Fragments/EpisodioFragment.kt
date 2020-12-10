@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 
 
-class EpisodioFragment(val img: String?, val sinopse: String?): Fragment() {
+class EpisodioFragment(val img: String?, val sinopse: String?, val imgLogo: String?): Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
@@ -43,6 +43,7 @@ class EpisodioFragment(val img: String?, val sinopse: String?): Fragment() {
 
         picasso.load(img).into(view.imgEp)
         view.sinopseEp.text = sinopse
+        picasso.load(imgLogo).into(view.imgLogo)
         view.imgTarde.setOnClickListener {
             AlteraIconAssistirMaisTarde()
         }

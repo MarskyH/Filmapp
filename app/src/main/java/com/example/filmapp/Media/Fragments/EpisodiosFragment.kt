@@ -19,6 +19,8 @@ import com.example.filmapp.R
 import com.example.filmapp.Series.Adapter.EpisodiosAdapter
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_espisodios.view.*
 import java.io.Serializable
 
@@ -48,6 +50,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
     companion object{
         private val season = "season"
         private val serie = "serie"
+        private val path_logo = "path_logo"
 
         fun newInstance(Serie: Serializable?, Season: Serializable?): EpisodiosFragment {
             val fragment = EpisodiosFragment()
@@ -71,7 +74,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
             listaEpisodios = it
             Log.i("result", it.toString())
-            adapter = EpisodiosAdapter(listaEpisodios, this)
+            adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
             view.rv_episodios.adapter = adapter
             view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
             view.rv_episodios.setHasFixedSize(true)
