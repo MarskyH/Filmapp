@@ -35,7 +35,7 @@ class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies
         val movie = listMediaEspecifico.results[position]
         val picasso = Picasso.get()
         val baseURl = config.images.secure_base_url
-        val size = config.images.poster_sizes[6]
+        val size = "original"
         val pathImg = movie.poster_path
         val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.imgMediaEspecica)

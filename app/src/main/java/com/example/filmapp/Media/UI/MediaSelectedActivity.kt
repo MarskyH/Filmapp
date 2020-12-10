@@ -44,10 +44,11 @@ class MediaSelectedActivity : AppCompatActivity() {
         if (movie == true) {
             val mediaSelect = intent.getSerializableExtra("media") as? ResultMovie
             val sinopse = mediaSelect?.overview
+            val GeralFilme = GeralMediaFragment.newInstance(sinopse, poster)
             val MediaFilme = MediaEspecificoFragment.newInstance(true, mediaSelect)
             val ResourceFilme = ResourcesFragment.newInstance(true, mediaSelect)
             Log.i("MediaSelectActivity", mediaSelect.toString())
-            adapter.addFragment(GeralMediaFragment(poster, sinopse), "Visão Geral")
+            adapter.addFragment(GeralFilme, "Visão Geral")
             adapter.addFragment(MediaFilme, "Semelhantes")
             adapter.addFragment(ResourceFilme, "Mídia")
             viewPagerMedias.adapter = adapter
@@ -55,10 +56,11 @@ class MediaSelectedActivity : AppCompatActivity() {
         } else {
             val mediaSelect = intent.getSerializableExtra("media") as? ResultTv
             val sinopse = mediaSelect?.overview
+            val GeralSerie = GeralMediaFragment.newInstance(sinopse, poster)
             val MediaSerie = MediaEspecificoFragment.newInstance(false, mediaSelect)
             val ResourceSerie = ResourcesFragment.newInstance(false, mediaSelect)
-            Log.i("MediaSelectActivity2", mediaSelect.toString())
-            adapter.addFragment(GeralMediaFragment(poster, sinopse), "Visão Geral")
+            Log.i("MediaSelect", mediaSelect.toString())
+            adapter.addFragment(GeralSerie, "Visão Geral")
             adapter.addFragment(MediaSerie, "Temporadas")
             adapter.addFragment(ResourceSerie, "Mídia")
             viewPagerMedias.adapter = adapter

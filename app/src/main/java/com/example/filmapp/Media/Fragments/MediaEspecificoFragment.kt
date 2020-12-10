@@ -1,6 +1,7 @@
 package com.example.filmapp.Media.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,10 @@ class MediaEspecificoFragment() : Fragment(),
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             Movie = arguments?.getBoolean(movie)
+            Log.i("on Create movie", (arguments?.getSerializable(mediaselect)).toString())
             MediaSelect = arguments?.getSerializable(mediaselect)
+            Log.i("on Create media", (arguments?.getSerializable(mediaselect)).toString())
+
         }
     }
 
@@ -60,8 +64,10 @@ class MediaEspecificoFragment() : Fragment(),
             val fragment = MediaEspecificoFragment()
             val args = Bundle()
             args.putBoolean(movie, Movie)
+            Log.i("New Instance movie", (args.putSerializable(mediaselect, MediaSelect)).toString())
             args.putSerializable(mediaselect, MediaSelect)
             fragment.arguments = args
+            Log.i("New Instance media", (args.putSerializable(mediaselect, MediaSelect)).toString())
             return fragment
         }
 
@@ -92,6 +98,7 @@ class MediaEspecificoFragment() : Fragment(),
                 config = it
             }
             viewModelEspecificoFragment.getConfig()
+            Log.i("MediaFragment", MediaSelect.toString())
             viewModelEspecificoFragment.getDetailsSerie((MediaSelect as ResultTv).id.toString())
             viewModelEspecificoFragment.listDetails.observe(viewLifecycleOwner) {
                 SerieDetails = it

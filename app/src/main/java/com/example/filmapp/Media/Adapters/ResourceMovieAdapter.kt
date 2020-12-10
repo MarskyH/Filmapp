@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
 
-class ResourceMovieAdapter(private var listImagesMovie: ImagesMovie, val listener: OnMideaMovieClickListener): RecyclerView.Adapter<ResourceMovieAdapter.MideasViewHolder>() {
+class ResourceMovieAdapter(private var listImagesMovie: ImagesMovie, val listener: OnMideaMovieClickListener, val config: Config): RecyclerView.Adapter<ResourceMovieAdapter.MideasViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,8 +28,10 @@ class ResourceMovieAdapter(private var listImagesMovie: ImagesMovie, val listene
     override fun onBindViewHolder(holder: MideasViewHolder, position: Int) {
        var movie = listImagesMovie.backdrops.get(position)
         val picasso = Picasso.get()
+        val baseURl = config.images.secure_base_url
+        val size = "original"
         val pathImg = movie.file_path
-        val img = "${pathImg}".replace("http://","https://")
+        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.imgMidea)
     }
 

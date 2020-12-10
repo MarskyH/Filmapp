@@ -7,6 +7,7 @@ import com.example.filmapp.Services.Service
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
@@ -20,7 +21,7 @@ class ResourcesFragmentViewModel(val service: Service) : ViewModel() {
 
     var listImagesMovie = MutableLiveData<ImagesMovie>()
     var listImagensSerie = MutableLiveData<ImagesTv>()
-
+    var config = MutableLiveData<Config>()
 
     fun getImagesMovie(id: String){
         viewModelScope.launch {
@@ -37,6 +38,13 @@ class ResourcesFragmentViewModel(val service: Service) : ViewModel() {
                 id,
                 "a6baee1eff7d3911f03f59b9b8f43eb",
                 "en-US",
+            )
+        }
+    }
+    fun getConfig(){
+        viewModelScope.launch {
+            config.value = service.getApiConfig(
+                "4a6baee1eff7d3911f03f59b9b8f43eb",
             )
         }
     }

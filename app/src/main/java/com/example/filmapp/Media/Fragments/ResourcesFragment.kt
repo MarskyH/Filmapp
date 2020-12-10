@@ -1,6 +1,7 @@
 package com.example.filmapp.Media.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
@@ -40,6 +42,7 @@ class ResourcesFragment() : Fragment(),
     private lateinit var MovieImages: ImagesMovie
     lateinit var serieAdapter : ResourceMovieAdapter
     lateinit var movieAdapter: ResourceSerieAdapter
+    var config = Config()
     var MediaSelect: Any? = null
     var Movie: Boolean? = null
 
@@ -57,6 +60,8 @@ class ResourcesFragment() : Fragment(),
         if (arguments != null) {
             Movie = arguments?.getBoolean(movie)
             MediaSelect = arguments?.getSerializable(mediaselect)
+            Log.i("on Create movie", (arguments?.getBoolean(movie)).toString())
+            Log.i("on Create media", (arguments?.getSerializable(mediaselect)).toString())
         }
     }
 
@@ -77,10 +82,14 @@ class ResourcesFragment() : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        if (Movie == true){
+//            viewModelResourcesFragment.config.observe(viewLifecycleOwner) {
+//                config = it
+//            }
+//            viewModelResourcesFragment.getConfig()
 //            viewModelResourcesFragment.getImagesMovie((MediaSelect as ResultMovie).id.toString())
 //            viewModelResourcesFragment.listImagesMovie.observe(viewLifecycleOwner){
 //                MovieImages = it
-//                var adapter = ResourceMovieAdapter(MovieImages, this)
+//                var adapter = ResourceMovieAdapter(MovieImages, this, config)
 //                val view: View = inflater!!.inflate(R.layout.fragment_media_medias, container, false)
 //                view.rv_medias.adapter = adapter
 //                view.rv_medias.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
@@ -90,7 +99,7 @@ class ResourcesFragment() : Fragment(),
 //            viewModelResourcesFragment.getImagesSerie((MediaSelect as ResultTv).id.toString())
 //            viewModelResourcesFragment.listImagensSerie.observe(viewLifecycleOwner){
 //                SerieImages = it
-//                var adapter = ResourceSerieAdapter(SerieImages, this)
+//                var adapter = ResourceSerieAdapter(SerieImages, this, config)
 //                val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
 //                view.rv_medias.adapter = adapter
 //                view.rv_medias.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)

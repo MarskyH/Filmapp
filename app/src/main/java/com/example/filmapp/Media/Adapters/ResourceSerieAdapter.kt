@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ImagesMovie
 import com.example.filmapp.Entities.TV.ImagesTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
@@ -13,12 +15,12 @@ import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
 
-class ResourceSerieAdapter(private var listImagesSerie: ImagesTv, val listener: OnMideaSerieClickListener): RecyclerView.Adapter<ResourceSerieAdapter.MideasViewHolder>() {
+class ResourceSerieAdapter(private var listImagesSerie: ImagesTv, val listener: OnMideaSerieClickListener, val config: Config): RecyclerView.Adapter<ResourceSerieAdapter.MideasViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MideasViewHolder {
-        var itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_media_medias, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_media_medias, parent, false)
         return MideasViewHolder(itemView)
     }
 
@@ -26,10 +28,12 @@ class ResourceSerieAdapter(private var listImagesSerie: ImagesTv, val listener: 
 
 
     override fun onBindViewHolder(holder: MideasViewHolder, position: Int) {
-       var movie = listImagesSerie.backdrops.get(position)
+        val serie = listImagesSerie.backdrops.get(position)
         val picasso = Picasso.get()
-        val pathImg = movie.file_path
-        val img = "${pathImg}".replace("http://","https://")
+        val baseURl = config.images.secure_base_url
+        val size = "original"
+        val pathImg = serie.file_path
+        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.imgMidea)
     }
 
