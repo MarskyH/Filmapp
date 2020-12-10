@@ -29,12 +29,14 @@ class ResourceSerieAdapter(private var listImagesSerie: ImagesTv, val listener: 
 
     override fun onBindViewHolder(holder: MideasViewHolder, position: Int) {
         val serie = listImagesSerie.backdrops.get(position)
-        val picasso = Picasso.get()
-        val baseURl = config.images.secure_base_url
-        val size = "original"
-        val pathImg = serie.file_path
-        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
-        picasso.load(img).into(holder.imgMidea)
+        if(serie != null){
+            val picasso = Picasso.get()
+            val baseURl = config.images.secure_base_url
+            val size = "original"
+            val pathImg = serie.file_path
+            val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
+            picasso.load(img).into(holder.imgMidea)
+        }
     }
 
     interface OnMideaSerieClickListener{

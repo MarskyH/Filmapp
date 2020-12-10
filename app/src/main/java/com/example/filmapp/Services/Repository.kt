@@ -61,7 +61,7 @@ interface Service {
     ): TvDetails
 
     //pega as imagens de uma determinada série, passar um id de série, o Path.
-    @GET("/tv/{tv_id}/images")
+    @GET("tv/{tv_id}/images")
     suspend fun getImagesSerie(
         @Path("tv_id") id: String,
         @Query("api_key") key: String,

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -81,31 +82,43 @@ class ResourcesFragment() : Fragment(),
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        if (Movie == true){
-//            viewModelResourcesFragment.config.observe(viewLifecycleOwner) {
-//                config = it
-//            }
-//            viewModelResourcesFragment.getConfig()
-//            viewModelResourcesFragment.getImagesMovie((MediaSelect as ResultMovie).id.toString())
-//            viewModelResourcesFragment.listImagesMovie.observe(viewLifecycleOwner){
-//                MovieImages = it
-//                var adapter = ResourceMovieAdapter(MovieImages, this, config)
-//                val view: View = inflater!!.inflate(R.layout.fragment_media_medias, container, false)
-//                view.rv_medias.adapter = adapter
-//                view.rv_medias.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
-//                view.rv_medias.setHasFixedSize(true)
-//            }
-//        }else{
-//            viewModelResourcesFragment.getImagesSerie((MediaSelect as ResultTv).id.toString())
-//            viewModelResourcesFragment.listImagensSerie.observe(viewLifecycleOwner){
-//                SerieImages = it
-//                var adapter = ResourceSerieAdapter(SerieImages, this, config)
-//                val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
-//                view.rv_medias.adapter = adapter
-//                view.rv_medias.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
-//                view.rv_medias.setHasFixedSize(true)
-//            }
-//        }
+        val view: View = inflater!!.inflate(R.layout.fragment_media_medias, container, false)
+        if (Movie == true){
+            viewModelResourcesFragment.config.observe(viewLifecycleOwner) {
+                config = it
+            }
+            viewModelResourcesFragment.getConfig()
+            viewModelResourcesFragment.getImagesMovie((MediaSelect as ResultMovie).id.toString())
+            viewModelResourcesFragment.listImagesMovie.observe(viewLifecycleOwner){
+                MovieImages = it
+                Log.i("Imagens", it.toString())
+                if (MovieImages.backdrops == null){
+                    view.aviso.text = "SEM IMAGENS DISPONÍVEIS"
+                    view.aviso.isVisible
+                    Toast.makeText(activity, "SEM IMAGENS DISPONÍVEIS", Toast.LENGTH_LONG).show()
+                }else{
+                    var adapter = ResourceMovieAdapter(MovieImages, this, config, )
+                    view.rv_medias.adapter = adapter
+                    view.rv_medias.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+                    view.rv_medias.setHasFixedSize(true)
+                }
+            }
+        }else{
+            viewModelResourcesFragment.getImagesSerie((MediaSelect as ResultTv).id.toString())
+            viewModelResourcesFragment.listImagensSerie.observe(viewLifecycleOwner){
+                SerieImages = it
+                if(SerieImages.backdrops == null){
+                    view.aviso.text = "SEM IMAGENS DISPONÍVEIS"
+                    view.aviso.isVisible
+                    Toast.makeText(activity, "SEM IMAGENS DISPONÍVEIS", Toast.LENGTH_LONG).show()
+                }else{
+                    var adapter = ResourceSerieAdapter(SerieImages, this, config)
+                    view.rv_medias.adapter = adapter
+                    view.rv_medias.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+                    view.rv_medias.setHasFixedSize(true)
+                }
+            }
+        }
         return  view
 //        val mediaController = MediaController(activity)
 //        view.video_view.setVideoPath("android.resource://${activity?.packageName}/${R.raw.video}")

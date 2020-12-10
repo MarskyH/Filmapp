@@ -27,7 +27,7 @@ class ResourcesFragmentViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             listImagesMovie.value = service.getImagesMovies(
                 id,
-                "a6baee1eff7d3911f03f59b9b8f43eb",
+                "4a6baee1eff7d3911f03f59b9b8f43eb",
                 "en-US",
             )
         }
@@ -36,7 +36,7 @@ class ResourcesFragmentViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             listImagensSerie.value = service.getImagesSerie(
                 id,
-                "a6baee1eff7d3911f03f59b9b8f43eb",
+                "4a6baee1eff7d3911f03f59b9b8f43eb",
                 "en-US",
             )
         }
