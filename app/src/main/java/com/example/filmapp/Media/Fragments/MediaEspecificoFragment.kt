@@ -97,7 +97,6 @@ class MediaEspecificoFragment() : Fragment(),
             }
             viewModelEspecificoFragment.getConfig()
             Log.i("MediaFragment", MediaSelect.toString())
-            viewModelEspecificoFragment.getDetailsSerie((MediaSelect as ResultTv).id.toString())
             viewModelEspecificoFragment.listDetails.observe(viewLifecycleOwner) {
                 SerieDetails = it
                 val adapter = MediaEspecificoSerieAdapter(SerieDetails, this, config)
@@ -105,6 +104,7 @@ class MediaEspecificoFragment() : Fragment(),
                 view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
                 view?.rv_temporada.setHasFixedSize(true)
             }
+            viewModelEspecificoFragment.getDetailsSerie((MediaSelect as ResultTv).id.toString())
         }
             return view
         }

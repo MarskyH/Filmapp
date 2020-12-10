@@ -3,14 +3,14 @@ package com.example.filmapp.Entities.TV
 
 /*Classe para pegar os detalhes de um temporada de acordo com um id de série e de um número de temporada, olhar a classe service*/
 data class SeasonDetails(
-    val _id: String,
-    val air_date: String,
-    val episodes: List<Episode>,
-    val id: Int,
-    val name: String,
-    val overview: String,
-    val poster_path: String,
-    val season_number: Int
+    val _id: String = "",
+    val air_date: String = "",
+    val episodes: List<Episode> = arrayListOf() ,
+    val id: Int = 0,
+    val name: String = "",
+    val overview: String = "",
+    val poster_path: String = "",
+    val season_number: Int = 0
 )
 
 data class Episode(
