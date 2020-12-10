@@ -27,11 +27,13 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
 
     override fun onBindViewHolder(holder: EpisodiosViewHolder, position: Int) {
         val episodio = listEpisodios.episodes.get(position)
+        var season = listEpisodios.poster_path
         val picasso = Picasso.get()
         val pathImg = episodio.still_path
         val baseURl = "https://image.tmdb.org/t/p/"
         val size = "original"
         val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
+        season = "${baseURl}${size}${season}".replace("http://","https://")
         picasso.load(img).into(holder.imgEpisodio)
         holder.tvTitulo.text = episodio.name
         holder.imgEpisodio.setOnClickListener {
@@ -39,7 +41,7 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
             intent.putExtra("number_episode", episodio.episode_number)
             intent.putExtra("sinopse_episode", episodio.overview)
             intent.putExtra("number_season", episodio.season_number)
-            intent.putExtra("imagem", episodio.still_path)
+            intent.putExtra("imagem", season)
             holder.itemView.context.startActivity(intent)
         }
 
