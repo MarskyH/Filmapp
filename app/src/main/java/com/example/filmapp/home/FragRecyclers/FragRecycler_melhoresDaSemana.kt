@@ -68,8 +68,7 @@ class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelh
         viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner) {
             var mediaList = it.results
             var media = mediaList.get(position)
-
-            val intent = Intent(context, MediaSelectedActivity::class.java)
+            val intent = Intent(context, MediaSelectedActivity()::class.java)
             startActivity(intent)
         }
     }

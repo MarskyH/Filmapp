@@ -20,7 +20,7 @@ import com.example.filmapp.home.DescubraActivity
 import kotlinx.android.synthetic.main.activity_media_selected.*
 
 
-class MediaSelectedActivity : AppCompatActivity() {
+class MediaSelectedActivity(): AppCompatActivity() {
 
 
 

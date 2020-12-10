@@ -124,7 +124,7 @@ interface Service {
     ): BaseTv
 
     //pega os detalhes de uma determinada temporada, passar um id de série e o número da temporada, o Path.
-    @GET("/tv/{tv_id}/season/{season_number}")
+    @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getSesaonDetails(
         @Path("tv_id") id: Int,
         @Path("season_number") number: Int,
