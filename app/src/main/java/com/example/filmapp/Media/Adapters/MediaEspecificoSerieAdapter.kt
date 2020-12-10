@@ -41,7 +41,7 @@ class MediaEspecificoSerieAdapter(
         holder.tvMediaEspecifica.text = "Temporada ${season.season_number}"
         val picasso = Picasso.get()
         var baseURl = config.images.secure_base_url
-        var size = config.images.poster_sizes[6]
+        var size = "original"
         val pathImg = serie.poster_path
         val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.imgMediaEspecica)

@@ -29,7 +29,9 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
         val episodio = listEpisodios.episodes.get(position)
         val picasso = Picasso.get()
         val pathImg = episodio.still_path
-        val img = "${pathImg}".replace("http://","https://")
+        val baseURl = "https://image.tmdb.org/t/p/"
+        val size = "original"
+        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.imgEpisodio)
         holder.tvTitulo.text = episodio.name
         holder.imgEpisodio.setOnClickListener {

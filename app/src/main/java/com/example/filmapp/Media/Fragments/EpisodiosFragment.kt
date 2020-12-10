@@ -1,6 +1,7 @@
 package com.example.filmapp.Series.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,16 +64,19 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val TvSerie = Serie as TvDetails
         val TvSeason = Season as Season
-
+        Log.i("number season", TvSeason.toString())
+        Log.i("Serie ", TvSerie.id.toString())
+        Log.i("API ", (viewModelTemporadaFragment.getSeasonDetails(TvSerie.id, TvSeason.season_number)).toString())
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
-//        viewModelTemporadaFragment.getSeasonDetails(TvSerie.id.toString(), TvSeason.season_number.toString())
-//        viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
-//            listaEpisodios = it
-//            adapter = EpisodiosAdapter(listaEpisodios, this)
-//            view.rv_episodios.adapter = adapter
-//            view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
-//            view.rv_episodios.setHasFixedSize(true)
-//        }
+        viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
+            listaEpisodios = it
+            Log.i("result", it.toString())
+            adapter = EpisodiosAdapter(listaEpisodios, this)
+            view.rv_episodios.adapter = adapter
+            view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+            view.rv_episodios.setHasFixedSize(true)
+        }
+        viewModelTemporadaFragment.getSeasonDetails(TvSerie.id, TvSeason.season_number)
         return  view
     }
 
