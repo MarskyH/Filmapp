@@ -5,29 +5,62 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.home.FragRecyclers.FragRecycler_filmesDescubra
-import com.example.filmapp.home.FragRecyclers.FragRecycler_seriesDescubra
 import com.example.filmapp.R
+import com.example.filmapp.Services.service
+import com.example.filmapp.home.activitys.viewmodels.DescubraViewModel
+import com.example.filmapp.home.activitys.DescubraListsAdapter
 import kotlinx.android.synthetic.main.activity_descubra.*
 
-class DescubraActivity : AppCompatActivity() {
+class DescubraActivity : AppCompatActivity(), DescubraListsAdapter.onDescubraItemClickListener {
+
+    private lateinit var mediaListAdapter: DescubraListsAdapter
+    private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
+
+    val viewModel by viewModels<DescubraViewModel>{
+        object : ViewModelProvider.Factory{
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return DescubraViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_descubra)
 
-        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance())
-            commit()
+        //Iniciando o ReciclerView SearchList
+        mediaListLayoutManager = LinearLayoutManager(this)
+        mediaListAdapter = DescubraListsAdapter(this)
+        rv_SearchList.layoutManager = mediaListLayoutManager
+        rv_SearchList.adapter = mediaListAdapter
+        rv_SearchList.isHorizontalFadingEdgeEnabled
+        rv_SearchList.setHasFixedSize(true)
+
+        viewModel.returnSearchListAPI.observe(this){
+            mediaListAdapter.addList(it)
+
         }
 
-        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance())
-            commit()
-        }
+        var name = "batman"
+        viewModel.getSearchList(name)
+
+//        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+//        supportFragmentManager.beginTransaction().apply {
+//            replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance())
+//            commit()
+//        }
+//
+//        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+//        supportFragmentManager.beginTransaction().apply {
+//            replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance())
+//            commit()
+//        }
 
         setSupportActionBar(toolbarDescubraPage)
 
@@ -57,5 +90,12 @@ class DescubraActivity : AppCompatActivity() {
     fun callConfiguracoesPage(){
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun descubraItemClick(position: Int) {
+        viewModel.returnSearchListAPI.observe(this) {
+            var media = it.get(position)
+
+        }
     }
 }

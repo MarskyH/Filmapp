@@ -10,18 +10,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.home.adapters.RecyclerViews.AjudaAdapter
 import com.example.filmapp.home.AjudaActivity
 import com.example.filmapp.home.fragments.AjudaDetailsFragment
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.FragRecyclers.viewmodels.DuvidasViewModel
-import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.view.*
+import kotlinx.android.synthetic.main.fragrecycler_novidadeslist.view.*
 
-class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListener {
+class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickListener {
 
-    private lateinit var duvidasListAdapter: AjudaAdapter
-    private lateinit var duvidasListLayoutManager: RecyclerView.LayoutManager
+    private lateinit var novidadesListAdapter: AjudaAdapter
+    private lateinit var novidadesListLayoutManager: RecyclerView.LayoutManager
 
     val viewModel by viewModels<DuvidasViewModel>{
         object : ViewModelProvider.Factory{
@@ -40,38 +39,41 @@ class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragrecycler_duvidaslist, container, false)
+        var view = inflater.inflate(R.layout.fragrecycler_novidadeslist, container, false)
 
-        //Iniciando o ReciclerView Dúvidas
-        duvidasListLayoutManager = LinearLayoutManager(context)
-        duvidasListAdapter = AjudaAdapter(this)
-        view.rc_duvidas.layoutManager = duvidasListLayoutManager
-        view.rc_duvidas.adapter = duvidasListAdapter
-        view.rc_duvidas.isHorizontalFadingEdgeEnabled
-        view.rc_duvidas.setHasFixedSize(true)
+        //Iniciando o ReciclerView Dúvidas Frequentes
+        novidadesListLayoutManager = LinearLayoutManager(context)
+        novidadesListAdapter = AjudaAdapter(this)
+        view.rc_novidades.layoutManager = novidadesListLayoutManager
+        view.rc_novidades.adapter = novidadesListAdapter
+        view.rc_novidades.isHorizontalFadingEdgeEnabled
+        view.rc_novidades.setHasFixedSize(true)
 
-        viewModel.returnDuvidas.observe(viewLifecycleOwner){
-            duvidasListAdapter.addList(it)
+        viewModel.returnNovidades.observe(viewLifecycleOwner){
+            novidadesListAdapter.addList(it)
         }
 
-//        viewModel.getDuvidasList()
+//        viewModel.getNovidadesList()
 
         return view
     }
 
-    companion object{
-        fun newInstance() = FragRecycler_duvidasList()
+    companion object {
+        fun newInstance() = FragRecycler_novidadesList()
     }
 
     override fun ajudaItemClick(position: Int) {
-        viewModel.returnDuvidas.observe(viewLifecycleOwner){
-            var duvida = it.get(position)
+        viewModel.returnNovidades.observe(viewLifecycleOwner) {
+            val novidade = it.get(position)
 
             //Abrindo o fragment AjudaDetailsFragment
             (activity as AjudaActivity).supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fl_ajudaDetails, AjudaDetailsFragment.newInstance())
                 commit()
             }
+
         }
+
     }
+
 }

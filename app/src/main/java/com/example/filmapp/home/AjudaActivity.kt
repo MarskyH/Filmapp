@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Home.HomeActivity
 import com.example.filmapp.home.FragRecyclers.FragRecycler_duvidasList
 import com.example.filmapp.home.FragRecyclers.FragRecycler_novidadesList
 import com.example.filmapp.R

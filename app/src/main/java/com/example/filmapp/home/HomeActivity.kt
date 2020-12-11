@@ -1,17 +1,14 @@
-package com.example.filmapp.Home
+package com.example.filmapp.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
-import com.example.filmapp.home.activitys.ViewPagerHomeAdapter
-import com.example.filmapp.Media.Fragments.HomeMediaFragment
-import com.example.filmapp.home.DescubraActivity
 import com.example.filmapp.home.fragments.HomeFragment
+import com.example.filmapp.Media.Fragments.HomeMediaFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -22,6 +19,22 @@ class HomeActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbarHomePage)
 
+//<<<<<<< HEAD
+//=======
+//        viewModel.listResMovies.observe(this) {
+//            ListFilmes = it.results
+//            Log.i("HomeActivity - filmes",it.toString())
+//        }
+//
+//        viewModel.listResSeries.observe(this) {
+////            ListSeries = it.resultTvs
+//            Log.i("HomeActivity - series",it.toString())
+//        }
+//
+//        viewModel.getPopularSeries()
+//        viewModel.getPopularMovies()
+//
+//>>>>>>> MatheusLeite
         setTabs()
     }
 

@@ -3,9 +3,8 @@ package com.example.filmapp.Login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-import com.example.filmapp.Home.HomeActivity
 import com.example.filmapp.R
+import com.example.filmapp.home.HomeActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {

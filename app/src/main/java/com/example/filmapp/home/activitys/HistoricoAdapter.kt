@@ -1,4 +1,4 @@
-package com.example.filmapp.home.adapters.RecyclerViews
+package com.example.filmapp.home.activitys
 
 import android.view.LayoutInflater
 import android.view.View
@@ -17,14 +17,14 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HistoricoAdapter.HistoricoViewHolder {
+    ): HistoricoViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_historicolist, parent, false)
         return HistoricoViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: HistoricoAdapter.HistoricoViewHolder,
+        holder: HistoricoViewHolder,
         position: Int
     ) {
         val currentItem: ResultTv = mediaList[position]

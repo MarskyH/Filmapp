@@ -1,4 +1,4 @@
-package com.example.filmapp.home.adapters.RecyclerViews
+package com.example.filmapp.home.FragRecyclers
 
 import android.view.LayoutInflater
 import android.view.View
@@ -17,14 +17,14 @@ class AjudaAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AjudaAdapter.AjudaViewHolder {
+    ): AjudaViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_ajudalists, parent, false)
         return AjudaViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: AjudaAdapter.AjudaViewHolder,
+        holder: AjudaViewHolder,
         position: Int
     ) {
         val currentItem: Ajuda = ajudaList[position]

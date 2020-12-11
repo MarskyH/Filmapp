@@ -26,7 +26,8 @@
         <activity android:name=".home.DescubraActivity"/>
         <activity android:name=".home.AgendaActivity" />
         <activity android:name=".home.AltaActivity" />
-        <activity android:name=".Home.HomeActivity"/>
+
+        <activity android:name=".home.HomeActivity"/>
 
         <activity android:name=".SplashActivity">
             <intent-filter>

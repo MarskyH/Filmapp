@@ -1,4 +1,4 @@
-package com.example.filmapp.home.activitys
+package com.example.filmapp.home.activitys.viewmodels
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

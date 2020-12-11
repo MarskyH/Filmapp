@@ -1,4 +1,4 @@
-package com.example.filmapp.home.adapters.RecyclerViews
+package com.example.filmapp.home.fragments
 
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +16,14 @@ class MelhoresAdapter(): RecyclerView.Adapter<MelhoresAdapter.MelhoresViewHolder
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MelhoresAdapter.MelhoresViewHolder {
+    ): MelhoresViewHolder {
         val itemView=
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
         return MelhoresViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: MelhoresAdapter.MelhoresViewHolder,
+        holder: MelhoresViewHolder,
         position: Int
     ) {
         val currentItem: Media = mediaList[position]

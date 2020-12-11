@@ -1,4 +1,4 @@
-package com.example.filmapp.home.fragments
+package com.example.filmapp.home.activitys
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Entities.TV.ResultTv
+import com.example.filmapp.Entities.All.ResultSearchAll
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
-class DescubraSeriesAdapter(val listener: onDescubraSerieClickListener) :
-    RecyclerView.Adapter<DescubraSeriesAdapter.DescubraSerieListsViewHolder>() {
+class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
+    RecyclerView.Adapter<DescubraListsAdapter.DescubraListsViewHolder>() {
 
-    var mediaList = arrayListOf<ResultTv>()
+    var mediaList = arrayListOf<ResultSearchAll>()
     private var assistirMaisTardeIndicationBoolean = false
     private var evaluationIndicationBoolean = false
     private var shareIndicationBoolean = false
@@ -21,17 +21,17 @@ class DescubraSeriesAdapter(val listener: onDescubraSerieClickListener) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): DescubraSerieListsViewHolder {
+    ): DescubraListsViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_medialist, parent, false)
-        return DescubraSerieListsViewHolder(itemView)
+        return DescubraListsViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: DescubraSerieListsViewHolder,
+        holder: DescubraListsViewHolder,
         position: Int
     ) {
-        val currentItem: ResultTv = mediaList[position]
+        val currentItem: ResultSearchAll = mediaList[position]
 
         holder.mediaName.text = currentItem.original_name
         holder.mediaDetail1.text = currentItem.first_air_date
@@ -69,18 +69,17 @@ class DescubraSeriesAdapter(val listener: onDescubraSerieClickListener) :
                 shareIndicationBoolean = false
             }
         }
-
     }
 
     override fun getItemCount(): Int {
         return mediaList.size
     }
 
-    interface onDescubraSerieClickListener {
+    interface onDescubraItemClickListener {
         fun descubraItemClick(position: Int)
     }
 
-    inner class DescubraSerieListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class DescubraListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_medialist)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
@@ -104,7 +103,7 @@ class DescubraSeriesAdapter(val listener: onDescubraSerieClickListener) :
 
     }
 
-    fun addList(list: ArrayList<ResultTv>) {
+    fun addList(list: ArrayList<ResultSearchAll>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
     }

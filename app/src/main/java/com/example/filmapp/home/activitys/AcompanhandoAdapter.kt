@@ -1,4 +1,4 @@
-package com.example.filmapp.home.adapters.RecyclerViews
+package com.example.filmapp.home.activitys
 
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +17,7 @@ class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AcompanhandoAdapter.AcompanhandoViewHolder {
+    ): AcompanhandoViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_acompanhandolist_acompanhando, parent, false)
@@ -25,7 +25,7 @@ class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
     }
 
     override fun onBindViewHolder(
-        holder: AcompanhandoAdapter.AcompanhandoViewHolder,
+        holder: AcompanhandoViewHolder,
         position: Int
     ) {
         val currentItem: ResultTv = mediaList[position]
