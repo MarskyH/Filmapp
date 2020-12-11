@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.FragRecyclers.FragRecycler_filmesDescubra">
+    tools:context=".home.descubra.FragRecycler_filmesDescubra">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_novosEpisodeos_EmAlta"

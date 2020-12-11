@@ -9,7 +9,7 @@ import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.R
 import com.example.filmapp.Series.Fragments.EpisodioFragment
-import com.example.filmapp.home.DescubraActivity
+import com.example.filmapp.home.descubra.DescubraActivity
 import kotlinx.android.synthetic.main.activity_serie_episodio_selected.*
 
 
