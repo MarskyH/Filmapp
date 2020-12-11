@@ -9,6 +9,7 @@ import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.home.fragments.HomeFragment
 import com.example.filmapp.Media.Fragments.HomeMediaFragment
+import com.example.filmapp.home.activitys.viewmodels.ViewPagerHomeAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {

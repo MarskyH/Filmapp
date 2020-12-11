@@ -12,15 +12,6 @@ class FilmesDescubraViewModel(val service: Service) : ViewModel() {
     var returnDescubraFilmesListAPI = MutableLiveData<BaseMovie>()
 
     fun getDescubraFilmesList(name: String){
-<<<<<<< HEAD
-        viewModelScope.launch {
-            returnDescubraFilmesListAPI.value = service.getSearchMovies(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US",
-                name
-            )
-        }
-=======
 //        viewModelScope.launch {
 //            returnDescubraFilmesListAPI.value = service.getSearchMovies(
 //                "4a6baee1eff7d3911f03f59b9b8f43eb",
@@ -28,6 +19,5 @@ class FilmesDescubraViewModel(val service: Service) : ViewModel() {
 //                name
 //            )
 //        }
->>>>>>> MatheusLeite
     }
 }

@@ -12,16 +12,7 @@ class SeriesDescubraViewModel(val service: Service) : ViewModel() {
     var returnDescubraSeriesListAPI = MutableLiveData<BaseTv>()
 
     fun getDescubraSeriesList(name: String){
-<<<<<<< HEAD
-        viewModelScope.launch {
-            returnDescubraSeriesListAPI.value = service.getSearcTv(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US",
-                name
-            )
 
-        }
-=======
 //        viewModelScope.launch {
 //            returnDescubraSeriesListAPI.value = service.getSearcTv(
 //                "4a6baee1eff7d3911f03f59b9b8f43eb",
@@ -30,6 +21,6 @@ class SeriesDescubraViewModel(val service: Service) : ViewModel() {
 //            )
 //
 //        }
->>>>>>> MatheusLeite
+
     }
 }

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
+import com.example.filmapp.home.activitys.viewmodels.ViewPagerMelhoresAdapter
 import com.example.filmapp.home.fragments.MelhoresFilmesFragment
 import com.example.filmapp.home.fragments.MelhoresSeriesFragment
 import kotlinx.android.synthetic.main.activity_melhores.*
