@@ -13,6 +13,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="207dp"
         android:layout_height="323dp"
         android:layout_marginStart="10dp"
@@ -47,25 +48,39 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.015"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.66" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="0.088" />
 
-    <TextView
-        android:id="@+id/textViewSinopseTemporada"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:fontFamily="@font/montserrat"
-        android:gravity="center_horizontal"
-        android:text="Na trama, conhecemos um mundo onde super-heróis são as maiores celebridades do planeta, e rotineiramente abusa, de seus poderes ao invés de usarem para o bem da sociedade e do mundo "
-        android:textColor="@color/white"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.894" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textViewSinopseTemporada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="start"
+            android:nestedScrollingEnabled="true"
+            android:text="Na trama, conhecemos um mundo onde super-heróis são as maiores celebridades do planeta, e rotineiramente abusa, de seus poderes ao invés de usarem para o bem da sociedade e do mundo "
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.824" />
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,13 +22,17 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 
-class HomeMediaFragment(val Movie: Boolean) : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieClickListener,
+class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieClickListener,
     HomeMediaSerieAdapter.OnHomeMediaSerieClickListener {
     private lateinit var MovieAdapter: HomeMediaMovieAdapter
     private lateinit var SerieAdapter: HomeMediaSerieAdapter
     private lateinit var lManager: LinearLayoutManager
     lateinit var ListMediaMovie: ArrayList<ResultMovie>
     lateinit var ListMediaSerie: ArrayList<ResultTv>
+<<<<<<< HEAD
+=======
+    var Movie: Boolean? = null
+>>>>>>> Marcus
     var config = Config()
 
 
@@ -40,45 +44,67 @@ class HomeMediaFragment(val Movie: Boolean) : Fragment(), HomeMediaMovieAdapter.
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            Movie = arguments?.getBoolean(movie)
+        }
+    }
+
+    companion object{
+        private val movie = "movie"
+
+        fun newInstance(Movie: Boolean): HomeMediaFragment{
+            val fragment = HomeMediaFragment()
+            val args = Bundle()
+            args.putBoolean(movie, Movie)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-        val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
-        if (Movie == true) {
-            viewModel.config.observe(viewLifecycleOwner) {
-                config = it
+            val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
+            if (Movie == true) {
+                viewModel.config.observe(viewLifecycleOwner) {
+                    config = it
+                }
+                viewModel.getConfig()
+                viewModel.listResMovies.observe(viewLifecycleOwner) {
+                    ListMediaMovie = it.results
+                    MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    view.rv_pop.layoutManager = lManager
+                    view.rv_pop.adapter = MovieAdapter
+                    view.rv_pop.setHasFixedSize(true)
+                }
+                viewModel.getPopularMovies()
+            } else {
+                viewModel.config.observe(viewLifecycleOwner) {
+                    config = it
+                }
+                viewModel.getConfig()
+                viewModel.listResSeries.observe(viewLifecycleOwner) {
+                    ListMediaSerie = it.results
+                    SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    view.rv_pop.layoutManager = lManager
+                    view.rv_pop.adapter = SerieAdapter
+                    view.rv_pop.setHasFixedSize(true)
+                }
+                viewModel.getPopularSeries()
             }
-            viewModel.getConfig()
-            viewModel.listResMovies.observe(viewLifecycleOwner) {
-                ListMediaMovie = it.results
-                MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
-                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                view.rv_pop.layoutManager = lManager
-                view.rv_pop.adapter = MovieAdapter
-                view.rv_pop.setHasFixedSize(true)
-            }
-            viewModel.getPopularMovies()
-        } else {
-            viewModel.config.observe(viewLifecycleOwner) {
-                config = it
-            }
-            viewModel.getConfig()
-            viewModel.listResSeries.observe(viewLifecycleOwner) {
-                ListMediaSerie = it.results
-                SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
-                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                view.rv_pop.layoutManager = lManager
-                view.rv_pop.adapter = SerieAdapter
-                view.rv_pop.setHasFixedSize(true)
-            }
-            viewModel.getPopularSeries()
-        }
         return view
     }
+
+
+
+
+
 
     override fun homeMediaMovieClick(position: Int) {
         if (Movie == true) {

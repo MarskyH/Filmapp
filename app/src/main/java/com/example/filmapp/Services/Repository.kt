@@ -13,6 +13,7 @@ import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ImagesTv
 import com.example.filmapp.Entities.TV.LatestTv
 import com.example.filmapp.Entities.TV.TvDetails
+
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -67,7 +68,7 @@ interface Service {
     ): TvDetails
 
     //pega as imagens de uma determinada série, passar um id de série, o Path.
-    @GET("/tv/{tv_id}/images")
+    @GET("tv/{tv_id}/images")
     suspend fun getImagesSerie(
         @Path("tv_id") id: String,
         @Query("api_key") key: String,
@@ -114,6 +115,7 @@ interface Service {
     ): BaseTv
 
 //<<<<<<< HEAD
+
     //Pesquisa - Movies
     @GET("search/movie")
     suspend fun getSearchMovies(
@@ -131,10 +133,10 @@ interface Service {
     ): BaseTv
 
     //pega os detalhes de uma determinada temporada, passar um id de série e o número da temporada, o Path.
-    @GET("/tv/{tv_id}/season/{season_number}")
+    @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getSesaonDetails(
-        @Path("tv_id") serie_id: String,
-        @Path("season_number") season_number: String,
+        @Path("tv_id") id: Int,
+        @Path("season_number") number: Int,
         @Query("api_key") key: String,
         @Query("language") language: String,
     ): SeasonDetails

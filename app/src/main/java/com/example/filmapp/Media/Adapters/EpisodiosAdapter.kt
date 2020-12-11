@@ -1,6 +1,7 @@
 package com.example.filmapp.Series.Adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.SeasonDetails
+import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.R
 import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
 import com.squareup.picasso.Picasso
 
 
-class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: OnEpisodioClickListener): RecyclerView.Adapter<EpisodiosAdapter.EpisodiosViewHolder>() {
+class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: OnEpisodioClickListener, val Serie: TvDetails): RecyclerView.Adapter<EpisodiosAdapter.EpisodiosViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,9 +29,17 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
 
     override fun onBindViewHolder(holder: EpisodiosViewHolder, position: Int) {
         val episodio = listEpisodios.episodes.get(position)
+        var season = listEpisodios.poster_path
         val picasso = Picasso.get()
         val pathImg = episodio.still_path
-        val img = "${pathImg}".replace("http://","https://")
+        val logoPath = Serie.networks.get(0).logo_path
+        Log.i("logo", logoPath)
+        val baseURl = "https://image.tmdb.org/t/p/"
+        val size = "original"
+        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
+        val imgLogo ="${baseURl}${size}${logoPath}".replace("http://","https://")
+        Log.i("logo path", imgLogo)
+        season = "${baseURl}${size}${season}".replace("http://","https://")
         picasso.load(img).into(holder.imgEpisodio)
         holder.tvTitulo.text = episodio.name
         holder.imgEpisodio.setOnClickListener {
@@ -37,7 +47,9 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
             intent.putExtra("number_episode", episodio.episode_number)
             intent.putExtra("sinopse_episode", episodio.overview)
             intent.putExtra("number_season", episodio.season_number)
-            intent.putExtra("imagem", episodio.still_path)
+            intent.putExtra("imagem", season)
+            intent.putExtra("logo", imgLogo)
+            intent.putExtra("homepage", Serie.homepage)
             holder.itemView.context.startActivity(intent)
         }
 

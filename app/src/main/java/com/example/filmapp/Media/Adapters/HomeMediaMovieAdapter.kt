@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso
 class HomeMediaMovieAdapter(
     private var listMediaMovie: ArrayList<ResultMovie>,
     val listener: OnHomeMediaMovieClickListener,
-    val Movie: Boolean, val config: Config) : RecyclerView.Adapter<HomeMediaMovieAdapter.HomeMediasMovieViewHolder>() {
+    val Movie: Boolean?, val config: Config) : RecyclerView.Adapter<HomeMediaMovieAdapter.HomeMediasMovieViewHolder>() {
     val picasso = Picasso.get()
 
     override fun onCreateViewHolder(
@@ -33,19 +33,17 @@ class HomeMediaMovieAdapter(
     override fun onBindViewHolder(holder: HomeMediasMovieViewHolder, position: Int) {
         var homeMovie = listMediaMovie[position]
         var baseURl = config.images.secure_base_url
-        var size = config.images.poster_sizes[6]
+        var size = "original"
         val pathImg = homeMovie.poster_path
         val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
         picasso.load(img).into(holder.img)
         holder.titulo.text = homeMovie.title
         holder.img.setOnClickListener {
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-            if (homeMovie != null){
                 intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
-                intent.putExtra("media", homeMovie)
+                intent.putExtra("mediaMovie", homeMovie)
                 holder.itemView.context.startActivity(intent)
-            }
         }
     }
 

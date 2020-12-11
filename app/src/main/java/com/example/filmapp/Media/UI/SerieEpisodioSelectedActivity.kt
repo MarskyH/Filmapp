@@ -64,11 +64,13 @@ class SerieEpisodioSelectedActivity : AppCompatActivity() {
         val numberEp = intent.getSerializableExtra("number_episode") as? Int
         val sinopseEp = intent.getSerializableExtra("sinopse_episode") as? String
         val img = intent.getSerializableExtra("imagem") as? String
+        val imgLogo = intent.getSerializableExtra("logo") as? String
+        val homepage = intent.getSerializableExtra("homepage") as? String
         val titulo = "Temporada ${numberSeason} - Episódio ${numberEp}"
 
 
         val adapter = ViewPagerMedia(supportFragmentManager)
-        adapter.addFragment(EpisodioFragment(img, sinopseEp), titulo)
+        adapter.addFragment(EpisodioFragment(img, sinopseEp, imgLogo, homepage), titulo)
         viewPagerSeriesEpisodio.adapter = adapter
         tabsSeriesEpisodioSelected.setupWithViewPager(viewPagerSeriesEpisodio)
     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.BaseTv
@@ -28,7 +29,7 @@ class EspecificoFragmentViewModel(val service: Service) : ViewModel() {
             listDetails.value = service.getDetailsSerie(
                 id,
                 API_KEY,
-                "en-US",
+                LANGUAGE,
                 1
             )
         }
@@ -38,7 +39,7 @@ class EspecificoFragmentViewModel(val service: Service) : ViewModel() {
             listSimilar.value = service.getSimilarMovies(
                 id,
                 API_KEY,
-                "en-US",
+                LANGUAGE,
                 1
             )
         }
@@ -46,7 +47,7 @@ class EspecificoFragmentViewModel(val service: Service) : ViewModel() {
     fun getConfig(){
         viewModelScope.launch {
             config.value = service.getApiConfig(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
+                API_KEY,
             )
         }
     }

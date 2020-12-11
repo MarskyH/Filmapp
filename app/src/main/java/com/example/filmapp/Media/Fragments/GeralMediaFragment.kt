@@ -21,8 +21,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.Serializable
 
-class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() {
+class GeralMediaFragment(): Fragment() {
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
@@ -30,8 +31,30 @@ class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() 
     var selAcompanhar: Boolean = false
     var progr = 0
     val picasso = Picasso.get()
+    var Poster: String? = null
+    var Sinopse: String? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (arguments != null) {
+            Poster = arguments?.getString(poster)
+            Sinopse = arguments?.getString(sinopse)
+        }
+    }
 
+    companion object {
+        private val sinopse = "sinopse"
+        private val poster = "poster"
+        fun newInstance(Sinopse: String?, Poster: String?): GeralMediaFragment {
+            val fragment = GeralMediaFragment()
+            val args = Bundle()
+            args.putString(sinopse, Sinopse)
+            args.putString(poster, Poster)
+            fragment.arguments = args
+            return fragment
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +63,8 @@ class GeralMediaFragment(val poster: String?, val sinopse: String?): Fragment() 
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
-        view.tv_sinopse.text = sinopse
-      picasso.load(poster).into(view.img_geral)
+        view.tv_sinopse.text = Sinopse
+      picasso.load(Poster).into(view.img_geral)
 
         view.progress_circular.setOnClickListener{
             incrCircleBar()

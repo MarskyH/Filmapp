@@ -3,6 +3,7 @@ package com.example.filmapp.Series.Ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
@@ -64,10 +65,13 @@ open class SerieTemporadaActivity : AppCompatActivity() {
     fun setUpTabs() {
         val serie = intent.getSerializableExtra("serie") as? TvDetails
         val season = intent.getSerializableExtra("season") as? Season
+        Log.i("season select", season.toString())
         val poster = intent.getSerializableExtra("poster_season") as? String
+        val Temporada = TemporadaFragment.newInstance(season, poster)
+        val Episodios = EpisodiosFragment.newInstance(serie, season)
         val adapter = ViewPagerMedia(supportFragmentManager)
-        adapter.addFragment(TemporadaFragment(serie?.id, season, poster), "${serie?.name} - Temporada ${season?.season_number}")
-        adapter.addFragment(EpisodiosFragment(serie?.id, season?.season_number), "Episódios")
+        adapter.addFragment(Temporada, "${serie?.name} - Temporada ${season?.season_number}")
+        adapter.addFragment(Episodios, "Episódios")
         viewPagerSeriesTemporada.adapter = adapter
         tabsSeriesTemporada.setupWithViewPager(viewPagerSeriesTemporada)
     }
