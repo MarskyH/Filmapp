@@ -24,11 +24,8 @@ import kotlinx.coroutines.launch
 
 
 
-<<<<<<< HEAD
-class EpisodioFragment(val img: String?, val sinopse: String?): Fragment() {
-=======
 class EpisodioFragment(val img: String?, val sinopse: String?, val imgLogo: String?, val homePage: String?): Fragment() {
->>>>>>> Marcus
+
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false

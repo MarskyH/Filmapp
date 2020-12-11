@@ -29,10 +29,9 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     private lateinit var lManager: LinearLayoutManager
     lateinit var ListMediaMovie: ArrayList<ResultMovie>
     lateinit var ListMediaSerie: ArrayList<ResultTv>
-<<<<<<< HEAD
-=======
+
     var Movie: Boolean? = null
->>>>>>> Marcus
+
     var config = Config()
 
 
