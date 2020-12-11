@@ -5,7 +5,11 @@ data class BaseSearchAll(
     val results: ArrayList<ResultSearchAll>,
     val total_pages: Int,
     val total_results: Int
-)
+){
+    override fun toString(): String {
+        return "BaseSearchAll(page=$page, results=$results, total_pages=$total_pages, total_results=$total_results)"
+    }
+}
 
 data class ResultSearchAll(
     val adult: Boolean,

@@ -108,7 +108,6 @@ interface Service {
     @GET("search/multi")
     suspend fun getSearch(
         @Query("api_key") key: String,
-        @Query("language") language: String,
         @Query("query") query: String
     ): BaseSearchAll
 

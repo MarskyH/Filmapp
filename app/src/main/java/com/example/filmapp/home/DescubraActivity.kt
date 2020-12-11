@@ -52,10 +52,10 @@ class DescubraActivity : AppCompatActivity(), DescubraListsAdapter.onDescubraIte
 
         viewModel.returnSearchListAPI.observe(this){
             mediaListAdapter.addList(it)
-//            Log.i("LIST", it.toString())
+
         }
 
-        var name = "tenet"
+        var name = "batman"
         viewModel.getSearchList(name)
 
 //        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
