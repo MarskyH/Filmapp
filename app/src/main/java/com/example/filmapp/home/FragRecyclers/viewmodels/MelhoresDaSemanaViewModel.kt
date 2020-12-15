@@ -4,12 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.All.BaseAll
+import com.example.filmapp.Entities.All.ResultAll
+import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Services.Service
 import kotlinx.coroutines.launch
 
 class MelhoresDaSemanaViewModel(val service: Service) : ViewModel() {
 
-    var returnMelhoresDaSemanaListAPI = MutableLiveData<BaseAll>()
+    var returnMelhoresDaSemanaListAPI = MutableLiveData<ResultAll>()
 
     fun getMelhoresDaSemanaList(){
         viewModelScope.launch {

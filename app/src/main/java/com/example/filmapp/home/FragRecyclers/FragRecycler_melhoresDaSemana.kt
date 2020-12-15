@@ -17,13 +17,14 @@ import com.example.filmapp.Services.service
 import com.example.filmapp.home.FragRecyclers.viewmodels.MelhoresDaSemanaViewModel
 import kotlinx.android.synthetic.main.fragrecycler_melhoresdasemana.view.*
 
-class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelhoresDaSemanaItemClickListener {
+class FragRecycler_melhoresDaSemana : Fragment(),
+    MelhoresDaSemanaAdapter.onMelhoresDaSemanaItemClickListener {
 
     private lateinit var mediaListAdapter: MelhoresDaSemanaAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
 
-    val viewModel by viewModels<MelhoresDaSemanaViewModel>{
-        object : ViewModelProvider.Factory{
+    val viewModel by viewModels<MelhoresDaSemanaViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return MelhoresDaSemanaViewModel(service) as T
             }
@@ -39,37 +40,30 @@ class FragRecycler_melhoresDaSemana : Fragment(), MelhoresDaSemanaAdapter.onMelh
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragrecycler_melhoresdasemana, container, false)
-
-        //Iniciando o ReciclerView Melhores da Semana
-        mediaListLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        mediaListAdapter = MelhoresDaSemanaAdapter(this)
-        view.rv_melhoresDaSemana_EmAlta.layoutManager = mediaListLayoutManager
-        view.rv_melhoresDaSemana_EmAlta.adapter = mediaListAdapter
-        view.rv_melhoresDaSemana_EmAlta.isHorizontalFadingEdgeEnabled
-        view.rv_melhoresDaSemana_EmAlta.setHasFixedSize(true)
-
-        viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner){
-            var mediaList = it.results
-            mediaListAdapter.addList(mediaList)
+        val view = inflater.inflate(R.layout.fragrecycler_melhoresdasemana, container, false)
+        viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner) {
+            val mediaList = it
+            mediaListLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            mediaListAdapter = MelhoresDaSemanaAdapter(this, mediaList)
+            view.rv_melhoresDaSemana_EmAlta.layoutManager = mediaListLayoutManager
+            view.rv_melhoresDaSemana_EmAlta.adapter = mediaListAdapter
+            view.rv_melhoresDaSemana_EmAlta.isHorizontalFadingEdgeEnabled
+            view.rv_melhoresDaSemana_EmAlta.setHasFixedSize(true)
         }
-
         viewModel.getMelhoresDaSemanaList()
 
         return view
     }
 
-    companion object{
+    companion object {
         fun newInstance() = FragRecycler_melhoresDaSemana()
     }
 
     override fun melhoresDaSemanaItemClick(position: Int) {
         viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner) {
-            var mediaList = it.results
+            val mediaList = it.results
             var media = mediaList.get(position)
-
-            val intent = Intent(context, MediaSelectedActivity::class.java)
-            startActivity(intent)
+            mediaListAdapter.notifyDataSetChanged()
         }
     }
 
