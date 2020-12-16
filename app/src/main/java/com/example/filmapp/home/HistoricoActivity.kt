@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Home.HomeActivity
 import com.example.filmapp.home.adapters.RecyclerViews.HistoricoAdapter
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R

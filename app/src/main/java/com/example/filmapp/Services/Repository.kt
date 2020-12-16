@@ -1,12 +1,20 @@
 package com.example.filmapp.Services
 
 
+
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.TV.*
 import com.example.filmapp.Entities.All.BaseAll
+import com.example.filmapp.Entities.All.BaseSearchAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
+import com.example.filmapp.Entities.Movie.SearchMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
-import com.example.filmapp.Entities.TV.*
+import com.example.filmapp.Entities.TV.BaseTv
+import com.example.filmapp.Entities.TV.ImagesTv
+import com.example.filmapp.Entities.TV.LatestTv
+import com.example.filmapp.Entities.TV.TvDetails
+
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -107,13 +115,15 @@ interface Service {
         @Query("language") language: String
     ): BaseTv
 
+//<<<<<<< HEAD
+
     //Pesquisa - Movies
     @GET("search/movie")
     suspend fun getSearchMovies(
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("query") query: String
-    ): BaseMovie
+    ): SearchMovie
 
     //Pesquisa - TV
     @GET("search/tv")
@@ -121,7 +131,7 @@ interface Service {
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("query") query: String
-    ): BaseTv
+    ): SearchTv
 
     //pega os detalhes de uma determinada temporada, passar um id de série e o número da temporada, o Path.
     @GET("tv/{tv_id}/season/{season_number}")
@@ -137,6 +147,14 @@ interface Service {
     suspend fun getApiConfig(
         @Query("api_key") key: String,
     ): Config
+//=======
+    //Pesquisa - Todos
+    @GET("search/multi")
+    suspend fun getSearch(
+        @Query("api_key") key: String,
+        @Query("query") query: String
+    ): BaseSearchAll
+//>>>>>>> MatheusLeite
 
 }
 

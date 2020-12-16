@@ -4,12 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.Movie.BaseMovie
+import com.example.filmapp.Entities.Movie.SearchMovie
 import com.example.filmapp.Services.Service
 import kotlinx.coroutines.launch
 
 class FilmesDescubraViewModel(val service: Service) : ViewModel() {
 
-    var returnDescubraFilmesListAPI = MutableLiveData<BaseMovie>()
+    var returnDescubraFilmesListAPI = MutableLiveData<SearchMovie>()
 
     fun getDescubraFilmesList(name: String){
         viewModelScope.launch {

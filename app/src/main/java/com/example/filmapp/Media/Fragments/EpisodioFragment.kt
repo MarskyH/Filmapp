@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 
 
 class EpisodioFragment(val img: String?, val sinopse: String?, val imgLogo: String?, val homePage: String?): Fragment() {
+
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false

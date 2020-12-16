@@ -47,7 +47,7 @@
                 android:fontFamily="@font/montserrat"
                 android:text="The Flash"
                 android:textColor="@color/Principal"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -72,11 +72,11 @@
 
             </LinearLayout>
 
-<!--            Serie:  mediaDetail1 = N° Temporadas-->
-<!--                    mediaDetail2 = N° Episódios-->
+<!--            Serie:  mediaDetail1 = First Air Date-->
+<!--                    mediaDetail2 = Linguagem Original-->
 
-<!--            Filme:  mediaDetail1 = Duração-->
-<!--                    mediaDetail2 = Genero-->
+<!--            Filme:  mediaDetail1 = Data de Lançamento-->
+<!--                    mediaDetail2 = Linguagem Original-->
 
             <TextView
                 android:id="@+id/tv_mediaDetail1_medialist"
@@ -102,7 +102,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -117,7 +117,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_estrelaroxa_vazia"/>
+                    android:src="@drawable/ic_estrela_vazia"/>
 
                 <ImageView
                     android:id="@+id/shareIndication_medialist"

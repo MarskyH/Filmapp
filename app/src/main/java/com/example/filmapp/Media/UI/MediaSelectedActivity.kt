@@ -11,11 +11,10 @@ import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
-import com.example.filmapp.Media.Fragments.HomeMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
 import com.example.filmapp.Media.Fragments.ResourcesFragment
 import com.example.filmapp.R
-import com.example.filmapp.home.DescubraActivity
+import com.example.filmapp.home.descubra.DescubraActivity
 
 import kotlinx.android.synthetic.main.activity_media_selected.*
 

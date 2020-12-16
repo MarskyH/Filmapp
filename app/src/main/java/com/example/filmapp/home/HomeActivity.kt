@@ -1,17 +1,14 @@
-package com.example.filmapp.Home
+package com.example.filmapp.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
-import com.example.filmapp.home.activitys.ViewPagerHomeAdapter
 import com.example.filmapp.Media.Fragments.HomeMediaFragment
-import com.example.filmapp.home.DescubraActivity
-import com.example.filmapp.home.fragments.HomeFragment
+import com.example.filmapp.home.descubra.DescubraActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -21,7 +18,6 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         setSupportActionBar(toolbarHomePage)
-
         setTabs()
     }
 

@@ -4,7 +4,9 @@ package com.example.filmapp.Services
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.All.BaseSearchAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.TV.BaseTv
 
@@ -15,7 +17,21 @@ class MainViewModel(val service: Service) : ViewModel() {
 
     var listResMovies = MutableLiveData<BaseMovie>()
     var listResSeries = MutableLiveData<BaseTv>()
+    var listResSearch = MutableLiveData<BaseSearchAll>()
     var config = MutableLiveData<Config>()
+
+
+
+
+    fun getSearch(text: String?){
+        viewModelScope.launch {
+            listResSearch.value = service.getSearch(
+                API_KEY,
+                text.toString()
+            )
+        }
+    }
+
 
 
     fun getPopularMovies() {

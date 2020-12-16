@@ -29,7 +29,9 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     private lateinit var lManager: LinearLayoutManager
     lateinit var ListMediaMovie: ArrayList<ResultMovie>
     lateinit var ListMediaSerie: ArrayList<ResultTv>
+
     var Movie: Boolean? = null
+
     var config = Config()
 
 
@@ -65,6 +67,11 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel.listResSearch.observe(viewLifecycleOwner){
+            Log.i("Pesquisa", it.toString())
+        }
+        viewModel.getSearch("Star")
+
             val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
             if (Movie == true) {
                 viewModel.config.observe(viewLifecycleOwner) {
