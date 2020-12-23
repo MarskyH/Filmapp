@@ -24,6 +24,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -33,7 +34,6 @@
         app:boxBackgroundColor="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEdit_search_descubra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -43,54 +43,46 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_SearchList"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_medialist" />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_margin="10dp">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
+            <TextView
+                android:id="@+id/tv_titleSeries_descubra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textView_series_descubra"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/tv_titleSeries_descubra"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/textView_series_descubra"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="25dp"-->
-<!--                android:textStyle="bold" />-->
+            <FrameLayout
+                android:id="@+id/fragRecycler_seriesDescubraSpace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-<!--            <FrameLayout-->
-<!--                android:id="@+id/fragRecycler_seriesDescubraSpace"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"/>-->
+            <TextView
+                android:id="@+id/tv_titleFilmes_descubra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/textView_filmes_descubra"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/tv_titleFilmes_descubra"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/textView_filmes_descubra"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="25dp"-->
-<!--                android:textStyle="bold" />-->
+            <FrameLayout
+                android:id="@+id/fragRecycler_filmesDescubraSpace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-<!--            <FrameLayout-->
-<!--                android:id="@+id/fragRecycler_filmesDescubraSpace"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"/>-->
+        </LinearLayout>
 
-<!--        </LinearLayout>-->
-
-<!--    </androidx.core.widget.NestedScrollView>-->
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

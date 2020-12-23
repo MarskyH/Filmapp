@@ -13,37 +13,38 @@ import kotlinx.coroutines.launch
 
 class DescubraViewModel(val service: Service) : ViewModel() {
 
-    var returnSearchListAPI = MutableLiveData<ArrayList<ResultSearchAll>>()
-    var returnAPI = MutableLiveData<BaseSearchAll>()
-
-    fun getSearchList(name: String?){
-        var listFilter = arrayListOf<ResultSearchAll>()
-
-        viewModelScope.launch {
-            returnAPI.value = service.getSearch(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US",
-                name.toString()
-            )
-
-            Log.i("NAME", name.toString())
-        }
-
-        var list = returnAPI.value?.results
-        var result = returnAPI.value
-
-        if (list != null) {
-            for (item in list){
-                if (item.media_type != "person"){
-                    listFilter.add(item)
-                }
-            }
-        }
-
-        Log.i("listFilter", listFilter.size.toString())
-        Log.i("list", list?.size.toString())
-        Log.i("result", result.toString())
-
-        returnSearchListAPI.value = listFilter
-    }
+//    var returnSearchListAPI = MutableLiveData<ArrayList<ResultSearchAll>>()
+//    var returnAPI = MutableLiveData<BaseSearchAll?>()
+//
+//    fun getSearchList(name: String?){
+//        var listFilter = arrayListOf<ResultSearchAll>()
+//
+//        viewModelScope.launch {
+//            returnAPI.value = service.getSearch(
+//                "4a6baee1eff7d3911f03f59b9b8f43eb",
+//                "en-US",
+//                "batman"
+//                //name.toString()
+//            )
+//
+//            Log.i("NAME", name.toString())
+//        }
+//
+//        var list = returnAPI.value?.results
+//        var result = returnAPI.value
+//
+//        if (list != null) {
+//            for (item in list){
+//                if (item.media_type != "person"){
+//                    listFilter.add(item)
+//                }
+//            }
+//        }
+//
+//        Log.i("listFilter", listFilter.size.toString())
+//        Log.i("list", list?.size.toString())
+//        Log.i("result", result.toString())
+//
+//        returnSearchListAPI.value = listFilter
+//    }
 }

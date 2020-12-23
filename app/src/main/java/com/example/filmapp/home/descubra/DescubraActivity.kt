@@ -3,9 +3,12 @@ package com.example.filmapp.home.descubra
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.activity.viewModels
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +18,7 @@ import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_descubra.*
 
-class DescubraActivity : AppCompatActivity(), DescubraListsAdapter.onDescubraItemClickListener {
-
-    private lateinit var mediaListAdapter: DescubraListsAdapter
-    private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
+class DescubraActivity : AppCompatActivity(){
 
     val viewModel by viewModels<DescubraViewModel>{
         object : ViewModelProvider.Factory{
@@ -32,33 +32,17 @@ class DescubraActivity : AppCompatActivity(), DescubraListsAdapter.onDescubraIte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_descubra)
 
-        //Iniciando o ReciclerView SearchList
-        mediaListLayoutManager = LinearLayoutManager(this)
-        mediaListAdapter = DescubraListsAdapter(this)
-        rv_SearchList.layoutManager = mediaListLayoutManager
-        rv_SearchList.adapter = mediaListAdapter
-        rv_SearchList.isHorizontalFadingEdgeEnabled
-        rv_SearchList.setHasFixedSize(true)
-
-        viewModel.returnSearchListAPI.observe(this){
-            mediaListAdapter.addList(it)
-
+        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance())
+            commit()
         }
 
-        var name = "batman"
-        viewModel.getSearchList(name)
-
-//        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-//        supportFragmentManager.beginTransaction().apply {
-//            replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance())
-//            commit()
-//        }
-//
-//        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-//        supportFragmentManager.beginTransaction().apply {
-//            replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance())
-//            commit()
-//        }
+        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance())
+            commit()
+        }
 
         setSupportActionBar(toolbarDescubraPage)
 
@@ -88,12 +72,5 @@ class DescubraActivity : AppCompatActivity(), DescubraListsAdapter.onDescubraIte
     fun callConfiguracoesPage(){
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun descubraItemClick(position: Int) {
-        viewModel.returnSearchListAPI.observe(this) {
-            var media = it.get(position)
-
-        }
     }
 }

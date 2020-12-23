@@ -124,7 +124,7 @@ interface Service {
 
     //Pesquisa - TV
     @GET("search/tv")
-    suspend fun getSearcTv(
+    suspend fun getSearchTv(
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("query") query: String

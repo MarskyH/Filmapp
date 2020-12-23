@@ -41,19 +41,20 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraSeriesAdapter.onDescubra
         var view = inflater.inflate(R.layout.fragrecycler_seriesdescubra, container, false)
 
         //Iniciando o ReciclerView Descubra - Series
-        mediaListLayoutManager = LinearLayoutManager(context)
+        mediaListLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mediaListAdapter = DescubraSeriesAdapter(this)
         view.rv_seriesDescubra.layoutManager = mediaListLayoutManager
         view.rv_seriesDescubra.adapter = mediaListAdapter
         view.rv_seriesDescubra.isHorizontalFadingEdgeEnabled
         view.rv_seriesDescubra.setHasFixedSize(true)
 
-        viewModel.returnDescubraSeriesListAPI.observe(viewLifecycleOwner){
+        viewModel.returnAPI.observe(viewLifecycleOwner){
             var mediaList = it.results
             mediaListAdapter.addList(mediaList)
         }
 
-//        viewModel.getDescubraSeriesList() //Como implementar isso??
+        var name = "The Boys"
+        viewModel.getTVList(name)
 
         return view
     }
@@ -63,7 +64,7 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraSeriesAdapter.onDescubra
     }
 
     override fun descubraItemClick(position: Int) {
-        viewModel.returnDescubraSeriesListAPI.observe(viewLifecycleOwner){
+        viewModel.returnAPI.observe(viewLifecycleOwner){
             var mediaList = it.results
             var serie = mediaList.get(position)
 
