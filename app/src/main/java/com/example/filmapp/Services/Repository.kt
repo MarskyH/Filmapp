@@ -75,7 +75,7 @@ interface Service {
         @Query("language") language: String,
     ): ImagesTv
 
-    //PACOTE HOME
+    //PACOTE HOME -----------------------------------------------------------------------------------------------
 
     //Retorna os Melhores da Semana
     @GET("trending/{media_type}/{time_window}")
@@ -114,8 +114,6 @@ interface Service {
         @Query("language") language: String
     ): BaseTv
 
-//<<<<<<< HEAD
-
     //Pesquisa - Movies
     @GET("search/movie")
     suspend fun getSearchMovies(
@@ -132,6 +130,16 @@ interface Service {
         @Query("query") query: String
     ): BaseTv
 
+    //Pesquisa - Todos
+    @GET("search/multi")
+    suspend fun getSearch(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("query") query: String
+    ): BaseSearchAll
+
+    //----------------------------------------------------------------------------------------------------------
+
     //pega os detalhes de uma determinada temporada, passar um id de série e o número da temporada, o Path.
     @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getSesaonDetails(
@@ -146,14 +154,6 @@ interface Service {
     suspend fun getApiConfig(
         @Query("api_key") key: String,
     ): Config
-//=======
-    //Pesquisa - Todos
-    @GET("search/multi")
-    suspend fun getSearch(
-        @Query("api_key") key: String,
-        @Query("query") query: String
-    ): BaseSearchAll
-//>>>>>>> MatheusLeite
 
 }
 
