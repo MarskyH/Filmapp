@@ -17,9 +17,9 @@ import com.example.filmapp.Services.service
 import com.example.filmapp.home.descubra.DescubraMoviesAdapter
 import kotlinx.android.synthetic.main.fragment_melhores_filmes.view.*
 
-class MelhoresFilmesFragment : Fragment(), DescubraMoviesAdapter.onDescubraMovieClickListener {
+class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovieClickListener {
 
-    private lateinit var melhoresFilmesAdapter: DescubraMoviesAdapter
+    private lateinit var melhoresFilmesAdapter: MelhoresMoviesAdapter
     private lateinit var melhoresFilmesLayoutManager: RecyclerView.LayoutManager
 
     val viewModel by viewModels<MelhoresFilmesViewModel>{
@@ -42,7 +42,7 @@ class MelhoresFilmesFragment : Fragment(), DescubraMoviesAdapter.onDescubraMovie
 
         //Iniciando o ReciclerView de Melhores Filmes
         melhoresFilmesLayoutManager = LinearLayoutManager(context)
-        melhoresFilmesAdapter = DescubraMoviesAdapter(this)
+        melhoresFilmesAdapter = MelhoresMoviesAdapter(this)
         view.rc_melhoresFilmesList.layoutManager = melhoresFilmesLayoutManager
         view.rc_melhoresFilmesList.adapter = melhoresFilmesAdapter
         view.rc_melhoresFilmesList.isHorizontalFadingEdgeEnabled
@@ -58,7 +58,7 @@ class MelhoresFilmesFragment : Fragment(), DescubraMoviesAdapter.onDescubraMovie
         return view
     }
 
-    override fun descubraItemClick(position: Int) {
+    override fun melhoresItemClick(position: Int) {
         viewModel.returnTopMoviesAPI.observe(viewLifecycleOwner){
             var mediaList = it.results
             val filme = mediaList.get(position)

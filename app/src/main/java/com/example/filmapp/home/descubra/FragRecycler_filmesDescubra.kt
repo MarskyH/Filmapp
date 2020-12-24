@@ -21,8 +21,8 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubra
     private lateinit var mediaListAdapter: DescubraMoviesAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
 
-    val viewModel by viewModels<FilmesDescubraViewModel>{
-        object : ViewModelProvider.Factory{
+    val viewModel by viewModels<FilmesDescubraViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return FilmesDescubraViewModel(service) as T
             }
@@ -38,6 +38,8 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubra
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val search = arguments?.getString(ARG_SEARCH)
+
         var view = inflater.inflate(R.layout.fragrecycler_filmesdescubra, container, false)
 
         //Iniciando o ReciclerView Descubra - Filmes
@@ -48,23 +50,34 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubra
         view.rv_filmesDescubra.isHorizontalFadingEdgeEnabled
         view.rv_filmesDescubra.setHasFixedSize(true)
 
-        viewModel.returnAPI.observe(viewLifecycleOwner){
+        viewModel.returnAPI.observe(viewLifecycleOwner) {
             var mediaList = it.results
             mediaListAdapter.addList(mediaList)
         }
 
-        var name = "The Boys"
-        viewModel.getMovieList(name)
+        viewModel.getMovieList(search)
 
         return view
     }
 
-    companion object{
-        fun newInstance() = FragRecycler_filmesDescubra()
+    companion object {
+        const val ARG_SEARCH = "search"
+
+        fun newInstance(search: String): FragRecycler_filmesDescubra {
+            val fragment = FragRecycler_filmesDescubra()
+
+            val bundle = Bundle().apply {
+                putString(ARG_SEARCH, search)
+            }
+
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 
     override fun descubraItemClick(position: Int) {
-        viewModel.returnAPI.observe(viewLifecycleOwner){
+        viewModel.returnAPI.observe(viewLifecycleOwner) {
             var mediaList = it.results
             var filme = mediaList.get(position)
 

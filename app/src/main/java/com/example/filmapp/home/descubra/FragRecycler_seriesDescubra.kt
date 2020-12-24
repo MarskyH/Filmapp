@@ -38,6 +38,8 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraSeriesAdapter.onDescubra
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val search = arguments?.getString(ARG_SEARCH)
+
         var view = inflater.inflate(R.layout.fragrecycler_seriesdescubra, container, false)
 
         //Iniciando o ReciclerView Descubra - Series
@@ -53,14 +55,25 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraSeriesAdapter.onDescubra
             mediaListAdapter.addList(mediaList)
         }
 
-        var name = "The Boys"
-        viewModel.getTVList(name)
+        viewModel.getTVList(search)
 
         return view
     }
 
-    companion object{
-        fun newInstance() = FragRecycler_seriesDescubra()
+    companion object {
+        const val ARG_SEARCH = "search"
+
+        fun newInstance(search: String): FragRecycler_seriesDescubra {
+            val fragment = FragRecycler_seriesDescubra()
+
+            val bundle = Bundle().apply {
+                putString(ARG_SEARCH, search)
+            }
+
+            fragment.arguments = bundle
+
+            return fragment
+        }
     }
 
     override fun descubraItemClick(position: Int) {

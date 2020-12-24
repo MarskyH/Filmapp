@@ -4,9 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModel
@@ -17,6 +21,7 @@ import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_descubra.*
+import org.w3c.dom.Text
 
 class DescubraActivity : AppCompatActivity(){
 
@@ -32,18 +37,20 @@ class DescubraActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_descubra)
 
-        var pesquisa = textInput_search.editText.toString()
+        textInput_search.setEndIconOnClickListener {
+           var searchText = textInput_search.editText?.text.toString()
 
-        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance())
-            commit()
-        }
+            //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance(searchText))
+                commit()
+            }
 
-        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance())
-            commit()
+            //Inflando o RecyclerView de Resultados - Series (fragRecycler_filmesDescubra)
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance(searchText))
+                commit()
+            }
         }
 
         setSupportActionBar(toolbarDescubraPage)
