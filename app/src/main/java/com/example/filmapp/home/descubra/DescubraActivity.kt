@@ -32,6 +32,8 @@ class DescubraActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_descubra)
 
+        var pesquisa = textInput_search.editText.toString()
+
         //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance())

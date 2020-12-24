@@ -23,25 +23,25 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    <com.google.android.material.textfield.TextInputLayout-->
-<!--        android:id="@+id/textInput_search"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="10dp"-->
-<!--        app:startIconDrawable="@drawable/ic_lupa_roxo"-->
-<!--        app:startIconTint="@color/Principal"-->
-<!--        android:textColorHint="@color/Principal"-->
-<!--        app:boxBackgroundColor="@color/white">-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:startIconDrawable="@drawable/ic_lupa_roxo"
+        app:startIconTint="@color/Principal"
+        android:textColorHint="@color/Principal"
+        app:boxBackgroundColor="@color/white">
 
-<!--        <com.google.android.material.textfield.TextInputEditText-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center_vertical"-->
-<!--            android:hint="@string/textView_pesquisa_descubra"-->
-<!--            android:textColor="@color/Grey"-->
-<!--            android:textSize="20dp" />-->
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:hint="@string/textView_pesquisa_descubra"
+            android:textColor="@color/Grey"
+            android:textSize="20dp" />
 
-<!--    </com.google.android.material.textfield.TextInputLayout>-->
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
