@@ -40,15 +40,10 @@
             android:gravity="center_vertical"
             android:hint="@string/textView_pesquisa_descubra"
             android:textColor="@color/Grey"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:inputType="textPersonName"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
-<!--    <EditText-->
-<!--        android:id="@+id/textInput_search"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/white"/>-->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -60,28 +55,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_titleSeries_descubra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/textView_series_descubra"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold" />
-
             <FrameLayout
                 android:id="@+id/fragRecycler_seriesDescubraSpace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/tv_titleFilmes_descubra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/textView_filmes_descubra"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold" />
 
             <FrameLayout
                 android:id="@+id/fragRecycler_filmesDescubraSpace"

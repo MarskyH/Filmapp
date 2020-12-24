@@ -34,8 +34,6 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
         val currentItem: ResultSearchAll = mediaList[position]
 
         holder.mediaName.text = currentItem.original_name
-        holder.mediaDetail1.text = currentItem.first_air_date
-        holder.mediaDetail2.text = currentItem.original_language
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
@@ -83,11 +81,9 @@ class DescubraListsAdapter(val listener: onDescubraItemClickListener) :
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_medialist)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
-        val mediaDetail1: TextView = itemView.findViewById(R.id.tv_mediaDetail1_medialist)
-        val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
 
         val assistirMaisTardeIndication: ImageView = itemView.findViewById(R.id.assistirMaisTardeIndication_medialist)
-        val evaluationIndication: ImageView = itemView.findViewById(R.id.evaluationIndication_medialist)
+        val evaluationIndication: ImageView = itemView.findViewById(R.id.followingStatusIndication_medialist)
         val shareIndication: ImageView = itemView.findViewById(R.id.shareIndication_medialist)
 
         init {

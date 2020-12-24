@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.Movie.ResultMovie
@@ -34,8 +35,10 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         val currentItem: ResultMovie = mediaList[position]
 
         holder.mediaName.text = currentItem.title
-        holder.mediaDetail1.text = currentItem.release_date
-        holder.mediaDetail2.text = currentItem.original_language
+        holder.mediaFirstAirDate.text = currentItem.release_date
+        holder.ratingStarsNumber.rating = currentItem.numberStars.toFloat()
+        holder.mediaEvaluation.text = currentItem.vote_average.toString() + "/5"
+        holder.mediaPosition.text = (position + 1).toString() + ". "
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
@@ -50,12 +53,13 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
             }
         }
 
-        holder.evaluationIndication.setOnClickListener {
+        holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box)
+        holder.followingStatusIndication.setOnClickListener {
             if(evaluationIndicationBoolean == false){
-                holder.evaluationIndication.setImageResource(R.drawable.ic_estrela_vazia_roxo)
+                holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box_roxo)
                 evaluationIndicationBoolean = true
             }else{
-                holder.evaluationIndication.setImageResource(R.drawable.ic_estrela_vazia)
+                holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box)
                 evaluationIndicationBoolean = false
             }
         }
@@ -84,11 +88,13 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_medialist)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
-        val mediaDetail1: TextView = itemView.findViewById(R.id.tv_mediaDetail1_medialist)
-        val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
+        val mediaFirstAirDate: TextView = itemView.findViewById(R.id.tv_mediaFirstAirDate_medialist)
+        val ratingStarsNumber: RatingBar = itemView.findViewById(R.id.ratingBar_mediaItem)
+        val mediaEvaluation: TextView = itemView.findViewById(R.id.tv_evaluation_medialist)
+        val mediaPosition: TextView = itemView.findViewById(R.id.tv_mediaPosition_medialist)
 
         val assistirMaisTardeIndication: ImageView = itemView.findViewById(R.id.assistirMaisTardeIndication_medialist)
-        val evaluationIndication: ImageView = itemView.findViewById(R.id.evaluationIndication_medialist)
+        val followingStatusIndication: ImageView = itemView.findViewById(R.id.followingStatusIndication_medialist)
         val shareIndication: ImageView = itemView.findViewById(R.id.shareIndication_medialist)
 
         init {

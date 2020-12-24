@@ -49,8 +49,7 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
         view.rc_melhoresSeriesList.setHasFixedSize(true)
 
         viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
-            var mediaList = it.results
-            melhoresSeriesAdapter.addList(mediaList)
+            melhoresSeriesAdapter.addList(it)
         }
 
         viewModel.getTopSeriesList()
@@ -60,7 +59,7 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
 
     override fun melhoresItemClick(position: Int) {
         viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
-            var mediaList = it.results
+            var mediaList = it
             val serie = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)

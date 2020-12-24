@@ -49,8 +49,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
         view.rc_melhoresFilmesList.setHasFixedSize(true)
 
         viewModel.returnTopMoviesAPI.observe(viewLifecycleOwner){
-            var mediaList = it.results
-            melhoresFilmesAdapter.addList(mediaList)
+            melhoresFilmesAdapter.addList(it)
         }
 
         viewModel.getTopMoviesList()
@@ -60,7 +59,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
 
     override fun melhoresItemClick(position: Int) {
         viewModel.returnTopMoviesAPI.observe(viewLifecycleOwner){
-            var mediaList = it.results
+            var mediaList = it
             val filme = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)

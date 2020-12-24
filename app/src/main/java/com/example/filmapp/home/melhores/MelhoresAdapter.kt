@@ -29,8 +29,6 @@ class MelhoresAdapter(): RecyclerView.Adapter<MelhoresAdapter.MelhoresViewHolder
         val currentItem: Media = mediaList[position]
 
         holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaDetail1.setText(currentItem.mediaDetail1)
-        holder.mediaDetail2.setText(currentItem.mediaSinopse)
         holder.mediaImage.setImageResource(currentItem.mediaImage)
     }
 
@@ -41,8 +39,6 @@ class MelhoresAdapter(): RecyclerView.Adapter<MelhoresAdapter.MelhoresViewHolder
     class MelhoresViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_medialist)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_medialist)
-        val mediaDetail1: TextView = itemView.findViewById(R.id.tv_mediaDetail1_medialist)
-        val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
 
     }
 
