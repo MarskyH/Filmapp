@@ -30,7 +30,12 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
     ) {
         val currentItem: ResultAll = mediaList[position]
 
-        holder.mediaName.text = currentItem.title
+        if(currentItem.title == null){
+            holder.mediaName.text = "NULO"
+        }else{
+            holder.mediaName.text = currentItem.title
+        }
+
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
     }

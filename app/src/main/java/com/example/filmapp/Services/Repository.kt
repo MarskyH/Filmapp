@@ -58,15 +58,6 @@ interface Service {
         @Query("page") page: Int,
     ): BaseTv
 
-    //pega os detalhes de uma série, passar um id de série, o Path
-    @GET("tv/{tv_id}")
-    suspend fun getDetailsSerie(
-        @Path("tv_id") id: String,
-        @Query("api_key") key: String,
-        @Query("language") language: String,
-        @Query("page") page: Int,
-    ): TvDetails
-
     //pega as imagens de uma determinada série, passar um id de série, o Path.
     @GET("tv/{tv_id}/images")
     suspend fun getImagesSerie(
@@ -74,6 +65,15 @@ interface Service {
         @Query("api_key") key: String,
         @Query("language") language: String,
     ): ImagesTv
+
+    //Retorna os detalhes de uma série
+    @GET("tv/{tv_id}")
+    suspend fun getDetailsSerie(
+        @Path("tv_id") id: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+    ): TvDetails
 
     //PACOTE HOME -----------------------------------------------------------------------------------------------
 
@@ -93,12 +93,12 @@ interface Service {
         @Query("language") language: String
     ): BaseMovie
 
-    //Retorna os Novos Episodios das séries
-    @GET("tv/latest")
-    suspend fun getLatest(
+    //Retorna os Programas que estão no ar (nos próximos 7 dias)
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAir(
         @Query("api_key") key: String,
         @Query("language") language: String
-    ): LatestTv
+    ): BaseTv
 
     //Retorna os melhores filmes (Classificação)
     @GET("movie/top_rated")
@@ -137,6 +137,15 @@ interface Service {
         @Query("language") language: String,
         @Query("query") query: String
     ): BaseSearchAll
+
+    //Retorna os detalhes de uma série
+    @GET("tv/{tv_id}")
+    suspend fun getSerie(
+        @Path("tv_id") id: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int
+    ): TvDetails
 
     //----------------------------------------------------------------------------------------------------------
 

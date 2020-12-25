@@ -49,7 +49,8 @@ class FragRecycler_novosEpisodios : Fragment(),
         view.rv_novosEpisodeos_EmAlta.setHasFixedSize(true)
 
         viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner){
-            mediaListAdapter.addList(it)
+            var mediaList = it.results
+            mediaListAdapter.addList(mediaList)
         }
 
         viewModel.getNovosEpisodiosList()
@@ -63,7 +64,7 @@ class FragRecycler_novosEpisodios : Fragment(),
 
     override fun novosEpisodiosItemClick(position: Int) {
         viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner){
-        val media = it
+            var mediaList = it.results
 
         val intent = Intent(context, MediaSelectedActivity::class.java)
         startActivity(intent)

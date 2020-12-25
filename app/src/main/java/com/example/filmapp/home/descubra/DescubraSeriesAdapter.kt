@@ -34,8 +34,6 @@ class DescubraSeriesAdapter(val listener: onDescubraSerieClickListener) :
         val currentItem: ResultTv = mediaList[position]
 
         holder.mediaName.text = currentItem.original_name
-//        holder.mediaDetail1.text = currentItem.first_air_date
-//        holder.mediaDetail2.text = currentItem.original_language
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)

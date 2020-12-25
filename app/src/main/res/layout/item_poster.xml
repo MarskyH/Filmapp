@@ -24,7 +24,7 @@
                 android:layout_height="@dimen/poster_altura"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/flash_image01" />
+                app:srcCompat="@drawable/fear_image01" />
 
         </androidx.cardview.widget.CardView>
 

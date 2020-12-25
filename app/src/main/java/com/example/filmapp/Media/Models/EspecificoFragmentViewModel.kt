@@ -1,5 +1,6 @@
 package com.example.filmapp.Media.Models
 
+import android.util.Log
 import com.example.filmapp.Services.Service
 
 

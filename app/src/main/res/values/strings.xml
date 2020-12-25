@@ -75,7 +75,7 @@
 
     <!--STRINGS DA TELA EM ALTA -->
     <string name="titulo_toolbar_alta">Em Alta</string>
-    <string name="textView_semana_alta">Melhores da Semana</string>
+    <string name="textView_semana_alta">Melhores Séries da Semana</string>
     <string name="textView_cartaz_alta">Em cartaz</string>
     <string name="textView_episodios_alta">Novos Episódios</string>
 
@@ -93,7 +93,7 @@
 
     <!--STRINGS DA TELA DESCUBRA -->
     <string name="titulo_toolbar_descubra">Descubra</string>
-    <string name="textView_series_descubra">Séries</string>
+    <string name="textView_series_descubra">Séries/TV</string>
     <string name="textView_filmes_descubra">Filmes</string>
     <string name="textView_pesquisa_descubra">Digite o nome da Série ou Filme</string>
 
