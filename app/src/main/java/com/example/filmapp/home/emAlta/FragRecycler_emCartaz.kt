@@ -65,9 +65,13 @@ class FragRecycler_emCartaz : Fragment(), EmCartazAdapter.onEmCartazItemClickLis
     override fun emCartazItemClick(position: Int) {
         viewModel.returnEmCartazAPI.observe(viewLifecycleOwner) {
             var mediaList = it.results
-            val filme = mediaList.get(position)
+            var filme = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + filme.poster_path)
+            intent.putExtra("movie",true)
+            intent.putExtra("mediaMovie",filme)
+
             startActivity(intent)
         }
     }

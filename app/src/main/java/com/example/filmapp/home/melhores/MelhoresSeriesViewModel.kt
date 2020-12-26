@@ -3,6 +3,7 @@ package com.example.filmapp.home.melhores
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
@@ -19,7 +20,7 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             returnListAPI.value = service.getTopSeries(
                 "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US"
+                LANGUAGE
             ).results
 
             var list = returnListAPI.value
@@ -60,10 +61,15 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
             it.first_air_date = day + " de " + month + ", " + year
 
             //Formatação do Título
-            if(title.length > 17){
+            if(title.length > 13){
                 var newTitle = ""
 
-                for (i in 0..15){
+                for (i in 0..12){
+
+                    if (("${title?.get(12)}" == " ") && (i == 12)){
+                        break
+                    }
+
                     newTitle = newTitle + "${title?.get(i)}"
                 }
 

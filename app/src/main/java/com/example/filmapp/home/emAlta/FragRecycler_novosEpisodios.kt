@@ -65,9 +65,14 @@ class FragRecycler_novosEpisodios : Fragment(),
     override fun novosEpisodiosItemClick(position: Int) {
         viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner){
             var mediaList = it.results
+            var media = mediaList.get(position)
 
-        val intent = Intent(context, MediaSelectedActivity::class.java)
-        startActivity(intent)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + media.poster_path)
+            intent.putExtra("movie",false)
+            intent.putExtra("mediaSerie", media)
+
+            startActivity(intent)
         }
     }
 

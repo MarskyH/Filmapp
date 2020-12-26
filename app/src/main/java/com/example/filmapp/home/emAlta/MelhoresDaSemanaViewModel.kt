@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.filmapp.Entities.APIConfig.API_KEY
+import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.All.BaseAll
 import com.example.filmapp.Entities.All.ResultAll
 import com.example.filmapp.Entities.TV.TvDetails
@@ -45,8 +47,8 @@ class MelhoresDaSemanaViewModel(val service: Service) : ViewModel() {
         viewModelScope.launch {
             returnDetailsSerieAPI.value = service.getDetailsSerie(
                 id,
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "pt-BR",
+                API_KEY,
+                LANGUAGE,
                 1
             )
         }

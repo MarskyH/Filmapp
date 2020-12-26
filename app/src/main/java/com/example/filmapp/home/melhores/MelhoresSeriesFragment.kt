@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -60,9 +61,13 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
     override fun melhoresItemClick(position: Int) {
         viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
             var mediaList = it
-            val serie = mediaList.get(position)
+            var media = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + media.poster_path)
+            intent.putExtra("movie",false)
+            intent.putExtra("mediaSerie", media)
+
             startActivity(intent)
         }
     }

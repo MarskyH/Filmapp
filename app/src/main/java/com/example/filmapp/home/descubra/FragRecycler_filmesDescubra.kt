@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.activity_acompanhando.*
 import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
 class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubraMovieClickListener {
@@ -82,6 +84,10 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubra
             var filme = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + filme.poster_path)
+            intent.putExtra("movie",true)
+            intent.putExtra("mediaMovie",filme)
+
             startActivity(intent)
         }
     }

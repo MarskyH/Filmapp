@@ -2,6 +2,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 
 
@@ -62,5 +63,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
     // picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+    // room
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    // Coroutines Support Room
+    implementation "androidx.room:room-ktx:$room_version"
 
 }
