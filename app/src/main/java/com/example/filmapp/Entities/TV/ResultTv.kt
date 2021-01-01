@@ -7,6 +7,7 @@ data class ResultTv(
     val id : Int,
     val popularity : Double,
     var name : String,
+    var formattedName: String,
     val original_name : String,
     var first_air_date : String,
     val backdrop_path : String,
@@ -17,5 +18,6 @@ data class ResultTv(
     val vote_count : Int,
     val poster_path : String,
     val origin_country : ArrayList<String>,
-    var numberStars: Double
+    var numberStars: Double,
+    var assistirMaisTardeIndication: Boolean = false
 ): Serializable

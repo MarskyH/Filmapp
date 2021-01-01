@@ -1,5 +1,7 @@
 package com.example.filmapp.home.melhores
 
+import android.app.Application
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
+import com.example.filmapp.dataBase.AssistirMaisTardeRepository
+import com.example.filmapp.dataBase.FilmAppDataBase
+import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.squareup.picasso.Picasso
 
 class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
@@ -34,7 +39,7 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
     ) {
         val currentItem: ResultMovie = mediaList[position]
 
-        holder.mediaName.text = currentItem.title
+        holder.mediaName.text = currentItem.formattedTitle
         holder.mediaFirstAirDate.text = currentItem.release_date
         holder.ratingStarsNumber.rating = currentItem.numberStars.toFloat()
         holder.mediaEvaluation.text = currentItem.vote_average.toString() + "/5"
@@ -43,13 +48,23 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
 
+        //Aq verifica se o filme já foi add a lista de Assistir Mais Tarde ou não
+        if(currentItem.assistirMaisTardeIndication == true){
+            holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+        }else{
+            holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
+        }
+
+
         holder.assistirMaisTardeIndication.setOnClickListener {
-            if(assistirMaisTardeIndicationBoolean == false){
+            if(currentItem.assistirMaisTardeIndication == false){
                 holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                assistirMaisTardeIndicationBoolean = true
+                listener.saveInAssistirMaisTardeList(position)
+                currentItem.assistirMaisTardeIndication = true
             }else{
                 holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
-                assistirMaisTardeIndicationBoolean = false
+                listener.removeOfAssistirMaisTardeList(position)
+                currentItem.assistirMaisTardeIndication = false
             }
         }
 
@@ -82,6 +97,8 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
 
     interface onMelhoresMovieClickListener {
         fun melhoresItemClick(position: Int)
+        fun saveInAssistirMaisTardeList(position: Int)
+        fun removeOfAssistirMaisTardeList(position: Int)
     }
 
     inner class MelhoresListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

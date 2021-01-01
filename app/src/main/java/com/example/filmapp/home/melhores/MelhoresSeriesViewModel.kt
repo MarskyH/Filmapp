@@ -13,28 +13,32 @@ import java.math.RoundingMode
 
 class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
 
-    var returnListAPI = MutableLiveData<ArrayList<ResultTv>>()
-    var returnTopSeriesAPI = MutableLiveData<ArrayList<ResultTv>>()
+    var returnAPI = MutableLiveData<BaseTv>()
+    var returnTopSeriesAPI = MutableLiveData<BaseTv>()
 
     fun getTopSeriesList(){
         viewModelScope.launch {
-            returnListAPI.value = service.getTopSeries(
+            returnAPI.value = service.getTopSeries(
                 "4a6baee1eff7d3911f03f59b9b8f43eb",
                 LANGUAGE
-            ).results
+            )
 
-            var list = returnListAPI.value
+            var list = returnAPI.value!!.results
 
             returnTopSeriesAPI.value = formatSerie(list)
 
         }
     }
 
-    fun formatSerie(list: ArrayList<ResultTv>?): ArrayList<ResultTv>?{
+    fun formatSerie(list: ArrayList<ResultTv>): BaseTv?{
 
         list?.forEach {
             var date = it.first_air_date
+
             var title = it.name
+            if(title == null)
+                title = it.original_name
+
             var evaluation = it.vote_average
 
             //Formatação da Data de Lançamento
@@ -73,7 +77,9 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
                     newTitle = newTitle + "${title?.get(i)}"
                 }
 
-                it.name = newTitle + "..."
+                it.formattedName = newTitle + "..."
+            }else{
+                it.formattedName = title
             }
 
             //Adaptação da Nota - Avaliação
@@ -108,7 +114,9 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
 
         }
 
-        return list
+        var baseTvReturn = BaseTv(returnAPI.value!!.page, list, returnAPI.value!!.total_results, returnAPI.value!!.total_pages)
+
+        return baseTvReturn
     }
 
 }

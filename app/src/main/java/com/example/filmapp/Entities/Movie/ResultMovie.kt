@@ -11,6 +11,7 @@ data class ResultMovie(
     val adult : Boolean,
     val backdrop_path : String,
     var title : String,
+    var formattedTitle: String,
     val genre_ids : ArrayList<Int>,
     val original_language : String,
     val original_title : String,
@@ -18,5 +19,6 @@ data class ResultMovie(
     val overview : String,
     val video : Boolean,
     var vote_average : Double,
-    var numberStars: Double
+    var numberStars: Double,
+    var assistirMaisTardeIndication: Boolean = false
 ):Serializable

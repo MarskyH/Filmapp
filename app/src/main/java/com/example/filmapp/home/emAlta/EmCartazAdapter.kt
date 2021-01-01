@@ -5,12 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
+import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.squareup.picasso.Picasso
 
-class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>() {
+class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.Adapter<EmCartazAdapter.EmCartazViewHolder>(),
+    ViewModelStoreOwner {
 
     var mediaList = arrayListOf<ResultMovie>()
 
@@ -63,6 +68,10 @@ class EmCartazAdapter(val listener: onEmCartazItemClickListener): RecyclerView.A
     fun addList(list: ArrayList<ResultMovie>) {
         mediaList.addAll(list)
         notifyDataSetChanged()
+    }
+
+    override fun getViewModelStore(): ViewModelStore {
+        TODO("Not yet implemented")
     }
 
 }

@@ -34,7 +34,7 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
     ) {
         val currentItem: ResultTv = mediaList[position]
 
-        holder.mediaName.text = currentItem.original_name
+        holder.mediaName.text = currentItem.formattedName
         holder.mediaFirstAirDate.text = currentItem.first_air_date
         holder.ratingStarsNumber.rating = currentItem.numberStars.toFloat()
         holder.mediaEvaluation.text = currentItem.vote_average.toString() + "/5"
@@ -43,13 +43,23 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
 
+        //Aq verifica se a série já foi add a lista de Assistir Mais Tarde ou não
+        if(currentItem.assistirMaisTardeIndication == true){
+            holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+        }else{
+            holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
+        }
+
+
         holder.assistirMaisTardeIndication.setOnClickListener {
-            if(assistirMaisTardeIndicationBoolean == false){
+            if(currentItem.assistirMaisTardeIndication == false){
                 holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                assistirMaisTardeIndicationBoolean = true
+                listener.saveInAssistirMaisTardeList(position)
+                currentItem.assistirMaisTardeIndication = true
             }else{
                 holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
-                assistirMaisTardeIndicationBoolean = false
+                listener.removeOfAssistirMaisTardeList(position)
+                currentItem.assistirMaisTardeIndication = false
             }
         }
 
@@ -81,6 +91,8 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
 
     interface onMelhoresSerieClickListener {
         fun melhoresItemClick(position: Int)
+        fun saveInAssistirMaisTardeList(position: Int)
+        fun removeOfAssistirMaisTardeList(position: Int)
     }
 
     inner class MelhoresSerieListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

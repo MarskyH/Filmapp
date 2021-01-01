@@ -6,30 +6,31 @@ import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Services.Service
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 
 class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
 
-    var returnListAPI = MutableLiveData<ArrayList<ResultMovie>>()
-    var returnTopMoviesAPI = MutableLiveData<ArrayList<ResultMovie>>()
+    var returnAPI = MutableLiveData<BaseMovie>()
+    var returnTopMoviesAPI = MutableLiveData<BaseMovie>()
 
     fun getTopMoviesList(){
         viewModelScope.launch {
-            returnListAPI.value = service.getTopMovies(
+            returnAPI.value = service.getTopMovies(
                 "4a6baee1eff7d3911f03f59b9b8f43eb",
                 LANGUAGE
-            ).results
+            )
 
-            var list = returnListAPI.value
+            var list = returnAPI.value!!.results
 
             returnTopMoviesAPI.value = formatMovie(list)
 
         }
     }
 
-    fun formatMovie(list: ArrayList<ResultMovie>?): ArrayList<ResultMovie>?{
+    fun formatMovie(list: ArrayList<ResultMovie>): BaseMovie?{
 
         list?.forEach {
             var date = it.release_date
@@ -72,7 +73,9 @@ class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
                     newTitle = newTitle + "${title?.get(i)}"
                 }
 
-                it.title = newTitle + "..."
+                it.formattedTitle = newTitle + "..."
+            }else{
+                it.formattedTitle = title
             }
 
             //Adaptação da Nota - Avaliação
@@ -107,6 +110,8 @@ class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
 
         }
 
-        return list
+        var baseMovieReturn = BaseMovie(returnAPI.value!!.page, list, returnAPI.value!!.total_results, returnAPI.value!!.total_pages)
+
+        return baseMovieReturn
     }
 }
