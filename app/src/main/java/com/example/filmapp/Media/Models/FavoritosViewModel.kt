@@ -1,41 +1,43 @@
-package com.example.filmapp.home.agenda
+package com.example.filmapp.Media.Models
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
+import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.Services.Service
 import com.example.filmapp.dataBase.AssistirMaisTardeRepository
+import com.example.filmapp.dataBase.FavoritosRepository
 import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AssistirMaisTardeViewModel(app: Application): AndroidViewModel(app) {
+class FavoritosViewModel(app: Application): AndroidViewModel(app) {
 
-    val mediaList: LiveData<List<AssistirMaisTardeEntity>>
-    private val repository: AssistirMaisTardeRepository
+    val mediaList: LiveData<List<FavoritosEntity>>
+    private val repository: FavoritosRepository
 
     init {
-        val assistirMaisTardeDAO = FilmAppDataBase.getDataBase(app).assistirMaisTardeDao()
-        repository = AssistirMaisTardeRepository(assistirMaisTardeDAO)
+        val favoritosDAO = FilmAppDataBase.getDataBase(app).favoritosDAO()
+        repository = FavoritosRepository(favoritosDAO)
         mediaList = repository.readAllData
     }
 
-    fun saveNewMedia(media: AssistirMaisTardeEntity){
+    fun saveNewMedia(media: FavoritosEntity){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.saveInAssistirMaisTardeListTask(media)
+            repository.saveInFavoritosListTask(media)
         }
     }
 
-    fun removeMedia(media: AssistirMaisTardeEntity){
+    fun removeMedia(media: FavoritosEntity){
         viewModelScope.launch(Dispatchers.IO) {
-            repository.removeOfAssistirMaisTardeListTask(media)
+            repository.removeOfFavoritosListTask(media)
         }
     }
 
-    fun checkMovieInList(listAPI: ArrayList<ResultMovie>, listDataBase: List<AssistirMaisTardeEntity>): ArrayList<ResultMovie>{
+    fun checkMovieInList(listAPI: ArrayList<ResultMovie>, listDataBase: List<FavoritosEntity>): ArrayList<ResultMovie>{
         var listResult = arrayListOf<ResultMovie>()
 
         listAPI?.forEach {
@@ -44,7 +46,7 @@ class AssistirMaisTardeViewModel(app: Application): AndroidViewModel(app) {
             listDataBase?.forEach {
 
                 if(media.id == it.id)
-                    media.assistirMaisTardeIndication = true
+                    media.favoritoIndication = true
             }
 
             listResult.add(media)
@@ -62,7 +64,7 @@ class AssistirMaisTardeViewModel(app: Application): AndroidViewModel(app) {
             listDataBase?.forEach {
 
                 if(media.id == it.id)
-                    media.assistirMaisTardeIndication = true
+                    media.favoritosIndication = true
             }
 
             listResult.add(media)

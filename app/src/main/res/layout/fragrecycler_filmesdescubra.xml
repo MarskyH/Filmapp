@@ -4,31 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".home.descubra.FragRecycler_seriesDescubra">
+    tools:context=".home.descubra.FragRecycler_filmesDescubra">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_titleSeries_descubra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/textView_series_descubra"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_titleFilmes_descubra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textView_filmes_descubra"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_seriesDescubra"
+        android:id="@+id/rv_filmesDescubra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_poster" />
+        tools:listitem="@layout/item_poster"/>
 
     </LinearLayout>
 

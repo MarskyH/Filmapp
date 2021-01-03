@@ -8,7 +8,6 @@ import com.example.filmapp.Entities.All.BaseAll
 import com.example.filmapp.Entities.All.BaseSearchAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
-import com.example.filmapp.Entities.Movie.SearchMovie
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ImagesTv
@@ -59,15 +58,6 @@ interface Service {
         @Query("page") page: Int,
     ): BaseTv
 
-    //pega os detalhes de uma série, passar um id de série, o Path
-    @GET("tv/{tv_id}")
-    suspend fun getDetailsSerie(
-        @Path("tv_id") id: String,
-        @Query("api_key") key: String,
-        @Query("language") language: String,
-        @Query("page") page: Int,
-    ): TvDetails
-
     //pega as imagens de uma determinada série, passar um id de série, o Path.
     @GET("tv/{tv_id}/images")
     suspend fun getImagesSerie(
@@ -76,7 +66,16 @@ interface Service {
         @Query("language") language: String,
     ): ImagesTv
 
-    //PACOTE HOME
+    //Retorna os detalhes de uma série
+    @GET("tv/{tv_id}")
+    suspend fun getDetailsSerie(
+        @Path("tv_id") id: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+    ): TvDetails
+
+    //PACOTE HOME -----------------------------------------------------------------------------------------------
 
     //Retorna os Melhores da Semana
     @GET("trending/{media_type}/{time_window}")
@@ -94,12 +93,12 @@ interface Service {
         @Query("language") language: String
     ): BaseMovie
 
-    //Retorna os Novos Episodios das séries
-    @GET("tv/latest")
-    suspend fun getLatest(
+    //Retorna os Programas que estão no ar (nos próximos 7 dias)
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAir(
         @Query("api_key") key: String,
         @Query("language") language: String
-    ): LatestTv
+    ): BaseTv
 
     //Retorna os melhores filmes (Classificação)
     @GET("movie/top_rated")
@@ -115,23 +114,40 @@ interface Service {
         @Query("language") language: String
     ): BaseTv
 
-//<<<<<<< HEAD
-
     //Pesquisa - Movies
     @GET("search/movie")
     suspend fun getSearchMovies(
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("query") query: String
-    ): SearchMovie
+    ): BaseMovie
 
     //Pesquisa - TV
     @GET("search/tv")
-    suspend fun getSearcTv(
+    suspend fun getSearchTv(
         @Query("api_key") key: String,
         @Query("language") language: String,
         @Query("query") query: String
-    ): SearchTv
+    ): BaseTv
+
+    //Pesquisa - Todos
+    @GET("search/multi")
+    suspend fun getSearch(
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("query") query: String
+    ): BaseSearchAll
+
+    //Retorna os detalhes de uma série
+    @GET("tv/{tv_id}")
+    suspend fun getSerie(
+        @Path("tv_id") id: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int
+    ): TvDetails
+
+    //----------------------------------------------------------------------------------------------------------
 
     //pega os detalhes de uma determinada temporada, passar um id de série e o número da temporada, o Path.
     @GET("tv/{tv_id}/season/{season_number}")
@@ -147,14 +163,6 @@ interface Service {
     suspend fun getApiConfig(
         @Query("api_key") key: String,
     ): Config
-//=======
-    //Pesquisa - Todos
-    @GET("search/multi")
-    suspend fun getSearch(
-        @Query("api_key") key: String,
-        @Query("query") query: String
-    ): BaseSearchAll
-//>>>>>>> MatheusLeite
 
 }
 

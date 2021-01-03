@@ -18,6 +18,23 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         setSupportActionBar(toolbarHomePage)
+
+//<<<<<<< HEAD
+//=======
+//        viewModel.listResMovies.observe(this) {
+//            ListFilmes = it.results
+//            Log.i("HomeActivity - filmes",it.toString())
+//        }
+//
+//        viewModel.listResSeries.observe(this) {
+////            ListSeries = it.resultTvs
+//            Log.i("HomeActivity - series",it.toString())
+//        }
+//
+//        viewModel.getPopularSeries()
+//        viewModel.getPopularMovies()
+//
+//>>>>>>> MatheusLeite
         setTabs()
     }
 

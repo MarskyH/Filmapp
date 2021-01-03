@@ -1,5 +1,6 @@
 package com.example.filmapp.Media.Models
 
+import android.util.Log
 import com.example.filmapp.Services.Service
 
 
@@ -32,6 +33,10 @@ class EspecificoFragmentViewModel(val service: Service) : ViewModel() {
                 LANGUAGE,
                 1
             )
+
+            var result = listDetails.value
+            Log.i("RESULT - Marcus", result.toString())
+            Log.i("ID", id.toString())
         }
     }
     fun getSimilarMovies(id: String){

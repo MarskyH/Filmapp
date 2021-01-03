@@ -6,15 +6,19 @@ import java.io.Serializable
 data class ResultTv(
     val id : Int,
     val popularity : Double,
-    val name : String,
+    var name : String,
+    var formattedName: String,
     val original_name : String,
-    val first_air_date : String,
+    var first_air_date : String,
     val backdrop_path : String,
-    val vote_average : Double,
+    var vote_average : Double,
     val genre_ids : ArrayList<Int>,
     val overview : String,
     val original_language : String,
     val vote_count : Int,
     val poster_path : String,
-    val origin_country : ArrayList<String>
+    val origin_country : ArrayList<String>,
+    var numberStars: Double,
+    var assistirMaisTardeIndication: Boolean = false,
+    var favoritosIndication: Boolean = false
 ): Serializable

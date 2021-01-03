@@ -7,12 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.LatestTv
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
 class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): RecyclerView.Adapter<NovosEpisodiosAdapter.NovosEpisodiosViewHolder>() {
 
-    var mediaList = arrayListOf<LatestTv>()
+    var mediaList = arrayListOf<ResultTv>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,7 +28,7 @@ class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): Re
         holder: NovosEpisodiosViewHolder,
         position: Int
     ) {
-        val currentItem: LatestTv = mediaList[position]
+        val currentItem: ResultTv = mediaList[position]
 
         holder.mediaName.text = currentItem.original_name
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
@@ -59,8 +60,8 @@ class NovosEpisodiosAdapter(val listener: onNovosEpisodiosItemClickListener): Re
 
     }
 
-    fun addList(item: LatestTv) {
-        mediaList.add(item)
+    fun addList(list: ArrayList<ResultTv>) {
+        mediaList.addAll(list)
         notifyDataSetChanged()
     }
 

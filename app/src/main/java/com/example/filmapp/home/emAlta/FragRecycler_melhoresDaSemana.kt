@@ -50,8 +50,7 @@ class FragRecycler_melhoresDaSemana : Fragment(),
         view.rv_melhoresDaSemana_EmAlta.setHasFixedSize(true)
 
         viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner){
-            var mediaList = it.results
-            mediaListAdapter.addList(mediaList)
+            mediaListAdapter.addList(it)
         }
 
         viewModel.getMelhoresDaSemanaList()
@@ -65,10 +64,14 @@ class FragRecycler_melhoresDaSemana : Fragment(),
 
     override fun melhoresDaSemanaItemClick(position: Int) {
         viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner) {
-            var mediaList = it.results
+            var mediaList = it
             var media = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + media.poster_path)
+            intent.putExtra("movie",false)
+            intent.putExtra("mediaSerie", media)
+
             startActivity(intent)
         }
     }

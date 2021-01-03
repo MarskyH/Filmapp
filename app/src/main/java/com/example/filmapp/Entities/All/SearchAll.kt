@@ -1,14 +1,15 @@
 package com.example.filmapp.Entities.All
 
-import java.io.Serializable
-
 data class BaseSearchAll(
     val page: Int,
     val results: ArrayList<ResultSearchAll>,
     val total_pages: Int,
     val total_results: Int
-) : Serializable
-
+){
+    override fun toString(): String {
+        return "BaseSearchAll(page=$page, results=$results, total_pages=$total_pages, total_results=$total_results)"
+    }
+}
 
 data class ResultSearchAll(
     val adult: Boolean,
@@ -32,7 +33,7 @@ data class ResultSearchAll(
     val video: Boolean,
     val vote_average: Any?,
     val vote_count: Any?
-) : Serializable
+)
 
 data class KnownForSearchAll(
     val adult: Boolean,
@@ -54,4 +55,4 @@ data class KnownForSearchAll(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-) : Serializable
+)

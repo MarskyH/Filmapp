@@ -14,11 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.ResultTv
+import com.example.filmapp.Media.Adapters.FavoritosAdapter
 import com.example.filmapp.Media.Adapters.HomeMediaMovieAdapter
 import com.example.filmapp.Media.Adapters.HomeMediaSerieAdapter
+import com.example.filmapp.Media.Models.FavoritosViewModel
+import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
+import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 
@@ -67,11 +72,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.listResSearch.observe(viewLifecycleOwner){
-            Log.i("Pesquisa", it.toString())
-        }
-        viewModel.getSearch("Star")
-
             val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
             if (Movie == true) {
                 viewModel.config.observe(viewLifecycleOwner) {

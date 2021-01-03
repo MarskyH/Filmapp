@@ -8,11 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
+import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import com.squareup.picasso.Picasso
 
 class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListener) :
     RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
 
-    var mediaList = arrayListOf<Media>()
+    var mediaList = listOf<AssistirMaisTardeEntity>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,10 +29,11 @@ class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListene
         holder: AssistirMaisTardeViewHolder,
         position: Int
     ) {
-        val currentItem: Media = mediaList[position]
+        val currentItem: AssistirMaisTardeEntity = mediaList[position]
 
-        holder.mediaName.setText(currentItem.mediaName)
-        holder.mediaImage.setImageResource(currentItem.mediaImage)
+        holder.mediaName.text = currentItem.title
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
     }
 
     override fun getItemCount(): Int {
@@ -58,8 +61,8 @@ class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListene
         }
     }
 
-    fun addList(list: ArrayList<Media>) {
-        mediaList.addAll(list)
+    fun addList(list: List<AssistirMaisTardeEntity>) {
+        mediaList = list
         notifyDataSetChanged()
     }
 
