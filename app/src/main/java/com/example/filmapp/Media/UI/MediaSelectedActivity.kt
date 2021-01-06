@@ -38,34 +38,32 @@ class MediaSelectedActivity(): AppCompatActivity() {
 
     private fun setUpTabs() {
         val movie = intent.getSerializableExtra("movie") as? Boolean
-        Log.i("Media movie", movie.toString())
         val poster = intent.getSerializableExtra("poster") as? String
-        Log.i("Media poster", poster.toString())
-        var mediaFilme = intent.getSerializableExtra("mediaMovie") as? ResultMovie
-        if (mediaFilme == null){
-            mediaFilme = intent.getSerializableExtra("mediaMovieSimilar") as? ResultMovie
-        }
-        Log.i("Media Filme", mediaFilme.toString())
-        val mediaSerie = intent.getSerializableExtra("mediaSerie") as? ResultTv
-        Log.i("Media Serie", mediaSerie.toString())
+        val idMedia = intent.getSerializableExtra("id") as? Int
+        val sinopseMedia = intent.getSerializableExtra("sinopse") as? String
+
+
+//        var mediaFilme = intent.getSerializableExtra("mediaMovie") as? ResultMovie
+//        if (mediaFilme == null){
+//            mediaFilme = intent.getSerializableExtra("mediaMovieSimilar") as? ResultMovie
+//        }
+//        val mediaSerie = intent.getSerializableExtra("mediaSerie") as? ResultTv
+
+
         val adapter = ViewPagerMedia(supportFragmentManager)
         if (movie == true) {
-            val sinopse = mediaFilme?.overview
-            val GeralFilme = GeralMediaFragment.newInstance(sinopse, poster)
-            val MediaFilme = MediaEspecificoFragment.newInstance(true, mediaFilme)
-            val ResourceFilme = ResourcesFragment.newInstance(true, mediaFilme)
-            Log.i("MediaSelectFilme", mediaFilme.toString())
+            val GeralFilme = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia, "Movie")
+            val MediaFilme = MediaEspecificoFragment.newInstance(true, idMedia)
+            val ResourceFilme = ResourcesFragment.newInstance(true, idMedia)
             adapter.addFragment(GeralFilme, "Visão Geral")
             adapter.addFragment(MediaFilme, "Semelhantes")
             adapter.addFragment(ResourceFilme, "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         } else {
-            val sinopse = mediaSerie?.overview
-            val GeralSerie = GeralMediaFragment.newInstance(sinopse, poster)
-            val MediaSerie = MediaEspecificoFragment.newInstance(false, mediaSerie)
-            val ResourceSerie = ResourcesFragment.newInstance(false, mediaSerie)
-            Log.i("MediaSelectSerie", mediaSerie.toString())
+            val GeralSerie = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia, "Tv")
+            val MediaSerie = MediaEspecificoFragment.newInstance(false, idMedia)
+            val ResourceSerie = ResourcesFragment.newInstance(false, idMedia)
             adapter.addFragment(GeralSerie, "Visão Geral")
             adapter.addFragment(MediaSerie, "Temporadas")
             adapter.addFragment(ResourceSerie, "Mídia")

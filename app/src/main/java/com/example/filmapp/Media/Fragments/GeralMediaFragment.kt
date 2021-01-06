@@ -6,8 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Media.Models.FavoritosViewModel
+import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
+import com.example.filmapp.Services.MainViewModel
+import com.example.filmapp.Services.service
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.*
@@ -23,7 +30,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.Serializable
 
-class GeralMediaFragment(): Fragment() {
+class GeralMediaFragment() : Fragment() {
+    private lateinit var viewModelFav: FavoritosViewModel
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
@@ -33,40 +41,77 @@ class GeralMediaFragment(): Fragment() {
     val picasso = Picasso.get()
     var Poster: String? = null
     var Sinopse: String? = null
+    var Type: String? = null
+    var title: String = ""
+    var Id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             Poster = arguments?.getString(poster)
             Sinopse = arguments?.getString(sinopse)
+            Id = arguments?.getInt(idMedia)
+            Type = arguments?.getString(type)
         }
     }
 
     companion object {
         private val sinopse = "sinopse"
         private val poster = "poster"
-        fun newInstance(Sinopse: String?, Poster: String?): GeralMediaFragment {
+        private val idMedia = "id"
+        private val type = "type"
+        fun newInstance(
+            Sinopse: String?,
+            Poster: String?,
+            Id: Int?,
+            Type: String?
+        ): GeralMediaFragment {
             val fragment = GeralMediaFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
             args.putString(poster, Poster)
+            args.putInt(idMedia, Id!!)
+            args.putString(type, Type)
             fragment.arguments = args
             return fragment
         }
 
     }
 
+    private val viewModelDetails by viewModels<MainViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return MainViewModel(service) as T
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
+
+        if (type == "Movie") {
+            viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
+                title = it.title
+            }
+            viewModelDetails.getMovieDetails(Id!!)
+        }
+        if (type == "Tv") {
+            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
+                title = it.name
+            }
+            viewModelDetails.getTvDetails(Id!!)
+        }
+
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
         view.tv_sinopse.text = Sinopse
-      picasso.load(Poster).into(view.img_geral)
+        picasso.load(Poster).into(view.img_geral)
 
-        view.progress_circular.setOnClickListener{
+        view.progress_circular.setOnClickListener {
             incrCircleBar()
         }
 
@@ -77,7 +122,15 @@ class GeralMediaFragment(): Fragment() {
             AlteraIconAcompanhar()
         }
         view.imgFav.setOnClickListener {
-            AlteraIconFavorito()
+            if (selFav == false) {
+                AlteraIconFavorito()
+                addFavoritosList(Id!!, title!!, Poster!!, Type!!)
+            } else {
+                AlteraIconFavorito()
+                remogveFavoritosList(Id!!, title!!, Poster!!, Type!!)
+            }
+
+
         }
         view.imgCompart.setOnClickListener {
             AlteraIconCompartilhar()
@@ -151,6 +204,14 @@ class GeralMediaFragment(): Fragment() {
             this.type = "text/plain"
         }
         startActivity(ShareIntent)
+    }
+
+    fun addFavoritosList(id: Int, title: String, poster_path: String, type: String) {
+        viewModelFav.saveNewMedia(FavoritosEntity(id, title, poster_path, type))
+    }
+
+    fun remogveFavoritosList(id: Int, title: String, poster_path: String, type: String) {
+        viewModelFav.removeMedia(FavoritosEntity(id, title, poster_path, type))
     }
 
 

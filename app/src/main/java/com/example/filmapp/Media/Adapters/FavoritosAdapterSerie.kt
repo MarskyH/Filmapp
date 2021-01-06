@@ -10,8 +10,8 @@ import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
-class FavoritosAdapter(val listener: FavoritosItemClickListener) :
-    RecyclerView.Adapter<FavoritosAdapter.FavoritosViewHolder>() {
+class FavoritosAdapterSerie(val listener: FavoritosItemClickListener) :
+    RecyclerView.Adapter<FavoritosAdapterSerie.FavoritosViewHolder>() {
 
     var mediaList = listOf<FavoritosEntity>()
 

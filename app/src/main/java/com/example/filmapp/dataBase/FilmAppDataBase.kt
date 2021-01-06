@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.filmapp.Media.dataBase.FavoritosDAO
+import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 
-@Database(entities = [AssistirMaisTardeEntity::class], version = 1, exportSchema = false)
+@Database(entities = [AssistirMaisTardeEntity::class, FavoritosEntity::class], version = 1, exportSchema = false)
 abstract class FilmAppDataBase: RoomDatabase() {
 
     abstract fun assistirMaisTardeDao(): AssistirMaisTardeDAO

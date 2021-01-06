@@ -1,6 +1,7 @@
 package com.example.filmapp.Media.Fragments
 
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,7 +45,7 @@ class ResourcesFragment() : Fragment(),
     lateinit var serieAdapter : ResourceMovieAdapter
     lateinit var movieAdapter: ResourceSerieAdapter
     var config = Config()
-    var MediaSelect: Any? = null
+    var MediaSelect: Int? = null
     var Movie: Boolean? = null
 
 
@@ -60,16 +61,14 @@ class ResourcesFragment() : Fragment(),
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             Movie = arguments?.getBoolean(movie)
-            MediaSelect = arguments?.getSerializable(mediaselect)
-            Log.i("on Create movie", (arguments?.getBoolean(movie)).toString())
-            Log.i("on Create media", (arguments?.getSerializable(mediaselect)).toString())
+            MediaSelect = arguments?.getInt(mediaselect)
         }
     }
 
     companion object {
         private val movie = "movie"
         private val mediaselect = "mediaselect"
-        fun newInstance(Movie: Boolean, MediaSelect: Serializable?): ResourcesFragment {
+        fun newInstance(Movie: Boolean, MediaSelect: Int?): ResourcesFragment {
             val fragment = ResourcesFragment()
             val args = Bundle()
             args.putBoolean(movie, Movie)
@@ -84,14 +83,14 @@ class ResourcesFragment() : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_media_medias, container, false)
         if (Movie == true){
+            val idMovie = MediaSelect.toString()
             viewModelResourcesFragment.config.observe(viewLifecycleOwner) {
                 config = it
             }
             viewModelResourcesFragment.getConfig()
-            viewModelResourcesFragment.getImagesMovie((MediaSelect as ResultMovie).id.toString())
+            viewModelResourcesFragment.getImagesMovie(idMovie)
             viewModelResourcesFragment.listImagesMovie.observe(viewLifecycleOwner){
                 MovieImages = it
-                Log.i("Imagens", it.toString())
                 if (MovieImages.backdrops == null){
                     view.aviso.text = "SEM IMAGENS DISPONÍVEIS"
                     view.aviso.isVisible
@@ -104,7 +103,8 @@ class ResourcesFragment() : Fragment(),
                 }
             }
         }else{
-            viewModelResourcesFragment.getImagesSerie((MediaSelect as ResultTv).id.toString())
+            val idTv = MediaSelect.toString()
+            viewModelResourcesFragment.getImagesSerie(idTv)
             viewModelResourcesFragment.listImagensSerie.observe(viewLifecycleOwner){
                 SerieImages = it
                 if(SerieImages.backdrops == null){

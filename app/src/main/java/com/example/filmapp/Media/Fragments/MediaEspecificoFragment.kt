@@ -34,7 +34,7 @@ class MediaEspecificoFragment() : Fragment(),
     lateinit var serieAdapter: MediaEspecificoSerieAdapter
     lateinit var movieAdapter: MediaEspecificoMovieAdapter
     var Movie: Boolean? = null
-    var MediaSelect: Any? = null
+    var MediaSelect: Int? = null
     var config = Config()
 
 
@@ -50,17 +50,14 @@ class MediaEspecificoFragment() : Fragment(),
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             Movie = arguments?.getBoolean(movie)
-            Log.i("on Create movie", (arguments?.getSerializable(mediaselect)).toString())
-            MediaSelect = arguments?.getSerializable(mediaselect)
-            Log.i("on Create media", (arguments?.getSerializable(mediaselect)).toString())
-
+            MediaSelect = arguments?.getInt(mediaselect)
         }
     }
 
     companion object {
         private val movie = "movie"
         private val mediaselect = "mediaselect"
-        fun newInstance(Movie: Boolean, MediaSelect: Serializable?): MediaEspecificoFragment {
+        fun newInstance(Movie: Boolean, MediaSelect: Int?): MediaEspecificoFragment {
             val fragment = MediaEspecificoFragment()
             val args = Bundle()
             args.putBoolean(movie, Movie)
@@ -78,7 +75,7 @@ class MediaEspecificoFragment() : Fragment(),
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
         if (Movie == true) {
-            val idMovie = ((MediaSelect as? ResultMovie)?.id).toString()
+            val idMovie = (MediaSelect).toString()
             viewModelEspecificoFragment.config.observe(viewLifecycleOwner) {
                 config = it
             }
@@ -92,6 +89,7 @@ class MediaEspecificoFragment() : Fragment(),
             }
             viewModelEspecificoFragment.getSimilarMovies(idMovie)
         } else {
+            val idTv = (MediaSelect).toString()
             viewModelEspecificoFragment.config.observe(viewLifecycleOwner) {
                 config = it
             }
@@ -104,7 +102,7 @@ class MediaEspecificoFragment() : Fragment(),
                 view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
                 view?.rv_temporada.setHasFixedSize(true)
             }
-            viewModelEspecificoFragment.getDetailsSerie((MediaSelect as ResultTv).id.toString())
+            viewModelEspecificoFragment.getDetailsSerie(idTv)
         }
             return view
         }

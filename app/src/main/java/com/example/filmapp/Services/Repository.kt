@@ -8,6 +8,7 @@ import com.example.filmapp.Entities.All.BaseAll
 import com.example.filmapp.Entities.All.BaseSearchAll
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ImagesMovie
+import com.example.filmapp.Entities.Movie.MovieDetails
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ImagesTv
@@ -74,6 +75,14 @@ interface Service {
         @Query("language") language: String,
         @Query("page") page: Int,
     ): TvDetails
+
+    @GET("movie/{movie_id}")
+    suspend fun getDetailsMovie(
+        @Path("movie_id") id: String,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+    ): MovieDetails
 
     //PACOTE HOME -----------------------------------------------------------------------------------------------
 

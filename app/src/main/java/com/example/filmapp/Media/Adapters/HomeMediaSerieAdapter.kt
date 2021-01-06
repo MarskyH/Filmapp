@@ -43,7 +43,7 @@ class HomeMediaSerieAdapter(
             if (homeSerie != null){
                 intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
-                intent.putExtra("mediaSerie", homeSerie)
+                intent.putExtra("id", homeSerie.id)
                 holder.itemView.context.startActivity(intent)
             }
         }

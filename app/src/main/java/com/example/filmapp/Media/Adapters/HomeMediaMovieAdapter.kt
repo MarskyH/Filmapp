@@ -42,7 +42,8 @@ class HomeMediaMovieAdapter(
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
                 intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
-                intent.putExtra("mediaMovie", homeMovie)
+                intent.putExtra("sinopse", homeMovie.overview)
+                intent.putExtra("id", homeMovie.id)
                 holder.itemView.context.startActivity(intent)
         }
     }
