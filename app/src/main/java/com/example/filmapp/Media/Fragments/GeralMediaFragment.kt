@@ -2,9 +2,11 @@ package com.example.filmapp.Media.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -43,14 +45,15 @@ class GeralMediaFragment() : Fragment() {
     var Sinopse: String? = null
     var Type: String? = null
     var title: String = ""
-    var Id: Int? = null
+    var Id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             Poster = arguments?.getString(poster)
             Sinopse = arguments?.getString(sinopse)
-            Id = arguments?.getInt(idMedia)
+            Id = arguments?.getString(idMedia)
+            Log.i("id geral", Id.toString())
             Type = arguments?.getString(type)
         }
     }
@@ -63,14 +66,14 @@ class GeralMediaFragment() : Fragment() {
         fun newInstance(
             Sinopse: String?,
             Poster: String?,
-            Id: Int?,
+            Id: String?,
             Type: String?
         ): GeralMediaFragment {
             val fragment = GeralMediaFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
             args.putString(poster, Poster)
-            args.putInt(idMedia, Id!!)
+            args.putString(idMedia, Id)
             args.putString(type, Type)
             fragment.arguments = args
             return fragment
@@ -95,16 +98,20 @@ class GeralMediaFragment() : Fragment() {
         if (type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
                 title = it.title
+                Log.i("title", it.title)
+                Toast.makeText(activity, it.title.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getMovieDetails(Id!!)
         }
         if (type == "Tv") {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 title = it.name
+                Log.i("title", it.name)
+                Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
+
             }
             viewModelDetails.getTvDetails(Id!!)
         }
-
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
@@ -124,10 +131,12 @@ class GeralMediaFragment() : Fragment() {
         view.imgFav.setOnClickListener {
             if (selFav == false) {
                 AlteraIconFavorito()
-                addFavoritosList(Id!!, title!!, Poster!!, Type!!)
+                addFavoritosList(Id!!.toString().toInt(), title!!, Poster!!, Type!!)
+                Toast.makeText(activity, "Filme adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
             } else {
                 AlteraIconFavorito()
-                remogveFavoritosList(Id!!, title!!, Poster!!, Type!!)
+                remogveFavoritosList(Id!!.toString().toInt(), title!!, Poster!!, Type!!)
+                Toast.makeText(activity, "Filme removido dos Favoritos", Toast.LENGTH_SHORT).show()
             }
 
 

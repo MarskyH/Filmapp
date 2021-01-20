@@ -27,8 +27,8 @@ class MainViewModel(val service: Service) : ViewModel() {
     fun getPopularMovies() {
         viewModelScope.launch {
             listResMovies.value = service.getPopularMovies(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "pt-BR",
+                API_KEY,
+                LANGUAGE,
                 1
             )
 
@@ -38,8 +38,8 @@ class MainViewModel(val service: Service) : ViewModel() {
     fun getPopularSeries() {
         viewModelScope.launch {
             listResSeries.value = service.getPopularSeries(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "pt-BR",
+                API_KEY,
+                LANGUAGE,
                 1
             )
 
@@ -49,15 +49,15 @@ class MainViewModel(val service: Service) : ViewModel() {
     fun getConfig() {
         viewModelScope.launch {
             config.value = service.getApiConfig(
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
+                API_KEY,
             )
         }
     }
 
-    fun getTvDetails(id: Int) {
+    fun getTvDetails(id: String) {
         viewModelScope.launch {
             listDetailsSeries.value = service.getDetailsSerie(
-                id.toString(),
+                id,
                 API_KEY,
                 LANGUAGE,
                 1
@@ -66,10 +66,10 @@ class MainViewModel(val service: Service) : ViewModel() {
         }
     }
 
-    fun getMovieDetails(id: Int) {
+    fun getMovieDetails(id: String) {
         viewModelScope.launch {
             listDetailsMovies.value = service.getDetailsMovie(
-                id.toString(),
+                id,
                 API_KEY,
                 LANGUAGE,
                 1

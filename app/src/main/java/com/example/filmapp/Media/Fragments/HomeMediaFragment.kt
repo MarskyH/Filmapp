@@ -1,6 +1,7 @@
 package com.example.filmapp.Media.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -94,6 +95,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 viewModel.getPopularMovies()
                 viewModelFav.mediaList.observe(viewLifecycleOwner){
                     ListMediaMovieFav = it
+                    Log.i("Favoritos filmes", it.toString())
                     MovieFavAdapter = FavoritosAdapterMovie(this)
                     lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                     view.rv_fav.layoutManager = lManager
@@ -116,6 +118,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 viewModel.getPopularSeries()
                 viewModelFav.mediaList.observe(viewLifecycleOwner){
                     ListMediaMovieFav = it
+                    Log.i("Favoritos Séries", it.toString())
                     SerieFavAdapter = FavoritosAdapterSerie(this)
                     lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                     view.rv_fav.layoutManager = lManager

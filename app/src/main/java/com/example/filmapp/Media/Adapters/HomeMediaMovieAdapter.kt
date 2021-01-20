@@ -1,6 +1,7 @@
 package com.example.filmapp.Media.Adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class HomeMediaMovieAdapter(
                 intent.putExtra("movie", Movie)
                 intent.putExtra("sinopse", homeMovie.overview)
                 intent.putExtra("id", homeMovie.id)
+                Log.i("id moview Adapter", homeMovie.id.toString())
                 holder.itemView.context.startActivity(intent)
         }
     }

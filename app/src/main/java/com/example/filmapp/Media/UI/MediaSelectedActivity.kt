@@ -42,18 +42,13 @@ class MediaSelectedActivity(): AppCompatActivity() {
         val idMedia = intent.getSerializableExtra("id") as? Int
         val sinopseMedia = intent.getSerializableExtra("sinopse") as? String
 
-
-//        var mediaFilme = intent.getSerializableExtra("mediaMovie") as? ResultMovie
-//        if (mediaFilme == null){
-//            mediaFilme = intent.getSerializableExtra("mediaMovieSimilar") as? ResultMovie
-//        }
-//        val mediaSerie = intent.getSerializableExtra("mediaSerie") as? ResultTv
-
+        Log.i("id Media Select", idMedia.toString())
+        Log.i("poster path", poster.toString())
 
         val adapter = ViewPagerMedia(supportFragmentManager)
         if (movie == true) {
-            val GeralFilme = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia, "Movie")
-            val MediaFilme = MediaEspecificoFragment.newInstance(true, idMedia)
+            val GeralFilme = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia.toString(), "Movie")
+            val MediaFilme = MediaEspecificoFragment.newInstance(true, idMedia.toString())
             val ResourceFilme = ResourcesFragment.newInstance(true, idMedia)
             adapter.addFragment(GeralFilme, "Visão Geral")
             adapter.addFragment(MediaFilme, "Semelhantes")
@@ -61,8 +56,8 @@ class MediaSelectedActivity(): AppCompatActivity() {
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         } else {
-            val GeralSerie = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia, "Tv")
-            val MediaSerie = MediaEspecificoFragment.newInstance(false, idMedia)
+            val GeralSerie = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia.toString(), "Tv")
+            val MediaSerie = MediaEspecificoFragment.newInstance(false, idMedia.toString())
             val ResourceSerie = ResourcesFragment.newInstance(false, idMedia)
             adapter.addFragment(GeralSerie, "Visão Geral")
             adapter.addFragment(MediaSerie, "Temporadas")
