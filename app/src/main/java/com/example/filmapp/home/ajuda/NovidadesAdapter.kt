@@ -8,42 +8,42 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Ajuda
 import com.example.filmapp.R
 
-class AjudaAdapter(
-    val listener: onAjudaItemClickListener
-) : RecyclerView.Adapter<AjudaAdapter.AjudaViewHolder>() {
+class NovidadesAdapter(
+    val listener: onNovidadeItemClickListener
+) : RecyclerView.Adapter<NovidadesAdapter.NovidadeViewHolder>() {
 
-    var ajudaList = arrayListOf<Ajuda>()
+    var novidadesList = arrayListOf<Ajuda>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AjudaViewHolder {
+    ): NovidadeViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_ajudalists, parent, false)
-        return AjudaViewHolder(itemView)
+        return NovidadeViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: AjudaViewHolder,
+        holder: NovidadeViewHolder,
         position: Int
     ) {
-        val currentItem: Ajuda = ajudaList[position]
+        val currentItem: Ajuda = novidadesList[position]
 
-        holder.titleAjuda.setText(currentItem.titleAjuda)
+        holder.titleNovidade.setText(currentItem.titleAjuda)
 
     }
 
     override fun getItemCount(): Int {
-        return ajudaList.size
+        return novidadesList.size
     }
 
-    interface onAjudaItemClickListener {
-        fun ajudaItemClick(position: Int)
+    interface onNovidadeItemClickListener {
+        fun novidadeItemClick(position: Int)
     }
 
-    inner class AjudaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class NovidadeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val titleAjuda: TextView = itemView.findViewById(R.id.tv_titleAjuda)
+        val titleNovidade: TextView = itemView.findViewById(R.id.tv_titleAjuda)
 
         init {
             itemView.setOnClickListener(this)
@@ -52,13 +52,13 @@ class AjudaAdapter(
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (RecyclerView.NO_POSITION != position) {
-                listener.ajudaItemClick(position)
+                listener.novidadeItemClick(position)
             }
         }
     }
 
     fun addList(list: ArrayList<Ajuda>) {
-        ajudaList.addAll(list)
+        novidadesList.addAll(list)
         notifyDataSetChanged()
     }
 

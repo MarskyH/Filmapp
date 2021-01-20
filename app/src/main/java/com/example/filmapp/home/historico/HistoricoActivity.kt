@@ -3,8 +3,10 @@ package com.example.filmapp.home.historico
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,25 +17,23 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.HomeActivity
+import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
 import com.example.filmapp.home.descubra.DescubraActivity
+import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import kotlinx.android.synthetic.main.activity_historico.*
+import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.*
 
 class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemClickListener {
 
     private lateinit var mediaListAdapter: HistoricoAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
-
-    val viewModel by viewModels<HistoricoViewModel>{
-        object : ViewModelProvider.Factory{
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HistoricoViewModel(service) as T
-            }
-        }
-    }
+    private lateinit var viewModel: HistoricoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_historico)
+
+        viewModel = ViewModelProvider(this).get(HistoricoViewModel::class.java)
 
         //Iniciando o ReciclerView Histórico
         mediaListLayoutManager = LinearLayoutManager(this)
@@ -43,9 +43,11 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         rv_historicoList.isHorizontalFadingEdgeEnabled
         rv_historicoList.setHasFixedSize(true)
 
-//        viewModel.returnUserHistoricoAPI.observe(this){
-//            mediaListAdapter.addList(it)
-//        }
+        viewModel.mediaList.observe(this){
+            var mediaList = viewModel.formattingItem(it)
+            pb_historico.setVisibility(View.INVISIBLE)
+            mediaListAdapter.addList(mediaList)
+        }
 
         setSupportActionBar(toolbarHistoricoPage)
 

@@ -18,9 +18,12 @@ import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
+import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.descubra.DescubraSeriesAdapter
+import kotlinx.android.synthetic.main.fragment_melhores_filmes.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
 
@@ -29,7 +32,9 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
     private lateinit var melhoresSeriesAdapter: MelhoresSeriesAdapter
     private lateinit var melhoresSeriesLayoutManager: LinearLayoutManager
     private lateinit var viewModelAssistirMaisTarde: AssistirMaisTardeViewModel
-    lateinit var listDataBase: List<AssistirMaisTardeEntity>
+    private lateinit var viewModelAcompanhando: AcompanhandoDataBaseViewModel
+    var listAssistirMaisTardeDataBase = listOf<AssistirMaisTardeEntity>()
+    var listAcompanhandoDataBase = listOf<AcompanhandoEntity>()
     var page = 1
     var totalPages = 3
 
@@ -52,6 +57,7 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
         val view = inflater.inflate(R.layout.fragment_melhores_series, container, false)
 
         viewModelAssistirMaisTarde = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
+        viewModelAcompanhando = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
 
         //Iniciando o ReciclerView de Melhores Séries
         melhoresSeriesLayoutManager = LinearLayoutManager(context)
@@ -61,12 +67,20 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
         view.rc_melhoresSeriesList.isHorizontalFadingEdgeEnabled
         view.rc_melhoresSeriesList.setHasFixedSize(true)
 
+        //Recebendo os Itens (Filmes e Séries) que estão na lista de Assistir Mais Tarde
         viewModelAssistirMaisTarde.mediaList.observe(viewLifecycleOwner){
-            listDataBase = it
+            listAssistirMaisTardeDataBase = it
+        }
+
+        //Recebendo as Séries que o usuário está Acompanhando
+        viewModelAcompanhando.mediaList.observe(viewLifecycleOwner){
+            listAcompanhandoDataBase = it
         }
 
         viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner) {
-            var mediaList = viewModelAssistirMaisTarde.checkTVInList(it.results, listDataBase)
+            var mediaList = viewModelAssistirMaisTarde.checkTVInList(it.results, listAssistirMaisTardeDataBase)
+            mediaList = viewModelAcompanhando.checkSerieInList(mediaList, listAcompanhandoDataBase)
+            pb_melhoresSeries.setVisibility(View.INVISIBLE)
             melhoresSeriesAdapter.addList(mediaList)
         }
 
@@ -94,8 +108,8 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var newEntity = AssistirMaisTardeEntity(media.id, media.name, media.poster_path, "tv")
-            viewModelAssistirMaisTarde.saveNewMedia(newEntity)
+            var newItem = AssistirMaisTardeEntity(media.id, media.name, media.poster_path, "tv")
+            viewModelAssistirMaisTarde.saveNewMedia(newItem)
             Toast.makeText(context, "Série adicionada a Agenda", Toast.LENGTH_SHORT).show()
         }
     }
@@ -105,9 +119,31 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var removeEntity = AssistirMaisTardeEntity(media.id, media.name, media.poster_path, "tv")
-            viewModelAssistirMaisTarde.removeMedia(removeEntity)
+            var removeItem = AssistirMaisTardeEntity(media.id, media.name, media.poster_path, "tv")
+            viewModelAssistirMaisTarde.removeMedia(removeItem)
             Toast.makeText(context, "Série removida da Agenda", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun saveInAcompanhandoList(position: Int) {
+        viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            var media = mediaList.get(position)
+
+            var newItem = AcompanhandoEntity(media.id, media.formattedName, media.poster_path)
+            viewModelAcompanhando.saveNewItem(newItem)
+            Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun removeOfAcompanhandoList(position: Int) {
+        viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            var media = mediaList.get(position)
+
+            var removeItem = AcompanhandoEntity(media.id, media.formattedName, media.poster_path)
+            viewModelAcompanhando.removeItem(removeItem)
+            Toast.makeText(context, "Você não está mais acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
         }
     }
 

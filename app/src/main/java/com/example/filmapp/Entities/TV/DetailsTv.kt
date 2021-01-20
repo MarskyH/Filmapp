@@ -16,8 +16,9 @@ data class TvDetails(
     val last_air_date: String,
     val last_episode_to_air: LastEpisodeToAir,
     val name: String,
+    var formattedName: String,
     val networks: List<Network>,
-    val next_episode_to_air: Any,
+    val next_episode_to_air: NextEpisodeToAir,
     val number_of_episodes: Int,
     val number_of_seasons: Int,
     val origin_country: List<String>,
@@ -55,6 +56,20 @@ data class LastEpisodeToAir(
     val episode_number: Int,
     val id: Int,
     val name: String,
+    val overview: String,
+    val production_code: String,
+    val season_number: Int,
+    val still_path: String,
+    val vote_average: Double,
+    val vote_count: Int
+):Serializable
+
+data class NextEpisodeToAir(
+    var air_date: String,
+    val episode_number: Int,
+    val id: Int,
+    var name: String,
+    var formattedNameEpisode: String,
     val overview: String,
     val production_code: String,
     val season_number: Int,

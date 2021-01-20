@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--    app:cardBackgroundColor="#00FFFFFF"-->
+
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -42,20 +45,32 @@
                 android:text="The Flash"
                 android:textColor="@color/Principal"
                 android:textSize="25dp"
+                android:lines="1"
                 android:textStyle="bold" />
 
+<!--            <TextView-->
+<!--                android:id="@+id/tv_mediaType_proximosItem"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/montserrat"-->
+<!--                android:text="Série"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="15dp"-->
+<!--                android:textStyle="bold" />-->
+
             <TextView
-                android:id="@+id/tv_mediaType_proximosItem"
+                android:id="@+id/tv_serieEpisode_proximosItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="Série"
+                android:text="2x08 - O Que Eu Sei"
+                android:lines="1"
                 android:textColor="@color/white"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_serieEpisode__proximosItem"
+                android:id="@+id/tv_serieSeason_proximosItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -72,7 +87,7 @@
                 android:fontFamily="@font/montserrat"
                 android:text="Data: 09/10/2020"
                 android:textColor="@color/white"
-                android:textSize="13dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -82,7 +97,7 @@
                 android:fontFamily="@font/montserrat"
                 android:text="Onde: Amazon Prime Video"
                 android:textColor="@color/white"
-                android:textSize="13dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
         </LinearLayout>

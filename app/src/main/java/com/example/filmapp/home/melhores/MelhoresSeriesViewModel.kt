@@ -1,5 +1,6 @@
 package com.example.filmapp.home.melhores
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -42,27 +43,30 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
             var evaluation = it.vote_average
 
             //Formatação da Data de Lançamento
-            var year = "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
-            var month = "${date?.get(5)}" + "${date?.get(6)}"
-            var day = "${date?.get(8)}" + "${date?.get(9)}"
+            if(date.length == 10) {
+                var year = "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
+                var month = "${date?.get(5)}" + "${date?.get(6)}"
+                var day = "${date?.get(8)}" + "${date?.get(9)}"
 
-            when(month){
-                "01" -> month = "Janeiro"
-                "02" -> month = "Fevereiro"
-                "03" -> month = "Março"
-                "04" -> month = "Abril"
-                "05" -> month = "Maio"
-                "06" -> month = "Junho"
-                "07" -> month = "Julho"
-                "08" -> month = "Agosto"
-                "09" -> month = "Setembro"
-                "10" -> month = "Outubro"
-                "11" -> month = "Novembro"
-                "12" -> month = "Dezembro"
-                else -> month = " "
+                when (month) {
+                    "01" -> month = "Janeiro"
+                    "02" -> month = "Fevereiro"
+                    "03" -> month = "Março"
+                    "04" -> month = "Abril"
+                    "05" -> month = "Maio"
+                    "06" -> month = "Junho"
+                    "07" -> month = "Julho"
+                    "08" -> month = "Agosto"
+                    "09" -> month = "Setembro"
+                    "10" -> month = "Outubro"
+                    "11" -> month = "Novembro"
+                    "12" -> month = "Dezembro"
+                    else -> month = " "
+                }
+
+                it.first_air_date = day + " de " + month + ", " + year
+
             }
-
-            it.first_air_date = day + " de " + month + ", " + year
 
             //Formatação do Título
             if(title.length > 13){

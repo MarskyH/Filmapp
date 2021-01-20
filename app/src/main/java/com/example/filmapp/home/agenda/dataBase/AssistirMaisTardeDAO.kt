@@ -14,7 +14,4 @@ interface AssistirMaisTardeDAO {
 
     @Delete
     suspend fun removeOfAssistirMaisTardeList(media: AssistirMaisTardeEntity)
-
-//    @Query("SELECT * FROM assistirmaistardetable WHERE id = :id")
-//    fun checkInList(id: Int): AssistirMaisTardeEntity
 }

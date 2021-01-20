@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.filmapp">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,26 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp">
-
-        <activity android:name=".Media.UI.MediaSelectedActivity"/>
-        <activity android:name=".Series.Ui.SerieTemporadaActivity"/>
-        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity"/>
-
-        <activity android:name=".Configuracoes.ConfiguracoesActivity"/>
-
+        <activity android:name=".home.ajuda.AjudaDetailsActivity"></activity>
+        <activity android:name=".Media.UI.MediaSelectedActivity" />
+        <activity android:name=".Series.Ui.SerieTemporadaActivity" />
+        <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
+        <activity android:name=".Configuracoes.ConfiguracoesActivity" />
         <activity android:name=".Login.SignInActivity" />
         <activity android:name=".Login.LoginActivity" />
-
-        <activity android:name=".home.melhores.MelhoresActivity"/>
+        <activity android:name=".home.melhores.MelhoresActivity" />
         <activity android:name=".home.ajuda.AjudaActivity" />
         <activity android:name=".home.historico.HistoricoActivity" />
         <activity android:name=".home.acompanhando.AcompanhandoActivity" />
-        <activity android:name=".home.descubra.DescubraActivity"/>
+        <activity android:name=".home.descubra.DescubraActivity" />
         <activity android:name=".home.agenda.AgendaActivity" />
         <activity android:name=".home.emAlta.AltaActivity" />
-
-        <activity android:name=".home.HomeActivity"/>
-
+        <activity android:name=".home.HomeActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -40,27 +40,29 @@
                 android:autoSizeTextType="uniform"
                 android:fontFamily="@font/montserrat"
                 android:text="The Flash"
+                android:lines="1"
                 android:textColor="@color/Principal"
                 android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_mediaType_historicoItem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:text="Série"
-                android:textColor="@color/White"
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_serieEpisode_historicoItem"
+                android:id="@+id/tv_serieEpisodeOurType_historicoItem"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
                 android:text="2x08 - O Que Eu Sei"
-                android:textColor="@color/White"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_serieSeason_historicoItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="2x08 - O Que Eu Sei"
+                android:textColor="@color/white"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -70,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="70dp"
                 android:text="25/10/2020 - 23:32"
                 android:textColor="@color/White"
                 android:textSize="13dp"

@@ -20,5 +20,6 @@ data class ResultMovie(
     val video : Boolean,
     var vote_average : Double,
     var numberStars: Double,
-    var assistirMaisTardeIndication: Boolean = false
+    var assistirMaisTardeIndication: Boolean = false,
+    var watched: Boolean = false
 ):Serializable

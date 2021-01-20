@@ -19,5 +19,7 @@ data class ResultTv(
     val poster_path : String,
     val origin_country : ArrayList<String>,
     var numberStars: Double,
-    var assistirMaisTardeIndication: Boolean = false
+    var assistirMaisTardeIndication: Boolean = false,
+    var followingStatusIndication: Boolean = false,
+    var finished: Boolean = false
 ): Serializable

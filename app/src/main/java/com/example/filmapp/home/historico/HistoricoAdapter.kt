@@ -5,14 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
+import com.example.filmapp.home.historico.dataBase.HistoricoEntity
+import com.squareup.picasso.Picasso
 
 class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
     RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
 
-    var mediaList = arrayListOf<ResultTv>()
+    var mediaList = listOf<HistoricoEntity>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,13 +30,30 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
         holder: HistoricoViewHolder,
         position: Int
     ) {
-        val currentItem: ResultTv = mediaList[position]
+        val currentItem: HistoricoEntity = mediaList[position]
 
-        holder.mediaName.setText(currentItem.name)
-//        holder.serieEpisode.setText(currentItem.serieEpisode)
-        holder.mediaPreviewDate.text = "25/10/2020 - 23:32"
-//        holder.mediaImage.setImageResource(currentItem.mediaImage)
-//        holder.mediaType.setText(currentItem.mediaType)
+        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+        Picasso.get().load(url).into(holder.mediaImage)
+
+        holder.mediaName.setText(currentItem.formattedTitle)
+
+        var seasonNumber = currentItem.seasonNumber.toString()
+        var episodeNumber = currentItem.episodeNumber.toString()
+        var episodeName = currentItem.formattedEpisodeTitle
+
+        if(currentItem.type == "Tv"){
+            if(episodeName.length != 0)
+                holder.serieEpisodeOurType.setText("Episódio: " + episodeNumber + " ( " + episodeName + " )")
+            else
+                holder.serieEpisodeOurType.setText("Episódio: " + episodeNumber)
+
+            holder.serieSeason.setText("Temporada: " + seasonNumber)
+        }else{
+            holder.serieEpisodeOurType.setText("Filme")
+            holder.serieSeason.setText(" ")
+        }
+
+        holder.mediaPreviewDate.setText(currentItem.date)
 
     }
 
@@ -48,11 +68,10 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
     inner class HistoricoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.tv_mediaName_historicoItem)
+        val serieEpisodeOurType: TextView = itemView.findViewById(R.id.tv_serieEpisodeOurType_historicoItem)
+        val serieSeason: TextView = itemView.findViewById(R.id.tv_serieSeason_historicoItem)
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_historicoItem)
-        val serieEpisode: TextView = itemView.findViewById(R.id.tv_serieEpisode_historicoItem)
-        val mediaType: TextView = itemView.findViewById(R.id.tv_mediaType_historicoItem)
-        val mediaPreviewDate: TextView =
-            itemView.findViewById(R.id.tv_mediaPreviewDate_historicoItem)
+        val mediaPreviewDate: TextView = itemView.findViewById(R.id.tv_mediaPreviewDate_historicoItem)
 
         init {
             itemView.setOnClickListener(this)
@@ -66,8 +85,8 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
         }
     }
 
-    fun addList(list: ArrayList<ResultTv>) {
-        mediaList.addAll(list)
+    fun addList(list: List<HistoricoEntity>) {
+        mediaList = list
         notifyDataSetChanged()
     }
 }

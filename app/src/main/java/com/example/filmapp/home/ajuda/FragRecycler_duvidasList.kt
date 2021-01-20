@@ -1,5 +1,6 @@
 package com.example.filmapp.home.ajuda
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,9 +15,9 @@ import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.view.*
 
-class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListener {
+class FragRecycler_duvidasList : Fragment(), DuvidasAdapter.onDuvidaItemClickListener {
 
-    private lateinit var duvidasListAdapter: AjudaAdapter
+    private lateinit var duvidasListAdapter: DuvidasAdapter
     private lateinit var duvidasListLayoutManager: RecyclerView.LayoutManager
 
     val viewModel by viewModels<DuvidasViewModel>{
@@ -40,7 +41,7 @@ class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListen
 
         //Iniciando o ReciclerView Dúvidas
         duvidasListLayoutManager = LinearLayoutManager(context)
-        duvidasListAdapter = AjudaAdapter(this)
+        duvidasListAdapter = DuvidasAdapter(this)
         view.rc_duvidas.layoutManager = duvidasListLayoutManager
         view.rc_duvidas.adapter = duvidasListAdapter
         view.rc_duvidas.isHorizontalFadingEdgeEnabled
@@ -50,7 +51,7 @@ class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListen
             duvidasListAdapter.addList(it)
         }
 
-//        viewModel.getDuvidasList()
+        viewModel.getDuvidasList()
 
         return view
     }
@@ -59,15 +60,16 @@ class FragRecycler_duvidasList : Fragment(), AjudaAdapter.onAjudaItemClickListen
         fun newInstance() = FragRecycler_duvidasList()
     }
 
-    override fun ajudaItemClick(position: Int) {
+    override fun duvidaItemClick(position: Int) {
         viewModel.returnDuvidas.observe(viewLifecycleOwner){
             var duvida = it.get(position)
 
-            //Abrindo o fragment AjudaDetailsFragment
-            (activity as AjudaActivity).supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_ajudaDetails, AjudaDetailsFragment.newInstance())
-                commit()
-            }
+            //Abrindo os detalhes da dúvida
+            var intent = Intent(context, AjudaDetailsActivity::class.java)
+            intent.putExtra("title", duvida.titleAjuda)
+            intent.putExtra("body", duvida.bodyAjudaDetails)
+
+            startActivity(intent)
         }
     }
 }

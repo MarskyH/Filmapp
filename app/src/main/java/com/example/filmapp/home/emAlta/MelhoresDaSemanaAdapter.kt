@@ -31,7 +31,7 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
         val currentItem: ResultAll = mediaList[position]
 
         if(currentItem.title == null){
-            holder.mediaName.text = "NULO"
+            holder.mediaName.text = " "
         }else{
             holder.mediaName.text = currentItem.title
         }
