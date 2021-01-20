@@ -2,6 +2,7 @@ package com.example.filmapp.Media.Adapters
 
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,6 @@ class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies
 
     override fun onBindViewHolder(holder: MediasViewHolder, position: Int) {
         val movie = listMediaEspecifico.results.get(position)
-        val movieSelect = movie
         val picasso = Picasso.get()
         val baseURl = config.images.secure_base_url
         val size = "original"
@@ -45,7 +45,8 @@ class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
                 intent.putExtra("poster", img)
                 intent.putExtra("movie", Movie)
-                intent.putExtra("mediaMovieSimilar", movieSelect)
+                intent.putExtra("id", movie.id)
+                Log.i("Similar Adpter", movie.id.toString())
                 holder.itemView.context.startActivity(intent)
         }
     }

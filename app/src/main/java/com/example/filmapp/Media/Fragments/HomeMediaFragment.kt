@@ -98,6 +98,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                     Log.i("Favoritos filmes", it.toString())
                     MovieFavAdapter = FavoritosAdapterMovie(this)
                     lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    MovieFavAdapter.addList(it)
                     view.rv_fav.layoutManager = lManager
                     view.rv_fav.adapter = MovieFavAdapter
                     view.rv_fav.setHasFixedSize(true)
@@ -121,6 +122,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                     Log.i("Favoritos Séries", it.toString())
                     SerieFavAdapter = FavoritosAdapterSerie(this)
                     lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    SerieFavAdapter.addList(it)
                     view.rv_fav.layoutManager = lManager
                     view.rv_fav.adapter = SerieFavAdapter
                     view.rv_fav.setHasFixedSize(true)

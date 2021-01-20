@@ -44,7 +44,7 @@ class GeralMediaFragment() : Fragment() {
     var Poster: String? = null
     var Sinopse: String? = null
     var Type: String? = null
-    var title: String = ""
+    var Title: String = ""
     var Id: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +53,8 @@ class GeralMediaFragment() : Fragment() {
             Poster = arguments?.getString(poster)
             Sinopse = arguments?.getString(sinopse)
             Id = arguments?.getString(idMedia)
-            Log.i("id geral", Id.toString())
             Type = arguments?.getString(type)
+            Log.i("type", Type.toString())
         }
     }
 
@@ -95,20 +95,19 @@ class GeralMediaFragment() : Fragment() {
     ): View? {
         viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
 
-        if (type == "Movie") {
+        if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
-                title = it.title
+                Title = it.title
                 Log.i("title", it.title)
                 Toast.makeText(activity, it.title.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getMovieDetails(Id!!)
         }
-        if (type == "Tv") {
+        if (Type == "Tv") {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                title = it.name
+                Title = it.name
                 Log.i("title", it.name)
                 Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
-
             }
             viewModelDetails.getTvDetails(Id!!)
         }
@@ -129,13 +128,14 @@ class GeralMediaFragment() : Fragment() {
             AlteraIconAcompanhar()
         }
         view.imgFav.setOnClickListener {
+
             if (selFav == false) {
                 AlteraIconFavorito()
-                addFavoritosList(Id!!.toString().toInt(), title!!, Poster!!, Type!!)
+                addFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
                 Toast.makeText(activity, "Filme adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
             } else {
                 AlteraIconFavorito()
-                remogveFavoritosList(Id!!.toString().toInt(), title!!, Poster!!, Type!!)
+                remogveFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
                 Toast.makeText(activity, "Filme removido dos Favoritos", Toast.LENGTH_SHORT).show()
             }
 
@@ -145,7 +145,9 @@ class GeralMediaFragment() : Fragment() {
             AlteraIconCompartilhar()
             AbrirCompartilhar()
         }
+
         return view
+
     }
 
     fun AlteraIconAssistirMaisTarde() {
