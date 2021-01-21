@@ -1,11 +1,13 @@
 package com.example.filmapp.Media.Adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
@@ -24,15 +26,18 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
         return FavoritosViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(
-        holder: FavoritosViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: FavoritosViewHolder, position: Int) {
         val currentItem: FavoritosEntity = mediaList[position]
-
         holder.mediaName.text = currentItem.title
-        var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
-        Picasso.get().load(url).into(holder.mediaImage)
+        Picasso.get().load(currentItem.poster_path).into(holder.mediaImage)
+
+        holder.mediaImage.setOnClickListener {
+            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
+                intent.putExtra("poster", currentItem.poster_path)
+                intent.putExtra("movie", true)
+                intent.putExtra("id", currentItem.id)
+                holder.itemView.context.startActivity(intent)
+            }
     }
 
     override fun getItemCount(): Int {

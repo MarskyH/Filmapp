@@ -17,6 +17,11 @@ import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
+import com.example.filmapp.home.acompanhando.AcompanhandoViewModel
+import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
+import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
+import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.*
@@ -34,6 +39,8 @@ import java.io.Serializable
 
 class GeralMediaFragment() : Fragment() {
     private lateinit var viewModelFav: FavoritosViewModel
+    private lateinit var viewModelAcom: AcompanhandoDataBaseViewModel
+    private lateinit var viewModelTarde: AssistirMaisTardeViewModel
     val scope = CoroutineScope(Dispatchers.Main)
     var selAssistirMaisTarde: Boolean = false
     var selFav: Boolean = false
@@ -63,12 +70,7 @@ class GeralMediaFragment() : Fragment() {
         private val poster = "poster"
         private val idMedia = "id"
         private val type = "type"
-        fun newInstance(
-            Sinopse: String?,
-            Poster: String?,
-            Id: String?,
-            Type: String?
-        ): GeralMediaFragment {
+        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?): GeralMediaFragment {
             val fragment = GeralMediaFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
@@ -78,7 +80,6 @@ class GeralMediaFragment() : Fragment() {
             fragment.arguments = args
             return fragment
         }
-
     }
 
     private val viewModelDetails by viewModels<MainViewModel> {
@@ -94,6 +95,8 @@ class GeralMediaFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
+        viewModelAcom = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
+        viewModelTarde = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
 
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
@@ -114,7 +117,13 @@ class GeralMediaFragment() : Fragment() {
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
-        view.tv_sinopse.text = Sinopse
+        Log.i("Sinopse Geral", Sinopse.toString())
+        if(Sinopse != "" && Sinopse != null){
+            view.tv_sinopse.text = Sinopse
+        }else{
+            view.tv_sinopse.text = "Sem sinopse disponível no momento"
+        }
+
         picasso.load(Poster).into(view.img_geral)
 
         view.progress_circular.setOnClickListener {
@@ -122,25 +131,40 @@ class GeralMediaFragment() : Fragment() {
         }
 
         view.imgTarde.setOnClickListener {
-            AlteraIconAssistirMaisTarde()
+            if (selAssistirMaisTarde == false) {
+                AlteraIconAssistirMaisTarde()
+                addMaisTardeList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+                Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
+            } else {
+                AlteraIconAssistirMaisTarde()
+                removeMaisTardeList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+                Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
+            }
         }
         view.imgAcompanhar.setOnClickListener {
             AlteraIconAcompanhar()
+            if (selAcompanhar == false) {
+                AlteraIconAcompanhar()
+                addAcompanhandoList(Id!!.toString().toInt(), Title!!, Poster!!)
+                Toast.makeText(activity, "Acompanhando: $Title", Toast.LENGTH_SHORT).show()
+            } else {
+                AlteraIconAcompanhar()
+                removeAcompanhandoList(Id!!.toString().toInt(), Title!!, Poster!!)
+                Toast.makeText(activity, "Acompanhando: $Title ", Toast.LENGTH_SHORT).show()
+            }
         }
         view.imgFav.setOnClickListener {
-
             if (selFav == false) {
                 AlteraIconFavorito()
                 addFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "Filme adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "$Title adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
             } else {
                 AlteraIconFavorito()
-                remogveFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "Filme removido dos Favoritos", Toast.LENGTH_SHORT).show()
+                removeFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+                Toast.makeText(activity, "$Title removido dos Favoritos", Toast.LENGTH_SHORT).show()
             }
-
-
         }
+
         view.imgCompart.setOnClickListener {
             AlteraIconCompartilhar()
             AbrirCompartilhar()
@@ -221,8 +245,24 @@ class GeralMediaFragment() : Fragment() {
         viewModelFav.saveNewMedia(FavoritosEntity(id, title, poster_path, type))
     }
 
-    fun remogveFavoritosList(id: Int, title: String, poster_path: String, type: String) {
+    fun removeFavoritosList(id: Int, title: String, poster_path: String, type: String) {
         viewModelFav.removeMedia(FavoritosEntity(id, title, poster_path, type))
+    }
+
+    fun addAcompanhandoList(id: Int, title: String, poster_path: String) {
+        viewModelAcom.saveNewItem(AcompanhandoEntity(id,title,poster_path))
+    }
+
+    fun removeAcompanhandoList(id: Int, title: String, poster_path: String){
+        viewModelAcom.removeItem(AcompanhandoEntity(id,title,poster_path))
+    }
+
+    fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
+        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id,title,poster_path, type))
+    }
+
+    fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String){
+        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id,title,poster_path, type))
     }
 
 
