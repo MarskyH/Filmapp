@@ -2,6 +2,7 @@ package com.example.filmapp.Series.Ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.example.filmapp.R
 import com.example.filmapp.Series.Fragments.EpisodioFragment
 import com.example.filmapp.home.descubra.DescubraActivity
 import kotlinx.android.synthetic.main.activity_serie_episodio_selected.*
+import kotlinx.android.synthetic.main.fragment_series_episodio.*
 
 
 class SerieEpisodioSelectedActivity : AppCompatActivity() {
@@ -66,11 +68,14 @@ class SerieEpisodioSelectedActivity : AppCompatActivity() {
         val img = intent.getSerializableExtra("imagem") as? String
         val imgLogo = intent.getSerializableExtra("logo") as? String
         val homepage = intent.getSerializableExtra("homepage") as? String
+        val id = intent.getSerializableExtra("id") as? String
+        val title = intent.getSerializableExtra("title") as? String
+        val poster = intent.getSerializableExtra("poster") as? String
         val titulo = "Temporada ${numberSeason} - Episódio ${numberEp}"
-
-
+        val Episodio = EpisodioFragment.newInstance(sinopseEp, poster, id,"Tv", img, imgLogo, homepage!!, title)
+        Log.i("Episodio select", id.toString())
         val adapter = ViewPagerMedia(supportFragmentManager)
-        adapter.addFragment(EpisodioFragment(img, sinopseEp, imgLogo, homepage), titulo)
+        adapter.addFragment(Episodio, titulo)
         viewPagerSeriesEpisodio.adapter = adapter
         tabsSeriesEpisodioSelected.setupWithViewPager(viewPagerSeriesEpisodio)
     }

@@ -130,6 +130,9 @@ class GeralMediaFragment() : Fragment() {
             incrCircleBar()
         }
 
+
+
+
         view.imgTarde.setOnClickListener {
             if (selAssistirMaisTarde == false) {
                 AlteraIconAssistirMaisTarde()
@@ -167,7 +170,7 @@ class GeralMediaFragment() : Fragment() {
 
         view.imgCompart.setOnClickListener {
             AlteraIconCompartilhar()
-            AbrirCompartilhar()
+            AbrirCompartilhar(Title!!, Poster!!)
         }
 
         return view
@@ -232,10 +235,10 @@ class GeralMediaFragment() : Fragment() {
         tvProgress.text = "$progr%"
     }
 
-    fun AbrirCompartilhar() {
+    fun AbrirCompartilhar(title: String, poster_path: String) {
         val ShareIntent = Intent().apply {
             this.action = Intent.ACTION_SEND
-            this.putExtra(Intent.EXTRA_TEXT, "Compartilhe com amigos o que gostou!")
+            this.putExtra(Intent.EXTRA_TEXT, "Já viu $title? olha que pôster lindo:$poster_path")
             this.type = "text/plain"
         }
         startActivity(ShareIntent)

@@ -37,6 +37,7 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
         val baseURl = "https://image.tmdb.org/t/p/"
         val size = "original"
         val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
+        val poster = "${baseURl}${size}${Serie.poster_path}".replace("http://","https://")
         val imgLogo ="${baseURl}${size}${logoPath}".replace("http://","https://")
         Log.i("logo path", imgLogo)
         season = "${baseURl}${size}${season}".replace("http://","https://")
@@ -50,6 +51,10 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
             intent.putExtra("imagem", season)
             intent.putExtra("logo", imgLogo)
             intent.putExtra("homepage", Serie.homepage)
+            intent.putExtra("id", Serie.id.toString())
+            intent.putExtra("title", Serie.name)
+            intent.putExtra("poster", poster)
+            Log.i("Episodio", Serie.id.toString())
             holder.itemView.context.startActivity(intent)
         }
 

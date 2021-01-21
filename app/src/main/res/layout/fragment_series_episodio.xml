@@ -53,18 +53,16 @@
 
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/imgTarde"
+        android:layout_width="376dp"
+        android:layout_height="213dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <TextView
             android:id="@+id/sinopseEp"
             android:layout_width="369dp"
-            android:layout_height="186dp"
+            android:layout_height="300dp"
             android:layout_gravity="center_vertical|end"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
@@ -101,34 +99,10 @@
         android:src="@drawable/ic_compartilhar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.967" />
-
-    <ImageView
-        android:id="@+id/imgFav"
-        android:layout_width="44dp"
-        android:layout_height="36dp"
-        android:src="@drawable/ic_favorito_branco"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.931"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.974" />
-
-    <ImageView
-        android:id="@+id/imgTarde"
-        android:layout_width="44dp"
-        android:layout_height="36dp"
-        android:src="@drawable/ic_assistir_mais_tarde"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.966" />
+        app:layout_constraintVertical_bias="0.152" />
 
     <ImageView
         android:id="@+id/imgLogo"
