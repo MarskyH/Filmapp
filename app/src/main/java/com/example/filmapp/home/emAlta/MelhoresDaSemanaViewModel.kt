@@ -8,6 +8,7 @@ import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.All.BaseAll
 import com.example.filmapp.Entities.All.ResultAll
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Services.Service
 import kotlinx.coroutines.launch
@@ -16,9 +17,8 @@ class MelhoresDaSemanaViewModel(val service: Service) : ViewModel() {
 
     var returnMelhoresDaSemanaListAPI = MutableLiveData<ArrayList<ResultAll>>()
     var returnAPI = MutableLiveData<BaseAll>()
-    var returnDetailsSerieAPI = MutableLiveData<TvDetails>()
 
-    fun getMelhoresDaSemanaList(){
+    fun getMelhoresDaSemanaList() {
         viewModelScope.launch {
             returnAPI.value = service.getTrending(
                 "tv",
@@ -29,36 +29,19 @@ class MelhoresDaSemanaViewModel(val service: Service) : ViewModel() {
 
             var list = returnAPI.value!!.results
 
+            //Verificando se o retorno da API possui o título
             list.forEach {
-
-                if(it.title == null){
-                    var details = getDetails(it.id.toString())
-                    if (details != null) {
-                        it.title = details.name
-                    }
+                if (it.title == null) {
+                    it.title = service.getDetailsSerie(
+                        it.id.toString(),
+                        API_KEY,
+                        LANGUAGE,
+                        1
+                    ).name
                 }
             }
 
             returnMelhoresDaSemanaListAPI.value = list
         }
     }
-
-    fun getDetails(id: String): TvDetails?{
-        viewModelScope.launch {
-            returnDetailsSerieAPI.value = service.getDetailsSerie(
-                id,
-                API_KEY,
-                LANGUAGE,
-                1
-            )
-        }
-
-        var result = returnDetailsSerieAPI.value
-
-        Log.i("RESULT", result.toString())
-        Log.i("ID", id.toString())
-
-        return result
-    }
-
 }

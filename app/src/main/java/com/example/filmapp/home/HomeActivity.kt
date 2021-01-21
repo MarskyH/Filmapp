@@ -18,6 +18,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         setSupportActionBar(toolbarHomePage)
+
+
         setTabs()
     }
 

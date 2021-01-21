@@ -26,10 +26,10 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_descubra.*
 import org.w3c.dom.Text
 
-class DescubraActivity : AppCompatActivity(){
+class DescubraActivity : AppCompatActivity() {
 
-    val viewModel by viewModels<DescubraViewModel>{
-        object : ViewModelProvider.Factory{
+    val viewModel by viewModels<DescubraViewModel> {
+        object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return DescubraViewModel(service) as T
             }
@@ -41,6 +41,10 @@ class DescubraActivity : AppCompatActivity(){
         setContentView(R.layout.activity_descubra)
 
         textInput_search.setEndIconOnClickListener {
+            callResultsSearch()
+        }
+
+        textInput_search.editText?.doOnTextChanged { inputText, _, _, _ ->
             callResultsSearch()
         }
 
@@ -60,7 +64,7 @@ class DescubraActivity : AppCompatActivity(){
 
     //Usado pra add ações de click aos itens do Menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId){
+        return when (item.itemId) {
             R.id.configurações_toolbarConfig -> {
                 callConfiguracoesPage()
                 true
@@ -93,24 +97,32 @@ class DescubraActivity : AppCompatActivity(){
         return super.dispatchTouchEvent(ev)
     }
 
-    fun callConfiguracoesPage(){
+    fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
     }
 
-    fun callResultsSearch(){
+    fun callResultsSearch() {
         var searchText = textInput_search.editText?.text.toString()
 
-        //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragRecycler_filmesDescubraSpace, FragRecycler_filmesDescubra.newInstance(searchText))
-            commit()
-        }
+        if (searchText != "") {
+            //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+            supportFragmentManager.beginTransaction().apply {
+                replace(
+                    R.id.fragRecycler_filmesDescubraSpace,
+                    FragRecycler_filmesDescubra.newInstance(searchText)
+                )
+                commit()
+            }
 
-        //Inflando o RecyclerView de Resultados - Series (fragRecycler_filmesDescubra)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragRecycler_seriesDescubraSpace, FragRecycler_seriesDescubra.newInstance(searchText))
-            commit()
+            //Inflando o RecyclerView de Resultados - Series (fragRecycler_filmesDescubra)
+            supportFragmentManager.beginTransaction().apply {
+                replace(
+                    R.id.fragRecycler_seriesDescubraSpace,
+                    FragRecycler_seriesDescubra.newInstance(searchText)
+                )
+                commit()
+            }
         }
     }
 

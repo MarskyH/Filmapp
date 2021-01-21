@@ -16,6 +16,8 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_acompanhando.*
+import kotlinx.android.synthetic.main.activity_historico.*
+import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.*
 import kotlinx.android.synthetic.main.fragrecycler_filmesdescubra.view.*
 
 class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubraMovieClickListener {
@@ -54,6 +56,7 @@ class FragRecycler_filmesDescubra : Fragment(), DescubraMoviesAdapter.onDescubra
 
         viewModel.returnAPI.observe(viewLifecycleOwner) {
             var mediaList = it.results
+            pb_descubraFilmes.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(mediaList)
         }
 

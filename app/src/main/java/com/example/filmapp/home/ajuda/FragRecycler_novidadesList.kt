@@ -1,5 +1,6 @@
 package com.example.filmapp.home.ajuda
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,21 +9,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragrecycler_novidadeslist.view.*
 
-class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickListener {
+class FragRecycler_novidadesList : Fragment(), NovidadesAdapter.onNovidadeItemClickListener {
 
-    private lateinit var novidadesListAdapter: AjudaAdapter
+    private lateinit var novidadesListAdapter: NovidadesAdapter
     private lateinit var novidadesListLayoutManager: RecyclerView.LayoutManager
 
-    val viewModel by viewModels<DuvidasViewModel>{
+    val viewModel by viewModels<NovidadesViewModel>{
         object : ViewModelProvider.Factory{
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DuvidasViewModel(service) as T
+                return NovidadesViewModel(service) as T
             }
         }
     }
@@ -40,7 +42,7 @@ class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickList
 
         //Iniciando o ReciclerView Dúvidas Frequentes
         novidadesListLayoutManager = LinearLayoutManager(context)
-        novidadesListAdapter = AjudaAdapter(this)
+        novidadesListAdapter = NovidadesAdapter(this)
         view.rc_novidades.layoutManager = novidadesListLayoutManager
         view.rc_novidades.adapter = novidadesListAdapter
         view.rc_novidades.isHorizontalFadingEdgeEnabled
@@ -50,7 +52,7 @@ class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickList
             novidadesListAdapter.addList(it)
         }
 
-//        viewModel.getNovidadesList()
+        viewModel.getNovidadesList()
 
         return view
     }
@@ -59,16 +61,16 @@ class FragRecycler_novidadesList : Fragment(), AjudaAdapter.onAjudaItemClickList
         fun newInstance() = FragRecycler_novidadesList()
     }
 
-    override fun ajudaItemClick(position: Int) {
+    override fun novidadeItemClick(position: Int) {
         viewModel.returnNovidades.observe(viewLifecycleOwner) {
             val novidade = it.get(position)
 
-            //Abrindo o fragment AjudaDetailsFragment
-            (activity as AjudaActivity).supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fl_ajudaDetails, AjudaDetailsFragment.newInstance())
-                commit()
-            }
+            //Abrindo os detalhes da dúvida
+            var intent = Intent(context, AjudaDetailsActivity::class.java)
+            intent.putExtra("title", novidade.titleAjuda)
+            intent.putExtra("body", novidade.bodyAjudaDetails)
 
+            startActivity(intent)
         }
 
     }

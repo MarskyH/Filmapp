@@ -16,6 +16,8 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import kotlinx.android.synthetic.main.fragment_melhores_filmes.*
+import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.*
 import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.view.*
 
 class FragRecycler_asssistirMaisTarde : Fragment(),
@@ -38,10 +40,6 @@ class FragRecycler_asssistirMaisTarde : Fragment(),
 
         viewModel = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
 
-//        viewModel.saveNewMedia(AssistirMaisTardeEntity(644479,"The Boys", "", "TV"))
-//        viewModel.saveNewMedia(AssistirMaisTardeEntity(496243,"Harry PPPotter", "", "TV"))
-//        viewModel.saveNewMedia(AssistirMaisTardeEntity(508442,"Darkkk", "", "TV"))
-
         //Iniciando o ReciclerView Assistir Mais Tarde
         mediaListLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mediaListAdapter = AssistirMaisTardeAdapter(this)
@@ -51,6 +49,7 @@ class FragRecycler_asssistirMaisTarde : Fragment(),
         view.rv_assistirMaisTarde.setHasFixedSize(true)
 
         viewModel.mediaList.observe(viewLifecycleOwner){
+            pb_assistirMaisTarde.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(it)
         }
 

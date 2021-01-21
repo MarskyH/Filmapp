@@ -68,14 +68,23 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
             }
         }
 
-        holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box)
-        holder.followingStatusIndication.setOnClickListener {
-            if(evaluationIndicationBoolean == false){
-                holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box_roxo)
-                evaluationIndicationBoolean = true
+        //Aq verifica se o filme já foi assistido pelo usuário ou não
+        if(currentItem.watched == true){
+            holder.watchedIndication.setImageResource(R.drawable.ic_check_box_roxo)
+        }else{
+            holder.watchedIndication.setImageResource(R.drawable.ic_check_box)
+        }
+
+
+        holder.watchedIndication.setOnClickListener {
+            if(currentItem.watched == false){
+                holder.watchedIndication.setImageResource(R.drawable.ic_check_box_roxo)
+                listener.saveInHistorico(position)
+                currentItem.watched = true
             }else{
-                holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box)
-                evaluationIndicationBoolean = false
+                holder.watchedIndication.setImageResource(R.drawable.ic_check_box)
+                listener.removeOfHistorico(position)
+                currentItem.watched = false
             }
         }
 
@@ -99,6 +108,8 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         fun melhoresItemClick(position: Int)
         fun saveInAssistirMaisTardeList(position: Int)
         fun removeOfAssistirMaisTardeList(position: Int)
+        fun saveInHistorico(position: Int)
+        fun removeOfHistorico(position: Int)
     }
 
     inner class MelhoresListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -111,7 +122,7 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         val mediaPosition: TextView = itemView.findViewById(R.id.tv_mediaPosition_medialist)
 
         val assistirMaisTardeIndication: ImageView = itemView.findViewById(R.id.assistirMaisTardeIndication_medialist)
-        val followingStatusIndication: ImageView = itemView.findViewById(R.id.followingStatusIndication_medialist)
+        val watchedIndication: ImageView = itemView.findViewById(R.id.followingStatusIndication_medialist)
         val shareIndication: ImageView = itemView.findViewById(R.id.shareIndication_medialist)
 
         init {

@@ -63,13 +63,27 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
             }
         }
 
-        holder.followingStatusIndication.setOnClickListener {
-            if(evaluationIndicationBoolean == false){
+        //Aq verifica se a série está sendo acompanhada ou não
+        if(currentItem.followingStatusIndication == true){
+            if(currentItem.finished == true){
+                holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box_roxo)
+            }else {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando_roxo)
-                evaluationIndicationBoolean = true
+            }
+        }else{
+            holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando)
+        }
+
+
+        holder.followingStatusIndication.setOnClickListener {
+            if(currentItem.followingStatusIndication == false){
+                holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando_roxo)
+                listener.saveInAcompanhandoList(position)
+                currentItem.followingStatusIndication = true
             }else{
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando)
-                evaluationIndicationBoolean = false
+                listener.removeOfAcompanhandoList(position)
+                currentItem.followingStatusIndication = false
             }
         }
 
@@ -93,6 +107,8 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         fun melhoresItemClick(position: Int)
         fun saveInAssistirMaisTardeList(position: Int)
         fun removeOfAssistirMaisTardeList(position: Int)
+        fun saveInAcompanhandoList(position: Int)
+        fun removeOfAcompanhandoList(position: Int)
     }
 
     inner class MelhoresSerieListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

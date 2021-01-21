@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.fragrecycler_emcartaz.*
 import kotlinx.android.synthetic.main.fragrecycler_emcartaz.view.*
+import kotlinx.android.synthetic.main.fragrecycler_melhoresdasemana.*
 
 class FragRecycler_emCartaz : Fragment(), EmCartazAdapter.onEmCartazItemClickListener {
 
@@ -50,6 +52,7 @@ class FragRecycler_emCartaz : Fragment(), EmCartazAdapter.onEmCartazItemClickLis
 
         viewModel.returnEmCartazAPI.observe(viewLifecycleOwner) {
             var mediaList = it.results
+            pb_emCartaz.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(mediaList)
         }
 

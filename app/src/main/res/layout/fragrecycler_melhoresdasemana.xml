@@ -15,4 +15,13 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_poster" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pb_melhoresDaSemana"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:layout_margin="10dp"
+        android:visibility="visible"/>
+
 </FrameLayout>

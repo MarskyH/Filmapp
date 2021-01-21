@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.fragrecycler_emcartaz.*
+import kotlinx.android.synthetic.main.fragrecycler_novosepisodios.*
 import kotlinx.android.synthetic.main.fragrecycler_novosepisodios.view.*
 class FragRecycler_novosEpisodios : Fragment(),
     NovosEpisodiosAdapter.onNovosEpisodiosItemClickListener {
@@ -50,6 +52,7 @@ class FragRecycler_novosEpisodios : Fragment(),
 
         viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner){
             var mediaList = it.results
+            pb_novosEpisodios.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(mediaList)
         }
 

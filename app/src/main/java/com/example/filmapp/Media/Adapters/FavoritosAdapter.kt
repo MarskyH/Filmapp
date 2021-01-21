@@ -1,4 +1,4 @@
-package com.example.filmapp.home.emAlta
+package com.example.filmapp.Media.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,36 +6,31 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Entities.All.ResultAll
+import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
-class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener) :
-    RecyclerView.Adapter<MelhoresDaSemanaAdapter.MelhoresDaSemanaViewHolder>() {
+class FavoritosAdapter(val listener: FavoritosItemClickListener) :
+    RecyclerView.Adapter<FavoritosAdapter.FavoritosViewHolder>() {
 
-    var mediaList = arrayListOf<ResultAll>()
+    var mediaList = listOf<FavoritosEntity>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MelhoresDaSemanaViewHolder {
+    ): FavoritosViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
-        return MelhoresDaSemanaViewHolder(itemView)
+        return FavoritosViewHolder(itemView)
     }
 
     override fun onBindViewHolder(
-        holder: MelhoresDaSemanaViewHolder,
+        holder: FavoritosViewHolder,
         position: Int
     ) {
-        val currentItem: ResultAll = mediaList[position]
+        val currentItem: FavoritosEntity = mediaList[position]
 
-        if(currentItem.title == null){
-            holder.mediaName.text = " "
-        }else{
-            holder.mediaName.text = currentItem.title
-        }
-
+        holder.mediaName.text = currentItem.title
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
     }
@@ -44,11 +39,11 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
         return mediaList.size
     }
 
-    interface onMelhoresDaSemanaItemClickListener {
-        fun melhoresDaSemanaItemClick(position: Int)
+    interface FavoritosItemClickListener {
+        fun favoritosItemClick(position: Int)
     }
 
-    inner class MelhoresDaSemanaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+    inner class FavoritosViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
@@ -60,13 +55,13 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener)
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (RecyclerView.NO_POSITION != position) {
-                listener.melhoresDaSemanaItemClick(position)
+                listener.favoritosItemClick(position)
             }
         }
     }
 
-    fun addList(list: ArrayList<ResultAll>) {
-        mediaList.addAll(list)
+    fun addList(list: List<FavoritosEntity>) {
+        mediaList = list
         notifyDataSetChanged()
     }
 

@@ -21,5 +21,6 @@ data class ResultMovie(
     var vote_average : Double,
     var numberStars: Double,
     var assistirMaisTardeIndication: Boolean = false,
+    var watched: Boolean = false,
     var favoritoIndication: Boolean = false
 ):Serializable

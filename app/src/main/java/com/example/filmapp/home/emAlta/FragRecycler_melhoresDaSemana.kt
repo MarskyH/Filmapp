@@ -2,10 +2,12 @@ package com.example.filmapp.home.emAlta
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.fragrecycler_melhoresdasemana.*
 import kotlinx.android.synthetic.main.fragrecycler_melhoresdasemana.view.*
 
 class FragRecycler_melhoresDaSemana : Fragment(),
@@ -50,6 +53,7 @@ class FragRecycler_melhoresDaSemana : Fragment(),
         view.rv_melhoresDaSemana_EmAlta.setHasFixedSize(true)
 
         viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner){
+            pb_melhoresDaSemana.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(it)
         }
 

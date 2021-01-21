@@ -167,6 +167,16 @@ interface Service {
         @Query("language") language: String,
     ): SeasonDetails
 
+    //Retorna detalhes de um determinado episodio.
+    @GET("/tv/{tv_id}/season/{season_number}/episode/{episode_number}")
+    suspend fun getEpisodeDetails(
+        @Path("tv_id") id: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+        @Query("api_key") key: String,
+        @Query("language") language: String,
+    ): Episode
+
     //Segundo a API, isso configura a parte de imagens da API
     @GET("configuration")
     suspend fun getApiConfig(

@@ -7,7 +7,10 @@ import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Entities.TV.BaseTv
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
+import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
+import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
 
@@ -38,27 +41,31 @@ class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
             var evaluation = it.vote_average
 
             //Formatação da Data de Lançamento
-            var year = "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
-            var month = "${date?.get(5)}" + "${date?.get(6)}"
-            var day = "${date?.get(8)}" + "${date?.get(9)}"
+            if(date.length == 10) {
+                var year =
+                    "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
+                var month = "${date?.get(5)}" + "${date?.get(6)}"
+                var day = "${date?.get(8)}" + "${date?.get(9)}"
 
-            when(month){
-                "01" -> month = "Janeiro"
-                "02" -> month = "Fevereiro"
-                "03" -> month = "Março"
-                "04" -> month = "Abril"
-                "05" -> month = "Maio"
-                "06" -> month = "Junho"
-                "07" -> month = "Julho"
-                "08" -> month = "Agosto"
-                "09" -> month = "Setembro"
-                "10" -> month = "Outubro"
-                "11" -> month = "Novembro"
-                "12" -> month = "Dezembro"
-                else -> month = " "
+                when (month) {
+                    "01" -> month = "Janeiro"
+                    "02" -> month = "Fevereiro"
+                    "03" -> month = "Março"
+                    "04" -> month = "Abril"
+                    "05" -> month = "Maio"
+                    "06" -> month = "Junho"
+                    "07" -> month = "Julho"
+                    "08" -> month = "Agosto"
+                    "09" -> month = "Setembro"
+                    "10" -> month = "Outubro"
+                    "11" -> month = "Novembro"
+                    "12" -> month = "Dezembro"
+                    else -> month = " "
+                }
+
+                it.release_date = day + " de " + month + ", " + year
+
             }
-
-            it.release_date = day + " de " + month + ", " + year
 
             //Formatação do Título
             if(title.length > 13){
@@ -113,5 +120,26 @@ class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
         var baseMovieReturn = BaseMovie(returnAPI.value!!.page, list, returnAPI.value!!.total_results, returnAPI.value!!.total_pages)
 
         return baseMovieReturn
+    }
+
+    fun checkMovieInHistorico(
+        listAPI: ArrayList<ResultMovie>,
+        listDataBase: List<HistoricoEntity>
+    ): ArrayList<ResultMovie> {
+        var listResult = arrayListOf<ResultMovie>()
+
+        listAPI?.forEach {
+            var media = it
+
+            listDataBase?.forEach {
+
+                if (media.id == it.id)
+                    media.watched = true
+            }
+
+            listResult.add(media)
+        }
+
+        return listResult
     }
 }
