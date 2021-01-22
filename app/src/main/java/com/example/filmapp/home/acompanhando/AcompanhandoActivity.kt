@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.descubra.DescubraActivity
@@ -111,12 +112,16 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
     }
 
     override fun AcompanhandoItemClick(position: Int) {
-//        viewModel.returnUserAcompanhandoListAPI.observe(this){
-//            var mediaList = it.results
-//            val serie = mediaList.get(position)
-//
-//            val intent = Intent(this, MediaSelectedActivity::class.java)
-//            startActivity(intent)
-//        }
+        viewModel.listUpdated.observe(this) {
+            var mediaList = it
+            var media = mediaList.get(position)
+
+            val intent = Intent(this, MediaSelectedActivity::class.java)
+            intent.putExtra("poster", "https://image.tmdb.org/t/p/w500" + media.poster_path)
+            intent.putExtra("movie", false)
+            intent.putExtra("id", media.id)
+
+            startActivity(intent)
+        }
     }
 }

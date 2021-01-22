@@ -94,9 +94,19 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
     }
 
     override fun historicoItemClick(position: Int) {
-//        val media = mediaList.get(position)
+        var mediaList = mediaListAdapter.mediaList
+        var media = mediaList.get(position)
 
         val intent = Intent(this, MediaSelectedActivity::class.java)
+        intent.putExtra("poster", "https://image.tmdb.org/t/p/w500" + media.poster_path)
+
+        if (media.type == "Movie")
+            intent.putExtra("movie", true)
+        else
+            intent.putExtra("movie", false)
+
+        intent.putExtra("id", media.id)
+
         startActivity(intent)
     }
 

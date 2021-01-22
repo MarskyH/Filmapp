@@ -2,6 +2,7 @@ package com.example.filmapp.home.agenda
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -68,8 +69,13 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
 
         viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner) {
             var filteredList = viewModel.checkEpisodiosForUser(it.results, listAcompanhandoDataBase)
-            filteredList.forEach {
-                viewModel.getDetailsSerie(it)
+            if(filteredList.size == 0){
+                pb_proximos.setVisibility(View.INVISIBLE)
+//                tv_titleProximos.setVisibility(View.INVISIBLE)
+            }else {
+                filteredList.forEach {
+                    viewModel.getDetailsSerie(it)
+                }
             }
         }
 
@@ -89,8 +95,19 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
 
     override fun proximosItemClick(position: Int) {
         var mediaList = mediaListAdapter.mediaList
-        val media = mediaList.get(position)
+        var media = mediaList.get(position)
 
+        val intent = Intent(context, MediaSelectedActivity::class.java)
+        intent.putExtra("poster", "https://image.tmdb.org/t/p/w500" + media.poster_path)
+
+        if (media.type == "movie")
+            intent.putExtra("movie", true)
+        else
+            intent.putExtra("movie", false)
+
+        intent.putExtra("id", media.id)
+
+        startActivity(intent)
     }
 
 }
