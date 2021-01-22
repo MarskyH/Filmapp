@@ -28,22 +28,22 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener,
     }
 
     override fun onBindViewHolder(holder: MelhoresDaSemanaViewHolder, position: Int) {
-        val currentItem = mediaList.results.get(position)
-        val itemAtual = currentItem
-        val Movie = true
-        val url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
-        Picasso.get().load(url).into(holder.mediaImage)
-        holder.mediaName.text = currentItem.title
-        holder.mediaImage.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-            intent.putExtra("poster", url)
-            intent.putExtra("movie", Movie)
-            intent.putExtra("mediaSemana-", itemAtual)
-            holder.itemView.context.startActivity(intent)
-        }
+//        val currentItem = mediaList.results.get(position)
+//        val itemAtual = currentItem
+//        val Movie = true
+//        val url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
+//        Picasso.get().load(url).into(holder.mediaImage)
+//        holder.mediaName.text = currentItem.title
+//        holder.mediaImage.setOnClickListener {
+//            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
+//            intent.putExtra("poster", url)
+//            intent.putExtra("movie", Movie)
+//            intent.putExtra("mediaSemana-", itemAtual)
+//            holder.itemView.context.startActivity(intent)
+//        }
     }
 
-    override fun getItemCount() = mediaList.results.size
+//    override fun getItemCount() = mediaList.results.size
 
     interface onMelhoresDaSemanaItemClickListener {
         fun melhoresDaSemanaItemClick(position: Int)
@@ -64,5 +64,9 @@ class MelhoresDaSemanaAdapter(val listener: onMelhoresDaSemanaItemClickListener,
                 listener.melhoresDaSemanaItemClick(position)
             }
         }
+    }
+
+    override fun getItemCount(): Int {
+        TODO("Not yet implemented")
     }
 }

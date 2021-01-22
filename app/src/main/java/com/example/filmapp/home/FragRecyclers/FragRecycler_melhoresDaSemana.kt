@@ -50,7 +50,7 @@ class FragRecycler_melhoresDaSemana : Fragment(),
             view.rv_melhoresDaSemana_EmAlta.isHorizontalFadingEdgeEnabled
             view.rv_melhoresDaSemana_EmAlta.setHasFixedSize(true)
         }
-        viewModel.getMelhoresDaSemanaList()
+//        viewModel.getMelhoresDaSemanaList()
 
         return view
     }
@@ -61,9 +61,9 @@ class FragRecycler_melhoresDaSemana : Fragment(),
 
     override fun melhoresDaSemanaItemClick(position: Int) {
         viewModel.returnMelhoresDaSemanaListAPI.observe(viewLifecycleOwner) {
-            val mediaList = it.results
-            var media = mediaList.get(position)
-            mediaListAdapter.notifyDataSetChanged()
+////            val mediaList = it.results
+//            var media = mediaList.get(position)
+//            mediaListAdapter.notifyDataSetChanged()
         }
     }
 

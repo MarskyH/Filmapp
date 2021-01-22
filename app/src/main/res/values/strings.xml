@@ -168,5 +168,11 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     >>>>>>> Desenvolvimento
 
+    <string name="facebook_app_id">400570567697991</string>
+    <string name="fb_login_protocol_scheme">fb400570567697991</string>
+
+
+
+
 
 </resources>

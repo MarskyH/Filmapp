@@ -63,8 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nome Completo"/>
-        <TextView
-            android:id="@+id/nomeCompleto"
+        <EditText
+            android:id="@+id/nomeCompletoAlt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -81,8 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/editText_nomeUsuario_configuracoes"/>
-        <TextView
-            android:id="@+id/nomeDoUsuario"
+        <EditText
+            android:id="@+id/nomeDoUsuarioAlt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -99,8 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Celular"/>
-        <TextView
-            android:id="@+id/telefone"
+        <EditText
+            android:id="@+id/telefoneAlt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -111,25 +111,14 @@
             />
 
         <Button
-            android:id="@+id/btnAlterar"
+            android:id="@+id/btnSalvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/round_login_button"
-            android:text="Alterar dados"
-            android:textColor="@color/White"
-            android:textSize="20dp" />
-
-        <Button
-            android:id="@+id/btnSairDaConta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/round_login_button"
-            android:text="@string/botao_sair_configuracoes"
+            android:text="@string/btn_cadastrar"
             android:textColor="@color/White"
             android:textSize="20dp" />
 
     </LinearLayout>
-
 </ScrollView>
