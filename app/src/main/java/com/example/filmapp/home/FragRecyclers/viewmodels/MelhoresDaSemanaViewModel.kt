@@ -13,15 +13,15 @@ class MelhoresDaSemanaViewModel(val service: Service) : ViewModel() {
 
     var returnMelhoresDaSemanaListAPI = MutableLiveData<ResultAll>()
 
-    fun getMelhoresDaSemanaList(){
-        viewModelScope.launch {
-            returnMelhoresDaSemanaListAPI.value = service.getTrending(
-                "all",
-                "week",
-                "4a6baee1eff7d3911f03f59b9b8f43eb",
-                "en-US"
-            )
-        }
-    }
+//    fun getMelhoresDaSemanaList(){
+//        viewModelScope.launch {
+//            returnMelhoresDaSemanaListAPI.value = service.getTrending(
+//                "all",
+//                "week",
+//                "4a6baee1eff7d3911f03f59b9b8f43eb",
+//                "en-US"
+//            )
+//        }
+//    }
 
 }

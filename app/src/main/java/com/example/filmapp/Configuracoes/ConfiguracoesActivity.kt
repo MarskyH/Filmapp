@@ -1,9 +1,16 @@
 package com.example.filmapp.Configuracoes
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.R
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_configuracoes.*
+import kotlinx.android.synthetic.main.fragment_seguranca.*
 
 class ConfiguracoesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,6 +21,12 @@ class ConfiguracoesActivity : AppCompatActivity() {
         toolbarconfiguracoes.setNavigationOnClickListener {
             finish()
         }
+        if (getIntent().getBooleanExtra("LOGOUT", false))
+        {
+            startActivity(Intent(this, LoginActivity::class.java))
+
+        }
+
 
     }
 
@@ -21,10 +34,11 @@ class ConfiguracoesActivity : AppCompatActivity() {
         val adapter = ViewPagerConfigAdapter(supportFragmentManager)
         adapter.addFragment(PerfilFragment(), "Perfil")
         adapter.addFragment(SegurancaFragment(), "Segurança")
-        adapter.addFragment(DesignFragment(), "Design")
+//        adapter.addFragment(DesignFragment(), "Design")
         viewPagerConfig.adapter = adapter
         tabsConfig.setupWithViewPager(viewPagerConfig)
     }
+
 
 
 }
