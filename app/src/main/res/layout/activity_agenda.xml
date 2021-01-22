@@ -40,30 +40,10 @@
                 android:layout_margin="5dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_titleAssistirMaisTarde_agenda"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/textView_assistirMaisTarde_agenda"
-                    android:textColor="@color/white"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
                 <FrameLayout
                     android:id="@+id/fragRecycler_assistirMaisTardeSpace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tv_titleProximos_agenda"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/textView_proximos_agenda"
-                    android:textColor="@color/white"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
 
                 <FrameLayout
                     android:id="@+id/fragRecycler_proximosSpace"
