@@ -53,6 +53,7 @@ class GeralMediaFragment() : Fragment() {
     var Type: String? = null
     var Title: String = ""
     var Id: String? = null
+    lateinit var posterBd: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +102,7 @@ class GeralMediaFragment() : Fragment() {
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
                 Title = it.title
+                posterBd = it.poster_path.toString()
                 Log.i("title", it.title)
                 Toast.makeText(activity, it.title.toString(), Toast.LENGTH_SHORT).show()
             }
@@ -109,6 +111,7 @@ class GeralMediaFragment() : Fragment() {
         if (Type == "Tv") {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 Title = it.name
+                posterBd = it.poster_path
                 Log.i("title", it.name)
                 Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
             }
@@ -136,26 +139,27 @@ class GeralMediaFragment() : Fragment() {
         view.imgTarde.setOnClickListener {
             if (selAssistirMaisTarde == false) {
                 AlteraIconAssistirMaisTarde()
-                addMaisTardeList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+                addMaisTardeList(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
                 Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
             } else {
                 AlteraIconAssistirMaisTarde()
-                removeMaisTardeList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+                removeMaisTardeList(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
                 Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
             }
         }
         view.imgAcompanhar.setOnClickListener {
             AlteraIconAcompanhar()
-            if (selAcompanhar == false) {
-                AlteraIconAcompanhar()
-                addAcompanhandoList(Id!!.toString().toInt(), Title!!, Poster!!)
-                Toast.makeText(activity, "Acompanhando: $Title", Toast.LENGTH_SHORT).show()
-            } else {
-                AlteraIconAcompanhar()
-                removeAcompanhandoList(Id!!.toString().toInt(), Title!!, Poster!!)
-                Toast.makeText(activity, "Acompanhando: $Title ", Toast.LENGTH_SHORT).show()
+                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner){
+                    var media = it
+                    var newItem = AcompanhandoEntity(media.id, media.name, media.poster_path)
+                    viewModelAcom.saveNewItem(newItem)
+                    Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
+                }
+
+
+//                Toast.makeText(activity, "Acompanhando: $Title", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(activity, "Acompanhando: $Title ", Toast.LENGTH_SHORT).show()
             }
-        }
         view.imgFav.setOnClickListener {
             if (selFav == false) {
                 AlteraIconFavorito()

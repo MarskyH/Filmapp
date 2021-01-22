@@ -29,7 +29,7 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
     private lateinit var mediaListAdapter: ProximosAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
     private lateinit var viewModelAcompanhando: AcompanhandoDataBaseViewModel
-    lateinit var listAcompanhandoDataBase: List<AcompanhandoEntity>
+    var listAcompanhandoDataBase= listOf<AcompanhandoEntity>()
     lateinit var listAPI: ArrayList<ResultTv>
 
     val viewModel by viewModels<ProximosAgendaViewModel> {
