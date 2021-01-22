@@ -107,7 +107,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var newEntity = AssistirMaisTardeEntity(media.id, media.title, media.poster_path, "movie")
+            var newEntity = AssistirMaisTardeEntity(media.id, media.title, media.poster_path, "Movie")
             viewModelAssistirMaisTarde.saveNewMedia(newEntity)
             Toast.makeText(context, "Filme adicionado a Agenda", Toast.LENGTH_SHORT).show()
         }
@@ -118,7 +118,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var removeEntity = AssistirMaisTardeEntity(media.id, media.title, media.poster_path, "movie")
+            var removeEntity = AssistirMaisTardeEntity(media.id, media.title, media.poster_path, "Movie")
             viewModelAssistirMaisTarde.removeMedia(removeEntity)
             Toast.makeText(context, "Filme removido da Agenda", Toast.LENGTH_SHORT).show()
         }

@@ -72,7 +72,7 @@ class FragRecycler_asssistirMaisTarde : Fragment(),
             val intent = Intent(context, MediaSelectedActivity::class.java)
             intent.putExtra("poster", "https://image.tmdb.org/t/p/w500" + media.poster_path)
 
-            if(media.type == "movie")
+            if(media.type == "Movie")
                 intent.putExtra("movie", true)
             else
                 intent.putExtra("movie", false)

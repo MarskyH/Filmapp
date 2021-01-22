@@ -59,6 +59,10 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         viewModel.listUpdated.observe(this){
             pb_acompanhando.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(it)
+            Log.i("--------", "--------")
+            Log.i("listSize", it.size.toString())
+            Log.i("list", it.toString())
+            Log.i("--------", "--------")
         }
 
 
