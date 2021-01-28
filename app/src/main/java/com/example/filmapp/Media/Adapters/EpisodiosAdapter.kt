@@ -46,6 +46,7 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails, val listener: O
         holder.imgEpisodio.setOnClickListener {
             val intent = Intent(holder.itemView.context, SerieEpisodioSelectedActivity::class.java)
             intent.putExtra("number_episode", episodio.episode_number)
+            intent.putExtra("id_ep", episodio.id)
             intent.putExtra("sinopse_episode", episodio.overview)
             intent.putExtra("number_season", episodio.season_number)
             intent.putExtra("imagem", season)
