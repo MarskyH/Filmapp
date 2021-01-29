@@ -1,7 +1,6 @@
 package com.example.filmapp.Media.Adapters
 
-import android.content.Intent
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.APIConfig.ExcpetionTitle
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
@@ -32,21 +32,15 @@ class HomeMediaMovieAdapter(
     override fun getItemCount() = listMediaMovie.size
 
     override fun onBindViewHolder(holder: HomeMediasMovieViewHolder, position: Int) {
-        var homeMovie = listMediaMovie[position]
-        var baseURl = config.images.secure_base_url
-        var size = "original"
-        val pathImg = homeMovie.poster_path
-        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
-        picasso.load(img).into(holder.img)
-        holder.titulo.text = homeMovie.title
-        holder.img.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-                intent.putExtra("poster", img)
-                intent.putExtra("movie", Movie)
-                intent.putExtra("sinopse", homeMovie.overview)
-                intent.putExtra("id", homeMovie.id)
-                Log.i("id moview Adapter", homeMovie.id.toString())
-                holder.itemView.context.startActivity(intent)
+        val homeMovie = listMediaMovie[position]
+        if (homeMovie.poster_path != "" && homeMovie.poster_path != null) {
+            picasso.load(URL_IMAGE + homeMovie.poster_path).into(holder.img)
+        }else
+            picasso.load(R.drawable.sem_imagem).into(holder.img)
+        if(homeMovie.title != "" && homeMovie.title != null){
+            holder.titulo.text = homeMovie.title
+        }else{
+            holder.titulo.text = ExcpetionTitle
         }
     }
 
@@ -59,7 +53,6 @@ class HomeMediaMovieAdapter(
         View.OnClickListener {
         val img: ImageView = itemView.findViewById(R.id.mediaImage)
         val titulo: TextView = itemView.findViewById(R.id.mediaName)
-
         init {
             itemView.setOnClickListener(this)
         }

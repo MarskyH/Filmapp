@@ -41,6 +41,8 @@ class FavoritosViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
+
+
     fun checkMovieInList(listAPI: ArrayList<ResultMovie>, listDataBase: List<FavoritosEntity>): ArrayList<ResultMovie>{
         var listResult = arrayListOf<ResultMovie>()
 

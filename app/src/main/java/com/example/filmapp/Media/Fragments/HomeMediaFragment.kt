@@ -1,5 +1,6 @@
 package com.example.filmapp.Media.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.example.filmapp.Media.Adapters.FavoritosAdapterSerie
 import com.example.filmapp.Media.Adapters.HomeMediaMovieAdapter
 import com.example.filmapp.Media.Adapters.HomeMediaSerieAdapter
 import com.example.filmapp.Media.Models.FavoritosViewModel
+import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
@@ -139,15 +141,27 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     override fun homeMediaMovieClick(position: Int) {
         if (Movie == true) {
             val media = ListMediaMovie.get(position)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster", media.poster_path)
+            intent.putExtra("movie", Movie)
+            intent.putExtra("sinopse", media.overview)
+            intent.putExtra("id", media.id)
+            startActivity(intent)
             MovieAdapter.notifyDataSetChanged()
         }
+
 
     }
 
     override fun homeMediaSerieClick(position: Int) {
         if (Movie == false) {
-            val media = ListMediaMovie.get(position)
-            MovieAdapter.notifyDataSetChanged()
+            val media = ListMediaSerie.get(position)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+                intent.putExtra("poster", media.poster_path)
+                intent.putExtra("movie", Movie)
+                intent.putExtra("id", media.id)
+                startActivity(intent)
+            SerieAdapter.notifyDataSetChanged()
         }
     }
 

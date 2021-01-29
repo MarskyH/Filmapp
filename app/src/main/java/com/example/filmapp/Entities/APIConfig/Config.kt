@@ -17,3 +17,5 @@ data class Images(
 
 const val API_KEY = "4a6baee1eff7d3911f03f59b9b8f43eb"
 const val LANGUAGE = "pt-BR"
+const val URL_IMAGE = "https://image.tmdb.org/t/p/w500"
+const val ExcpetionTitle = "Título Indisponível"

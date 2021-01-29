@@ -14,16 +14,17 @@ interface FavoritosDAO {
     @Query("SELECT * FROM favoritostable")
     fun getFavoritosList(): LiveData<List<FavoritosEntity>>
 
-
     @Query("SELECT * FROM favoritostable WHERE type == 'Tv'")
     fun getFavoritosListSerie(): LiveData<List<FavoritosEntity>>
 
     @Query("SELECT * FROM favoritostable WHERE type == 'Movie'")
     fun getFavoritosListMovie(): LiveData<List<FavoritosEntity>>
 
+    @Query("SELECT * FROM favoritostable WHERE id == id")
+    fun checkInList(): Boolean
+
     @Delete
     suspend fun removeOfFavoritosList(media: FavoritosEntity)
 
-//    @Query("SELECT * FROM favoritostable WHERE id = :id")
-//    fun checkInList(id: Int): FavoritosEntity
+
 }

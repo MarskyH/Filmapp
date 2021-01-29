@@ -11,21 +11,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
-import com.example.filmapp.home.acompanhando.AcompanhandoViewModel
 import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.*
-import kotlinx.android.synthetic.main.fragment_series_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgAcompanhar
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgCompart
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgFav
@@ -35,7 +32,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.Serializable
 
 class GeralMediaFragment() : Fragment() {
     private lateinit var viewModelFav: FavoritosViewModel
@@ -62,7 +58,6 @@ class GeralMediaFragment() : Fragment() {
             Sinopse = arguments?.getString(sinopse)
             Id = arguments?.getString(idMedia)
             Type = arguments?.getString(type)
-            Log.i("type", Type.toString())
         }
     }
 
@@ -91,10 +86,8 @@ class GeralMediaFragment() : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
         viewModelAcom = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
         viewModelTarde = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
@@ -103,7 +96,6 @@ class GeralMediaFragment() : Fragment() {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
                 Title = it.title
                 posterBd = it.poster_path.toString()
-                Log.i("title", it.title)
                 Toast.makeText(activity, it.title.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getMovieDetails(Id!!)
@@ -112,15 +104,12 @@ class GeralMediaFragment() : Fragment() {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 Title = it.name
                 posterBd = it.poster_path
-                Log.i("title", it.name)
                 Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getTvDetails(Id!!)
         }
-
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
-        Log.i("Sinopse Geral", Sinopse.toString())
         if(Sinopse != "" && Sinopse != null){
             view.tv_sinopse.text = Sinopse
         }else{
@@ -132,8 +121,6 @@ class GeralMediaFragment() : Fragment() {
         view.progress_circular.setOnClickListener {
             incrCircleBar()
         }
-
-
 
 
         view.imgTarde.setOnClickListener {
@@ -155,20 +142,16 @@ class GeralMediaFragment() : Fragment() {
                     viewModelAcom.saveNewItem(newItem)
                     Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
                 }
-
-
-//                Toast.makeText(activity, "Acompanhando: $Title", Toast.LENGTH_SHORT).show()
-//                Toast.makeText(activity, "Acompanhando: $Title ", Toast.LENGTH_SHORT).show()
             }
         view.imgFav.setOnClickListener {
             if (selFav == false) {
                 AlteraIconFavorito()
                 addFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "$Title adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
             } else {
                 AlteraIconFavorito()
                 removeFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "$Title removido dos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -194,7 +177,7 @@ class GeralMediaFragment() : Fragment() {
 
     fun AlteraIconFavorito() {
         if (selFav == false) {
-            imgFav.setImageResource(R.drawable.ic_favorito_roxo)
+            imgFav.setImageResource(R.drawable.ic_favorito_select)
             selFav = true
         } else if (selFav == true) {
             imgFav.setImageResource(R.drawable.ic_favorito_branco)
@@ -248,12 +231,12 @@ class GeralMediaFragment() : Fragment() {
         startActivity(ShareIntent)
     }
 
-    fun addFavoritosList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelFav.saveNewMedia(FavoritosEntity(id, title, poster_path, type))
+    fun addFavoritosList(Id: Int, Title: String, Poster: String, Type: String) {
+        viewModelFav.saveNewMedia(FavoritosEntity(Id, Title, Poster, Type))
     }
 
-    fun removeFavoritosList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelFav.removeMedia(FavoritosEntity(id, title, poster_path, type))
+    fun removeFavoritosList(Id: Int, Title: String, Poster: String, Type: String) {
+        viewModelFav.removeMedia(FavoritosEntity(Id, Title, Poster, Type))
     }
 
     fun addAcompanhandoList(id: Int, title: String, poster_path: String) {
@@ -272,5 +255,8 @@ class GeralMediaFragment() : Fragment() {
         viewModelTarde.removeMedia(AssistirMaisTardeEntity(id,title,poster_path, type))
     }
 
+    fun checkInListFavoritos(media: FavoritosEntity){
+
+    }
 
 }

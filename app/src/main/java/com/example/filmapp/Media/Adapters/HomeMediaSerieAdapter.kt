@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.APIConfig.ExcpetionTitle
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
@@ -31,21 +33,15 @@ class HomeMediaSerieAdapter(
     override fun getItemCount() = listMediaSerie.size
 
     override fun onBindViewHolder(holder: HomeMediasSeriesViewHolder, position: Int) {
-        var homeSerie = listMediaSerie[position]
-        var baseURl = config.images.secure_base_url
-        var size = "original"
-        val pathImg = homeSerie.poster_path
-        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
-        picasso.load(img).into(holder.img)
-        holder.titulo.text = homeSerie.name
-        holder.img.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-            if (homeSerie != null){
-                intent.putExtra("poster", img)
-                intent.putExtra("movie", Movie)
-                intent.putExtra("id", homeSerie.id)
-                holder.itemView.context.startActivity(intent)
-            }
+        val homeSerie = listMediaSerie[position]
+        if (homeSerie.poster_path != "" && homeSerie.poster_path != null) {
+            picasso.load(URL_IMAGE + homeSerie.poster_path).into(holder.img)
+        }else
+            picasso.load(R.drawable.sem_imagem).into(holder.img)
+        if(homeSerie.name != "" && homeSerie.name != null){
+            holder.titulo.text = homeSerie.name
+        }else{
+            holder.titulo.text = ExcpetionTitle
         }
 
     }
