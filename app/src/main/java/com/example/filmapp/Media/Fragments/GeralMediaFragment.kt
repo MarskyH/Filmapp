@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
@@ -116,7 +117,7 @@ class GeralMediaFragment() : Fragment() {
             view.tv_sinopse.text = "Sem sinopse disponível no momento"
         }
 
-        picasso.load(Poster).into(view.img_geral)
+        picasso.load(URL_IMAGE + Poster).into(view.img_geral)
 
         view.progress_circular.setOnClickListener {
             incrCircleBar()

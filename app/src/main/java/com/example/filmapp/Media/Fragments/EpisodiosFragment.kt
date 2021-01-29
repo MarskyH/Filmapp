@@ -1,5 +1,6 @@
 package com.example.filmapp.Series.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -17,9 +18,8 @@ import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.Models.TemporadaFragmentViewModel
 import com.example.filmapp.R
 import com.example.filmapp.Series.Adapter.EpisodiosAdapter
-import com.example.filmapp.Services.MainViewModel
+import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
 import com.example.filmapp.Services.service
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_espisodios.view.*
 import java.io.Serializable
@@ -67,9 +67,6 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val TvSerie = Serie as TvDetails
         val TvSeason = Season as Season
-        Log.i("number season", TvSeason.toString())
-        Log.i("Serie ", TvSerie.id.toString())
-        Log.i("API ", (viewModelTemporadaFragment.getSeasonDetails(TvSerie.id, TvSeason.season_number)).toString())
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
         viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
             listaEpisodios = it
@@ -85,6 +82,19 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
 
     override fun episodioClick(position: Int) {
         val episodio = listaEpisodios.episodes.get(position)
+        val Serie =  Serie as TvDetails?
+        val intent = Intent(context, SerieEpisodioSelectedActivity::class.java)
+        intent.putExtra("number_episode", episodio.episode_number)
+        intent.putExtra("id_ep", episodio.id)
+        intent.putExtra("sinopse_episode", episodio.overview)
+        intent.putExtra("number_season", episodio.season_number)
+        intent.putExtra("imagem", listaEpisodios.poster_path)
+        intent.putExtra("logo", Serie?.networks?.get(0)?.logo_path)
+        intent.putExtra("homepage", Serie?.homepage)
+        intent.putExtra("id", Serie?.id.toString())
+        intent.putExtra("title", Serie?.name)
+        intent.putExtra("poster", Serie?.poster_path)
+        startActivity(intent)
         adapter.notifyItemChanged(position)
     }
 }

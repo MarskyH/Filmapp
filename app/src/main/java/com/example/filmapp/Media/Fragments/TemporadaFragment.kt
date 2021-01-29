@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 
 import com.example.filmapp.Entities.TV.Season
 import com.example.filmapp.Media.Fragments.HomeMediaFragment
@@ -55,9 +56,12 @@ class TemporadaFragment(): Fragment()  {
     ): View? {
 
         var view = inflater!!.inflate(R.layout.fragment_series_temporada, container, false)
-        picasso.load(Poster_path).into(view.imgTemporada)
+        picasso.load(URL_IMAGE + Poster_path).into(view.imgTemporada)
         Log.i("poster temporada", Poster_path.toString())
-        view.textViewSinopseTemporada.text = (Season as Season).overview
+        if((Season as Season).overview != "" && (Season as Season).overview != null){
+            view.textViewSinopseTemporada.text = (Season as Season).overview
+        }
+            view.textViewSinopseTemporada.text = "Sem sinopse disponível no momento"
         return view
     }
 

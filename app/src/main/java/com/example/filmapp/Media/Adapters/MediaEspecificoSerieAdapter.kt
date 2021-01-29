@@ -1,7 +1,6 @@
 package com.example.filmapp.Media.Adapters
 
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.Config
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Entities.TV.TvDetails
-import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
-import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.card_media_especifica.view.*
 
 
 class MediaEspecificoSerieAdapter(
@@ -48,10 +46,11 @@ class MediaEspecificoSerieAdapter(
         if(season.season_number != 0 && season.poster_path != null){
             holder.tvMediaEspecifica.text = "Temporada ${season.season_number}"
         }else{
-            holder.tvMediaEspecifica.text = "Temporadas Indisponíveis"
+            holder.tvMediaEspecifica.text = "Especial"
         }
 
     }
+
 
     interface OnMediaSerieClickListener {
         fun SeriemediaClick(position: Int)

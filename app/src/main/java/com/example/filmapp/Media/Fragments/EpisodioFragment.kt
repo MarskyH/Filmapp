@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.R
@@ -99,9 +100,9 @@ class EpisodioFragment : Fragment() {
         viewModelVisto = ViewModelProvider(this).get(HistoricoViewModel::class.java)
 
 
-        picasso.load(Img).into(view.imgEp)
+        picasso.load(URL_IMAGE+Img).into(view.imgEp)
         view.sinopseEp.text = Sinopse
-        picasso.load(Logo).into(view.imgLogo)
+        picasso.load(URL_IMAGE+Logo).into(view.imgLogo)
         Log.i("Teste historico", "${Id} ${Title} ${Poster} ${Type}")
 
         view.imgVisto.setOnClickListener {
