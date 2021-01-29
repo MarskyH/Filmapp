@@ -10,17 +10,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.APIConfig.ExcpetionTitle
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Entities.Movie.SimilarMovies
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
 
 
-class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies,
-                                  val listener: OnMediaMovieClickListener,
-                                  val Movie: Boolean?,
-                                  val config: Config): RecyclerView.Adapter<MediaEspecificoMovieAdapter.MediasViewHolder>() {
-
+class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies, 
+                                  val listener: OnMediaMovieClickListener, 
+                                  val Movie: Boolean?, 
+                                  val config: Config) : RecyclerView.Adapter<MediaEspecificoMovieAdapter.MediasViewHolder>() {
+    val picasso = Picasso.get()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -34,20 +36,14 @@ class MediaEspecificoMovieAdapter(private var listMediaEspecifico: SimilarMovies
 
     override fun onBindViewHolder(holder: MediasViewHolder, position: Int) {
         val movie = listMediaEspecifico.results.get(position)
-        val picasso = Picasso.get()
-        val baseURl = config.images.secure_base_url
-        val size = "original"
-        val pathImg = movie.poster_path
-        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
-        picasso.load(img).into(holder.imgMediaEspecica)
-        holder.tvMediaEspecifica.text = movie.title
-        holder.imgMediaEspecica.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-                intent.putExtra("poster", img)
-                intent.putExtra("movie", Movie)
-                intent.putExtra("id", movie.id)
-                Log.i("Similar Adpter", movie.id.toString())
-                holder.itemView.context.startActivity(intent)
+        if (movie.poster_path != "" && movie.poster_path != null) {
+            picasso.load(URL_IMAGE + movie.poster_path).into(holder.imgMediaEspecica)
+        }else
+            picasso.load(R.drawable.sem_imagem).into(holder.imgMediaEspecica)
+        if(movie.title != "" && movie.title != null){
+            holder.tvMediaEspecifica.text = movie.title
+        }else{
+            holder.tvMediaEspecifica.text = ExcpetionTitle
         }
     }
 

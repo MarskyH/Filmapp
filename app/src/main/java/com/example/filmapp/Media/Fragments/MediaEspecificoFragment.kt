@@ -1,5 +1,6 @@
 package com.example.filmapp.Media.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.example.filmapp.Media.Adapters.MediaEspecificoSerieAdapter
 import com.example.filmapp.Media.Models.EspecificoFragmentViewModel
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
+import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
@@ -101,16 +103,25 @@ class MediaEspecificoFragment() : Fragment(),
             }
             viewModelEspecificoFragment.getDetailsSerie(Id!!)
         }
-            return view
-        }
-
-        override fun SeriemediaClick(position: Int) {
-            val serie = SerieDetails.seasons.get(position)
-            serieAdapter.notifyItemChanged(position)
-        }
-
-        override fun MoviemediaClick(position: Int) {
-            val movie = listaSemelhantes.results.get(position)
-            movieAdapter.notifyItemChanged(position)
-        }
+        return view
     }
+
+    override fun SeriemediaClick(position: Int) {
+        val serie = SerieDetails
+        val season = serie.seasons[position]
+        val intent = Intent(context, SerieTemporadaActivity::class.java)
+        intent.putExtra("serie", serie)
+        intent.putExtra("season", season)
+        intent.putExtra("poster_season", serie.poster_path)
+        startActivity(intent)
+    }
+
+    override fun MoviemediaClick(position: Int) {
+        val movie = listaSemelhantes.results.get(position)
+        val intent = Intent(context, MediaSelectedActivity::class.java)
+        intent.putExtra("poster", movie.poster_path)
+        intent.putExtra("movie", true)
+        intent.putExtra("id", movie.id)
+        startActivity(intent)
+    }
+}

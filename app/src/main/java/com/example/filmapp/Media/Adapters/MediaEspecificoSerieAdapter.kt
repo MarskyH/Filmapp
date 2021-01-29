@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.Config
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
@@ -21,7 +22,7 @@ class MediaEspecificoSerieAdapter(
     val listener: OnMediaSerieClickListener,
     val config: Config
 ) : RecyclerView.Adapter<MediaEspecificoSerieAdapter.MediasViewHolder>() {
-
+    val picasso = Picasso.get()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,22 +39,18 @@ class MediaEspecificoSerieAdapter(
     override fun onBindViewHolder(holder: MediasViewHolder, position: Int) {
         val serie = listMediaEspecifico
         val season = listMediaEspecifico.seasons[position]
-        holder.tvMediaEspecifica.text = "Temporada ${season.season_number}"
-        val picasso = Picasso.get()
-        var baseURl = config.images.secure_base_url
-        var size = "original"
-        val pathImg = serie.poster_path
-        val img = "${baseURl}${size}${pathImg}".replace("http://","https://")
-        picasso.load(img).into(holder.imgMediaEspecica)
-        holder.imgMediaEspecica.setOnClickListener {
-            val intent = Intent(holder.itemView.context, SerieTemporadaActivity::class.java)
-            if (season != null && serie.id != null) {
-                intent.putExtra("serie", serie)
-                intent.putExtra("season", season)
-                intent.putExtra("poster_season", img)
-                holder.itemView.context.startActivity(intent)
-            }
+
+        if(season.poster_path != "" && season.poster_path != null){
+            picasso.load(URL_IMAGE + season.poster_path).into(holder.imgMediaEspecica)
+        }else{
+            picasso.load(R.drawable.sem_imagem).into(holder.imgMediaEspecica)
         }
+        if(season.season_number != 0 && season.poster_path != null){
+            holder.tvMediaEspecifica.text = "Temporada ${season.season_number}"
+        }else{
+            holder.tvMediaEspecifica.text = "Temporadas Indisponíveis"
+        }
+
     }
 
     interface OnMediaSerieClickListener {
