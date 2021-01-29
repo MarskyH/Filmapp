@@ -93,7 +93,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                     view.rv_pop.setHasFixedSize(true)
                 }
                 viewModel.getPopularMovies()
-                viewModelFav.mediaList.observe(viewLifecycleOwner){
+                viewModelFav.mediaListMovie.observe(viewLifecycleOwner){
                     ListMediaMovieFav = it
                     Log.i("Favoritos filmes", it.toString())
                     MovieFavAdapter = FavoritosAdapterMovie(this)
@@ -117,7 +117,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                     view.rv_pop.setHasFixedSize(true)
                 }
                 viewModel.getPopularSeries()
-                viewModelFav.mediaList.observe(viewLifecycleOwner){
+                viewModelFav.mediaListSerie.observe(viewLifecycleOwner){
                     ListMediaMovieFav = it
                     Log.i("Favoritos Séries", it.toString())
                     SerieFavAdapter = FavoritosAdapterSerie(this)

@@ -17,12 +17,16 @@ import kotlinx.coroutines.launch
 class FavoritosViewModel(app: Application): AndroidViewModel(app) {
 
     val mediaList: LiveData<List<FavoritosEntity>>
+    val mediaListSerie: LiveData<List<FavoritosEntity>>
+    val mediaListMovie: LiveData<List<FavoritosEntity>>
     private val repository: FavoritosRepository
 
     init {
         val favoritosDAO = FilmAppDataBase.getDataBase(app).favoritosDAO()
         repository = FavoritosRepository(favoritosDAO)
         mediaList = repository.readAllData
+        mediaListMovie = repository.readAllDataMovie
+        mediaListSerie = repository.readAllDataSerie
     }
 
     fun saveNewMedia(media: FavoritosEntity){

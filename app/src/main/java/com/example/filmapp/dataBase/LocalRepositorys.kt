@@ -27,6 +27,8 @@ class AssistirMaisTardeRepository(private val assistirMaisTardeDAO: AssistirMais
 class FavoritosRepository(private val favoritosDAO: FavoritosDAO){
 
     val readAllData: LiveData<List<FavoritosEntity>> = favoritosDAO.getFavoritosList()
+    val readAllDataMovie: LiveData<List<FavoritosEntity>> = favoritosDAO.getFavoritosListMovie()
+    val readAllDataSerie: LiveData<List<FavoritosEntity>> = favoritosDAO.getFavoritosListSerie()
 
     suspend fun saveInFavoritosListTask(media: FavoritosEntity){
         favoritosDAO.saveInFavoritosList(media)
