@@ -29,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="290dp"
             android:layout_gravity="center"
-            android:src="@drawable/the_boys_image01"
             tools:ignore="ContentDescription" />
 
 

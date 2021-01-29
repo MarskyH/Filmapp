@@ -31,8 +31,7 @@
         <ImageView
             android:id="@+id/img_geral"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/the_boys_image01" />
+            android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
 
 

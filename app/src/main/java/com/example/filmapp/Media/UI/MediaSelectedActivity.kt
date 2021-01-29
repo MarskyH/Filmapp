@@ -7,12 +7,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
-import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
-import com.example.filmapp.Media.Fragments.ResourcesFragment
 import com.example.filmapp.R
 import com.example.filmapp.home.descubra.DescubraActivity
 
@@ -50,19 +47,15 @@ class MediaSelectedActivity(): AppCompatActivity() {
         if (movie == true) {
             val GeralFilme = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia.toString(), "Movie")
             val MediaFilme = MediaEspecificoFragment.newInstance(true, idMedia.toString())
-            val ResourceFilme = ResourcesFragment.newInstance(true, idMedia)
             adapter.addFragment(GeralFilme, "Visão Geral")
             adapter.addFragment(MediaFilme, "Semelhantes")
-            adapter.addFragment(ResourceFilme, "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         } else {
             val GeralSerie = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia.toString(), "Tv")
             val MediaSerie = MediaEspecificoFragment.newInstance(false, idMedia.toString())
-            val ResourceSerie = ResourcesFragment.newInstance(false, idMedia)
             adapter.addFragment(GeralSerie, "Visão Geral")
             adapter.addFragment(MediaSerie, "Temporadas")
-            adapter.addFragment(ResourceSerie, "Mídia")
             viewPagerMedias.adapter = adapter
             tabsMedias.setupWithViewPager(viewPagerMedias)
         }
