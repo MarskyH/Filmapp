@@ -65,7 +65,6 @@ open class SerieTemporadaActivity : AppCompatActivity() {
     fun setUpTabs() {
         val serie = intent.getSerializableExtra("serie") as? TvDetails
         val season = intent.getSerializableExtra("season") as? Season
-        Log.i("season select", season.toString())
         val poster = intent.getSerializableExtra("poster_season") as? String
         val Temporada = TemporadaFragment.newInstance(season, poster)
         val Episodios = EpisodiosFragment.newInstance(serie, season)

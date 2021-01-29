@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
@@ -29,7 +30,7 @@ class FavoritosAdapterSerie(val listener: FavoritosItemClickListener) :
     override fun onBindViewHolder(holder: FavoritosViewHolder, position: Int) {
         val currentItem: FavoritosEntity = mediaList[position]
         holder.mediaName.text = currentItem.title
-        Picasso.get().load(currentItem.poster_path).into(holder.mediaImage)
+        Picasso.get().load(URL_IMAGE + currentItem.poster_path).into(holder.mediaImage)
 
         holder.mediaImage.setOnClickListener {
             val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)

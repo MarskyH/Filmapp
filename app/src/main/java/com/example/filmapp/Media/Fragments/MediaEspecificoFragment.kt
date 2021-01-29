@@ -112,7 +112,7 @@ class MediaEspecificoFragment() : Fragment(),
         val intent = Intent(context, SerieTemporadaActivity::class.java)
         intent.putExtra("serie", serie)
         intent.putExtra("season", season)
-        intent.putExtra("poster_season", serie.poster_path)
+        intent.putExtra("poster_season", season.poster_path)
         startActivity(intent)
     }
 

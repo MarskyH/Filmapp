@@ -50,7 +50,6 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
     companion object{
         private val season = "season"
         private val serie = "serie"
-        private val path_logo = "path_logo"
 
         fun newInstance(Serie: Serializable?, Season: Serializable?): EpisodiosFragment {
             val fragment = EpisodiosFragment()
@@ -70,7 +69,6 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
         viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
             listaEpisodios = it
-            Log.i("result", it.toString())
             adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
             view.rv_episodios.adapter = adapter
             view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
@@ -88,7 +86,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         intent.putExtra("id_ep", episodio.id)
         intent.putExtra("sinopse_episode", episodio.overview)
         intent.putExtra("number_season", episodio.season_number)
-        intent.putExtra("imagem", listaEpisodios.poster_path)
+        intent.putExtra("imagem", episodio.still_path)
         intent.putExtra("logo", Serie?.networks?.get(0)?.logo_path)
         intent.putExtra("homepage", Serie?.homepage)
         intent.putExtra("id", Serie?.id.toString())
