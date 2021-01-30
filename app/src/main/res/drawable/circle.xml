@@ -19,7 +19,7 @@
                 android:useLevel="true">
                 <gradient
                     android:endColor="@color/Principal"
-                    android:startColor="#5B10F0"
+                    android:startColor="#17170D"
                     />
             </shape>
         </rotate>

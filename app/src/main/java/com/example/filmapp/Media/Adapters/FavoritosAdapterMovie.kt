@@ -47,15 +47,17 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
 
     interface FavoritosItemClickListener {
         fun favoritosItemClick(position: Int)
+        fun favoritosLongClick(position: Int)
     }
 
     inner class FavoritosViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
+        View.OnClickListener, View.OnLongClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View?) {
@@ -63,6 +65,14 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
             if (RecyclerView.NO_POSITION != position) {
                 listener.favoritosItemClick(position)
             }
+        }
+        override fun onLongClick(v: View?): Boolean {
+            val position = adapterPosition
+            if (RecyclerView.NO_POSITION != position) {
+                listener.favoritosLongClick(position)
+                return true
+            }
+            return false
         }
     }
 

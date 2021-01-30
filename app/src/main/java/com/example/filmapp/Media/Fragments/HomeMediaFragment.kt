@@ -2,10 +2,13 @@ package com.example.filmapp.Media.Fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -24,6 +27,7 @@ import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 
@@ -61,10 +65,10 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         }
     }
 
-    companion object{
+    companion object {
         private val movie = "movie"
 
-        fun newInstance(Movie: Boolean): HomeMediaFragment{
+        fun newInstance(Movie: Boolean): HomeMediaFragment {
             val fragment = HomeMediaFragment()
             val args = Bundle()
             args.putBoolean(movie, Movie)
@@ -78,62 +82,58 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-            val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
-            viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
+        val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
+        viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
 
-            if (Movie == true) {
-                viewModel.config.observe(viewLifecycleOwner) {
-                    config = it
-                }
-                viewModel.getConfig()
-                viewModel.listResMovies.observe(viewLifecycleOwner) {
-                    ListMediaMovie = it.results
-                    MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    view.rv_pop.layoutManager = lManager
-                    view.rv_pop.adapter = MovieAdapter
-                    view.rv_pop.setHasFixedSize(true)
-                }
-                viewModel.getPopularMovies()
-                viewModelFav.mediaListMovie.observe(viewLifecycleOwner){
-                    ListMediaMovieFav = it
-                    MovieFavAdapter = FavoritosAdapterMovie(this)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    MovieFavAdapter.addList(it)
-                    view.rv_fav.layoutManager = lManager
-                    view.rv_fav.adapter = MovieFavAdapter
-                    view.rv_fav.setHasFixedSize(true)
-                }
-            } else {
-                viewModel.config.observe(viewLifecycleOwner) {
-                    config = it
-                }
-                viewModel.getConfig()
-                viewModel.listResSeries.observe(viewLifecycleOwner) {
-                    ListMediaSerie = it.results
-                    SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    view.rv_pop.layoutManager = lManager
-                    view.rv_pop.adapter = SerieAdapter
-                    view.rv_pop.setHasFixedSize(true)
-                }
-                viewModel.getPopularSeries()
-                viewModelFav.mediaListSerie.observe(viewLifecycleOwner){
-                    ListMediaMovieFav = it
-                    SerieFavAdapter = FavoritosAdapterSerie(this)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    SerieFavAdapter.addList(it)
-                    view.rv_fav.layoutManager = lManager
-                    view.rv_fav.adapter = SerieFavAdapter
-                    view.rv_fav.setHasFixedSize(true)
-                }
+        if (Movie == true) {
+            viewModel.config.observe(viewLifecycleOwner) {
+                config = it
             }
+            viewModel.getConfig()
+            viewModel.listResMovies.observe(viewLifecycleOwner) {
+                ListMediaMovie = it.results
+                MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
+                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                view.rv_pop.layoutManager = lManager
+                view.rv_pop.adapter = MovieAdapter
+                view.rv_pop.setHasFixedSize(true)
+            }
+            viewModel.getPopularMovies()
+            viewModelFav.mediaListMovie.observe(viewLifecycleOwner) {
+                ListMediaMovieFav = it
+                MovieFavAdapter = FavoritosAdapterMovie(this)
+                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                MovieFavAdapter.addList(it)
+                view.rv_fav.layoutManager = lManager
+                view.rv_fav.adapter = MovieFavAdapter
+                view.rv_fav.setHasFixedSize(true)
+            }
+        } else {
+            viewModel.config.observe(viewLifecycleOwner) {
+                config = it
+            }
+            viewModel.getConfig()
+            viewModel.listResSeries.observe(viewLifecycleOwner) {
+                ListMediaSerie = it.results
+                SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
+                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                view.rv_pop.layoutManager = lManager
+                view.rv_pop.adapter = SerieAdapter
+                view.rv_pop.setHasFixedSize(true)
+            }
+            viewModel.getPopularSeries()
+            viewModelFav.mediaListSerie.observe(viewLifecycleOwner) {
+                ListMediaMovieFav = it
+                SerieFavAdapter = FavoritosAdapterSerie(this)
+                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                SerieFavAdapter.addList(it)
+                view.rv_fav.layoutManager = lManager
+                view.rv_fav.adapter = SerieFavAdapter
+                view.rv_fav.setHasFixedSize(true)
+            }
+        }
         return view
     }
-
-
-
-
 
 
     override fun homeMediaMovieClick(position: Int) {
@@ -155,19 +155,57 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         if (Movie == false) {
             val media = ListMediaSerie.get(position)
             val intent = Intent(context, MediaSelectedActivity::class.java)
-                intent.putExtra("poster", media.poster_path)
-                intent.putExtra("movie", Movie)
-                intent.putExtra("id", media.id)
-                startActivity(intent)
+            intent.putExtra("poster", media.poster_path)
+            intent.putExtra("movie", Movie)
+            intent.putExtra("id", media.id)
+            startActivity(intent)
             SerieAdapter.notifyDataSetChanged()
         }
     }
 
     override fun favoritosItemClick(position: Int) {
-        viewModelFav.mediaList.observe(viewLifecycleOwner){
+        viewModelFav.mediaList.observe(viewLifecycleOwner) {
             val media = it.get(position)
         }
     }
 
+    override fun favoritosLongClickSerie(position: Int) {
+        val movieFav = ListMediaMovieFav.get(position)
+        creatAlert(movieFav)
+        updateListSerieFav()
+    }
 
+    override fun favoritosLongClick(position: Int) {
+        val movieFav = ListMediaMovieFav.get(position)
+        creatAlert(movieFav)
+        updateListFav()
+    }
+
+    fun creatAlert(movieFav: FavoritosEntity) {
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            Toast.makeText(requireActivity(), "Item Removido", Toast.LENGTH_SHORT).show()
+            viewModelFav.removeMedia(movieFav)
+            builder.dismiss()
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(requireActivity(), "O coração continua unido", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+        }
+
+    }
+
+    fun updateListFav(){
+        viewModelFav.mediaListMovie.observe(viewLifecycleOwner) {
+            ListMediaMovieFav = it
+        }
+    }
+    fun updateListSerieFav(){
+        viewModelFav.mediaListSerie.observe(viewLifecycleOwner) {
+            ListMediaSerieFav = it
+        }
+    }
 }
