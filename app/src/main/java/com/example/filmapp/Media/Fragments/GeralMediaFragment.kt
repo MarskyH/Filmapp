@@ -43,7 +43,7 @@ class GeralMediaFragment() : Fragment() {
     var selFav: Boolean = false
     var selcomp: Boolean = false
     var selAcompanhar: Boolean = false
-    var progr = 0
+    var progr = 0.0
     val picasso = Picasso.get()
     var Poster: String? = null
     var Sinopse: String? = null
@@ -51,6 +51,8 @@ class GeralMediaFragment() : Fragment() {
     var Title: String = ""
     var Id: String? = null
     lateinit var posterBd: String
+    var contEp = 1
+    var numberEP = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,9 +104,12 @@ class GeralMediaFragment() : Fragment() {
             viewModelDetails.getMovieDetails(Id!!)
         }
         if (Type == "Tv") {
+
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 Title = it.name
                 posterBd = it.poster_path
+                numberEP = it.number_of_episodes
+                incrCircleBar(numberEP)
                 Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getTvDetails(Id!!)
@@ -120,7 +125,7 @@ class GeralMediaFragment() : Fragment() {
         picasso.load(URL_IMAGE + Poster).into(view.img_geral)
 
         view.progress_circular.setOnClickListener {
-            incrCircleBar()
+            incrCircleBar(numberEP)
         }
 
 
@@ -209,19 +214,37 @@ class GeralMediaFragment() : Fragment() {
         }
     }
 
-    fun incrCircleBar() {
+    fun incrCircleBar(total: Int) {
 
-        if (progr <= 90) {
-            progr += 10
+        if (contEp < total) {
+            var percent = getPercentEP(total)
+            contEp += 1
+            progr += percent
+            Log.i("Percent", getPercentEP(total).toString())
+            Log.i("Total", total.toString())
+            Log.i("Progr", progr.toString())
+            Log.i("cont", contEp.toString())
             updateProgressBar()
+        }else{
+            if(contEp == total || contEp > total){
+                progr = 100.0
+                updateProgressBar()
+            }
         }
-
     }
 
     fun updateProgressBar() {
-        progress_circular.progress = progr
+        progress_circular.progress = progr.toInt()
         tvProgress.text = "$progr%"
     }
+
+
+
+    fun getPercentEP(total: Int):Double{
+        val percent = (100/total).toDouble()
+        return percent
+    }
+
 
     fun AbrirCompartilhar(title: String, poster_path: String) {
         val ShareIntent = Intent().apply {
