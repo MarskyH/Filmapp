@@ -54,11 +54,12 @@ class GeralMediaFragment() : Fragment() {
     private var Title: String = ""
     private var Id: String? = null
     private lateinit var posterBd: String
-    private  var contEp = 1
-    private  var contFilm = 1
-    private  var rateFilm = 0.0
-    private  var rateSerie = 0.0
+    private var contEp = 1
+    private var contFilm = 1
+    private var rateFilm = 0.0
+    private var rateSerie = 0.0
     private var numberEP = 0
+    private lateinit var media: FavoritosEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +76,12 @@ class GeralMediaFragment() : Fragment() {
         private val poster = "poster"
         private val idMedia = "id"
         private val type = "type"
-        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?): GeralMediaFragment {
+        fun newInstance(
+            Sinopse: String?,
+            Poster: String?,
+            Id: String?,
+            Type: String?
+        ): GeralMediaFragment {
             val fragment = GeralMediaFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
@@ -95,7 +101,11 @@ class GeralMediaFragment() : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
         viewModelAcom = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
@@ -107,38 +117,34 @@ class GeralMediaFragment() : Fragment() {
                 rateFilm = it.vote_average
                 posterBd = it.poster_path.toString()
                 progr = rateFilm * 10
+                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
+                //checkList(media)
                 updateProgressBar()
-                Toast.makeText(activity, it.title.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, it.title, Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getMovieDetails(Id!!)
         }
         if (Type == "Tv") {
-
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 Title = it.name
                 posterBd = it.poster_path
                 numberEP = it.number_of_episodes
                 rateSerie = it.vote_average
                 progr = rateSerie * 10
+                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
+                //checkList(media)
                 updateProgressBar()
-//                incrCircleBar(numberEP)
-                Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, it.name, Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getTvDetails(Id!!)
         }
-//
-//        if(checkInListFavoritos(Id!!.toInt())){
-//            AlteraIconFavorito()
-//            selFav = true
-//        }
-
 
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
-        if(Sinopse != "" && Sinopse != null){
+        if (Sinopse != "" && Sinopse != null) {
             view.tv_sinopse.text = Sinopse
-        }else{
+        } else {
             view.tv_sinopse.text = "Sem sinopse disponível no momento"
         }
 
@@ -158,23 +164,27 @@ class GeralMediaFragment() : Fragment() {
         }
         view.imgAcompanhar.setOnClickListener {
             AlteraIconAcompanhar()
-                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner){
-                    var media = it
-                    var newItem = AcompanhandoEntity(media.id, media.name, media.poster_path)
-                    viewModelAcom.saveNewItem(newItem)
-                    Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
-                }
+            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
+                var media = it
+                var newItem = AcompanhandoEntity(media.id, media.name, media.poster_path)
+                viewModelAcom.saveNewItem(newItem)
+                Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
             }
+        }
 
         view.imgFav.setOnClickListener {
             if (selFav == false) {
                 AlteraIconFavorito()
                 addFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT)
+                    .show()
             } else {
+                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+                //checkList(media)
                 AlteraIconFavorito()
                 removeFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -237,13 +247,9 @@ class GeralMediaFragment() : Fragment() {
             var percent = getPercentEP(total)
             contEp += 1
             progr += percent
-            Log.i("Percent", getPercentEP(total).toString())
-            Log.i("Total", total.toString())
-            Log.i("Progr", progr.toString())
-            Log.i("cont", contEp.toString())
             updateProgressBar()
-        }else{
-            if(contEp == total || contEp > total){
+        } else {
+            if (contEp == total || contEp > total) {
                 progr = 100.0
                 updateProgressBar()
             }
@@ -256,9 +262,8 @@ class GeralMediaFragment() : Fragment() {
     }
 
 
-
-    fun getPercentEP(total: Int):Double{
-        val percent = (100/total).toDouble()
+    fun getPercentEP(total: Int): Double {
+        val percent = (100 / total).toDouble()
         return percent
     }
 
@@ -281,26 +286,46 @@ class GeralMediaFragment() : Fragment() {
     }
 
     fun addAcompanhandoList(id: Int, title: String, poster_path: String) {
-        viewModelAcom.saveNewItem(AcompanhandoEntity(id,title,poster_path))
+        viewModelAcom.saveNewItem(AcompanhandoEntity(id, title, poster_path))
     }
 
-    fun removeAcompanhandoList(id: Int, title: String, poster_path: String){
-        viewModelAcom.removeItem(AcompanhandoEntity(id,title,poster_path))
+    fun removeAcompanhandoList(id: Int, title: String, poster_path: String) {
+        viewModelAcom.removeItem(AcompanhandoEntity(id, title, poster_path))
     }
 
     fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id,title,poster_path, type))
+        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
 
-    fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String){
-        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id,title,poster_path, type))
+    fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
+        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
 
-//    fun checkInListFavoritos(id: Int): Boolean{
-//        if(viewModelFav.checkMediaInList(id)){
-//            return true
-//        }
-//        return false
-//    }
+    fun checkList(media: FavoritosEntity) {
+        var listFav: List<FavoritosEntity>
+        var cont = 0
+        viewModelFav.mediaListSerie.observe(viewLifecycleOwner) {
+            listFav = it
+            listFav.forEach {
+                if (listFav[cont].id == media.id) {
+                    selFav = false
+                    AlteraIconFavorito()
+                }
+                cont += 1
+            }
+
+        }
+        viewModelFav.mediaListMovie.observe(viewLifecycleOwner) {
+            listFav = it
+            listFav.forEach {
+                if (listFav[cont].id == media.id) {
+                    selFav = false
+                    AlteraIconFavorito()
+                }
+                cont += 1
+            }
+        }
+        cont = 0
+    }
 
 }

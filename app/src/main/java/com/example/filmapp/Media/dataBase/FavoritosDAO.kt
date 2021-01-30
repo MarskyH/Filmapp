@@ -22,10 +22,14 @@ interface FavoritosDAO {
     fun getFavoritosListMovie(): LiveData<List<FavoritosEntity>>
 
 //    @Query("SELECT * FROM favoritostable WHERE id = :id")
-//    suspend fun getFavotiosExist(id: Int): Boolean
+//    fun getFavotiosExist(id: Int): LiveData<List<FavoritosEntity>>
+//
+////    @Query("SELECT EXISTS (SELECT 1 FROM favoritostable WHERE id = :id)")
+////    fun exists(id: Int): Boolean
 
     @Delete
     suspend fun removeOfFavoritosList(media: FavoritosEntity)
+
 
 
 }

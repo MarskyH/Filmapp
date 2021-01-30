@@ -41,15 +41,8 @@ class FavoritosViewModel(app: Application): AndroidViewModel(app) {
         }
     }
 
-//    fun checkMediaInList(id: Int):Boolean{
-//        var result = false
-//        viewModelScope.launch(Dispatchers.IO){
-//            if(repository.checkInList(id)){
-//                result = true
-//            }
-//        }
-//        return result
-//    }
+}
+
 
 
 
@@ -90,4 +83,3 @@ class FavoritosViewModel(app: Application): AndroidViewModel(app) {
         return listResult
     }
 
-}

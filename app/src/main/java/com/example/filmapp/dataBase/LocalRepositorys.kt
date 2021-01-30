@@ -31,8 +31,6 @@ class FavoritosRepository(private val favoritosDAO: FavoritosDAO){
     val readAllDataSerie: LiveData<List<FavoritosEntity>> = favoritosDAO.getFavoritosListSerie()
 
 
-
-
     suspend fun saveInFavoritosListTask(media: FavoritosEntity){
         favoritosDAO.saveInFavoritosList(media)
     }
@@ -40,13 +38,6 @@ class FavoritosRepository(private val favoritosDAO: FavoritosDAO){
     suspend fun removeOfFavoritosListTask(media: FavoritosEntity){
         favoritosDAO.removeOfFavoritosList(media)
     }
-
-//    suspend fun checkInList(id: Int):Boolean{
-//        if(favoritosDAO.getFavotiosExist(id)){
-//            return true
-//        }
-//        return false
-//    }
 
 }
 
