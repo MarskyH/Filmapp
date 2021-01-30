@@ -13,10 +13,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.Models.FavoritosViewModel
+import com.example.filmapp.Media.dataBase.FavoritosDAO
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
 import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
@@ -33,26 +35,30 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.IDN
 
 class GeralMediaFragment() : Fragment() {
     private lateinit var viewModelFav: FavoritosViewModel
     private lateinit var viewModelAcom: AcompanhandoDataBaseViewModel
     private lateinit var viewModelTarde: AssistirMaisTardeViewModel
-    val scope = CoroutineScope(Dispatchers.Main)
-    var selAssistirMaisTarde: Boolean = false
-    var selFav: Boolean = false
-    var selcomp: Boolean = false
-    var selAcompanhar: Boolean = false
-    var progr = 0.0
-    val picasso = Picasso.get()
-    var Poster: String? = null
-    var Sinopse: String? = null
-    var Type: String? = null
-    var Title: String = ""
-    var Id: String? = null
-    lateinit var posterBd: String
-    var contEp = 1
-    var numberEP = 0
+    private val scope = CoroutineScope(Dispatchers.Main)
+    private var selAssistirMaisTarde: Boolean = false
+    private var selFav: Boolean = false
+    private var selcomp: Boolean = false
+    private var selAcompanhar: Boolean = false
+    private var progr = 0.0
+    private val picasso = Picasso.get()
+    private var Poster: String? = null
+    private var Sinopse: String? = null
+    private var Type: String? = null
+    private var Title: String = ""
+    private var Id: String? = null
+    private lateinit var posterBd: String
+    private  var contEp = 1
+    private  var contFilm = 1
+    private  var rateFilm = 0.0
+    private  var rateSerie = 0.0
+    private var numberEP = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +104,10 @@ class GeralMediaFragment() : Fragment() {
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
                 Title = it.title
+                rateFilm = it.vote_average
                 posterBd = it.poster_path.toString()
+                progr = rateFilm * 10
+                updateProgressBar()
                 Toast.makeText(activity, it.title.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getMovieDetails(Id!!)
@@ -109,11 +118,22 @@ class GeralMediaFragment() : Fragment() {
                 Title = it.name
                 posterBd = it.poster_path
                 numberEP = it.number_of_episodes
-                incrCircleBar(numberEP)
+                rateSerie = it.vote_average
+                progr = rateSerie * 10
+                updateProgressBar()
+//                incrCircleBar(numberEP)
                 Toast.makeText(activity, it.name.toString(), Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getTvDetails(Id!!)
         }
+//
+//        if(checkInListFavoritos(Id!!.toInt())){
+//            AlteraIconFavorito()
+//            selFav = true
+//        }
+
+
+
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
         if(Sinopse != "" && Sinopse != null){
@@ -123,10 +143,6 @@ class GeralMediaFragment() : Fragment() {
         }
 
         picasso.load(URL_IMAGE + Poster).into(view.img_geral)
-
-        view.progress_circular.setOnClickListener {
-            incrCircleBar(numberEP)
-        }
 
 
         view.imgTarde.setOnClickListener {
@@ -149,6 +165,7 @@ class GeralMediaFragment() : Fragment() {
                     Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
                 }
             }
+
         view.imgFav.setOnClickListener {
             if (selFav == false) {
                 AlteraIconFavorito()
@@ -279,8 +296,11 @@ class GeralMediaFragment() : Fragment() {
         viewModelTarde.removeMedia(AssistirMaisTardeEntity(id,title,poster_path, type))
     }
 
-    fun checkInListFavoritos(media: FavoritosEntity){
-
-    }
+//    fun checkInListFavoritos(id: Int): Boolean{
+//        if(viewModelFav.checkMediaInList(id)){
+//            return true
+//        }
+//        return false
+//    }
 
 }

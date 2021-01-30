@@ -131,19 +131,19 @@
 
     <TextView
         android:id="@+id/tvProgress"
-        android:gravity="center"
-        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
+        android:gravity="center"
+        android:text="0%"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/progress_circular"
         app:layout_constraintEnd_toEndOf="@+id/progress_circular"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="@+id/progress_circular"
         app:layout_constraintTop_toTopOf="@+id/progress_circular"
-        app:layout_constraintVertical_bias="0.511"
-        android:text="0%"/>
+        app:layout_constraintVertical_bias="0.506" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

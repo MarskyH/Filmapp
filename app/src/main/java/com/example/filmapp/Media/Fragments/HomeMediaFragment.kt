@@ -97,7 +97,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 viewModel.getPopularMovies()
                 viewModelFav.mediaListMovie.observe(viewLifecycleOwner){
                     ListMediaMovieFav = it
-                    Log.i("Favoritos filmes", it.toString())
                     MovieFavAdapter = FavoritosAdapterMovie(this)
                     lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                     MovieFavAdapter.addList(it)
@@ -121,7 +120,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 viewModel.getPopularSeries()
                 viewModelFav.mediaListSerie.observe(viewLifecycleOwner){
                     ListMediaMovieFav = it
-                    Log.i("Favoritos Séries", it.toString())
                     SerieFavAdapter = FavoritosAdapterSerie(this)
                     lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
                     SerieFavAdapter.addList(it)

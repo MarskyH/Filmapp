@@ -1,5 +1,6 @@
 package com.example.filmapp.Media.dataBase
 
+import android.app.usage.UsageEvents
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.Dao
@@ -20,8 +21,8 @@ interface FavoritosDAO {
     @Query("SELECT * FROM favoritostable WHERE type == 'Movie'")
     fun getFavoritosListMovie(): LiveData<List<FavoritosEntity>>
 
-    @Query("SELECT * FROM favoritostable WHERE id == id")
-    fun checkInList(): Boolean
+//    @Query("SELECT * FROM favoritostable WHERE id = :id")
+//    suspend fun getFavotiosExist(id: Int): Boolean
 
     @Delete
     suspend fun removeOfFavoritosList(media: FavoritosEntity)
