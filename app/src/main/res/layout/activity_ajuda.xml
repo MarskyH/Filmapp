@@ -29,25 +29,25 @@
         android:layout_below="@id/appBar_AjudaPage"
         android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:startIconDrawable="@drawable/ic_lupa_roxo"
-            app:startIconTint="@color/Principal"
-            android:textColorHint="@color/Principal">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="10dp"-->
+<!--            app:startIconDrawable="@drawable/ic_lupa_roxo"-->
+<!--            app:startIconTint="@color/Principal"-->
+<!--            android:textColorHint="@color/Principal">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/search_ajuda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:hint="@string/textView_duvida_ajuda"
-                android:textColor="@color/Grey"
-                android:textSize="20dp" />
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/search_ajuda"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:hint="@string/textView_duvida_ajuda"-->
+<!--                android:textColor="@color/Grey"-->
+<!--                android:textSize="20dp" />-->
 
-        </com.google.android.material.textfield.TextInputLayout>
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="@color/black"
                     android:text="@string/textView_novidades_ajuda"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <FrameLayout
                     android:id="@+id/fragRecycler_novidadesSpace"
@@ -82,7 +82,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="@color/black"
                     android:text="@string/textView_duvidas_ajuda"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <FrameLayout
                     android:id="@+id/fragRecycler_duvidasSpace"

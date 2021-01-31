@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.*
+import kotlinx.android.synthetic.main.fragrecycler_novidadeslist.*
 import kotlinx.android.synthetic.main.fragrecycler_novidadeslist.view.*
 
 class FragRecycler_novidadesList : Fragment(), NovidadesAdapter.onNovidadeItemClickListener {
@@ -40,6 +42,8 @@ class FragRecycler_novidadesList : Fragment(), NovidadesAdapter.onNovidadeItemCl
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_novidadeslist, container, false)
 
+        viewModel.conectDatabase()
+
         //Iniciando o ReciclerView Dúvidas Frequentes
         novidadesListLayoutManager = LinearLayoutManager(context)
         novidadesListAdapter = NovidadesAdapter(this)
@@ -49,6 +53,7 @@ class FragRecycler_novidadesList : Fragment(), NovidadesAdapter.onNovidadeItemCl
         view.rc_novidades.setHasFixedSize(true)
 
         viewModel.returnNovidades.observe(viewLifecycleOwner){
+            pb_novidadesList.setVisibility(View.GONE)
             novidadesListAdapter.addList(it)
         }
 
@@ -67,8 +72,8 @@ class FragRecycler_novidadesList : Fragment(), NovidadesAdapter.onNovidadeItemCl
 
             //Abrindo os detalhes da dúvida
             var intent = Intent(context, AjudaDetailsActivity::class.java)
-            intent.putExtra("title", novidade.titleAjuda)
-            intent.putExtra("body", novidade.bodyAjudaDetails)
+            intent.putExtra("title", novidade.title)
+            intent.putExtra("body", novidade.body)
 
             startActivity(intent)
         }

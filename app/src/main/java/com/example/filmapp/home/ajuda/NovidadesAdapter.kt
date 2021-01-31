@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Ajuda
+import com.example.filmapp.Entities.All.Ajuda
 import com.example.filmapp.R
 
 class NovidadesAdapter(
@@ -29,7 +29,7 @@ class NovidadesAdapter(
     ) {
         val currentItem: Ajuda = novidadesList[position]
 
-        holder.titleNovidade.setText(currentItem.titleAjuda)
+        holder.titleNovidade.setText("- " + currentItem.title)
 
     }
 
@@ -58,7 +58,7 @@ class NovidadesAdapter(
     }
 
     fun addList(list: ArrayList<Ajuda>) {
-        novidadesList.addAll(list)
+        novidadesList = list
         notifyDataSetChanged()
     }
 

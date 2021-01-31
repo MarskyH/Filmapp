@@ -1,26 +1,54 @@
 package com.example.filmapp.home.ajuda
 
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.filmapp.Classes.Ajuda
+import com.example.filmapp.Entities.All.Ajuda
 import com.example.filmapp.Services.Service
-import kotlinx.coroutines.launch
+import com.google.firebase.database.*
 
 class NovidadesViewModel(val service: Service) : ViewModel() {
+
+    //Realtime Database
+    lateinit var cloudDatabase: FirebaseDatabase
+    lateinit var reference: DatabaseReference
 
     var returnNovidades = MutableLiveData<ArrayList<Ajuda>>()
 
     fun getNovidadesList(){
-        viewModelScope.launch {
-            returnNovidades.value = arrayListOf(
-                Ajuda(0, "- O que é o Filmapp?", "FilmApp é um aplicativo voltado ao entretenimento com foco em filmes e séries, funcionando como um guia"),
-                Ajuda(1, "- O que é o que é?", "Feito para andar e não anda. Resposta: A rua!"),
-                Ajuda(2, "- Onde está Wally?", "Where's Wally? é uma série de livros de caráter infanto-juvenil criada pelo ilustrador britânico Martin Handford, baseada em ilustrações e pequenos textos, a série deu origem a uma série animada, uma tira de jornal, uma coleção de 52 revistas semanais intitulada O Mundo de Wally, e jogos eletrônicos."),
-                Ajuda(3, "- Onde está Wally?", "Where's Wally? é uma série de livros de caráter infanto-juvenil criada pelo ilustrador britânico Martin Handford, baseada em ilustrações e pequenos textos, a série deu origem a uma série animada, uma tira de jornal, uma coleção de 52 revistas semanais intitulada O Mundo de Wally, e jogos eletrônicos."),
-                Ajuda(4, "- Onde está Wally?", "é o ultimo")
-            )
+        var novidadesList = arrayListOf<Ajuda>()
 
-        }
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "novidades") {
+                        it.children.forEach {
+
+                            var novidade = Ajuda(
+                                it.child("title").value.toString(),
+                                it.child("body").value.toString(),
+                            )
+
+                            novidadesList.add(novidade)
+                        }
+                    }
+
+                }
+
+                returnNovidades.value = novidadesList
+                novidadesList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in Novidades")
+            }
+        })
+    }
+
+    fun conectDatabase() {
+        cloudDatabase = FirebaseDatabase.getInstance()
+        reference = cloudDatabase.reference
     }
 }

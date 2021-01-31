@@ -19,7 +19,6 @@ class HomeActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbarHomePage)
 
-
         setTabs()
     }
 

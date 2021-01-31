@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.main.activity_acompanhando.*
+import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.*
 import kotlinx.android.synthetic.main.fragrecycler_duvidaslist.view.*
 
 class FragRecycler_duvidasList : Fragment(), DuvidasAdapter.onDuvidaItemClickListener {
@@ -39,6 +41,8 @@ class FragRecycler_duvidasList : Fragment(), DuvidasAdapter.onDuvidaItemClickLis
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_duvidaslist, container, false)
 
+        viewModel.conectDatabase()
+
         //Iniciando o ReciclerView Dúvidas
         duvidasListLayoutManager = LinearLayoutManager(context)
         duvidasListAdapter = DuvidasAdapter(this)
@@ -48,6 +52,7 @@ class FragRecycler_duvidasList : Fragment(), DuvidasAdapter.onDuvidaItemClickLis
         view.rc_duvidas.setHasFixedSize(true)
 
         viewModel.returnDuvidas.observe(viewLifecycleOwner){
+            pb_duvidasList.setVisibility(View.GONE)
             duvidasListAdapter.addList(it)
         }
 
@@ -66,8 +71,8 @@ class FragRecycler_duvidasList : Fragment(), DuvidasAdapter.onDuvidaItemClickLis
 
             //Abrindo os detalhes da dúvida
             var intent = Intent(context, AjudaDetailsActivity::class.java)
-            intent.putExtra("title", duvida.titleAjuda)
-            intent.putExtra("body", duvida.bodyAjudaDetails)
+            intent.putExtra("title", duvida.title)
+            intent.putExtra("body", duvida.body)
 
             startActivity(intent)
         }

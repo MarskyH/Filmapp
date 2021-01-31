@@ -15,4 +15,14 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_ajudalists" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/pb_duvidasList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
+        android:indeterminate="true"
+        android:visibility="visible" />
+
 </FrameLayout>
