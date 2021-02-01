@@ -12,8 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
+import com.example.filmapp.Entities.Movie.MovieDetails
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.Models.FavoritosViewModel
+import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.Media.dataBase.FavoritosDAO
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
@@ -46,21 +48,15 @@ class GeralMediaFragment() : Fragment() {
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
 
-
-    //---------------------------------------------
-    private lateinit var mediaResult: TvDetails
+    private var mediaResult: TvDetails = TvDetails()
+    private var mediaFavoritScope: FavoritoScope = FavoritoScope()
+    private lateinit var mediaCheckedFavorito: FavoritoScope
     private lateinit var mediaChecked: TvDetails
-    var followingStatusIndication = false
-
-
-    private lateinit var viewModelFav: FavoritosViewModel
-    private lateinit var viewModelAcom: AcompanhandoDataBaseViewModel
     private lateinit var viewModelTarde: AssistirMaisTardeViewModel
     private val scope = CoroutineScope(Dispatchers.Main)
     private var selAssistirMaisTarde: Boolean = false
     private var selFav: Boolean = false
     private var selcomp: Boolean = false
-    private var selAcompanhar: Boolean = false
     private var progr = 0.0
     private val picasso = Picasso.get()
     private var Poster: String? = null
@@ -122,50 +118,63 @@ class GeralMediaFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
-        viewModelAcom = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
         viewModelTarde = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
 
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
+                mediaFavoritScope = FavoritoScope(it.id, it.title, it.poster_path.toString(), Type.toString())
+                Log.i("mediaFavoritoScope Film", mediaFavoritScope.toString())
                 Title = it.title
                 rateFilm = it.vote_average
                 posterBd = it.poster_path.toString()
                 progr = rateFilm * 10
                 media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
-                //checkList(media)
                 updateProgressBar()
                 Toast.makeText(activity, it.title, Toast.LENGTH_SHORT).show()
+                viewModelDetails.getFavoritoist()
             }
             viewModelDetails.getMovieDetails(Id!!)
+            viewModelDetails.returnFavoritoList.observe(viewLifecycleOwner){
+                mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
+                if (mediaCheckedFavorito.favoritoIndication == true){
+                    imgFav.setImageResource(R.drawable.ic_favorito_select)
+                }else if(mediaCheckedFavorito.favoritoIndication == false){
+                    imgFav.setImageResource(R.drawable.ic_favorito_branco)
+                }
+            }
         }
         if (Type == "Tv") {
-            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner){
+            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
+                mediaFavoritScope = FavoritoScope(it.id, it.name, it.poster_path, Type.toString())
                 mediaResult = it
                 viewModelDetails.getAcompanhadoList()
+                viewModelDetails.getFavoritoist()
             }
-
+            viewModelDetails.getTvDetails(Id!!)
             viewModelDetails.returnAcompanhandoList.observe(viewLifecycleOwner) {
                 mediaChecked = viewModelDetails.checkSerieInList(mediaResult, it)
-                Log.i("mediaCheckedDentro", mediaChecked.toString())
                 Title = mediaChecked.name
                 posterBd = mediaChecked.poster_path
                 numberEP = mediaChecked.number_of_episodes
                 rateSerie = mediaChecked.vote_average
                 progr = rateSerie * 10
-                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
                 updateProgressBar()
-                Toast.makeText(activity, mediaChecked.name, Toast.LENGTH_SHORT).show()
-
-                    if (mediaChecked.followingStatusIndication == true) {
-                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
-                        followingStatusIndication = true
-                    } else {
-                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                if (mediaChecked.followingStatusIndication == true) {
+                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                } else if(mediaChecked.followingStatusIndication == false) {
+                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                 }
             }
 
-            viewModelDetails.getTvDetails(Id!!)
+
+            viewModelDetails.returnFavoritoList.observe(viewLifecycleOwner){
+                mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
+                if (mediaCheckedFavorito.favoritoIndication == true){
+                    imgFav.setImageResource(R.drawable.ic_favorito_select)
+                }else if(mediaCheckedFavorito.favoritoIndication == false){
+                    imgFav.setImageResource(R.drawable.ic_favorito_branco)
+                }
+            }
         }
 
 
@@ -193,36 +202,32 @@ class GeralMediaFragment() : Fragment() {
         }
 
         view.imgAcompanhar.setOnClickListener {
-            if(followingStatusIndication == true){
-                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                    viewModelDetails.deleteFromAcompanhandoList(it)
-                }
-                followingStatusIndication = false
+            if (mediaChecked.followingStatusIndication == true) {
+                viewModelDetails.deleteFromAcompanhandoList(mediaResult)
+                mediaChecked.followingStatusIndication = false
                 imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                 Toast.makeText(context, "Não está mais acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
-            }else{
-                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                    viewModelDetails.saveInAcompanhandoList(it)
-                }
-                followingStatusIndication = true
+
+            }else if(mediaChecked.followingStatusIndication == false){
+                viewModelDetails.saveInAcompanhandoList(mediaResult)
+                mediaChecked.followingStatusIndication = true
                 imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
                 Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
             }
         }
 
         view.imgFav.setOnClickListener {
-            if (selFav == false) {
-                AlteraIconFavorito()
-                addFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                //checkList(media)
-                AlteraIconFavorito()
-                removeFavoritosList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT)
-                    .show()
+            if (mediaCheckedFavorito.favoritoIndication == true) {
+                viewModelDetails.deleteFromFavoritoList(mediaFavoritScope)
+                imgFav.setImageResource(R.drawable.ic_favorito_branco)
+                mediaCheckedFavorito.favoritoIndication = false
+                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT).show()
+
+            } else if(mediaCheckedFavorito.favoritoIndication == false) {
+                viewModelDetails.saveInFavoritoList(mediaFavoritScope)
+                mediaCheckedFavorito.favoritoIndication = true
+                imgFav.setImageResource(R.drawable.ic_favorito_select)
+                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -246,16 +251,6 @@ class GeralMediaFragment() : Fragment() {
 
     }
 
-    fun AlteraIconFavorito() {
-        if (selFav == false) {
-            imgFav.setImageResource(R.drawable.ic_favorito_select)
-            selFav = true
-        } else if (selFav == true) {
-            imgFav.setImageResource(R.drawable.ic_favorito_branco)
-            selFav = false
-        }
-
-    }
 
     fun AlteraIconCompartilhar() {
         if (selcomp == false) {
@@ -283,13 +278,6 @@ class GeralMediaFragment() : Fragment() {
         startActivity(ShareIntent)
     }
 
-    fun addFavoritosList(Id: Int, Title: String, Poster: String, Type: String) {
-        viewModelFav.saveNewMedia(FavoritosEntity(Id, Title, Poster, Type))
-    }
-
-    fun removeFavoritosList(Id: Int, Title: String, Poster: String, Type: String) {
-        viewModelFav.removeMedia(FavoritosEntity(Id, Title, Poster, Type))
-    }
 
     fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
         viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))

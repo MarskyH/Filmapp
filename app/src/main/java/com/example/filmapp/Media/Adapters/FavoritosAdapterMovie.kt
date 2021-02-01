@@ -1,6 +1,7 @@
 package com.example.filmapp.Media.Adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.UI.MediaSelectedActivity
+import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
@@ -16,7 +18,7 @@ import com.squareup.picasso.Picasso
 class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
     RecyclerView.Adapter<FavoritosAdapterMovie.FavoritosViewHolder>() {
 
-    var mediaList = listOf<FavoritosEntity>()
+    var mediaList = listOf<FavoritoScope>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -28,7 +30,7 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
     }
 
     override fun onBindViewHolder(holder: FavoritosViewHolder, position: Int) {
-        val currentItem: FavoritosEntity = mediaList[position]
+        val currentItem: FavoritoScope = mediaList[position]
         holder.mediaName.text = currentItem.title
         Picasso.get().load(URL_IMAGE + currentItem.poster_path).into(holder.mediaImage)
 
@@ -76,7 +78,7 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
         }
     }
 
-    fun addList(list: List<FavoritosEntity>) {
+    fun addList(list: List<FavoritoScope>) {
         mediaList = list
         notifyDataSetChanged()
     }

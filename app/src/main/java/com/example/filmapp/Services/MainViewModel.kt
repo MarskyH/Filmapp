@@ -13,6 +13,7 @@ import com.example.filmapp.Entities.Movie.MovieDetails
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Entities.TV.TvDetails
+import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,6 +35,7 @@ class MainViewModel(val service: Service) : ViewModel() {
     var listDetailsMovies = MutableLiveData<MovieDetails>()
     var config = MutableLiveData<Config>()
     var returnAcompanhandoList = MutableLiveData<ArrayList<AcompanhandoScope>>()
+    var returnFavoritoList = MutableLiveData<ArrayList<FavoritoScope>>()
 
 //Realtime Database---------------------------------------------------------------------------------
 
@@ -47,6 +49,7 @@ class MainViewModel(val service: Service) : ViewModel() {
             .child(media.id.toString())
             .setValue(serie)
     }
+
 
     fun deleteFromAcompanhandoList(media: TvDetails){
         FirebaseDatabase.getInstance().reference
@@ -113,6 +116,72 @@ class MainViewModel(val service: Service) : ViewModel() {
                 if (media.id == it.id)
                     media.followingStatusIndication = true
             }
+
+        return media
+    }
+
+    fun saveInFavoritoList(media: FavoritoScope) {
+        var serie = FavoritoScope(id = media.id, title = media.title, poster_path = media.poster_path, type =  media.type)
+        FirebaseDatabase.getInstance().reference
+            .child(USER_ID)
+            .child("favoritos")
+            .child(media.id.toString())
+            .setValue(serie)
+    }
+
+    fun deleteFromFavoritoList(media: FavoritoScope){
+        FirebaseDatabase.getInstance().reference
+            .child(USER_ID)
+            .child("favoritos")
+            .child(media.id.toString())
+            .removeValue()
+    }
+
+    fun getFavoritoist() {
+        var favoritoList = arrayListOf<FavoritoScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == USER_ID) {
+                        it.children.forEach {
+                            if (it.key == "favoritos") {
+                                it.children.forEach {
+                                    var media = FavoritoScope(
+                                        it.child("id").value.toString().toInt(),
+                                        it.child("title").value.toString(),
+                                        it.child("poster_path").value.toString(),
+                                        it.child("type").value.toString()
+                                    )
+
+                                    favoritoList.add(media)
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnFavoritoList.value = favoritoList
+                favoritoList = arrayListOf()
+
+            }override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in Novidades")
+            }
+        })
+    }
+
+    fun checkFavoritoInList(
+        media: FavoritoScope,
+        listDataBase: ArrayList<FavoritoScope>
+    ): FavoritoScope {
+
+        listDataBase?.forEach {
+
+            if (media.id == it.id)
+                media.favoritoIndication = true
+        }
 
         return media
     }

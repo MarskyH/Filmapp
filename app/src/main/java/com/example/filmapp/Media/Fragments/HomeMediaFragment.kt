@@ -23,6 +23,7 @@ import com.example.filmapp.Media.Adapters.HomeMediaMovieAdapter
 import com.example.filmapp.Media.Adapters.HomeMediaSerieAdapter
 import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.Media.UI.MediaSelectedActivity
+import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
@@ -41,8 +42,8 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     private lateinit var viewModelFav: FavoritosViewModel
     lateinit var ListMediaMovie: ArrayList<ResultMovie>
     lateinit var ListMediaSerie: ArrayList<ResultTv>
-    lateinit var ListMediaMovieFav: List<FavoritosEntity>
-    lateinit var ListMediaSerieFav: List<FavoritosEntity>
+    var ListMediaMovieFav = ArrayList<FavoritoScope>()
+    var ListMediaSerieFav = ArrayList<FavoritoScope>()
 
 
     var Movie: Boolean? = null
@@ -83,7 +84,8 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
-        viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
+
+        viewModel.getFavoritoist()
 
         if (Movie == true) {
             viewModel.config.observe(viewLifecycleOwner) {
@@ -99,11 +101,16 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 view.rv_pop.setHasFixedSize(true)
             }
             viewModel.getPopularMovies()
-            viewModelFav.mediaListMovie.observe(viewLifecycleOwner) {
-                ListMediaMovieFav = it
+
+            viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                it.forEach {
+                    if (it.type == "Movie"){
+                        ListMediaMovieFav.add(it)
+                    }
+                }
                 MovieFavAdapter = FavoritosAdapterMovie(this)
                 lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                MovieFavAdapter.addList(it)
+                MovieFavAdapter.addList(ListMediaMovieFav)
                 view.rv_fav.layoutManager = lManager
                 view.rv_fav.adapter = MovieFavAdapter
                 view.rv_fav.setHasFixedSize(true)
@@ -122,11 +129,15 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 view.rv_pop.setHasFixedSize(true)
             }
             viewModel.getPopularSeries()
-            viewModelFav.mediaListSerie.observe(viewLifecycleOwner) {
-                ListMediaMovieFav = it
+            viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                it.forEach {
+                    if (it.type == "Tv"){
+                        ListMediaSerieFav.add(it)
+                    }
+                }
                 SerieFavAdapter = FavoritosAdapterSerie(this)
                 lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                SerieFavAdapter.addList(it)
+                SerieFavAdapter.addList(ListMediaSerieFav)
                 view.rv_fav.layoutManager = lManager
                 view.rv_fav.adapter = SerieFavAdapter
                 view.rv_fav.setHasFixedSize(true)
@@ -171,24 +182,24 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     override fun favoritosLongClickSerie(position: Int) {
         val movieFav = ListMediaMovieFav.get(position)
-        creatAlert(movieFav)
-        updateListSerieFav()
+       // creatAlert(movieFav)
+       // updateListSerieFav()
     }
 
     override fun favoritosLongClick(position: Int) {
         val movieFav = ListMediaMovieFav.get(position)
-        creatAlert(movieFav)
-        updateListFav()
+      //  creatAlert(movieFav)
+      //  updateListFav()
     }
 
-    fun creatAlert(movieFav: FavoritosEntity) {
+    fun creatAlert(movieFav: FavoritoScope) {
         val builder = AlertDialog.Builder(requireActivity()).create()
         val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert, null)
         builder.setView(view)
         builder.show()
         view.btAlert_confirm.setOnClickListener {
             Toast.makeText(requireActivity(), "Item Removido", Toast.LENGTH_SHORT).show()
-            viewModelFav.removeMedia(movieFav)
+            viewModel.deleteFromFavoritoList(movieFav)
             builder.dismiss()
         }
         view.btAlert_Notconfirm.setOnClickListener {
@@ -198,14 +209,26 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     }
 
-    fun updateListFav(){
-        viewModelFav.mediaListMovie.observe(viewLifecycleOwner) {
-            ListMediaMovieFav = it
-        }
-    }
-    fun updateListSerieFav(){
-        viewModelFav.mediaListSerie.observe(viewLifecycleOwner) {
-            ListMediaSerieFav = it
-        }
-    }
+//    fun updateListFav(){
+//        viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+//            it.forEach {
+//                if (it.type == "Movie"){
+//                    ListMediaMovieFav.add(it)
+//                }else{
+//                    ListMediaSerieFav.add(it)
+//                }
+//            }
+//        }
+//    }
+//    fun updateListSerieFav(){
+//        viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+//            it.forEach {
+//                if (it.type == "Tv"){
+//                    ListMediaSerieFav.add(it)
+//                }else{
+//                    ListMediaMovieFav.add(it)
+//                }
+//            }
+//        }
+//    }
 }
