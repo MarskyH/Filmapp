@@ -28,7 +28,6 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
 
     private lateinit var mediaListAdapter: AcompanhandoAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
-    private lateinit var viewModelDataBase: AcompanhandoDataBaseViewModel
 
     val viewModel by viewModels<AcompanhandoViewModel>{
         object : ViewModelProvider.Factory{
@@ -42,8 +41,6 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_acompanhando)
 
-        viewModelDataBase = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
-
         //Iniciando o ReciclerView Acompanhando
         mediaListLayoutManager = LinearLayoutManager(this)
         mediaListAdapter = AcompanhandoAdapter(this)
@@ -52,24 +49,16 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         rv_acompanhandoList.isHorizontalFadingEdgeEnabled
         rv_acompanhandoList.setHasFixedSize(true)
 
-        viewModelDataBase.mediaList.observe(this){
-            viewModel.getStatusSeries(it)
+        viewModel.getAcompanhadoList()
+
+        viewModel.returnAcompanhandoList.observe(this){
+            viewModel.getCurrentStatusSeries(it)
         }
 
         viewModel.listUpdated.observe(this){
             pb_acompanhando.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(it)
-            Log.i("--------", "--------")
-            Log.i("listSize", it.size.toString())
-            Log.i("list", it.toString())
-            Log.i("--------", "--------")
         }
-
-
-
-        viewModelDataBase.saveNewItem(AcompanhandoEntity(456,"Simpsons", "", totalEpisodesWatched = 700, finished = true))
-        viewModelDataBase.saveNewItem(AcompanhandoEntity(71728,"Sheldon", "", lastEpisode = 22, totalEpisodesWatched = 22))
-        viewModelDataBase.saveNewItem(AcompanhandoEntity(67198,"Star Trek", "", totalEpisodesWatched = 20))
 
         setSupportActionBar(toolbarAcompanhandoPage)
 

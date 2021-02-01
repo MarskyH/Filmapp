@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
+import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.Media.dataBase.FavoritosDAO
 import com.example.filmapp.Media.dataBase.FavoritosEntity
@@ -21,8 +22,10 @@ import com.example.filmapp.Services.service
 import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
 import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
+import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.*
@@ -38,6 +41,18 @@ import kotlinx.coroutines.launch
 import java.net.IDN
 
 class GeralMediaFragment() : Fragment() {
+    //Realtime Database
+    var USER_ID = "1" //TEMPORÁRIO
+    private var cloudDatabase = FirebaseDatabase.getInstance()
+    private var reference = cloudDatabase.reference
+
+
+    //---------------------------------------------
+    private lateinit var mediaResult: TvDetails
+    private lateinit var mediaChecked: TvDetails
+    var followingStatusIndication = false
+
+
     private lateinit var viewModelFav: FavoritosViewModel
     private lateinit var viewModelAcom: AcompanhandoDataBaseViewModel
     private lateinit var viewModelTarde: AssistirMaisTardeViewModel
@@ -125,17 +140,31 @@ class GeralMediaFragment() : Fragment() {
             viewModelDetails.getMovieDetails(Id!!)
         }
         if (Type == "Tv") {
-            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                Title = it.name
-                posterBd = it.poster_path
-                numberEP = it.number_of_episodes
-                rateSerie = it.vote_average
+            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner){
+                mediaResult = it
+                viewModelDetails.getAcompanhadoList()
+            }
+
+            viewModelDetails.returnAcompanhandoList.observe(viewLifecycleOwner) {
+                mediaChecked = viewModelDetails.checkSerieInList(mediaResult, it)
+                Log.i("mediaCheckedDentro", mediaChecked.toString())
+                Title = mediaChecked.name
+                posterBd = mediaChecked.poster_path
+                numberEP = mediaChecked.number_of_episodes
+                rateSerie = mediaChecked.vote_average
                 progr = rateSerie * 10
                 media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
-                //checkList(media)
                 updateProgressBar()
-                Toast.makeText(activity, it.name, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, mediaChecked.name, Toast.LENGTH_SHORT).show()
+
+                    if (mediaChecked.followingStatusIndication == true) {
+                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                        followingStatusIndication = true
+                    } else {
+                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                }
             }
+
             viewModelDetails.getTvDetails(Id!!)
         }
 
@@ -162,13 +191,22 @@ class GeralMediaFragment() : Fragment() {
                 Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
             }
         }
+
         view.imgAcompanhar.setOnClickListener {
-            AlteraIconAcompanhar()
-            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                var media = it
-                var newItem = AcompanhandoEntity(media.id, media.name, media.poster_path)
-                viewModelAcom.saveNewItem(newItem)
-                Toast.makeText(context, "Acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
+            if(followingStatusIndication == true){
+                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
+                    viewModelDetails.deleteFromAcompanhandoList(it)
+                }
+                followingStatusIndication = false
+                imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                Toast.makeText(context, "Não está mais acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
+            }else{
+                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
+                    viewModelDetails.saveInAcompanhandoList(it)
+                }
+                followingStatusIndication = true
+                imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -231,42 +269,10 @@ class GeralMediaFragment() : Fragment() {
         }
     }
 
-    fun AlteraIconAcompanhar() {
-        if (selAcompanhar == false) {
-            imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
-            selAcompanhar = true
-        } else if (selAcompanhar == true) {
-            imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
-            selAcompanhar = false
-        }
-    }
-
-    fun incrCircleBar(total: Int) {
-
-        if (contEp < total) {
-            var percent = getPercentEP(total)
-            contEp += 1
-            progr += percent
-            updateProgressBar()
-        } else {
-            if (contEp == total || contEp > total) {
-                progr = 100.0
-                updateProgressBar()
-            }
-        }
-    }
-
     fun updateProgressBar() {
         progress_circular.progress = progr.toInt()
         tvProgress.text = "$progr%"
     }
-
-
-    fun getPercentEP(total: Int): Double {
-        val percent = (100 / total).toDouble()
-        return percent
-    }
-
 
     fun AbrirCompartilhar(title: String, poster_path: String) {
         val ShareIntent = Intent().apply {
@@ -285,14 +291,6 @@ class GeralMediaFragment() : Fragment() {
         viewModelFav.removeMedia(FavoritosEntity(Id, Title, Poster, Type))
     }
 
-    fun addAcompanhandoList(id: Int, title: String, poster_path: String) {
-        viewModelAcom.saveNewItem(AcompanhandoEntity(id, title, poster_path))
-    }
-
-    fun removeAcompanhandoList(id: Int, title: String, poster_path: String) {
-        viewModelAcom.removeItem(AcompanhandoEntity(id, title, poster_path))
-    }
-
     fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
         viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
@@ -300,32 +298,4 @@ class GeralMediaFragment() : Fragment() {
     fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
         viewModelTarde.removeMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
-
-    fun checkList(media: FavoritosEntity) {
-        var listFav: List<FavoritosEntity>
-        var cont = 0
-        viewModelFav.mediaListSerie.observe(viewLifecycleOwner) {
-            listFav = it
-            listFav.forEach {
-                if (listFav[cont].id == media.id) {
-                    selFav = false
-                    AlteraIconFavorito()
-                }
-                cont += 1
-            }
-
-        }
-        viewModelFav.mediaListMovie.observe(viewLifecycleOwner) {
-            listFav = it
-            listFav.forEach {
-                if (listFav[cont].id == media.id) {
-                    selFav = false
-                    AlteraIconFavorito()
-                }
-                cont += 1
-            }
-        }
-        cont = 0
-    }
-
 }

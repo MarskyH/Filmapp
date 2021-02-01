@@ -35,7 +35,8 @@ data class TvDetails(
     val tagline: String,
     val type: String,
     val vote_average: Double,
-    val vote_count: Int
+    val vote_count: Int,
+    var followingStatusIndication: Boolean = false
 ):Serializable
 
 data class CreatedBy(

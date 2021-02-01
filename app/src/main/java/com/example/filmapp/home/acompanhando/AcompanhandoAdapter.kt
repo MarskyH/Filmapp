@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
+import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.squareup.picasso.Picasso
 
 class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
 ) : RecyclerView.Adapter<AcompanhandoAdapter.AcompanhandoViewHolder>() {
 
-    var mediaList = listOf<AcompanhandoEntity>()
+    var mediaList = listOf<AcompanhandoScope>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,14 +32,14 @@ class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
         holder: AcompanhandoViewHolder,
         position: Int
     ) {
-        val currentItem: AcompanhandoEntity = mediaList[position]
+        val currentItem: AcompanhandoScope = mediaList[position]
 
         holder.mediaName.setText(currentItem.title)
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
 
-        if (currentItem.finished == true){
+        if (currentItem.finished == 1){
             holder.subtitle.setText("Finalizada")
             holder.serieEpisode.setText(" ")
         }else {
@@ -95,7 +96,7 @@ class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
         }
     }
 
-    fun addList(list: List<AcompanhandoEntity>) {
+    fun addList(list: ArrayList<AcompanhandoScope>) {
         mediaList = list
         notifyDataSetChanged()
     }

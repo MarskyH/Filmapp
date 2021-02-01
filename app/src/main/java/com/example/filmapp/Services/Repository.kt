@@ -120,7 +120,8 @@ interface Service {
     @GET("tv/top_rated")
     suspend fun getTopSeries(
         @Query("api_key") key: String,
-        @Query("language") language: String
+        @Query("language") language: String,
+        @Query("page") page: Int
     ): BaseTv
 
     //Pesquisa - Movies

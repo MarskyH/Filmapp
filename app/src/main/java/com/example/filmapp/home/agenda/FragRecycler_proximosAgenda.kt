@@ -28,9 +28,8 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
 
     private lateinit var mediaListAdapter: ProximosAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
-    private lateinit var viewModelAcompanhando: AcompanhandoDataBaseViewModel
-    var listAcompanhandoDataBase= listOf<AcompanhandoEntity>()
-    lateinit var listAPI: ArrayList<ResultTv>
+//    private lateinit var viewModelAcompanhando: AcompanhandoDataBaseViewModel
+    var novosEpisodiosList = arrayListOf<ResultTv>()
 
     val viewModel by viewModels<ProximosAgendaViewModel> {
         object : ViewModelProvider.Factory {
@@ -51,8 +50,8 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_proximosagenda, container, false)
 
-        viewModelAcompanhando =
-            ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
+//        viewModelAcompanhando =
+//            ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
 
         //Iniciando o ReciclerView Próximos da AgendaPage
         mediaListLayoutManager = LinearLayoutManager(context)
@@ -62,16 +61,16 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
         view.rv_proximos_agenda.isHorizontalFadingEdgeEnabled
         view.rv_proximos_agenda.setHasFixedSize(true)
 
-        //Recebendo os Itens (Filmes e Séries) que estão sendo acompanhados pelo usuário
-        viewModelAcompanhando.mediaList.observe(viewLifecycleOwner) {
-            listAcompanhandoDataBase = it
+        viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner) {
+            novosEpisodiosList = it.results
+            viewModel.getAcompanhadoList()
         }
 
-        viewModel.returnNovosEpisodiosListAPI.observe(viewLifecycleOwner) {
-            var filteredList = viewModel.checkEpisodiosForUser(it.results, listAcompanhandoDataBase)
+        //Recebendo os Itens (Filmes e Séries) que estão sendo acompanhados pelo usuário
+        viewModel.returnAcompanhandoList.observe(viewLifecycleOwner) {
+            var filteredList = viewModel.checkEpisodiosForUser(novosEpisodiosList, it)
             if(filteredList.size == 0){
                 pb_proximos.setVisibility(View.INVISIBLE)
-//                tv_titleProximos.setVisibility(View.INVISIBLE)
             }else {
                 filteredList.forEach {
                     viewModel.getDetailsSerie(it)

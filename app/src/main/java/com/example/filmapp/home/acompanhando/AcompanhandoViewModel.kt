@@ -1,27 +1,75 @@
 package com.example.filmapp.home.acompanhando
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
-import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Services.Service
-import com.example.filmapp.dataBase.AcompanhandoRepository
-import com.example.filmapp.dataBase.AssistirMaisTardeRepository
-import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
-import kotlinx.coroutines.Dispatchers
+import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.google.firebase.database.*
 import kotlinx.coroutines.launch
 
 class AcompanhandoViewModel(val service: Service) : ViewModel() {
 
-    var mediaDetails = MutableLiveData<TvDetails>()
-    var listUpdated = MutableLiveData<List<AcompanhandoEntity>>()
+    //Realtime Database
+    var USER_ID = "1"
+    var cloudDatabase = FirebaseDatabase.getInstance()
+    var reference = cloudDatabase.reference
 
-    fun getStatusSeries(list: List<AcompanhandoEntity>) {
+    var returnAcompanhandoList = MutableLiveData<ArrayList<AcompanhandoScope>>()
+    var listUpdated = MutableLiveData<ArrayList<AcompanhandoScope>>()
+
+    //Esta functio retorna a ultima lista salva no Realtime Database
+    fun getAcompanhadoList() {
+        var acompanhadoList = arrayListOf<AcompanhandoScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == USER_ID) {
+                        it.children.forEach {
+                            if (it.key == "acompanhando") {
+                                it.children.forEach {
+
+                                    var media = AcompanhandoScope(
+                                        it.child("id").value.toString().toInt(),
+                                        it.child("title").value.toString(),
+                                        it.child("poster_path").value.toString(),
+                                        it.child("number_of_episodes").value.toString().toInt(),
+                                        it.child("number_of_seasons").value.toString().toInt(),
+                                        it.child("lastEpisode").value.toString().toInt(),
+                                        it.child("nextEpisodeTitle").value.toString(),
+                                        it.child("nextEpisodeNumber").value.toString().toInt(),
+                                        it.child("totalEpisodesWatched").value.toString().toInt(),
+                                        it.child("currentSeason").value.toString().toInt(),
+                                        it.child("userProgress").value.toString().toInt(),
+                                        it.child("finished").value.toString().toInt()
+                                    )
+
+                                    acompanhadoList.add(media)
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnAcompanhandoList.value = acompanhadoList
+                acompanhadoList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in Novidades")
+            }
+        })
+    }
+
+    //Está function atualiza a lista retornada do Realtime Database
+    fun getCurrentStatusSeries(list: ArrayList<AcompanhandoScope>) {
         viewModelScope.launch {
 
             list.forEach {
@@ -84,7 +132,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
 
                 } else {
                     it.userProgress = 100
-                    it.finished = true
+                    it.finished = 1
                 }
 
 //--------------------------------------------------------------------------------------------------
@@ -95,7 +143,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
         }
     }
 
-    fun formattingItems(list: List<AcompanhandoEntity>): List<AcompanhandoEntity> {
+    fun formattingItems(list: ArrayList<AcompanhandoScope>): ArrayList<AcompanhandoScope> {
         list.forEach {
 
             //Formatação do Título da Série
@@ -140,48 +188,12 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
 
 }
 
-class AcompanhandoDataBaseViewModel(app: Application) : AndroidViewModel(app) {
+//Como salvar um episódio como salvo:
 
-    val mediaList: LiveData<List<AcompanhandoEntity>>
-    private val repository: AcompanhandoRepository
-
-    init {
-        val acompanhandoDAO = FilmAppDataBase.getDataBase(app).acompanhandoDao()
-        repository = AcompanhandoRepository(acompanhandoDAO)
-        mediaList = repository.readAllData
-    }
-
-    fun saveNewItem(media: AcompanhandoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveInAcompanhandoListListTask(media)
-        }
-    }
-
-    fun removeItem(media: AcompanhandoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeOfAcompanhandoListTask(media)
-        }
-    }
-
-    fun checkSerieInList(
-        listAPI: ArrayList<ResultTv>,
-        listDataBase: List<AcompanhandoEntity>
-    ): ArrayList<ResultTv> {
-        var listResult = arrayListOf<ResultTv>()
-
-        listAPI?.forEach {
-            var media = it
-
-            listDataBase?.forEach {
-
-                if (media.id == it.id)
-                    media.followingStatusIndication = true
-            }
-
-            listResult.add(media)
-        }
-
-        return listResult
-    }
-
-}
+//FirebaseDatabase.getInstance().reference
+//.child(userId)
+//.child("acompanhando")
+//.child(media.id.toString())
+//.child("watchedEpisodes")
+//.push()
+//.setValue(episodeId)
