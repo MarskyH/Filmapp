@@ -29,30 +29,6 @@
                 android:orientation="vertical">
 
 
-                <TextView
-                    android:layout_marginTop="1dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/editText_senhaAtual_configuracoes"/>
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:layout_marginStart="10dp"
-                    android:textColor="@color/purple_200"
-                    android:theme="@style/EditTextTheme"
-                    android:layout_marginEnd="10dp"
-                    />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/textView_senhaEsquecida_login"
-                    android:textColor="@color/white" />
 
                 <TextView
                     android:layout_marginTop="10dp"
@@ -62,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:text="Nova senha"/>
                 <EditText
+                    android:id="@+id/novaSenha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -79,6 +56,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/editText_confirmarSrnha_configuracoes"/>
                 <EditText
+                    android:id="@+id/confimarSenha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -103,50 +81,52 @@
                 android:textSize="20dp" />
 
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/editText_novoEmail_configuracoes"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/purple_200"
-                android:theme="@style/EditTextTheme"
-                android:layout_marginEnd="10dp"
-                />
+<!--            <TextView-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/editText_novoEmail_configuracoes"/>-->
+<!--            <EditText-->
+<!--                android:id="@+id/novoEmail"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="text"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:textColor="@color/purple_200"-->
+<!--                android:theme="@style/EditTextTheme"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                />-->
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/editText_ConfirmarEmail_configuracoes"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/purple_200"
-                android:theme="@style/EditTextTheme"
-                android:layout_marginEnd="10dp"
-                />
+<!--            <TextView-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/editText_ConfirmarEmail_configuracoes"/>-->
+<!--            <EditText-->
+<!--                android:id="@+id/confirmarEmail"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:inputType="text"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:textColor="@color/purple_200"-->
+<!--                android:theme="@style/EditTextTheme"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                />-->
 
-            <Button
-                android:id="@+id/btnAtualizar2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/round_login_button"
-                android:text="@string/botao_atualizar_configuracoes"
+<!--            <Button-->
+<!--                android:id="@+id/btnAtualizarEmail"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:background="@drawable/round_login_button"-->
+<!--                android:text="@string/botao_atualizar_configuracoes"-->
 
-                android:textColor="@color/White"
-                android:textSize="20dp" />
+<!--                android:textColor="@color/White"-->
+<!--                android:textSize="20dp" />-->
 
             <Button
                 android:id="@+id/btnDesativarConta"
@@ -154,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/round_login_button"
-                android:text="@string/botao_sair_configuracoes"
+                android:text="Deletar conta"
                 android:textColor="@color/White"
                 android:textSize="20dp" />
 

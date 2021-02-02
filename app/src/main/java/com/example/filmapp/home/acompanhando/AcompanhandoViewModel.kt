@@ -8,13 +8,18 @@ import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Services.Service
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.coroutines.launch
 
 class AcompanhandoViewModel(val service: Service) : ViewModel() {
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
+
+
 
     //Realtime Database
-    var USER_ID = "1"
+    var USER_ID = user!!.uid
     var cloudDatabase = FirebaseDatabase.getInstance()
     var reference = cloudDatabase.reference
 

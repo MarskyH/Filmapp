@@ -3,6 +3,7 @@ package com.example.filmapp.home.acompanhando
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,10 +18,11 @@ import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.descubra.DescubraActivity
 import com.example.filmapp.home.HomeActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_acompanhando.*
 
 class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener {
-
+    val user = FirebaseAuth.getInstance().currentUser
     private lateinit var mediaListAdapter: AcompanhandoAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
 
@@ -34,8 +36,9 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_acompanhando)
 
+        setContentView(R.layout.activity_acompanhando)
+        Log.i("USER ID", user!!.uid)
         //Iniciando o ReciclerView Acompanhando
         mediaListLayoutManager = LinearLayoutManager(this)
         mediaListAdapter = AcompanhandoAdapter(this)

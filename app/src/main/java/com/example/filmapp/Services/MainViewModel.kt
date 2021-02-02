@@ -15,6 +15,7 @@ import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -23,9 +24,11 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 class MainViewModel(val service: Service) : ViewModel() {
+    val user = FirebaseAuth.getInstance().currentUser
+
 
     //Realtime Database
-    var USER_ID = "1" //TEMPORÁRIO
+    var USER_ID = user!!.uid
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
 
