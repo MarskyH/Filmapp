@@ -86,7 +86,7 @@ class FragRecycler_seriesDescubra : Fragment(), DescubraSeriesAdapter.onDescubra
             var media = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
-            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + media.poster_path)
+            intent.putExtra("poster",media.poster_path)
             intent.putExtra("movie",false)
             intent.putExtra("id", media.id)
 

@@ -83,7 +83,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         val Serie =  Serie as TvDetails?
         val intent = Intent(context, SerieEpisodioSelectedActivity::class.java)
         intent.putExtra("number_episode", episodio.episode_number)
-        intent.putExtra("id_ep", episodio.id)
+        intent.putExtra("id_ep", episodio.id.toString())
         intent.putExtra("sinopse_episode", episodio.overview)
         intent.putExtra("number_season", episodio.season_number)
         intent.putExtra("imagem", episodio.still_path)

@@ -40,10 +40,11 @@ import kotlinx.coroutines.launch
 
 class EpisodioFragment : Fragment() {
 
+    var watched = false
+
     private lateinit var viewModelVisto: HistoricoViewModel
     val scope = CoroutineScope(Dispatchers.Main)
     var selcomp: Boolean = false
-    var selVisto: Boolean = false
     val picasso = Picasso.get()
     var Poster: String? = null
     var Sinopse: String? = null
@@ -53,6 +54,7 @@ class EpisodioFragment : Fragment() {
     var Img: String? = null
     var Logo: String? = null
     var HomePage: String? = null
+    var Id_ep: String? = null
 
     val viewModel by viewModels<EpisodioFragmentViewModel> {
         object : ViewModelProvider.Factory {
@@ -67,13 +69,13 @@ class EpisodioFragment : Fragment() {
         if (arguments != null) {
             Poster = arguments?.getString(poster)
             Sinopse = arguments?.getString(sinopse)
-            Id = arguments?.getString(idMedia)
+            Id = arguments?.getString(idMedia) //ESSA ARMAZENA O ID DA SÉRIE
             Type = arguments?.getString(type)
             Img = arguments?.getString(img)
             Logo = arguments?.getString(logo)
             HomePage = arguments?.getString(homePage)
             Title = arguments?.getString(title)
-            Log.i("type", Type.toString())
+            Id_ep = arguments?.getString(id_ep) //ESSA ARMAZENA O ID DO EPISÓDIO
         }
     }
 
@@ -86,7 +88,8 @@ class EpisodioFragment : Fragment() {
         private val img = "img"
         private val type = "type"
         private val title = "title"
-        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?, Img: String?, Logo: String?, HomePage:String, Title: String? ): EpisodioFragment {
+        private val id_ep = "id_ep"
+        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?, Img: String?, Logo: String?, HomePage:String, Title: String?, Id_ep: String? ): EpisodioFragment {
             val fragment = EpisodioFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
@@ -97,6 +100,7 @@ class EpisodioFragment : Fragment() {
             args.putString(logo, Logo)
             args.putString(homePage, HomePage)
             args.putString(title, Title)
+            args.putString(id_ep, Id_ep)
             fragment.arguments = args
             return fragment
         }
@@ -108,7 +112,11 @@ class EpisodioFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        Log.i("idSerie", Id.toString())
+        Log.i("idEp", Id_ep.toString())
+
         val view: View = inflater!!.inflate(R.layout.fragment_series_episodio, container, false)
+
         viewModelVisto = ViewModelProvider(this).get(HistoricoViewModel::class.java)
 
 
@@ -117,19 +125,6 @@ class EpisodioFragment : Fragment() {
         picasso.load(URL_IMAGE+Logo).into(view.imgLogo)
         Log.i("Teste historico", "${Id} ${Title} ${Poster} ${Type}")
 
-        view.imgVisto.setOnClickListener {
-            if (selVisto == false) {
-                AlteraIconVisto()
-                addHistoricoList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Log.i("Teste historico", "${Id} ${Title} ${Poster} ${Type}")
-                Toast.makeText(activity, "$Title adicionado ao Histórico", Toast.LENGTH_SHORT).show()
-            } else {
-                AlteraIconVisto()
-                removeHistoricoList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
-                Toast.makeText(activity, "$Title removido do Histórico", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         view.imgCompart.setOnClickListener {
             AbrirCompartilhar(Title!!, homePage)
             AlteraIconCompartilhar()
@@ -137,6 +132,55 @@ class EpisodioFragment : Fragment() {
         view.imgLogo.setOnClickListener {
             AbrirSiteLogo()
         }
+
+        //AcompanhandoCodeInicio--------------------------------------------------------------------
+
+        viewModel.getAcompanhadoList()
+
+        //Verifica se o usuário está acompanhando a série no qual o episódio pertence
+        viewModel.returnAcompanhandoList.observe(viewLifecycleOwner){
+            var result = viewModel.checkSerieInList(Id!!.toInt(), it)
+
+            //Caso o usuário esteja acompanhando a série, a opção de marcar o episódio como
+            //assistido será liberada
+            if(result == true){
+                view.imgVisto.visibility = View.VISIBLE
+                viewModel.getWatchedEpisodesList(Id!!.toInt())
+            }
+        }
+
+        //Verifica se o usuário já assistiu esse episódio
+        viewModel.returnWatchedEpisodesList.observe(viewLifecycleOwner){
+            var result = viewModel.checkIfWatchedEpisode(Id_ep!!.toInt(), it)
+
+            //Controle da cor do indicador
+            if(result == true){
+                view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+                watched = true
+            }else{
+                view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
+                watched = false
+            }
+        }
+
+        view.imgVisto.setOnClickListener{
+            if (watched == true) {
+                viewModel.deleteWatchList(Id_ep!!.toInt(), Id!!.toInt())
+                watched = false
+                view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
+
+                removeHistoricoList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+            }else{
+                viewModel.addWatchList(Id_ep!!.toInt(), Id!!.toInt())
+                watched = true
+                view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+
+                addHistoricoList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
+            }
+        }
+
+        //AcompanhandoCodeFinal---------------------------------------------------------------------
+
         return view
     }
 
@@ -150,16 +194,6 @@ class EpisodioFragment : Fragment() {
                 imgCompart.setImageResource(R.drawable.ic_compartilhar)
                 selcomp = false
             }
-        }
-    }
-
-    fun AlteraIconVisto() {
-        if (selVisto == false) {
-            imgVisto.setImageResource(R.drawable.ic_visto_roxo)
-            selVisto = true
-        } else if (selVisto == true) {
-            imgVisto.setImageResource(R.drawable.ic_visto_branco)
-            selVisto = false
         }
     }
 

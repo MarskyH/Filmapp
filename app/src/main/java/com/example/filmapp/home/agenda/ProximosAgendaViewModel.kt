@@ -12,6 +12,7 @@ import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Services.Service
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -21,8 +22,11 @@ import kotlin.math.log
 
 class ProximosAgendaViewModel(val service: Service) : ViewModel() {
 
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
+
     //Realtime Database
-    var USER_ID = "1" //TEMPORÁRIO
+    var USER_ID = user!!.uid
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
 
@@ -62,7 +66,7 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
         return listResult
     }
 
-    fun getDetailsSerie(serie: ResultTv){
+    fun getDetailsSerie(serie: ResultTv) {
         viewModelScope.launch {
             detaisSerie.value = service.getDetailsSerie(
                 serie.id.toString(),
@@ -77,8 +81,9 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
 
 
             //Formatação da Data de Lançamento
-            if(date.length == 10) {
-                var year = "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
+            if (date.length == 10) {
+                var year =
+                    "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
                 var month = "${date?.get(5)}" + "${date?.get(6)}"
                 var day = "${date?.get(8)}" + "${date?.get(9)}"
 
@@ -87,12 +92,12 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
             }
 
             //Formatação do Título da Série
-            if(serieTitle.length > 13){
+            if (serieTitle.length > 13) {
                 var newTitle = ""
 
-                for (i in 0..12){
+                for (i in 0..12) {
 
-                    if (("${serieTitle?.get(12)}" == " ") && (i == 12)){
+                    if (("${serieTitle?.get(12)}" == " ") && (i == 12)) {
                         break
                     }
 
@@ -100,17 +105,17 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
                 }
 
                 detaisSerie.value!!.formattedName = newTitle + "..."
-            }else{
+            } else {
                 detaisSerie.value!!.formattedName = serieTitle
             }
 
             //Formatação do Título do Episódio
-            if(episodeTitle.length > 11){
+            if (episodeTitle.length > 11) {
                 var newTitle = ""
 
-                for (i in 0..10){
+                for (i in 0..10) {
 
-                    if (("${episodeTitle?.get(12)}" == " ") && (i == 12)){
+                    if (("${episodeTitle?.get(12)}" == " ") && (i == 12)) {
                         break
                     }
 
@@ -118,7 +123,7 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
                 }
 
                 detaisSerie.value!!.next_episode_to_air.formattedNameEpisode = newTitle + "..."
-            }else{
+            } else {
                 detaisSerie.value!!.next_episode_to_air.formattedNameEpisode = episodeTitle
             }
         }
@@ -134,28 +139,35 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
 
-                    if (it.key == USER_ID) {
+                    if (it.key == "users") {
                         it.children.forEach {
-                            if (it.key == "acompanhando") {
+                            if (it.key == USER_ID) {
                                 it.children.forEach {
+                                    if (it.key == "acompanhando") {
+                                        it.children.forEach {
 
-                                    var media = AcompanhandoScope(
-                                        it.child("id").value.toString().toInt(),
-                                        it.child("title").value.toString(),
-                                        it.child("poster_path").value.toString(),
-                                        it.child("number_of_episodes").value.toString().toInt(),
-                                        it.child("number_of_seasons").value.toString().toInt(),
-                                        it.child("lastEpisode").value.toString().toInt(),
-                                        it.child("nextEpisodeTitle").value.toString(),
-                                        it.child("nextEpisodeNumber").value.toString().toInt(),
-                                        it.child("totalEpisodesWatched").value.toString()
-                                            .toInt(),
-                                        it.child("currentSeason").value.toString().toInt(),
-                                        it.child("userProgress").value.toString().toInt(),
-                                        it.child("finished").value.toString().toInt()
-                                    )
+                                            var media = AcompanhandoScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("number_of_episodes").value.toString()
+                                                    .toInt(),
+                                                it.child("number_of_seasons").value.toString()
+                                                    .toInt(),
+                                                it.child("lastEpisode").value.toString().toInt(),
+                                                it.child("nextEpisodeTitle").value.toString(),
+                                                it.child("nextEpisodeNumber").value.toString()
+                                                    .toInt(),
+                                                it.child("totalEpisodesWatched").value.toString()
+                                                    .toInt(),
+                                                it.child("currentSeason").value.toString().toInt(),
+                                                it.child("userProgress").value.toString().toInt(),
+                                                it.child("finished").value.toString().toInt()
+                                            )
 
-                                    acompanhadoList.add(media)
+                                            acompanhadoList.add(media)
+                                        }
+                                    }
                                 }
                             }
                         }

@@ -88,7 +88,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var filme = mediaList.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
-            intent.putExtra("poster","https://image.tmdb.org/t/p/w500" + filme.poster_path)
+            intent.putExtra("poster", filme.poster_path)
             intent.putExtra("movie",true)
             intent.putExtra("id", filme.id)
 

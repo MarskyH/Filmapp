@@ -13,10 +13,9 @@ import com.google.firebase.database.*
 import kotlinx.coroutines.launch
 
 class AcompanhandoViewModel(val service: Service) : ViewModel() {
+
     //Firebase Auth
     val user = FirebaseAuth.getInstance().currentUser
-
-
 
     //Realtime Database
     var USER_ID = user!!.uid

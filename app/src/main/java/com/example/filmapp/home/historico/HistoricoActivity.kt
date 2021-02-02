@@ -97,7 +97,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         var media = mediaList.get(position)
 
         val intent = Intent(this, MediaSelectedActivity::class.java)
-        intent.putExtra("poster", "https://image.tmdb.org/t/p/w500" + media.poster_path)
+        intent.putExtra("poster", media.poster_path)
 
         if (media.type == "Movie")
             intent.putExtra("movie", true)

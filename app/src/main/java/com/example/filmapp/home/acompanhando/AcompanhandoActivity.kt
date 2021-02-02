@@ -108,7 +108,7 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
             var media = mediaList.get(position)
 
             val intent = Intent(this, MediaSelectedActivity::class.java)
-            intent.putExtra("poster", "https://image.tmdb.org/t/p/w500" + media.poster_path)
+            intent.putExtra("poster", media.poster_path)
             intent.putExtra("movie", false)
             intent.putExtra("id", media.id)
 

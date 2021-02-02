@@ -24,8 +24,9 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 
 class MainViewModel(val service: Service) : ViewModel() {
-    val user = FirebaseAuth.getInstance().currentUser
 
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
 
     //Realtime Database
     var USER_ID = user!!.uid
