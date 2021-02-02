@@ -15,14 +15,16 @@ import com.example.filmapp.dataBase.AssistirMaisTardeRepository
 import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
     RecyclerView.Adapter<MelhoresMoviesAdapter.MelhoresListsViewHolder>() {
 
     var mediaList = arrayListOf<ResultMovie>()
-    private var assistirMaisTardeIndicationBoolean = false
-    private var evaluationIndicationBoolean = false
-    private var shareIndicationBoolean = false
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -89,15 +91,13 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         }
 
         holder.shareIndication.setOnClickListener {
-            if(shareIndicationBoolean == false){
-                holder.shareIndication.setImageResource(R.drawable.ic_compartilhar_roxo)
-                shareIndicationBoolean = true
-            }else{
+            holder.shareIndication.setImageResource(R.drawable.ic_compartilhar_roxo)
+            listener.share(position)
+            scope.launch {
+                delay(2000)
                 holder.shareIndication.setImageResource(R.drawable.ic_compartilhar)
-                shareIndicationBoolean = false
             }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -110,6 +110,7 @@ class MelhoresMoviesAdapter(val listener: onMelhoresMovieClickListener) :
         fun removeOfAssistirMaisTardeList(position: Int)
         fun saveInHistorico(position: Int)
         fun removeOfHistorico(position: Int)
+        fun share(position: Int)
     }
 
     inner class MelhoresListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),

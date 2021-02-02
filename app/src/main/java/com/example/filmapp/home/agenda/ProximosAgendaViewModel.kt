@@ -11,8 +11,6 @@ import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Services.Service
-import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

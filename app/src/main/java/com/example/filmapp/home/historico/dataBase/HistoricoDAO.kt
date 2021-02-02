@@ -2,7 +2,6 @@ package com.example.filmapp.home.historico.dataBase
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 
 @Dao
 interface HistoricoDAO {

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,8 +19,6 @@ import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
@@ -140,6 +139,23 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
 
             viewModel.deleteFromAcompanhandoList(media)
             Toast.makeText(context, "Você não está mais acompanhando: ${media.name}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun share(position: Int) {
+        viewModel.returnTopSeriesAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            var media = mediaList.get(position)
+
+            var ShareIntent = Intent().apply {
+                this.action = Intent.ACTION_SEND
+                this.putExtra(
+                    Intent.EXTRA_TEXT,
+                    "${media.name} está em ${position + 1}º na lista de Melhores Séries do Filmapp!"
+                )
+                this.type = "text/plain"
+            }
+            startActivity(ShareIntent)
         }
     }
 }

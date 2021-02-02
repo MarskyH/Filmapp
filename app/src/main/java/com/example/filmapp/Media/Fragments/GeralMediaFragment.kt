@@ -20,8 +20,6 @@ import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
 import com.example.filmapp.dataBase.FilmAppDataBase
-import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
@@ -46,15 +44,11 @@ class GeralMediaFragment() : Fragment() {
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
 
-
-    //---------------------------------------------
     private lateinit var mediaResult: TvDetails
     private lateinit var mediaChecked: TvDetails
     var followingStatusIndication = false
 
-
     private lateinit var viewModelFav: FavoritosViewModel
-    private lateinit var viewModelAcom: AcompanhandoDataBaseViewModel
     private lateinit var viewModelTarde: AssistirMaisTardeViewModel
     private val scope = CoroutineScope(Dispatchers.Main)
     private var selAssistirMaisTarde: Boolean = false
@@ -123,7 +117,6 @@ class GeralMediaFragment() : Fragment() {
     ): View? {
 
         viewModelFav = ViewModelProvider(this).get(FavoritosViewModel::class.java)
-        viewModelAcom = ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
         viewModelTarde = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
 
         if (Type == "Movie") {
@@ -133,17 +126,17 @@ class GeralMediaFragment() : Fragment() {
                 posterBd = it.poster_path.toString()
                 progr = rateFilm * 10
                 media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
-                //checkList(media)
                 updateProgressBar()
                 Toast.makeText(activity, it.title, Toast.LENGTH_SHORT).show()
             }
             viewModelDetails.getMovieDetails(Id!!)
         }
         if (Type == "Tv") {
-            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner){
+            viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 mediaResult = it
                 viewModelDetails.getAcompanhadoList()
             }
+            viewModelDetails.getTvDetails(Id!!)
 
             viewModelDetails.returnAcompanhandoList.observe(viewLifecycleOwner) {
                 mediaChecked = viewModelDetails.checkSerieInList(mediaResult, it)
@@ -155,17 +148,18 @@ class GeralMediaFragment() : Fragment() {
                 progr = rateSerie * 10
                 media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
                 updateProgressBar()
-                Toast.makeText(activity, mediaChecked.name, Toast.LENGTH_SHORT).show()
-
-                    if (mediaChecked.followingStatusIndication == true) {
-                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
-                        followingStatusIndication = true
-                    } else {
-                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                //Toast.makeText(activity, mediaChecked.name, Toast.LENGTH_SHORT).show()
+                if (mediaChecked.followingStatusIndication == true) {
+                    Log.i("MediaCheckedIndication", mediaChecked.followingStatusIndication.toString())
+                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                    followingStatusIndication = true
+                } else if(mediaChecked.followingStatusIndication == false) {
+                    followingStatusIndication  = false
+                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                 }
             }
 
-            viewModelDetails.getTvDetails(Id!!)
+
         }
 
 
@@ -193,18 +187,15 @@ class GeralMediaFragment() : Fragment() {
         }
 
         view.imgAcompanhar.setOnClickListener {
-            if(followingStatusIndication == true){
-                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                    viewModelDetails.deleteFromAcompanhandoList(it)
-                }
-                followingStatusIndication = false
+            if (mediaChecked.followingStatusIndication == true) {
+                viewModelDetails.deleteFromAcompanhandoList(mediaResult)
+                mediaChecked.followingStatusIndication = false
                 imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
-                Toast.makeText(context, "Não está mais acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
-            }else{
-                viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                    viewModelDetails.saveInAcompanhandoList(it)
-                }
-                followingStatusIndication = true
+                Toast.makeText(context, "Não está mais acompanhando: ${Title}", Toast.LENGTH_SHORT)
+                    .show()
+            }else if(mediaChecked.followingStatusIndication == false){
+                viewModelDetails.saveInAcompanhandoList(mediaResult)
+                mediaChecked.followingStatusIndication = true
                 imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
                 Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
             }

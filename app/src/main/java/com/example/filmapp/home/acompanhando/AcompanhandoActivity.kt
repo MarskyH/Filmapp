@@ -1,10 +1,8 @@
 package com.example.filmapp.home.acompanhando
 
-import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,10 +17,7 @@ import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.descubra.DescubraActivity
 import com.example.filmapp.home.HomeActivity
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
-import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import kotlinx.android.synthetic.main.activity_acompanhando.*
-import kotlinx.android.synthetic.main.fragrecycler_novosepisodios.*
 
 class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener {
 

@@ -6,10 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.BaseTv
-import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import kotlinx.coroutines.launch
 import java.math.RoundingMode

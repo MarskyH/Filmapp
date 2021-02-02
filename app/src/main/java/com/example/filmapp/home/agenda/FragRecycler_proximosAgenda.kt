@@ -18,8 +18,6 @@ import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.*
 import kotlinx.android.synthetic.main.fragrecycler_proximosagenda.*
 import kotlinx.android.synthetic.main.fragrecycler_proximosagenda.view.*

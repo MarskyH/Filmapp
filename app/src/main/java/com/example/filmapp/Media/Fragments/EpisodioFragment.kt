@@ -9,15 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
+import com.example.filmapp.Media.Models.EpisodioFragmentViewModel
 import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.R
+import com.example.filmapp.Services.service
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.historico.HistoricoViewModel
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
+import com.example.filmapp.home.melhores.MelhoresSeriesViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_series_episodio.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
@@ -49,6 +54,13 @@ class EpisodioFragment : Fragment() {
     var Logo: String? = null
     var HomePage: String? = null
 
+    val viewModel by viewModels<EpisodioFragmentViewModel> {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return EpisodioFragmentViewModel(service) as T
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

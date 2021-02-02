@@ -3,14 +3,9 @@ package com.example.filmapp.home.historico
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.Services.Service
-import com.example.filmapp.dataBase.AcompanhandoRepository
 import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.dataBase.HistoricoRepository
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

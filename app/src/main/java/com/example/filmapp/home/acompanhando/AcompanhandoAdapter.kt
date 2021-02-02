@@ -7,9 +7,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.squareup.picasso.Picasso
 

@@ -17,7 +17,6 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.HomeActivity
-import com.example.filmapp.home.acompanhando.AcompanhandoDataBaseViewModel
 import com.example.filmapp.home.descubra.DescubraActivity
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import kotlinx.android.synthetic.main.activity_historico.*

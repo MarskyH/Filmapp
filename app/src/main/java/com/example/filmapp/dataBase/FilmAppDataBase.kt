@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.*
 import com.example.filmapp.Media.dataBase.FavoritosDAO
 import com.example.filmapp.Media.dataBase.FavoritosEntity
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoDAO
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.historico.dataBase.DateTypeConverters
@@ -13,14 +11,13 @@ import com.example.filmapp.home.historico.dataBase.HistoricoDAO
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 
 @Database(
-    entities = [AssistirMaisTardeEntity::class, AcompanhandoEntity::class, HistoricoEntity::class, FavoritosEntity::class],
+    entities = [AssistirMaisTardeEntity::class, HistoricoEntity::class, FavoritosEntity::class],
     version = 1,
     exportSchema = false
 )
 abstract class FilmAppDataBase : RoomDatabase() {
 
     abstract fun assistirMaisTardeDao(): AssistirMaisTardeDAO
-    abstract fun acompanhandoDao(): AcompanhandoDAO
     abstract fun historicoDao(): HistoricoDAO
     abstract fun favoritosDAO(): FavoritosDAO
 

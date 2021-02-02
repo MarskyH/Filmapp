@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.API_KEY
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Services.Service
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.google.firebase.database.*
 import kotlinx.coroutines.launch
@@ -30,27 +29,35 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
 
-                    if (it.key == USER_ID) {
+                    if (it.key == "users") {
                         it.children.forEach {
-                            if (it.key == "acompanhando") {
+                            if (it.key == USER_ID) {
                                 it.children.forEach {
+                                    if (it.key == "acompanhando") {
+                                        it.children.forEach {
 
-                                    var media = AcompanhandoScope(
-                                        it.child("id").value.toString().toInt(),
-                                        it.child("title").value.toString(),
-                                        it.child("poster_path").value.toString(),
-                                        it.child("number_of_episodes").value.toString().toInt(),
-                                        it.child("number_of_seasons").value.toString().toInt(),
-                                        it.child("lastEpisode").value.toString().toInt(),
-                                        it.child("nextEpisodeTitle").value.toString(),
-                                        it.child("nextEpisodeNumber").value.toString().toInt(),
-                                        it.child("totalEpisodesWatched").value.toString().toInt(),
-                                        it.child("currentSeason").value.toString().toInt(),
-                                        it.child("userProgress").value.toString().toInt(),
-                                        it.child("finished").value.toString().toInt()
-                                    )
+                                            var media = AcompanhandoScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("number_of_episodes").value.toString()
+                                                    .toInt(),
+                                                it.child("number_of_seasons").value.toString()
+                                                    .toInt(),
+                                                it.child("lastEpisode").value.toString().toInt(),
+                                                it.child("nextEpisodeTitle").value.toString(),
+                                                it.child("nextEpisodeNumber").value.toString()
+                                                    .toInt(),
+                                                it.child("totalEpisodesWatched").value.toString()
+                                                    .toInt(),
+                                                it.child("currentSeason").value.toString().toInt(),
+                                                it.child("userProgress").value.toString().toInt(),
+                                                it.child("finished").value.toString().toInt()
+                                            )
 
-                                    acompanhadoList.add(media)
+                                            acompanhadoList.add(media)
+                                        }
+                                    }
                                 }
                             }
                         }

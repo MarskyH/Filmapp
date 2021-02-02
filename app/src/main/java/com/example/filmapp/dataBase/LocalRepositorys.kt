@@ -3,8 +3,6 @@ package com.example.filmapp.dataBase
 import androidx.lifecycle.LiveData
 import com.example.filmapp.Media.dataBase.FavoritosDAO
 import com.example.filmapp.Media.dataBase.FavoritosEntity
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoDAO
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.historico.dataBase.HistoricoDAO
@@ -37,20 +35,6 @@ class FavoritosRepository(private val favoritosDAO: FavoritosDAO){
 
     suspend fun removeOfFavoritosListTask(media: FavoritosEntity){
         favoritosDAO.removeOfFavoritosList(media)
-    }
-
-}
-
-class AcompanhandoRepository(private val acompanhandoDAO: AcompanhandoDAO){
-
-    val readAllData: LiveData<List<AcompanhandoEntity>> = acompanhandoDAO.getAcompanhandoList()
-
-    suspend fun saveInAcompanhandoListListTask(media: AcompanhandoEntity){
-        acompanhandoDAO.saveInAcompanhandoList(media)
-    }
-
-    suspend fun removeOfAcompanhandoListTask(media: AcompanhandoEntity){
-       acompanhandoDAO.removeOfAcompanhandoList(media)
     }
 
 }

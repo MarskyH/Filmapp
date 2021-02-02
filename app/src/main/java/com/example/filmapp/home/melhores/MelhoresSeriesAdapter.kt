@@ -1,23 +1,30 @@
 package com.example.filmapp.home.melhores
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_series_geral.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
     RecyclerView.Adapter<MelhoresSeriesAdapter.MelhoresSerieListsViewHolder>() {
 
     var mediaList = arrayListOf<ResultTv>()
-    private var assistirMaisTardeIndicationBoolean = false
-    private var evaluationIndicationBoolean = false
-    private var shareIndicationBoolean = false
+    private val scope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -44,19 +51,19 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         Picasso.get().load(url).into(holder.mediaImage)
 
         //Aq verifica se a série já foi add a lista de Assistir Mais Tarde ou não
-        if(currentItem.assistirMaisTardeIndication == true){
+        if (currentItem.assistirMaisTardeIndication == true) {
             holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-        }else{
+        } else {
             holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
         }
 
 
         holder.assistirMaisTardeIndication.setOnClickListener {
-            if(currentItem.assistirMaisTardeIndication == false){
+            if (currentItem.assistirMaisTardeIndication == false) {
                 holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
                 listener.saveInAssistirMaisTardeList(position)
                 currentItem.assistirMaisTardeIndication = true
-            }else{
+            } else {
                 holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
                 listener.removeOfAssistirMaisTardeList(position)
                 currentItem.assistirMaisTardeIndication = false
@@ -64,23 +71,23 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         }
 
         //Aq verifica se a série está sendo acompanhada ou não
-        if(currentItem.followingStatusIndication == true){
-            if(currentItem.finished == true){
+        if (currentItem.followingStatusIndication == true) {
+            if (currentItem.finished == true) {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box_roxo)
-            }else {
+            } else {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando_roxo)
             }
-        }else{
+        } else {
             holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando)
         }
 
 
         holder.followingStatusIndication.setOnClickListener {
-            if(currentItem.followingStatusIndication == false){
+            if (currentItem.followingStatusIndication == false) {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando_roxo)
                 listener.saveInAcompanhandoList(position)
                 currentItem.followingStatusIndication = true
-            }else{
+            } else {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando)
                 listener.removeOfAcompanhandoList(position)
                 currentItem.followingStatusIndication = false
@@ -88,15 +95,13 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         }
 
         holder.shareIndication.setOnClickListener {
-            if(shareIndicationBoolean == false){
-                holder.shareIndication.setImageResource(R.drawable.ic_compartilhar_roxo)
-                shareIndicationBoolean = true
-            }else{
+            holder.shareIndication.setImageResource(R.drawable.ic_compartilhar_roxo)
+            listener.share(position)
+            scope.launch {
+                delay(2000)
                 holder.shareIndication.setImageResource(R.drawable.ic_compartilhar)
-                shareIndicationBoolean = false
             }
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -109,6 +114,7 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         fun removeOfAssistirMaisTardeList(position: Int)
         fun saveInAcompanhandoList(position: Int)
         fun removeOfAcompanhandoList(position: Int)
+        fun share(position: Int)
     }
 
     inner class MelhoresSerieListsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -120,8 +126,10 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
         val mediaEvaluation: TextView = itemView.findViewById(R.id.tv_evaluation_medialist)
         val mediaPosition: TextView = itemView.findViewById(R.id.tv_mediaPosition_medialist)
 
-        val assistirMaisTardeIndication: ImageView = itemView.findViewById(R.id.assistirMaisTardeIndication_medialist)
-        val followingStatusIndication: ImageView = itemView.findViewById(R.id.followingStatusIndication_medialist)
+        val assistirMaisTardeIndication: ImageView =
+            itemView.findViewById(R.id.assistirMaisTardeIndication_medialist)
+        val followingStatusIndication: ImageView =
+            itemView.findViewById(R.id.followingStatusIndication_medialist)
         val shareIndication: ImageView = itemView.findViewById(R.id.shareIndication_medialist)
 
         init {

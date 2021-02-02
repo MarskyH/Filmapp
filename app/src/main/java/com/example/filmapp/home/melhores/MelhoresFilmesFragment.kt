@@ -2,7 +2,6 @@ package com.example.filmapp.home.melhores
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,21 +11,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.acompanhando.dataBase.AcompanhandoEntity
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
-import com.example.filmapp.home.descubra.DescubraMoviesAdapter
 import com.example.filmapp.home.historico.HistoricoViewModel
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
-import kotlinx.android.synthetic.main.activity_acompanhando.*
 import kotlinx.android.synthetic.main.fragment_melhores_filmes.*
 import kotlinx.android.synthetic.main.fragment_melhores_filmes.view.*
 import java.time.LocalDateTime
-import kotlin.properties.Delegates
 
 class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovieClickListener {
 
@@ -150,6 +144,23 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var item = HistoricoEntity(media.id, media.title, media.poster_path, "Movie")
             viewModelHistorico.removeItem(item)
             Toast.makeText(context, "O filme ${media.title} foi removido do Histórico", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun share(position: Int) {
+        viewModel.returnTopMoviesAPI.observe(viewLifecycleOwner){
+            var mediaList = it.results
+            var media = mediaList.get(position)
+
+            var ShareIntent = Intent().apply {
+                this.action = Intent.ACTION_SEND
+                this.putExtra(
+                    Intent.EXTRA_TEXT,
+                    "${media.title} está em ${position + 1}º na lista de Melhores Filmes do Filmapp!"
+                )
+                this.type = "text/plain"
+            }
+            startActivity(ShareIntent)
         }
     }
 
