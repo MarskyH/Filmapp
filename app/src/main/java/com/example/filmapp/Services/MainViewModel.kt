@@ -206,23 +206,23 @@ class MainViewModel(val service: Service) : ViewModel() {
 
 //--------------------------------------------------------------------------------------------------
 
-    fun getPopularMovies() {
+    fun getPopularMovies(page: Int) {
         viewModelScope.launch {
             listResMovies.value = service.getPopularMovies(
                 API_KEY,
                 LANGUAGE,
-                1
+                page
             )
 
         }
     }
 
-    fun getPopularSeries() {
+    fun getPopularSeries(page: Int) {
         viewModelScope.launch {
             listResSeries.value = service.getPopularSeries(
                 API_KEY,
                 LANGUAGE,
-                1
+                page
             )
 
         }

@@ -2,6 +2,7 @@ package com.example.filmapp.Media.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -48,10 +50,10 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     lateinit var ListMediaSerie: ArrayList<ResultTv>
     var ListMediaMovieFav = ArrayList<FavoritoScope>()
     var ListMediaSerieFav = ArrayList<FavoritoScope>()
+    var page = 1
 
 
     var Movie: Boolean? = null
-
     var config = Config()
 
 
@@ -90,7 +92,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
 
         viewModel.getFavoritoist()
-
         if (Movie == true) {
             viewModel.config.observe(viewLifecycleOwner) {
                 config = it
@@ -104,8 +105,8 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 view.rv_pop.adapter = MovieAdapter
                 view.rv_pop.setHasFixedSize(true)
             }
-            viewModel.getPopularMovies()
-
+            viewModel.getPopularMovies(page)
+            setScrollViewFilmes(view.rv_pop)
             viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
                 it.forEach {
                     if (it.type == "Movie") {
@@ -120,9 +121,11 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 view.rv_fav.adapter = MovieFavAdapter
                 view.rv_fav.setHasFixedSize(true)
             }
+
         } else {
             viewModel.config.observe(viewLifecycleOwner) {
                 config = it
+                viewModel.getPopularSeries(page)
             }
             viewModel.getConfig()
             viewModel.listResSeries.observe(viewLifecycleOwner) {
@@ -133,7 +136,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 view.rv_pop.adapter = SerieAdapter
                 view.rv_pop.setHasFixedSize(true)
             }
-            viewModel.getPopularSeries()
+            setScrollViewSeries(view.rv_pop)
             viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
                 it.forEach {
                     if (it.type == "Tv") {
@@ -239,21 +242,43 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 //        }
 //    }
 
-//    fun setScroller() {
-//        rv_pop.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//                if (dy > 0) {
-//                    val litem = lManager.itemCount
-//                    val vItem = lManager.findFirstCompletelyVisibleItemPosition()
-//                    val itens = home.itemCount
-//                    if (litem + vItem >= itens) {
-//                        viewModel.getAllResults(page + 1)
-//                        page = page + 1
-//                        Log.i("PAGE", page.toString())
-//                    }
-//                }
-//            }
-//        })
-//    }
+    private fun setScrollViewFilmes(rv_main: RecyclerView) {
+        rv_main.run {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    //somente atualiza quando parar de scrollar
+                    if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        val visibleItem = lManager?.childCount
+                        val unloadedItem = lManager.findFirstVisibleItemPosition()
+                        val total = adapter?.itemCount
+                        if ((visibleItem + unloadedItem) == total) {
+                            page = page + 1
+                            viewModel.getPopularMovies(page)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    private fun setScrollViewSeries(rv_pop: RecyclerView) {
+        rv_pop.run {
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    //somente atualiza quando parar de scrollar
+                    if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        val visibleItem = lManager?.childCount
+                        val unloadedItem = lManager.findFirstVisibleItemPosition()
+                        if ((visibleItem + unloadedItem) == 20) {
+                            page = page + 1
+                            viewModel.getPopularSeries(page)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
 }
