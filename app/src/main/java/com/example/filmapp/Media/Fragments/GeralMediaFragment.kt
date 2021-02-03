@@ -176,6 +176,8 @@ class GeralMediaFragment() : Fragment() {
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
 
+        Log.i("Sinopse", Sinopse.toString())
+
         if (Sinopse != "" && Sinopse != null) {
             view.tv_sinopse.text = Sinopse
         } else {

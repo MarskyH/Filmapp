@@ -63,13 +63,20 @@ open class SerieTemporadaActivity : AppCompatActivity() {
 
 
     fun setUpTabs() {
+        var temp = ""
         val serie = intent.getSerializableExtra("serie") as? TvDetails
         val season = intent.getSerializableExtra("season") as? Season
         val poster = intent.getSerializableExtra("poster_season") as? String
+        Log.i("sinopse season", season!!.overview)
         val Temporada = TemporadaFragment.newInstance(season, poster)
         val Episodios = EpisodiosFragment.newInstance(serie, season)
         val adapter = ViewPagerMedia(supportFragmentManager)
-        adapter.addFragment(Temporada, "${serie?.name} - Temporada ${season?.season_number}")
+        if(season?.season_number == 0){
+             temp = "Especial"
+        }else{
+            temp = season?.season_number.toString()
+        }
+        adapter.addFragment(Temporada, "${serie?.name} - Temporada ${temp}")
         adapter.addFragment(Episodios, "Episódios")
         viewPagerSeriesTemporada.adapter = adapter
         tabsSeriesTemporada.setupWithViewPager(viewPagerSeriesTemporada)
