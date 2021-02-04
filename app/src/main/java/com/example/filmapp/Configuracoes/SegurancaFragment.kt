@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import com.example.filmapp.R
 import com.facebook.AccessToken
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_seguranca.*
 import kotlinx.android.synthetic.main.fragment_seguranca.view.*
@@ -38,7 +36,7 @@ class SegurancaFragment : Fragment() {
             view.btnAtualizar.isInvisible
             novaSenha.isInvisible
             confimarSenha.isInvisible
-            viewNovaSenha.isInvisible
+            viewNovaSenha.visibility = View.VISIBLE
             viewConfirmarSenha.isInvisible
         }
 
