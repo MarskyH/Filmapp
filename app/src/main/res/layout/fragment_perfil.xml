@@ -27,7 +27,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imagemPer"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
@@ -41,22 +41,13 @@
                 app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/ic_user_photo" />
 
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="53dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="104dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_acompanhar_ou_add" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <TextView
+            android:id="@+id/viewNomeCompleto"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"
@@ -75,6 +66,7 @@
             />
 
         <TextView
+            android:id="@+id/viewNomeUsuario"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"
@@ -98,9 +90,9 @@
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Celular"/>
+            android:text="E-mail"/>
         <TextView
-            android:id="@+id/telefone"
+            android:id="@+id/emailVis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
