@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.dataBase.FilmAppDataBase
+import com.google.firebase.FirebaseApp
+import com.google.firebase.database.FirebaseDatabase
 
 
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +20,6 @@ class SplashActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_splash)
         splashCoroutine()
-
     }
 
     fun splashCoroutine(){

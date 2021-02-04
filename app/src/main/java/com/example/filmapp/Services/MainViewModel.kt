@@ -126,8 +126,10 @@ class MainViewModel(val service: Service) : ViewModel() {
 
             listDataBase?.forEach {
 
-                if (media.id == it.id)
+                if (media.id == it.id) {
                     media.followingStatusIndication = true
+                    media.finished = it.finished
+                }
             }
 
         return media

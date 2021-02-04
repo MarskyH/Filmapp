@@ -18,6 +18,7 @@ import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.*
 import kotlinx.android.synthetic.main.fragrecycler_proximosagenda.*
 import kotlinx.android.synthetic.main.fragrecycler_proximosagenda.view.*
@@ -46,9 +47,6 @@ class FragRecycler_proximosAgenda : Fragment(), ProximosAdapter.onProximosItemCl
         savedInstanceState: Bundle?
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_proximosagenda, container, false)
-
-//        viewModelAcompanhando =
-//            ViewModelProvider(this).get(AcompanhandoDataBaseViewModel::class.java)
 
         //Iniciando o ReciclerView Próximos da AgendaPage
         mediaListLayoutManager = LinearLayoutManager(context)

@@ -72,7 +72,7 @@ class MelhoresSeriesAdapter(val listener: onMelhoresSerieClickListener) :
 
         //Aq verifica se a série está sendo acompanhada ou não
         if (currentItem.followingStatusIndication == true) {
-            if (currentItem.finished == true) {
+            if (currentItem.finished == 1) {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_check_box_roxo)
             } else {
                 holder.followingStatusIndication.setImageResource(R.drawable.ic_acompanhando_roxo)

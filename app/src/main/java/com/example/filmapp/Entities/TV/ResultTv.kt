@@ -21,6 +21,6 @@ data class ResultTv(
     var numberStars: Double,
     var assistirMaisTardeIndication: Boolean = false,
     var followingStatusIndication: Boolean = false,
-    var finished: Boolean = false,
+    var finished: Int = 0,
     var favoritosIndication: Boolean = false
 ): Serializable

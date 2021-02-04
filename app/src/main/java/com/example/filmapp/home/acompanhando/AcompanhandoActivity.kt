@@ -1,13 +1,13 @@
 package com.example.filmapp.home.acompanhando
 
+import android.R.attr
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,13 +16,12 @@ import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.descubra.DescubraActivity
 import com.example.filmapp.home.HomeActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.example.filmapp.home.descubra.DescubraActivity
 import kotlinx.android.synthetic.main.activity_acompanhando.*
 
+
 class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener {
-    val user = FirebaseAuth.getInstance().currentUser
     private lateinit var mediaListAdapter: AcompanhandoAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
 
@@ -38,7 +37,6 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_acompanhando)
-        Log.i("USER ID", user!!.uid)
         //Iniciando o ReciclerView Acompanhando
         mediaListLayoutManager = LinearLayoutManager(this)
         mediaListAdapter = AcompanhandoAdapter(this)
@@ -47,21 +45,29 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         rv_acompanhandoList.isHorizontalFadingEdgeEnabled
         rv_acompanhandoList.setHasFixedSize(true)
 
+        setData()
+
+        setSupportActionBar(toolbarAcompanhandoPage)
+
+        toolbarAcompanhandoPage.setNavigationOnClickListener {
+            callHome()
+        }
+    }
+
+    fun setData(){
         viewModel.getAcompanhadoList()
 
         viewModel.returnAcompanhandoList.observe(this){
+            viewModel.getWatchedEpisodesList(it)
+        }
+
+        viewModel.returnWithWatchedEpisodesList.observe(this){
             viewModel.getCurrentStatusSeries(it)
         }
 
         viewModel.listUpdated.observe(this){
             pb_acompanhando.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(it)
-        }
-
-        setSupportActionBar(toolbarAcompanhandoPage)
-
-        toolbarAcompanhandoPage.setNavigationOnClickListener {
-            callHome()
         }
     }
 
@@ -86,6 +92,17 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//            if (resultCode === RESULT_OK) {
+//
+//            }
+//            if (resultCode === RESULT_CANCELED) {
+//
+//            }
+//    }
 
     fun callHome(){
         val intent = Intent(this, HomeActivity::class.java)
@@ -113,6 +130,7 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
             intent.putExtra("id", media.id)
 
             startActivity(intent)
+            this.finish()
         }
     }
 }

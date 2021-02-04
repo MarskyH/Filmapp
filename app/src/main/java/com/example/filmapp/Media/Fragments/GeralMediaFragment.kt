@@ -41,10 +41,11 @@ import kotlinx.coroutines.launch
 import java.net.IDN
 
 class GeralMediaFragment() : Fragment() {
+
     //Realtime Database
-    var USER_ID = "1" //TEMPORÁRIO
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
+
     private var mediaChecked: TvDetails = TvDetails()
     private var mediaResult: TvDetails = TvDetails()
     private var mediaFavoritScope: FavoritoScope = FavoritoScope()
@@ -157,7 +158,11 @@ class GeralMediaFragment() : Fragment() {
                 updateProgressBar()
 
                 if (mediaChecked.followingStatusIndication == true) {
-                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                    if (mediaChecked.finished == 1) {
+                        imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
+                    } else {
+                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                    }
                 } else if(mediaChecked.followingStatusIndication == false) {
                     imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                 }

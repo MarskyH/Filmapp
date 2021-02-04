@@ -135,7 +135,7 @@ class ProximosAgendaViewModel(val service: Service) : ViewModel() {
     fun getAcompanhadoList() {
         var acompanhadoList = arrayListOf<AcompanhandoScope>()
 
-        reference.addValueEventListener(object : ValueEventListener {
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
 

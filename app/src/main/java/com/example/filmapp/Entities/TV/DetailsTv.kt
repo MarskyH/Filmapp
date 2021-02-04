@@ -36,7 +36,8 @@ data class TvDetails(
     val type: String = "",
     val vote_average: Double = 0.0,
     val vote_count: Int = 0,
-    var followingStatusIndication: Boolean = false
+    var followingStatusIndication: Boolean = false,
+    var finished: Int = 0
 ):Serializable {
 }
 

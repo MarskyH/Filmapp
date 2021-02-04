@@ -1,5 +1,7 @@
 package com.example.filmapp.home.acompanhando.realtimeDatabase
 
+import com.example.filmapp.Media.dataBase.WatchedEpisodeScope
+
 data class AcompanhandoScope(
     var id: Int,
     var title: String,
@@ -12,7 +14,8 @@ data class AcompanhandoScope(
     var totalEpisodesWatched: Int = 0,
     var currentSeason: Int = 1,
     var userProgress: Int = 0,
-    var finished: Int = 0
+    var finished: Int = 0,
+    var watchedEpisodes: ArrayList<WatchedEpisodeScope> = arrayListOf()
 )
 
 //Em relação ao parâmetro finished:
