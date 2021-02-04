@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
+
 val scope = CoroutineScope(Dispatchers.Main)
 
 class MainViewModel(val service: Service) : ViewModel() {
@@ -37,10 +38,11 @@ class MainViewModel(val service: Service) : ViewModel() {
     //Realtime Database
     var USER_ID = user!!.uid
 
-//    var USER_ID = "nUkCiBQ5TsSYL33I9bQka2BT0GE3"
-    private var cloudDatabase = FirebaseDatabase.getInstance()
-    private var reference = cloudDatabase.reference
+    //    var USER_ID = "nUkCiBQ5TsSYL33I9bQka2BT0GE3"
 
+    var cloudDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
+
+    var reference = cloudDatabase.reference
     var listResMovies = MutableLiveData<BaseMovie>()
     var listResSeries = MutableLiveData<BaseTv>()
     var listDetailsSeries = MutableLiveData<TvDetails>()
@@ -49,7 +51,14 @@ class MainViewModel(val service: Service) : ViewModel() {
     var returnAcompanhandoList = MutableLiveData<ArrayList<AcompanhandoScope>>()
     var returnFavoritoList = MutableLiveData<ArrayList<FavoritoScope>>()
 
-//Realtime Database---------------------------------------------------------------------------------
+    //Realtime Database---------------------------------------------------------------------------------
+    init {
+        if(cloudDatabase == null){
+            cloudDatabase = FirebaseDatabase.getInstance()
+        }
+        Log.i("OFFLINE", "ATIVADO")
+
+    }
 
     fun saveInAcompanhandoList(media: TvDetails) {
         var serie =
@@ -64,7 +73,7 @@ class MainViewModel(val service: Service) : ViewModel() {
     }
 
 
-    fun deleteFromAcompanhandoList(media: TvDetails){
+    fun deleteFromAcompanhandoList(media: TvDetails) {
         FirebaseDatabase.getInstance().reference
             .child("users")
             .child(USER_ID)
@@ -133,19 +142,25 @@ class MainViewModel(val service: Service) : ViewModel() {
         listDataBase: ArrayList<AcompanhandoScope>
     ): TvDetails {
 
-            listDataBase?.forEach {
+        listDataBase?.forEach {
 
-                if (media.id == it.id) {
-                    media.followingStatusIndication = true
-                    media.finished = it.finished
-                }
+            if (media.id == it.id) {
+                media.followingStatusIndication = true
+                media.finished = it.finished
             }
+        }
 
         return media
     }
 
     fun saveInFavoritoList(media: FavoritoScope) {
-        var serie = FavoritoScope(id = media.id, title = media.title, poster_path = media.poster_path, type =  media.type)
+        cloudDatabase.getReference().child("users/${USER_ID}/favoritos").keepSynced(true)
+        var serie = FavoritoScope(
+            id = media.id,
+            title = media.title,
+            poster_path = media.poster_path,
+            type = media.type
+        )
         FirebaseDatabase.getInstance().reference
             .child("users")
             .child(USER_ID)
@@ -154,7 +169,7 @@ class MainViewModel(val service: Service) : ViewModel() {
             .setValue(serie)
     }
 
-    fun deleteFromFavoritoList(media: FavoritoScope){
+    fun deleteFromFavoritoList(media: FavoritoScope) {
         FirebaseDatabase.getInstance().reference
             .child("users")
             .child(USER_ID)
@@ -164,13 +179,14 @@ class MainViewModel(val service: Service) : ViewModel() {
     }
 
     fun getFavoritoist() {
+        cloudDatabase.getReference().child("users/${USER_ID}/favoritos").keepSynced(true)
         var favoritoList = arrayListOf<FavoritoScope>()
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
 
-                    if(it.key == "users") {
+                    if (it.key == "users") {
                         it.children.forEach {
                             if (it.key == USER_ID) {
                                 it.children.forEach {
@@ -196,7 +212,9 @@ class MainViewModel(val service: Service) : ViewModel() {
                 returnFavoritoList.value = favoritoList
                 favoritoList = arrayListOf()
 
-            }override fun onCancelled(error: DatabaseError) {
+            }
+
+            override fun onCancelled(error: DatabaseError) {
                 Log.i("Return DB Error:", error.message + " in Novidades")
             }
         })

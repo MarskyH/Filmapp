@@ -8,6 +8,7 @@ import com.example.filmapp.home.HomeActivity
 import com.example.filmapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var fStore: FirebaseFirestore
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

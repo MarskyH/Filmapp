@@ -1,12 +1,15 @@
 package com.example.filmapp.Media.Adapters
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
 import com.example.filmapp.Media.UI.MediaSelectedActivity
@@ -33,14 +36,6 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
         val currentItem: FavoritoScope = mediaList[position]
         holder.mediaName.text = currentItem.title
         Picasso.get().load(URL_IMAGE + currentItem.poster_path).into(holder.mediaImage)
-
-        holder.mediaImage.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-                intent.putExtra("poster", currentItem.poster_path)
-                intent.putExtra("movie", true)
-                intent.putExtra("id", currentItem.id)
-                holder.itemView.context.startActivity(intent)
-            }
     }
 
     override fun getItemCount(): Int {
@@ -48,7 +43,7 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
     }
 
     interface FavoritosItemClickListener {
-        fun favoritosItemClick(position: Int)
+        fun favoritosItemClickMovie(position: Int)
         fun favoritosLongClick(position: Int)
     }
 
@@ -65,7 +60,7 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (RecyclerView.NO_POSITION != position) {
-                listener.favoritosItemClick(position)
+                listener.favoritosItemClickMovie(position)
             }
         }
         override fun onLongClick(v: View?): Boolean {
@@ -82,5 +77,7 @@ class FavoritosAdapterMovie(val listener: FavoritosItemClickListener) :
         mediaList = list
         notifyDataSetChanged()
     }
+
+
 
 }
