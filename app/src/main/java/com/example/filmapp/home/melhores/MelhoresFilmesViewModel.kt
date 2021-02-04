@@ -1,20 +1,119 @@
 package com.example.filmapp.home.melhores
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
+import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
+import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
+import java.time.LocalDateTime
 
 class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
 
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
+
+    //Realtime Database
+    var USER_ID = user!!.uid
+    var cloudDatabase = FirebaseDatabase.getInstance()
+    var reference = cloudDatabase.reference
+
     var returnAPI = MutableLiveData<BaseMovie>()
     var returnTopMoviesAPI = MutableLiveData<BaseMovie>()
+    var returnHistoricoList = MutableLiveData<ArrayList<HistoricoScope>>()
+
+    //Realtime DatabaseInício-----------------------------------------------------------------------
+
+    //Esta function retorna o último histórico salvo no Realtime Database
+    fun getHistoricoInCloud() {
+        var historicoList = arrayListOf<HistoricoScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "historico") {
+                                        it.children.forEach {
+
+                                            var media = HistoricoScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                                it.child("seasonNumber").value.toString().toInt(),
+                                                it.child("episodeNumber").value.toString().toInt(),
+                                                it.child("formattedTitle").value.toString(),
+                                                it.child("episodeTitle").value.toString(),
+                                                it.child("formattedEpisodeTitle").value.toString(),
+                                                it.child("date").value.toString()
+                                            )
+
+                                            historicoList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnHistoricoList.value = historicoList
+                historicoList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in HistóricoPage")
+            }
+        })
+    }
+
+    fun saveInHistoricoList(media: ResultMovie){
+
+        //Verificando se o usuário possui um dipositivo com a versão do android compatível
+        var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime.now().toString()
+        } else {
+            "404"
+        }
+
+        var movie = HistoricoScope(media.id, media.title, media.poster_path, "Movie", date = currentDateTime)
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .child(media.id.toString())
+            .setValue(movie)
+    }
+
+    fun deleteFromHistoricoList(media: ResultMovie) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .child(media.id.toString())
+            .removeValue()
+    }
+
+    //Realtime DatabaseFim--------------------------------------------------------------------------
 
     fun getTopMoviesList(){
         viewModelScope.launch {
@@ -121,7 +220,7 @@ class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
 
     fun checkMovieInHistorico(
         listAPI: ArrayList<ResultMovie>,
-        listDataBase: List<HistoricoEntity>
+        listDataBase: ArrayList<HistoricoScope>
     ): ArrayList<ResultMovie> {
         var listResult = arrayListOf<ResultMovie>()
 

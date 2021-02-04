@@ -1,39 +1,129 @@
 package com.example.filmapp.home.historico
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.dataBase.HistoricoRepository
+import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
+import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
 
-    val mediaList: LiveData<List<HistoricoEntity>>
-    private val repository: HistoricoRepository
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
 
-    init {
-        val historicoDAO = FilmAppDataBase.getDataBase(app).historicoDao()
-        repository = HistoricoRepository(historicoDAO)
-        mediaList = repository.readAllData
+    //Realtime Database
+    var USER_ID = user!!.uid
+    var cloudDatabase = FirebaseDatabase.getInstance()
+    var reference = cloudDatabase.reference
+
+    var returnHistoricoList = MutableLiveData<ArrayList<HistoricoScope>>()
+
+//ROOM DATABASE-------------------------------------------------------------------------------------
+//    val mediaList: LiveData<List<HistoricoEntity>>
+//    private val repository: HistoricoRepository
+//
+//    init {
+//        val historicoDAO = FilmAppDataBase.getDataBase(app).historicoDao()
+//        repository = HistoricoRepository(historicoDAO)
+//        mediaList = repository.readAllData
+//    }
+//
+//    fun saveNewItem(media: HistoricoEntity) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.saveInHistoricoTask(media)
+//        }
+//    }
+//
+//    fun removeItem(media: HistoricoEntity) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repository.removeOfHistoricoTask(media)
+//        }
+//    }
+
+//Realtime DatabaseInício---------------------------------------------------------------------------
+
+    //Esta function retorna a última lista salva no Realtime Database
+    fun getHistoricoInCloud() {
+        var historicoList = arrayListOf<HistoricoScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "historico") {
+                                        it.children.forEach {
+
+                                            var media = HistoricoScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                                it.child("seasonNumber").value.toString().toInt(),
+                                                it.child("episodeNumber").value.toString().toInt(),
+                                                it.child("formattedTitle").value.toString(),
+                                                it.child("episodeTitle").value.toString(),
+                                                it.child("formattedEpisodeTitle").value.toString(),
+                                                it.child("date").value.toString()
+                                            )
+
+                                            historicoList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnHistoricoList.value = historicoList
+                historicoList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in HistóricoPage")
+            }
+        })
     }
 
-    fun saveNewItem(media: HistoricoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveInHistoricoTask(media)
-        }
+    fun deleteItemFromHistorico(media: HistoricoScope) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .child(media.id.toString())
+            .removeValue()
     }
 
-    fun removeItem(media: HistoricoEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeOfHistoricoTask(media)
-        }
+    fun deleteAllHistorico() {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .removeValue()
     }
 
-    fun formattingItem(list: List<HistoricoEntity>): List<HistoricoEntity>{
+//Realtime DatabaseFim------------------------------------------------------------------------------
+
+    fun formattingItem(list: ArrayList<HistoricoScope>): ArrayList<HistoricoScope>{
 
         list.forEach {
             var title = it.title
@@ -77,7 +167,7 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
             }
 
             //Formatação da Data de Visualização
-            if(date.length >= 2) {
+            if(date.length >= 5) {
                 var year = "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
                 var month = "${date?.get(5)}" + "${date?.get(6)}"
                 var day = "${date?.get(8)}" + "${date?.get(9)}"

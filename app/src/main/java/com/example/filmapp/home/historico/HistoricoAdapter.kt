@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
+import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.squareup.picasso.Picasso
 
 class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
     RecyclerView.Adapter<HistoricoAdapter.HistoricoViewHolder>() {
 
-    var mediaList = listOf<HistoricoEntity>()
+    var mediaList = arrayListOf<HistoricoScope>()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,7 +31,7 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
         holder: HistoricoViewHolder,
         position: Int
     ) {
-        val currentItem: HistoricoEntity = mediaList[position]
+        val currentItem: HistoricoScope = mediaList[position]
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
@@ -51,6 +52,7 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
         }else{
             holder.serieEpisodeOurType.setText("Filme")
             holder.serieSeason.setText(" ")
+            holder.mediaPreviewDate.visibility = View.INVISIBLE
         }
 
         holder.mediaPreviewDate.setText(currentItem.date)
@@ -85,7 +87,7 @@ class HistoricoAdapter(val listener: onHistoricoItemClickListener) :
         }
     }
 
-    fun addList(list: List<HistoricoEntity>) {
+    fun addList(list: ArrayList<HistoricoScope>) {
         mediaList = list
         notifyDataSetChanged()
     }

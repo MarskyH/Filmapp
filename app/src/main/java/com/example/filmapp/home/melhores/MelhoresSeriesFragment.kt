@@ -76,7 +76,7 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
         //Recebendo as Séries que o usuário está Acompanhando e compara com as séries retornadas
         viewModel.returnAcompanhandoList.observe(viewLifecycleOwner){
             var mediaList = viewModelAssistirMaisTarde.checkTVInList(topSeriesList, listAssistirMaisTardeDataBase)
-            mediaList = viewModel.checkSerieInList(mediaList, it)
+            mediaList = viewModel.checkSerieInAcompanhandoList(mediaList, it)
             pb_melhoresSeries.setVisibility(View.INVISIBLE)
             melhoresSeriesAdapter.addList(mediaList)
         }

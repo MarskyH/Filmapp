@@ -7,31 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.filmapp.Entities.APIConfig.URL_IMAGE
-import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Models.EpisodioFragmentViewModel
-import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.historico.HistoricoViewModel
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
-import com.example.filmapp.home.melhores.MelhoresSeriesViewModel
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_series_episodio.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
-import kotlinx.android.synthetic.main.fragment_series_geral.imgFav
-import kotlinx.android.synthetic.main.fragment_series_geral.imgTarde
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgCompart
-import kotlinx.android.synthetic.main.fragment_series_geral.view.imgFav
-import kotlinx.android.synthetic.main.fragment_series_geral.view.imgTarde
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -55,6 +44,9 @@ class EpisodioFragment : Fragment() {
     var Logo: String? = null
     var HomePage: String? = null
     var Id_ep: String? = null
+    var NumberEp: Int? = null
+    var NumberSeason: Int? = null
+    var EpisodeTitle: String? = null
 
     val viewModel by viewModels<EpisodioFragmentViewModel> {
         object : ViewModelProvider.Factory {
@@ -69,13 +61,16 @@ class EpisodioFragment : Fragment() {
         if (arguments != null) {
             Poster = arguments?.getString(poster)
             Sinopse = arguments?.getString(sinopse)
-            Id = arguments?.getString(idMedia) //ESSA ARMAZENA O ID DA SÉRIE
+            Id = arguments?.getString(idMedia) //= id da Série
             Type = arguments?.getString(type)
             Img = arguments?.getString(img)
             Logo = arguments?.getString(logo)
             HomePage = arguments?.getString(homePage)
             Title = arguments?.getString(title)
-            Id_ep = arguments?.getString(id_ep) //ESSA ARMAZENA O ID DO EPISÓDIO
+            Id_ep = arguments?.getString(id_ep) //= id do Episódio
+            NumberEp = arguments?.getInt(numberEp) //= número do episódio
+            NumberSeason = arguments?.getInt(numberSeason) //= número da temporada
+            EpisodeTitle = arguments?.getString(episodeTitle) //= título do episódio
         }
     }
 
@@ -89,7 +84,10 @@ class EpisodioFragment : Fragment() {
         private val type = "type"
         private val title = "title"
         private val id_ep = "id_ep"
-        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?, Img: String?, Logo: String?, HomePage:String, Title: String?, Id_ep: String? ): EpisodioFragment {
+        private val numberEp = "number_episode"
+        private val numberSeason = "number_season"
+        private val episodeTitle = "episodeTitle"
+        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?, Img: String?, Logo: String?, HomePage:String, Title: String?, Id_ep: String?, NumberEp: Int?, NumberSeason: Int?, EpisodeTitle: String?): EpisodioFragment {
             val fragment = EpisodioFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
@@ -101,6 +99,9 @@ class EpisodioFragment : Fragment() {
             args.putString(homePage, HomePage)
             args.putString(title, Title)
             args.putString(id_ep, Id_ep)
+            args.putInt(numberEp, NumberEp!!)
+            args.putInt(numberSeason, NumberSeason!!)
+            args.putString(episodeTitle, EpisodeTitle)
             fragment.arguments = args
             return fragment
         }
@@ -215,11 +216,11 @@ class EpisodioFragment : Fragment() {
     }
 
     fun addHistoricoList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelVisto.saveNewItem(HistoricoEntity(id, title, poster_path, type))
+//        viewModelVisto.saveNewItem(HistoricoEntity(id, title, poster_path, type)) Histórico
     }
 
     fun removeHistoricoList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelVisto.removeItem(HistoricoEntity(id, title, poster_path, type))
+//        viewModelVisto.removeItem(HistoricoEntity(id, title, poster_path, type)) Histórico
     }
 
 }

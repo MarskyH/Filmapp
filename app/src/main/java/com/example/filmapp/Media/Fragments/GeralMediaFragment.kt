@@ -45,9 +45,11 @@ class GeralMediaFragment() : Fragment() {
     //Realtime Database
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
+    private var serieChecked: TvDetails = TvDetails()
+    private var serieResult: TvDetails = TvDetails()
+    private var movieChecked: MovieDetails = MovieDetails()
+    private var movieResult: MovieDetails = MovieDetails()
 
-    private var mediaChecked: TvDetails = TvDetails()
-    private var mediaResult: TvDetails = TvDetails()
     private var mediaFavoritScope: FavoritoScope = FavoritoScope()
     private lateinit var mediaCheckedFavorito: FavoritoScope
     private lateinit var viewModelTarde: AssistirMaisTardeViewModel
@@ -119,17 +121,28 @@ class GeralMediaFragment() : Fragment() {
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
                 mediaFavoritScope = FavoritoScope(it.id, it.title, it.poster_path.toString(), Type.toString())
-                Log.i("mediaFavoritoScope Film", mediaFavoritScope.toString())
-                Title = it.title
-                rateFilm = it.vote_average
-                posterBd = it.poster_path.toString()
-                progr = rateFilm * 10
-                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
-                updateProgressBar()
-                Toast.makeText(activity, it.title, Toast.LENGTH_SHORT).show()
+//                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
+                movieResult = it
                 viewModelDetails.getFavoritoist()
+                viewModelDetails.getHistoricoInCloud()
             }
             viewModelDetails.getMovieDetails(Id!!)
+
+            viewModelDetails.returnHistoricoList.observe(viewLifecycleOwner) {
+                movieChecked = viewModelDetails.checkMovieInHistorico(movieResult, it)
+                Title = movieChecked.title
+                posterBd = movieChecked.poster_path.toString()
+                rateFilm = movieChecked.vote_average
+                progr = rateFilm * 10
+                updateProgressBar()
+
+                if (movieChecked.watched == true) {
+                        imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
+                } else if(movieChecked.watched == false) {
+                    imgAcompanhar.setImageResource(R.drawable.ic_check_box)
+                }
+            }
+
             viewModelDetails.returnFavoritoList.observe(viewLifecycleOwner){
                 mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
                 if (mediaCheckedFavorito.favoritoIndication == true){
@@ -142,28 +155,28 @@ class GeralMediaFragment() : Fragment() {
         if (Type == "Tv") {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 mediaFavoritScope = FavoritoScope(it.id, it.name, it.poster_path, Type.toString())
-                mediaResult = it
+                serieResult = it
                 viewModelDetails.getAcompanhadoList()
                 viewModelDetails.getFavoritoist()
             }
             viewModelDetails.getTvDetails(Id!!)
 
             viewModelDetails.returnAcompanhandoList.observe(viewLifecycleOwner) {
-                mediaChecked = viewModelDetails.checkSerieInList(mediaResult, it)
-                Title = mediaChecked.name
-                posterBd = mediaChecked.poster_path
-                numberEP = mediaChecked.number_of_episodes
-                rateSerie = mediaChecked.vote_average
+                serieChecked = viewModelDetails.checkSerieInAcompanhandoList(serieResult, it)
+                Title = serieChecked.name
+                posterBd = serieChecked.poster_path
+                numberEP = serieChecked.number_of_episodes
+                rateSerie = serieChecked.vote_average
                 progr = rateSerie * 10
                 updateProgressBar()
 
-                if (mediaChecked.followingStatusIndication == true) {
-                    if (mediaChecked.finished == 1) {
+                if (serieChecked.followingStatusIndication == true) {
+                    if (serieChecked.finished == 1) {
                         imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
                     } else {
                         imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
                     }
-                } else if(mediaChecked.followingStatusIndication == false) {
+                } else if(serieChecked.followingStatusIndication == false) {
                     imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                 }
             }
@@ -205,16 +218,38 @@ class GeralMediaFragment() : Fragment() {
         }
 
         view.imgAcompanhar.setOnClickListener {
-            if (mediaChecked.followingStatusIndication == true) {
-                viewModelDetails.deleteFromAcompanhandoList(mediaResult)
-                mediaChecked.followingStatusIndication = false
-                imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
-                Toast.makeText(context, "Não está mais acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
-            }else if(mediaChecked.followingStatusIndication == false){
-                viewModelDetails.saveInAcompanhandoList(mediaResult)
-                mediaChecked.followingStatusIndication = true
-                imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
-                Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
+            if(Type == "Tv") {
+                if (serieChecked.followingStatusIndication == true) {
+                    viewModelDetails.deleteFromAcompanhandoList(serieResult)
+                    serieChecked.followingStatusIndication = false
+                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                    Toast.makeText(
+                        context,
+                        "Não está mais acompanhando: ${Title}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (serieChecked.followingStatusIndication == false) {
+                    viewModelDetails.saveInAcompanhandoList(serieResult)
+                    serieChecked.followingStatusIndication = true
+                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                    Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
+                }
+            }else if(Type == "Movie"){
+                if (movieChecked.watched == true) {
+                    viewModelDetails.deleteFromHistoricoList(movieResult)
+                    movieChecked.watched = false
+                    imgAcompanhar.setImageResource(R.drawable.ic_check_box)
+                    Toast.makeText(
+                        context,
+                        "${Title} foi removido do Histórico",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (movieChecked.watched == false) {
+                    viewModelDetails.saveInHistoricoList(movieResult)
+                    movieChecked.watched = true
+                    imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
+                    Toast.makeText(context, "${Title} foi adicionado ao Histórico", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

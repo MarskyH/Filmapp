@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
@@ -30,6 +31,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
     private lateinit var viewModelHistorico: HistoricoViewModel
     var listAssistirMaisTardeDataBase = listOf<AssistirMaisTardeEntity>()
     var listHistoricoDataBase = listOf<HistoricoEntity>()
+    var mediaList = arrayListOf<ResultMovie>()
 
     val viewModel by viewModels<MelhoresFilmesViewModel>{
         object : ViewModelProvider.Factory{
@@ -65,14 +67,19 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             listAssistirMaisTardeDataBase = it
         }
 
-        //Recebendo os Filmes que o usuário já assistiu
-        viewModelHistorico.mediaList.observe(viewLifecycleOwner){
-            listHistoricoDataBase = it
-        }
+//        //Recebendo os Filmes que o usuário já assistiu
+//        viewModelHistorico.mediaList.observe(viewLifecycleOwner){
+//            listHistoricoDataBase = it
+//        }
 
         viewModel.returnTopMoviesAPI.observe(viewLifecycleOwner){
-            var mediaList = viewModelAssistirMaisTarde.checkMovieInList(it.results, listAssistirMaisTardeDataBase)
-            mediaList = viewModel.checkMovieInHistorico(it.results, listHistoricoDataBase)
+            mediaList = it.results
+            viewModel.getHistoricoInCloud()
+        }
+
+        viewModel.returnHistoricoList.observe(viewLifecycleOwner){
+//            mediaList = viewModelAssistirMaisTarde.checkMovieInList(it, listAssistirMaisTardeDataBase)
+            mediaList = viewModel.checkMovieInHistorico(mediaList, it)
             pb_melhoresFilmes.setVisibility(View.INVISIBLE)
             melhoresFilmesAdapter.addList(mediaList)
         }
@@ -123,15 +130,18 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            //Verificando se o usuário possui um dipositivo com a versão do android compatível
-            var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                LocalDateTime.now().toString()
-            } else {
-                " "
-            }
+//            //Verificando se o usuário possui um dipositivo com a versão do android compatível
+//            var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                LocalDateTime.now().toString()
+//            } else {
+//                " "
+//            }
+//
+//            var newItem = HistoricoEntity(media.id, media.title, media.poster_path, "Movie", date = currentDateTime)
+//            viewModelHistorico.saveNewItem(newItem)
 
-            var newItem = HistoricoEntity(media.id, media.title, media.poster_path, "Movie", date = currentDateTime)
-            viewModelHistorico.saveNewItem(newItem)
+            viewModel.saveInHistoricoList(media)
+
             Toast.makeText(context, "O filme ${media.title} foi adicionado ao Histórico", Toast.LENGTH_SHORT).show()
         }
     }
@@ -141,8 +151,9 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var item = HistoricoEntity(media.id, media.title, media.poster_path, "Movie")
-            viewModelHistorico.removeItem(item)
+//            var item = HistoricoEntity(media.id, media.title, media.poster_path, "Movie")
+//            viewModelHistorico.removeItem(item)
+            viewModel.deleteFromHistoricoList(media)
             Toast.makeText(context, "O filme ${media.title} foi removido do Histórico", Toast.LENGTH_SHORT).show()
         }
     }

@@ -112,7 +112,7 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
     }
 
 
-    fun checkSerieInList(
+    fun checkSerieInAcompanhandoList(
         listAPI: ArrayList<ResultTv>,
         listDataBase: ArrayList<AcompanhandoScope>
     ): ArrayList<ResultTv> {
