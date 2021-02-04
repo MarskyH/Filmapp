@@ -37,12 +37,7 @@ class MediaSelectedActivity(): AppCompatActivity() {
         val movie = intent.getSerializableExtra("movie") as? Boolean
         val poster = intent.getSerializableExtra("poster") as? String
         val idMedia = intent.getSerializableExtra("id") as? Int
-        Log.i("Similar Select", idMedia.toString())
         val sinopseMedia = intent.getSerializableExtra("sinopse") as? String
-
-//        Log.i("id Media Select", idMedia.toString())
-//        Log.i("poster path", poster.toString())
-
         val adapter = ViewPagerMedia(supportFragmentManager)
         if (movie == true) {
             val GeralFilme = GeralMediaFragment.newInstance(sinopseMedia, poster, idMedia.toString(), "Movie")
@@ -93,9 +88,6 @@ class MediaSelectedActivity(): AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun setObeject(MediaSelect: Any?): Any?{
-        return MediaSelect
-    }
 }
 
 

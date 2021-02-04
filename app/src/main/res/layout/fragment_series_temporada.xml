@@ -51,35 +51,36 @@
         app:layout_constraintVertical_bias="0.088" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="133dp"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.325">
 
         <TextView
             android:id="@+id/textViewSinopseTemporada"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:fadeScrollbars="false"
             android:fontFamily="@font/montserrat"
-            android:gravity="start"
+            android:inputType="textMultiLine"
             android:nestedScrollingEnabled="true"
+            android:scrollIndicators="right"
+            android:scrollbars="vertical"
             android:text="Na trama, conhecemos um mundo onde super-heróis são as maiores celebridades do planeta, e rotineiramente abusa, de seus poderes ao invés de usarem para o bem da sociedade e do mundo "
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.824" />
+            app:layout_constraintVertical_bias="0.712" />
 
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

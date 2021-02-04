@@ -62,7 +62,7 @@
             android:id="@+id/sinopseEp"
             android:layout_width="369dp"
             android:layout_height="300dp"
-            android:layout_gravity="center_vertical|end"
+            android:inputType="textMultiLine"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
             android:gravity="start"
