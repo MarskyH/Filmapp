@@ -1,6 +1,7 @@
 package com.example.filmapp.Services
 
 
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import com.example.filmapp.Entities.Movie.MovieDetails
 import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Entities.TV.TvDetails
+import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.google.firebase.auth.FirebaseAuth
@@ -20,8 +22,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
+val scope = CoroutineScope(Dispatchers.Main)
 
 class MainViewModel(val service: Service) : ViewModel() {
 
@@ -30,6 +36,8 @@ class MainViewModel(val service: Service) : ViewModel() {
 
     //Realtime Database
     var USER_ID = user!!.uid
+
+//    var USER_ID = "nUkCiBQ5TsSYL33I9bQka2BT0GE3"
     private var cloudDatabase = FirebaseDatabase.getInstance()
     private var reference = cloudDatabase.reference
 
@@ -64,6 +72,7 @@ class MainViewModel(val service: Service) : ViewModel() {
             .child(media.id.toString())
             .removeValue()
     }
+
 
     //Esta functio retorna a ultima lista salva no Realtime Database
     fun getAcompanhadoList() {

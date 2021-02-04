@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.example.filmapp.R
+import com.facebook.AccessToken
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_seguranca.*
 import kotlinx.android.synthetic.main.fragment_seguranca.view.*
@@ -31,6 +31,14 @@ class SegurancaFragment : Fragment() {
 
         mAuth = FirebaseAuth.getInstance()
         val user = mAuth.currentUser
+
+        if(Constants.loginGoogle || isLoggedIn()){
+            view.btnAtualizar.isInvisible
+            novaSenha.isInvisible
+            confimarSenha.isInvisible
+            viewNovaSenha.visibility = View.VISIBLE
+            viewConfirmarSenha.isInvisible
+        }
 
         view.btnDesativarConta.setOnClickListener {
             if (user != null) {
@@ -66,6 +74,8 @@ class SegurancaFragment : Fragment() {
             if(novaSenha.text.toString() == confimarSenha.text.toString()){
                 var newPwd = novaSenha.text.toString()
                 if (user != null) {
+
+
                     user.updatePassword(novaSenha.text.toString()).addOnCompleteListener { task ->
                         if(task.isSuccessful)
                             Toast.makeText(context, "Senha alterada!", Toast.LENGTH_LONG).show()
@@ -127,6 +137,16 @@ class SegurancaFragment : Fragment() {
 //        }
 //
 //    }
+
+
+    fun isLoggedIn(): Boolean {
+        val accessToken = AccessToken.getCurrentAccessToken()
+        val isLoggedIn = accessToken != null && !accessToken.isExpired
+
+
+
+        return isLoggedIn
+    }
 
 
 

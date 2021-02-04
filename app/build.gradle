@@ -122,7 +122,6 @@ dependencies {
     // logging-interceptor
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
-    // Text Justify
-    implementation 'me.biubiubiu.justifytext:library:1.1'
+    implementation 'com.google.firebase:firebase-storage:19.2.1'
 
 }

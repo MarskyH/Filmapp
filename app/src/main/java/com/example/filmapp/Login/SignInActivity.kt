@@ -11,7 +11,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import kotlin.collections.HashMap
 
 class SignInActivity : AppCompatActivity() {
 
@@ -35,7 +34,7 @@ class SignInActivity : AppCompatActivity() {
 
             var userName = edUsuario.text.toString()
             var nomeC = edNomeCompleto.text.toString()
-            var cel = edCelular.text.toString()
+//            var cel = edCelular.text.toString()
             var email = edEmail.text.toString()
             var password = edSenha.text.toString()
 
@@ -44,11 +43,11 @@ class SignInActivity : AppCompatActivity() {
             var rPassUser = password.isNotEmpty()
             var rUsario = userName.isNotEmpty()
             var rNome = nomeC.isNotEmpty()
-            var rCel =  cel.isNotEmpty()
+//            var rCel =  cel.isNotEmpty()
 
             if (password == senhaConfirmar.text.toString()) {
-                if (rEdUser && rPassUser && rUsario && rNome && rCel)
-                    registerFirebase(email, password, userName, nomeC, cel)
+                if (rEdUser && rPassUser && rUsario && rNome)
+                    registerFirebase(email, password, userName, nomeC)
                 else
                     showMsg("Preencha todos os campos")
 
@@ -72,7 +71,7 @@ class SignInActivity : AppCompatActivity() {
     }
 
 
-    fun registerFirebase(email: String, password: String, username: String, nomeC: String, cel: String) {
+    fun registerFirebase(email: String, password: String, username: String, nomeC: String) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -88,7 +87,7 @@ class SignInActivity : AppCompatActivity() {
                         user.put("email", email)
                     }
                     user.put("fNomeCom", nomeC)
-                    user.put("fCel", cel)
+//                    user.put("fCel", cel)
 
                     documentReference.set(user).addOnSuccessListener(this){ task ->
                             println("signInWithCredential:success")
@@ -120,9 +119,8 @@ class SignInActivity : AppCompatActivity() {
 
 }
 
-private fun <K, V> HashMap<K, V>.put(key: K, value: K) {
 
-}
+
 
 
 

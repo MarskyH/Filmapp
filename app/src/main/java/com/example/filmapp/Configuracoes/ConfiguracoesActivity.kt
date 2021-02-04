@@ -7,11 +7,14 @@ import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.R
 import kotlinx.android.synthetic.main.activity_configuracoes.*
 
+lateinit var  listaInfo : ArrayList<String>
 
 class ConfiguracoesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_configuracoes)
+
+
 
         setUpTabs()
         toolbarconfiguracoes.setNavigationOnClickListener {
