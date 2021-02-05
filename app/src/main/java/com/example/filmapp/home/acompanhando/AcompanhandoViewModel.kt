@@ -28,10 +28,17 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
     var returnWithWatchedEpisodesList = MutableLiveData<ArrayList<AcompanhandoScope>>()
     var listUpdated = MutableLiveData<ArrayList<AcompanhandoScope>>()
 
+    init {
+        if(cloudDatabase == null){
+            cloudDatabase = FirebaseDatabase.getInstance()
+        }
+    }
+
     //Esta functio retorna a ultima lista salva no Realtime Database
     fun getAcompanhadoList() {
         var acompanhadoList = arrayListOf<AcompanhandoScope>()
 
+        cloudDatabase.getReference().child("users/${USER_ID}/acompanhando").keepSynced(true)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
@@ -222,6 +229,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
 //                    .child("nextEpisodeNumber")
 //                    .setValue(it.nextEpisodeNumber)
 
+                cloudDatabase.getReference().child("users/${USER_ID}/acompanhando").keepSynced(true)
                 FirebaseDatabase.getInstance().reference
                     .child("users")
                     .child(USER_ID)
@@ -230,6 +238,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
                     .child("totalEpisodesWatched")
                     .setValue(it.totalEpisodesWatched)
 
+                cloudDatabase.getReference().child("users/${USER_ID}/acompanhando").keepSynced(true)
                 FirebaseDatabase.getInstance().reference
                     .child("users")
                     .child(USER_ID)
@@ -238,6 +247,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
                     .child("userProgress")
                     .setValue(it.userProgress)
 
+                cloudDatabase.getReference().child("users/${USER_ID}/acompanhando").keepSynced(true)
                 FirebaseDatabase.getInstance().reference
                     .child("users")
                     .child(USER_ID)

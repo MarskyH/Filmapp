@@ -1,12 +1,16 @@
 package com.example.filmapp.home.agenda
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +20,7 @@ import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import kotlinx.android.synthetic.main.activity_historico.*
 import kotlinx.android.synthetic.main.fragment_melhores_filmes.*
 import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.*
 import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.view.*
@@ -48,17 +53,46 @@ class FragRecycler_asssistirMaisTarde : Fragment(),
         view.rv_assistirMaisTarde.isHorizontalFadingEdgeEnabled
         view.rv_assistirMaisTarde.setHasFixedSize(true)
 
-        viewModel.mediaList.observe(viewLifecycleOwner){
+        if(testConnection() == true) {
+            setDataOnline()
+        }else{
+            Toast.makeText(context, "Você está offline", Toast.LENGTH_SHORT).show()
+            setDataOffline()
+        }
+
+        return view
+    }
+
+    fun setDataOnline(){
+        mediaListAdapter.isClickable = true
+
+        viewModel.getAssistirMaisTardeListInCloud()
+
+        viewModel.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
             if(it.size == 0){
                 pb_assistirMaisTarde.setVisibility(View.GONE)
-//                tv_titleAssistirMaisTarde.setVisibility(View.GONE)
+                tv_titleAssistirMaisTarde.setVisibility(View.GONE)
             }else{
                 pb_assistirMaisTarde.setVisibility(View.INVISIBLE)
                 mediaListAdapter.addList(it)
             }
         }
+    }
 
-        return view
+    fun setDataOffline(){
+        mediaListAdapter.isClickable = false
+
+        viewModel.getAssistirMaisTardeListInCloud()
+
+        viewModel.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
+            if(it.size == 0){
+                pb_assistirMaisTarde.setVisibility(View.GONE)
+                tv_titleAssistirMaisTarde.setVisibility(View.GONE)
+            }else{
+                pb_assistirMaisTarde.setVisibility(View.INVISIBLE)
+                mediaListAdapter.addList(it)
+            }
+        }
     }
 
     companion object{
@@ -66,7 +100,7 @@ class FragRecycler_asssistirMaisTarde : Fragment(),
     }
 
     override fun assistirMaisTardeItemClick(position: Int) {
-        viewModel.mediaList.observe(viewLifecycleOwner) {
+        viewModel.returnAssistirMaisTardeList.observe(viewLifecycleOwner) {
             var media = it.get(position)
 
             val intent = Intent(context, MediaSelectedActivity::class.java)
@@ -80,7 +114,15 @@ class FragRecycler_asssistirMaisTarde : Fragment(),
             intent.putExtra("id", media.id)
 
             startActivity(intent)
+            activity?.finish()
         }
+    }
+
+    fun testConnection(): Boolean {
+        val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
     }
 
 }

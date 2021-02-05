@@ -16,7 +16,6 @@ import com.example.filmapp.Media.Models.EpisodioFragmentViewModel
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.historico.HistoricoViewModel
-import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
@@ -66,11 +65,11 @@ class EpisodioFragment : Fragment() {
             Img = arguments?.getString(img)
             Logo = arguments?.getString(logo)
             HomePage = arguments?.getString(homePage)
-            Title = arguments?.getString(title)
+            Title = arguments?.getString(title) //= título da Série
             Id_ep = arguments?.getString(id_ep) //= id do Episódio
-            NumberEp = arguments?.getInt(numberEp) //= número do episódio
-            NumberSeason = arguments?.getInt(numberSeason) //= número da temporada
-            EpisodeTitle = arguments?.getString(episodeTitle) //= título do episódio
+            NumberEp = arguments?.getInt(numberEp) //= número do Episódio
+            NumberSeason = arguments?.getInt(numberSeason) //= número da Temporada
+            EpisodeTitle = arguments?.getString(episodeTitle) //= título do Episódio
         }
     }
 
@@ -134,7 +133,7 @@ class EpisodioFragment : Fragment() {
             AbrirSiteLogo()
         }
 
-        //AcompanhandoCodeInicio--------------------------------------------------------------------
+        //Acompanhando/Histórico CodeInicio---------------------------------------------------------
 
         viewModel.getAcompanhadoList()
 
@@ -167,20 +166,18 @@ class EpisodioFragment : Fragment() {
         view.imgVisto.setOnClickListener{
             if (watched == true) {
                 viewModel.deleteWatchList(Id_ep!!.toInt(), Id!!.toInt())
+                viewModel.deleteFromHistoricoList(Id_ep!!.toInt())
                 watched = false
                 view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
-
-                removeHistoricoList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
             }else{
                 viewModel.addWatchList(Id_ep!!.toInt(), Id!!.toInt())
+                viewModel.saveInHistoricoList(Id!!.toInt(), Title.toString(), Poster.toString(), NumberSeason!!, NumberEp!!, EpisodeTitle.toString(), Id_ep!!.toInt())
                 watched = true
                 view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
-
-                addHistoricoList(Id!!.toString().toInt(), Title!!, Poster!!, Type!!)
             }
         }
 
-        //AcompanhandoCodeFinal---------------------------------------------------------------------
+        //Acompanhando/Histórico CodeFinal----------------------------------------------------------
 
         return view
     }
@@ -213,14 +210,6 @@ class EpisodioFragment : Fragment() {
             this.type = "text/plain"
         }
         startActivity(ShareIntent)
-    }
-
-    fun addHistoricoList(id: Int, title: String, poster_path: String, type: String) {
-//        viewModelVisto.saveNewItem(HistoricoEntity(id, title, poster_path, type)) Histórico
-    }
-
-    fun removeHistoricoList(id: Int, title: String, poster_path: String, type: String) {
-//        viewModelVisto.removeItem(HistoricoEntity(id, title, poster_path, type)) Histórico
     }
 
 }

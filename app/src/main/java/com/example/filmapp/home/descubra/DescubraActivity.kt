@@ -2,13 +2,12 @@ package com.example.filmapp.home.descubra
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
+import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -24,6 +23,7 @@ import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.activity_descubra.*
+import kotlinx.android.synthetic.main.activity_historico.*
 import org.w3c.dom.Text
 
 class DescubraActivity : AppCompatActivity() {
@@ -40,6 +40,13 @@ class DescubraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_descubra)
 
+        if(testConnection() == true) {
+            setDataOnline()
+        }else{
+            Toast.makeText(this, "Você está offline", Toast.LENGTH_SHORT).show()
+            setDataOffline()
+        }
+
         textInput_search.setEndIconOnClickListener {
             callResultsSearch()
         }
@@ -53,6 +60,14 @@ class DescubraActivity : AppCompatActivity() {
         toolbarDescubraPage.setNavigationOnClickListener {
             onBackPressed()
         }
+
+    }
+
+    fun setDataOnline(){
+
+    }
+
+    fun setDataOffline(){
 
     }
 
@@ -76,14 +91,14 @@ class DescubraActivity : AppCompatActivity() {
     //Usando para add ações de click as teclas do teclado
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         return when (keyCode) {
-            KeyEvent.KEYCODE_ENTER -> {
-                callResultsSearch()
-                true
-            }
-            KeyEvent.KEYCODE_EXPLORER -> {
-                callResultsSearch()
-                true
-            }
+                KeyEvent.KEYCODE_ENTER -> {
+                    callResultsSearch()
+                    true
+                }
+                KeyEvent.KEYCODE_EXPLORER -> {
+                    callResultsSearch()
+                    true
+                }
             else -> super.onKeyUp(keyCode, event)
         }
     }
@@ -105,25 +120,35 @@ class DescubraActivity : AppCompatActivity() {
     fun callResultsSearch() {
         var searchText = textInput_search.editText?.text.toString()
 
-        if (searchText != "") {
-            //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
-            supportFragmentManager.beginTransaction().apply {
-                replace(
-                    R.id.fragRecycler_filmesDescubraSpace,
-                    FragRecycler_filmesDescubra.newInstance(searchText)
-                )
-                commit()
-            }
+        if(testConnection() == true){
+            if (searchText != "") {
+                //Inflando o RecyclerView de Resultados - Filmes (fragRecycler_filmesDescubra)
+                supportFragmentManager.beginTransaction().apply {
+                    replace(
+                        R.id.fragRecycler_filmesDescubraSpace,
+                        FragRecycler_filmesDescubra.newInstance(searchText)
+                    )
+                    commit()
+                }
 
-            //Inflando o RecyclerView de Resultados - Series (fragRecycler_filmesDescubra)
-            supportFragmentManager.beginTransaction().apply {
-                replace(
-                    R.id.fragRecycler_seriesDescubraSpace,
-                    FragRecycler_seriesDescubra.newInstance(searchText)
-                )
-                commit()
+                //Inflando o RecyclerView de Resultados - Series (fragRecycler_filmesDescubra)
+                supportFragmentManager.beginTransaction().apply {
+                    replace(
+                        R.id.fragRecycler_seriesDescubraSpace,
+                        FragRecycler_seriesDescubra.newInstance(searchText)
+                    )
+                    commit()
+                }
             }
         }
+    }
+
+    fun testConnection(): Boolean {
+        val cm = getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
+
     }
 
 }

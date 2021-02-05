@@ -41,8 +41,6 @@ class FragRecycler_duvidasList : Fragment(), DuvidasAdapter.onDuvidaItemClickLis
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_duvidaslist, container, false)
 
-        viewModel.conectDatabase()
-
         //Iniciando o ReciclerView Dúvidas
         duvidasListLayoutManager = LinearLayoutManager(context)
         duvidasListAdapter = DuvidasAdapter(this)

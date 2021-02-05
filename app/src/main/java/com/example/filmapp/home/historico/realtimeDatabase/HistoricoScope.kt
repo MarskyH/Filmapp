@@ -10,5 +10,6 @@ data class HistoricoScope(
     var formattedTitle: String = "",
     var episodeTitle: String = "",
     var formattedEpisodeTitle: String = "",
-    var date: String = ""
+    var date: String = "",
+    var episodeId: Int = 0
 )

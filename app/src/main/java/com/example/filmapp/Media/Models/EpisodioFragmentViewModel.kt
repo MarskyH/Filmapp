@@ -3,16 +3,17 @@ package com.example.filmapp.Media.Models
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.Entities.TV.TvDetails
+import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.Media.dataBase.WatchedEpisodeScope
 import com.example.filmapp.Services.Service
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.time.LocalDateTime
 
 class EpisodioFragmentViewModel(val service: Service) : ViewModel() {
 
@@ -179,6 +180,41 @@ class EpisodioFragmentViewModel(val service: Service) : ViewModel() {
             .child("acompanhando")
             .child(serieId.toString())
             .child("watchedEpisodes")
+            .child(episodeId.toString())
+            .removeValue()
+    }
+
+    fun saveInHistoricoList(
+        id: Int,
+        title: String,
+        poster_path: String,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        episodeTitle: String,
+        episodeId: Int){
+
+        //Verificando se o usuário possui um dipositivo com a versão do android compatível
+        var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime.now().toString()
+        } else {
+            "404"
+        }
+
+        var episode = HistoricoScope(id, title, poster_path, "Tv", seasonNumber, episodeNumber, episodeTitle = episodeTitle, date = currentDateTime, episodeId = episodeId)
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .child(episodeId.toString())
+            .setValue(episode)
+    }
+
+    fun deleteFromHistoricoList(episodeId: Int) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
             .child(episodeId.toString())
             .removeValue()
     }

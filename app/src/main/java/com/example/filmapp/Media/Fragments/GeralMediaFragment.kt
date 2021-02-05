@@ -121,11 +121,13 @@ class GeralMediaFragment() : Fragment() {
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
                 mediaFavoritScope = FavoritoScope(it.id, it.title, it.poster_path.toString(), Type.toString())
-//                media = FavoritosEntity(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
+
                 movieResult = it
                 viewModelDetails.getFavoritoist()
                 viewModelDetails.getHistoricoInCloud()
+                viewModelDetails.getAssistirMaisTardeListInCloud()
             }
+
             viewModelDetails.getMovieDetails(Id!!)
 
             viewModelDetails.returnHistoricoList.observe(viewLifecycleOwner) {
@@ -143,6 +145,16 @@ class GeralMediaFragment() : Fragment() {
                 }
             }
 
+            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
+                movieChecked = viewModelDetails.checkMovieInAssistirMaisTardeList(movieChecked, it)
+
+                if (movieChecked.assistirMaisTardeIndication == true) {
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                } else if(movieChecked.assistirMaisTardeIndication == false) {
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                }
+            }
+
             viewModelDetails.returnFavoritoList.observe(viewLifecycleOwner){
                 mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
                 if (mediaCheckedFavorito.favoritoIndication == true){
@@ -152,12 +164,16 @@ class GeralMediaFragment() : Fragment() {
                 }
             }
         }
+
+
         if (Type == "Tv") {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
                 mediaFavoritScope = FavoritoScope(it.id, it.name, it.poster_path, Type.toString())
+
                 serieResult = it
                 viewModelDetails.getAcompanhadoList()
                 viewModelDetails.getFavoritoist()
+                viewModelDetails.getAssistirMaisTardeListInCloud()
             }
             viewModelDetails.getTvDetails(Id!!)
 
@@ -178,6 +194,16 @@ class GeralMediaFragment() : Fragment() {
                     }
                 } else if(serieChecked.followingStatusIndication == false) {
                     imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                }
+            }
+
+            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
+                serieChecked = viewModelDetails.checkSerieInAssistirMaisTardeList(serieChecked, it)
+
+                if (serieChecked.assistirMaisTardeIndication == true) {
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                } else if(serieChecked.assistirMaisTardeIndication == false) {
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
                 }
             }
 
@@ -204,16 +230,39 @@ class GeralMediaFragment() : Fragment() {
 
         picasso.load(URL_IMAGE + Poster).into(view.img_geral)
 
-
         view.imgTarde.setOnClickListener {
-            if (selAssistirMaisTarde == false) {
-                AlteraIconAssistirMaisTarde()
-                addMaisTardeList(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
-                Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
-            } else {
-                AlteraIconAssistirMaisTarde()
-                removeMaisTardeList(Id!!.toString().toInt(), Title!!, posterBd!!, Type!!)
-                Toast.makeText(activity, "Assistir Mais Tarde: $Title", Toast.LENGTH_SHORT).show()
+            if(Type == "Tv") {
+                if (serieChecked.assistirMaisTardeIndication == true) {
+                    viewModelDetails.deleteFromAssistirMaisTardeList(serieResult.id)
+                    serieChecked.assistirMaisTardeIndication = false
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                    Toast.makeText(
+                        context,
+                        "Série removida da Agenda",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (serieChecked.assistirMaisTardeIndication == false) {
+                    viewModelDetails.saveSerieInAssistirMaisTardeList(serieResult)
+                    serieChecked.assistirMaisTardeIndication = true
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                    Toast.makeText(context, "Série adicionada a Agenda", Toast.LENGTH_SHORT).show()
+                }
+            }else if(Type == "Movie"){
+                if (movieChecked.assistirMaisTardeIndication == true) {
+                    viewModelDetails.deleteFromAssistirMaisTardeList(movieResult.id)
+                    movieChecked.assistirMaisTardeIndication = false
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                    Toast.makeText(
+                        context,
+                        "Filme removido da Agenda",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (movieChecked.assistirMaisTardeIndication == false) {
+                    viewModelDetails.saveMovieInAssistirMaisTardeList(movieResult)
+                    movieChecked.assistirMaisTardeIndication = true
+                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                    Toast.makeText(context, "Filme adicionado a Agenda", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -317,10 +366,10 @@ class GeralMediaFragment() : Fragment() {
 
 
     fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
+//        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
 
     fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
+//        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
 }

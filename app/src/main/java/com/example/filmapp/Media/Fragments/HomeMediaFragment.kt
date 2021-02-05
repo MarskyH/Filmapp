@@ -1,6 +1,8 @@
 package com.example.filmapp.Media.Fragments
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +12,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -91,65 +95,68 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
 
-        viewModel.getFavoritoist()
-        if (Movie == true) {
-            viewModel.config.observe(viewLifecycleOwner) {
-                config = it
-            }
-            viewModel.getConfig()
-            viewModel.listResMovies.observe(viewLifecycleOwner) {
-                ListMediaMovie = it.results
-                MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
-                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                view.rv_pop.layoutManager = lManager
-                view.rv_pop.adapter = MovieAdapter
-                view.rv_pop.setHasFixedSize(true)
-            }
-            viewModel.getPopularMovies(page)
-            setScrollViewFilmes(view.rv_pop)
-            viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
-                it.forEach {
-                    if (it.type == "Movie") {
-                        ListMediaMovieFav.add(it)
-                    }
-                }
-                MovieFavAdapter = FavoritosAdapterMovie(this)
-                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                MovieFavAdapter.addList(ListMediaMovieFav)
-                ListMediaMovieFav = ArrayList()
-                view.rv_fav.layoutManager = lManager
-                view.rv_fav.adapter = MovieFavAdapter
-                view.rv_fav.setHasFixedSize(true)
-            }
+        if(testConnection() == true) {
+            viewModel.getFavoritoist()
 
-        } else {
-            viewModel.config.observe(viewLifecycleOwner) {
-                config = it
-                viewModel.getPopularSeries(page)
-            }
-            viewModel.getConfig()
-            viewModel.listResSeries.observe(viewLifecycleOwner) {
-                ListMediaSerie = it.results
-                SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
-                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                view.rv_pop.layoutManager = lManager
-                view.rv_pop.adapter = SerieAdapter
-                view.rv_pop.setHasFixedSize(true)
-            }
-            setScrollViewSeries(view.rv_pop)
-            viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
-                it.forEach {
-                    if (it.type == "Tv") {
-                        ListMediaSerieFav.add(it)
-                    }
+            if (Movie == true) {
+                viewModel.config.observe(viewLifecycleOwner) {
+                    config = it
                 }
-                SerieFavAdapter = FavoritosAdapterSerie(this)
-                lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                SerieFavAdapter.addList(ListMediaSerieFav)
-                ListMediaSerieFav = ArrayList()
-                view.rv_fav.layoutManager = lManager
-                view.rv_fav.adapter = SerieFavAdapter
-                view.rv_fav.setHasFixedSize(true)
+                viewModel.getConfig()
+                viewModel.listResMovies.observe(viewLifecycleOwner) {
+                    ListMediaMovie = it.results
+                    MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    view.rv_pop.layoutManager = lManager
+                    view.rv_pop.adapter = MovieAdapter
+                    view.rv_pop.setHasFixedSize(true)
+                }
+                viewModel.getPopularMovies(page)
+                setScrollViewFilmes(view.rv_pop)
+                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                    it.forEach {
+                        if (it.type == "Movie") {
+                            ListMediaMovieFav.add(it)
+                        }
+                    }
+                    MovieFavAdapter = FavoritosAdapterMovie(this)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    MovieFavAdapter.addList(ListMediaMovieFav)
+                    ListMediaMovieFav = ArrayList()
+                    view.rv_fav.layoutManager = lManager
+                    view.rv_fav.adapter = MovieFavAdapter
+                    view.rv_fav.setHasFixedSize(true)
+                }
+
+            } else {
+                viewModel.config.observe(viewLifecycleOwner) {
+                    config = it
+                    viewModel.getPopularSeries(page)
+                }
+                viewModel.getConfig()
+                viewModel.listResSeries.observe(viewLifecycleOwner) {
+                    ListMediaSerie = it.results
+                    SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    view.rv_pop.layoutManager = lManager
+                    view.rv_pop.adapter = SerieAdapter
+                    view.rv_pop.setHasFixedSize(true)
+                }
+                setScrollViewSeries(view.rv_pop)
+                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                    it.forEach {
+                        if (it.type == "Tv") {
+                            ListMediaSerieFav.add(it)
+                        }
+                    }
+                    SerieFavAdapter = FavoritosAdapterSerie(this)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    SerieFavAdapter.addList(ListMediaSerieFav)
+                    ListMediaSerieFav = ArrayList()
+                    view.rv_fav.layoutManager = lManager
+                    view.rv_fav.adapter = SerieFavAdapter
+                    view.rv_fav.setHasFixedSize(true)
+                }
             }
         }
         return view
@@ -279,6 +286,16 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 }
             })
         }
+    }
+
+
+
+    fun testConnection(): Boolean {
+        val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
+
     }
 
 }

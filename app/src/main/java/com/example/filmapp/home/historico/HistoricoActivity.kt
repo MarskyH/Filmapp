@@ -1,11 +1,14 @@
 package com.example.filmapp.home.historico
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,12 +39,22 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         rv_historicoList.isHorizontalFadingEdgeEnabled
         rv_historicoList.setHasFixedSize(true)
 
-        //ROOM DATABASE
-//        viewModel.mediaList.observe(this){
-//            var mediaList = viewModel.formattingItem(it)
-//            pb_historico.setVisibility(View.INVISIBLE)
-//            mediaListAdapter.addList(mediaList)
-//        }
+        if(testConnection() == true) {
+            setDataOnline()
+        }else{
+            Toast.makeText(this, "Você está offline", Toast.LENGTH_SHORT).show()
+            setDataOffline()
+        }
+
+        setSupportActionBar(toolbarHistoricoPage)
+
+        toolbarHistoricoPage.setNavigationOnClickListener {
+            callHome()
+        }
+    }
+
+    fun setDataOnline(){
+        mediaListAdapter.isClickable = true
 
         viewModel.returnHistoricoList.observe(this){
             var mediaList = viewModel.formattingItem(it)
@@ -50,12 +63,18 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         }
 
         viewModel.getHistoricoInCloud()
+    }
 
-        setSupportActionBar(toolbarHistoricoPage)
+    fun setDataOffline(){
+        mediaListAdapter.isClickable = false
 
-        toolbarHistoricoPage.setNavigationOnClickListener {
-            callHome()
+        viewModel.returnHistoricoList.observe(this){
+            var mediaList = viewModel.formattingItem(it)
+            pb_historico.setVisibility(View.INVISIBLE)
+            mediaListAdapter.addList(mediaList)
         }
+
+        viewModel.getHistoricoInCloud()
     }
 
     //Usado para add o Menu a Toolbar
@@ -110,6 +129,20 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         intent.putExtra("id", media.id)
 
         startActivity(intent)
+    }
+
+    override fun historicoItemLongClick(position: Int) {
+        var mediaList = mediaListAdapter.mediaList
+        var media = mediaList.get(position)
+        //Inserir código....
+    }
+
+    fun testConnection(): Boolean {
+        val cm = getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
+
     }
 
 }

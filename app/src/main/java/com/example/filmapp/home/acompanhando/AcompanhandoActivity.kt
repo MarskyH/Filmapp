@@ -2,10 +2,13 @@ package com.example.filmapp.home.acompanhando
 
 import android.R.attr
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
@@ -45,7 +48,12 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         rv_acompanhandoList.isHorizontalFadingEdgeEnabled
         rv_acompanhandoList.setHasFixedSize(true)
 
-        setData()
+        if(testConnection() == true) {
+            setDataOnline()
+        }else{
+            Toast.makeText(this, "Você está offline. Dados desatualizados", Toast.LENGTH_SHORT).show()
+            setDataOffline()
+        }
 
         setSupportActionBar(toolbarAcompanhandoPage)
 
@@ -54,7 +62,9 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         }
     }
 
-    fun setData(){
+    fun setDataOnline(){
+        mediaListAdapter.isClickable = true
+
         viewModel.getAcompanhadoList()
 
         viewModel.returnAcompanhandoList.observe(this){
@@ -66,6 +76,17 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         }
 
         viewModel.listUpdated.observe(this){
+            pb_acompanhando.setVisibility(View.INVISIBLE)
+            mediaListAdapter.addList(it)
+        }
+    }
+
+    fun setDataOffline(){
+        mediaListAdapter.isClickable = false
+
+        viewModel.getAcompanhadoList()
+
+        viewModel.returnAcompanhandoList.observe(this){
             pb_acompanhando.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(it)
         }
@@ -132,5 +153,13 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
             startActivity(intent)
             this.finish()
         }
+    }
+
+    fun testConnection(): Boolean {
+        val cm = getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
+
     }
 }

@@ -28,6 +28,7 @@ data class MovieDetails(
     val video: Boolean = false,
     val vote_average: Double = 0.0,
     val vote_count: Int = 0,
+    var assistirMaisTardeIndication: Boolean = false,
     var watched: Boolean = false
 ): Serializable
 

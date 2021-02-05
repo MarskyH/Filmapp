@@ -32,27 +32,11 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
 
     var returnHistoricoList = MutableLiveData<ArrayList<HistoricoScope>>()
 
-//ROOM DATABASE-------------------------------------------------------------------------------------
-//    val mediaList: LiveData<List<HistoricoEntity>>
-//    private val repository: HistoricoRepository
-//
-//    init {
-//        val historicoDAO = FilmAppDataBase.getDataBase(app).historicoDao()
-//        repository = HistoricoRepository(historicoDAO)
-//        mediaList = repository.readAllData
-//    }
-//
-//    fun saveNewItem(media: HistoricoEntity) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.saveInHistoricoTask(media)
-//        }
-//    }
-//
-//    fun removeItem(media: HistoricoEntity) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            repository.removeOfHistoricoTask(media)
-//        }
-//    }
+    init {
+        if(cloudDatabase == null){
+            cloudDatabase = FirebaseDatabase.getInstance()
+        }
+    }
 
 //Realtime DatabaseInício---------------------------------------------------------------------------
 
@@ -60,6 +44,7 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
     fun getHistoricoInCloud() {
         var historicoList = arrayListOf<HistoricoScope>()
 
+        cloudDatabase.getReference().child("users/${USER_ID}/historico").keepSynced(true)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
@@ -105,6 +90,7 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun deleteItemFromHistorico(media: HistoricoScope) {
+        cloudDatabase.getReference().child("users/${USER_ID}/historico").keepSynced(true)
         FirebaseDatabase.getInstance().reference
             .child("users")
             .child(USER_ID)
@@ -114,6 +100,7 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun deleteAllHistorico() {
+        cloudDatabase.getReference().child("users/${USER_ID}/historico").keepSynced(true)
         FirebaseDatabase.getInstance().reference
             .child("users")
             .child(USER_ID)

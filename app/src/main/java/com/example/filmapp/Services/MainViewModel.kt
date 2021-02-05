@@ -18,6 +18,7 @@ import com.example.filmapp.Entities.TV.TvDetails
 import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
 import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -52,6 +53,7 @@ class MainViewModel(val service: Service) : ViewModel() {
     var returnAcompanhandoList = MutableLiveData<ArrayList<AcompanhandoScope>>()
     var returnHistoricoList = MutableLiveData<ArrayList<HistoricoScope>>()
     var returnFavoritoList = MutableLiveData<ArrayList<FavoritoScope>>()
+    var returnAssistirMaisTardeList = MutableLiveData<ArrayList<AssistirMaisTardeScope>>()
 
 //Realtime Database---------------------------------------------------------------------------------
 
@@ -306,6 +308,109 @@ class MainViewModel(val service: Service) : ViewModel() {
                 if (media.id == it.id)
                     media.watched = true
             }
+
+        return media
+    }
+
+    fun saveMovieInAssistirMaisTardeList(media: MovieDetails){
+        var movie =
+            AssistirMaisTardeScope(id = media.id, title = media.title, poster_path = media.poster_path.toString(), "Movie")
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(media.id.toString())
+            .setValue(movie)
+    }
+
+    fun saveSerieInAssistirMaisTardeList(media: TvDetails){
+        var movie =
+            AssistirMaisTardeScope(id = media.id, title = media.name, poster_path = media.poster_path, "Tv")
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(media.id.toString())
+            .setValue(movie)
+    }
+
+    fun deleteFromAssistirMaisTardeList(mediaId: Int) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(mediaId.toString())
+            .removeValue()
+    }
+
+    //Esta function retorna a última lista salva no Realtime Database
+    fun getAssistirMaisTardeListInCloud() {
+        var assistirMaisTardeList = arrayListOf<AssistirMaisTardeScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "assistirMaisTarde") {
+                                        it.children.forEach {
+
+                                            var media = AssistirMaisTardeScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                            )
+
+                                            assistirMaisTardeList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnAssistirMaisTardeList.value = assistirMaisTardeList
+                assistirMaisTardeList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in MelhoresFilmesList")
+            }
+        })
+    }
+
+    fun checkMovieInAssistirMaisTardeList(
+        media: MovieDetails,
+        listDataBase: ArrayList<AssistirMaisTardeScope>
+    ): MovieDetails {
+
+            listDataBase?.forEach {
+
+                if (media.id == it.id)
+                    media.assistirMaisTardeIndication = true
+            }
+
+        return media
+    }
+
+    fun checkSerieInAssistirMaisTardeList(
+        media: TvDetails,
+        listDataBase: ArrayList<AssistirMaisTardeScope>
+    ): TvDetails {
+
+        listDataBase?.forEach {
+
+            if (media.id == it.id)
+                media.assistirMaisTardeIndication = true
+        }
 
         return media
     }

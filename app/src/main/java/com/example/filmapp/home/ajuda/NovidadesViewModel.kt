@@ -11,14 +11,21 @@ import com.google.firebase.database.*
 class NovidadesViewModel(val service: Service) : ViewModel() {
 
     //Realtime Database
-    lateinit var cloudDatabase: FirebaseDatabase
-    lateinit var reference: DatabaseReference
+    var cloudDatabase = FirebaseDatabase.getInstance()
+    var reference = cloudDatabase.reference
 
     var returnNovidades = MutableLiveData<ArrayList<Ajuda>>()
+
+    init {
+        if(cloudDatabase == null){
+            cloudDatabase = FirebaseDatabase.getInstance()
+        }
+    }
 
     fun getNovidadesList(){
         var novidadesList = arrayListOf<Ajuda>()
 
+        cloudDatabase.getReference().child("novidades").keepSynced(true)
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 dataSnapshot.children.forEach {
@@ -45,10 +52,5 @@ class NovidadesViewModel(val service: Service) : ViewModel() {
                 Log.i("Return DB Error:", error.message + " in Novidades")
             }
         })
-    }
-
-    fun conectDatabase() {
-        cloudDatabase = FirebaseDatabase.getInstance()
-        reference = cloudDatabase.reference
     }
 }
