@@ -49,7 +49,8 @@ class MainViewModel(val service: Service) : ViewModel() {
     var config = MutableLiveData<Config>()
     var returnAcompanhandoList = MutableLiveData<ArrayList<AcompanhandoScope>>()
     var returnHistoricoList = MutableLiveData<ArrayList<HistoricoScope>>()
-    var returnFavoritoList = MutableLiveData<ArrayList<FavoritoScope>>()
+    var returnFavoritoListSerie = MutableLiveData<ArrayList<FavoritoScope>>()
+    var returnFavoritoListMovie = MutableLiveData<ArrayList<FavoritoScope>>()
     var returnAssistirMaisTardeList = MutableLiveData<ArrayList<AssistirMaisTardeScope>>()
 
     //Realtime Database---------------------------------------------------------------------------------
@@ -181,7 +182,8 @@ class MainViewModel(val service: Service) : ViewModel() {
 
     fun getFavoritoist() {
         cloudDatabase.getReference().child("users/${USER_ID}/favoritos").keepSynced(true)
-        var favoritoList = arrayListOf<FavoritoScope>()
+        var favoritoListMovie = arrayListOf<FavoritoScope>()
+        var favoritoListSerie = arrayListOf<FavoritoScope>()
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -199,20 +201,21 @@ class MainViewModel(val service: Service) : ViewModel() {
                                                 it.child("poster_path").value.toString(),
                                                 it.child("type").value.toString()
                                             )
-
-                                            favoritoList.add(media)
+                                            if (media.type == "Tv")
+                                                favoritoListSerie.add(media)
+                                            else
+                                                favoritoListMovie.add(media)
                                         }
                                     }
                                 }
                             }
                         }
                     }
-
                 }
-
-                returnFavoritoList.value = favoritoList
-                favoritoList = arrayListOf()
-
+                returnFavoritoListMovie.value = favoritoListMovie
+                returnFavoritoListSerie.value = favoritoListSerie
+                favoritoListMovie = arrayListOf()
+                favoritoListSerie = arrayListOf()
             }
 
             override fun onCancelled(error: DatabaseError) {

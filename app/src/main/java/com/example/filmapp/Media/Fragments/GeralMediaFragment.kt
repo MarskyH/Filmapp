@@ -155,7 +155,7 @@ class GeralMediaFragment() : Fragment() {
                 }
             }
 
-            viewModelDetails.returnFavoritoList.observe(viewLifecycleOwner){
+            viewModelDetails.returnFavoritoListMovie.observe(viewLifecycleOwner){
                 mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
                 if (mediaCheckedFavorito.favoritoIndication == true){
                     imgFav.setImageResource(R.drawable.ic_favorito_select)
@@ -207,7 +207,7 @@ class GeralMediaFragment() : Fragment() {
                 }
             }
 
-            viewModelDetails.returnFavoritoList.observe(viewLifecycleOwner){
+            viewModelDetails.returnFavoritoListSerie.observe(viewLifecycleOwner){
                 mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
                 if (mediaCheckedFavorito.favoritoIndication == true){
                     imgFav.setImageResource(R.drawable.ic_favorito_select)

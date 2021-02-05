@@ -51,11 +51,12 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     private lateinit var MovieFavAdapter: FavoritosAdapterMovie
     private lateinit var SerieFavAdapter: FavoritosAdapterSerie
     private lateinit var lManager: LinearLayoutManager
-    private lateinit var viewModelFav: FavoritosViewModel
     lateinit var ListMediaMovie: ArrayList<ResultMovie>
     lateinit var ListMediaSerie: ArrayList<ResultTv>
     var ListMediaMovieFav = ArrayList<FavoritoScope>()
     var ListMediaSerieFav = ArrayList<FavoritoScope>()
+    var ListMediaMovieFavCopy = ArrayList<FavoritoScope>()
+    var ListMediaSerieFavCopy = ArrayList<FavoritoScope>()
     var page = 1
 
 
@@ -99,7 +100,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
 
-
         if (testConnection() == true) {
             viewModel.getFavoritoist()
             if (Movie == true) {
@@ -117,9 +117,10 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 }
                 viewModel.getPopularMovies(page)
                 setScrollViewFilmes(view.rv_pop)
-                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
                     it.forEach {
                         if (it.type == "Movie") {
+                            ListMediaMovieFavCopy.add(it)
                             ListMediaMovieFav.add(it)
                         }
                     }
@@ -147,9 +148,10 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                     view.rv_pop.setHasFixedSize(true)
                 }
                 setScrollViewSeries(view.rv_pop)
-                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                viewModel.returnFavoritoListSerie.observe(viewLifecycleOwner) {
                     it.forEach {
                         if (it.type == "Tv") {
+                            ListMediaSerieFavCopy.add(it)
                             ListMediaSerieFav.add(it)
                         }
                     }
@@ -168,9 +170,10 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
             view.rv_pop.visibility = View.GONE
             viewModel.getFavoritoist()
             if (Movie == true) {
-                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
                     it.forEach {
                         if (it.type == "Movie") {
+                            ListMediaMovieFavCopy.add(it)
                             ListMediaMovieFav.add(it)
                         }
                     }
@@ -184,9 +187,10 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                 }
 
             } else {
-                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                viewModel.returnFavoritoListSerie.observe(viewLifecycleOwner) {
                     it.forEach {
                         if (it.type == "Tv") {
+                            ListMediaSerieFavCopy.add(it)
                             ListMediaSerieFav.add(it)
                         }
                     }
@@ -245,11 +249,11 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     override fun favoritosItemClickMovie(position: Int) {
         if (testConnection() == true) {
             val intent = Intent(context, MediaSelectedActivity::class.java)
-            var currentItemMovie = ListMediaMovieFav.get(position)
-                intent.putExtra("poster", currentItemMovie.poster_path)
-                intent.putExtra("movie", true)
-                intent.putExtra("id", currentItemMovie.id)
-                startActivity(intent)
+            var currentItemMovie = ListMediaMovieFavCopy.get(position)
+            intent.putExtra("poster", currentItemMovie.poster_path)
+            intent.putExtra("movie", true)
+            intent.putExtra("id", currentItemMovie.id)
+            startActivity(intent)
         } else {
             creatAlertOff()
         }
@@ -258,11 +262,11 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     override fun favoritosItemClickSerie(position: Int) {
         if (testConnection() == true) {
             val intent = Intent(context, MediaSelectedActivity::class.java)
-            var currentItemSerie = ListMediaSerieFav.get(position)
-                intent.putExtra("poster", currentItemSerie.poster_path)
-                intent.putExtra("movie", true)
-                intent.putExtra("id", currentItemSerie.id)
-                startActivity(intent)
+            var currentItemSerie = ListMediaSerieFavCopy.get(position)
+            intent.putExtra("poster", currentItemSerie.poster_path)
+            intent.putExtra("movie", false)
+            intent.putExtra("id", currentItemSerie.id)
+            startActivity(intent)
         } else {
             creatAlertOff()
         }
@@ -271,14 +275,21 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     override fun favoritosLongClickSerie(position: Int) {
         Log.i("click", "clicou")
-        // creatAlert(movieFav)
-        // updateListSerieFav()
+        if (testConnection() == true) {
+            val movieFav = ListMediaSerieFavCopy.get(position)
+            creatAlert(movieFav)
+            updateListSerieFav()
+        } else {
+            creatAlertOff()
+        }
     }
 
     override fun favoritosLongClick(position: Int) {
         Log.i("click", "clicou")
         if (testConnection() == true) {
-            val movieFav = ListMediaMovieFav.get(position)
+            val movieFav = ListMediaMovieFavCopy.get(position)
+            creatAlert(movieFav)
+            updateListFav()
         } else {
             creatAlertOff()
         }
@@ -310,28 +321,28 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     }
 
-//    fun updateListFav(){
-//        viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
-//            it.forEach {
-//                if (it.type == "Movie"){
-//                    ListMediaMovieFav.add(it)
-//                }else{
-//                    ListMediaSerieFav.add(it)
-//                }
-//            }
-//        }
-//    }
-//    fun updateListSerieFav(){
-//        viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
-//            it.forEach {
-//                if (it.type == "Tv"){
-//                    ListMediaSerieFav.add(it)
-//                }else{
-//                    ListMediaMovieFav.add(it)
-//                }
-//            }
-//        }
-//    }
+    fun updateListFav(){
+        viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
+            it.forEach {
+                if (it.type == "Movie"){
+                    ListMediaMovieFav.add(it)
+                }else{
+                    ListMediaSerieFav.add(it)
+                }
+            }
+        }
+    }
+    fun updateListSerieFav(){
+        viewModel.returnFavoritoListSerie.observe(viewLifecycleOwner) {
+            it.forEach {
+                if (it.type == "Tv"){
+                    ListMediaSerieFav.add(it)
+                }else{
+                    ListMediaMovieFav.add(it)
+                }
+            }
+        }
+    }
 
     private fun setScrollViewFilmes(rv_main: RecyclerView) {
         rv_main.run {
@@ -371,6 +382,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
             })
         }
     }
+
     fun testConnection(): Boolean {
         val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
@@ -378,4 +390,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         return isConnected
 
     }
+
+
 }
