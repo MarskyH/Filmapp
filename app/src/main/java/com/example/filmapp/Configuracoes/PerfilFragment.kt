@@ -65,12 +65,12 @@ class PerfilFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         storageReference = FirebaseStorage.getInstance().getReference()
 
-        val profileRef: StorageReference = storageReference.child("users/"+mAuth.currentUser!!.uid+"profile.jpg")
-        profileRef.downloadUrl.addOnSuccessListener {uri->
-            println(uri.toString())
-
-            Picasso.get().load(uri).into(imagemPer)
-        }
+//        val profileRef: StorageReference = storageReference.child("users/"+mAuth.currentUser!!.uid+"profile.jpg")
+//        profileRef.downloadUrl.addOnSuccessListener {uri->
+//            println(uri.toString())
+//
+//            Picasso.get().load(uri).into(imagemPer)
+//        }
 
 
 
@@ -81,12 +81,12 @@ class PerfilFragment : Fragment() {
 
 
         if(idUser == null){
-            view.btnAlterar.isInvisible
-            emailVis.isInvisible
-            nomeCompleto.isInvisible
-            nomeDoUsuario.isInvisible
-            viewNomeUsuario.isInvisible
-            viewNomeCompleto.isInvisible
+            view.btnAlterar.visibility = View.GONE
+            view.emailVis.visibility = View.GONE
+            view.nomeCompleto.visibility = View.GONE
+            view.nomeDoUsuario.visibility = View.GONE
+            view.viewNomeUsuario.visibility = View.GONE
+            view.viewNomeCompleto.visibility = View.GONE
 
         }
 
@@ -104,14 +104,16 @@ class PerfilFragment : Fragment() {
                         emailVis.setText(user?.email)
                         nomeCompleto.setText(user?.displayName)
 //                        nomeDoUsuario.setText("Login com google não tem usuário")
-                        viewNomeUsuario.isInvisible
-                        nomeDoUsuario.isInvisible
+                        viewNomeUsuario.visibility = View.GONE
+                        nomeDoUsuario.visibility = View.GONE
+                        view.btnAlterar.visibility = View.GONE
                     } else if(emailVis.text.toString().isEmpty() && nomeCompleto.text.toString().isEmpty() && nomeDoUsuario.text.toString().isEmpty() && isLoggedIn()){
                         emailVis.setText(user?.email)
                         nomeCompleto.setText(user?.displayName)
 //                        nomeDoUsuario.setText("Login com Facebook não tem usuário")
-                        viewNomeUsuario.isInvisible
-                        nomeDoUsuario.isInvisible
+                        viewNomeUsuario.visibility = View.GONE
+                        nomeDoUsuario.visibility = View.GONE
+                        view.btnAlterar.visibility = View.GONE
                     }
 
                 }
@@ -132,7 +134,7 @@ class PerfilFragment : Fragment() {
             }
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
-
+            activity?.finish()
 
         }
 
@@ -182,4 +184,4 @@ class PerfilFragment : Fragment() {
 
 
 
-    }
+}
