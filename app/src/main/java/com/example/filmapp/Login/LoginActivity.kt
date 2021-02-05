@@ -355,10 +355,10 @@ class LoginActivity : AppCompatActivity() {
 
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
-            Toast.makeText(this, "U Signed In successfully", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "U Signed In successfully", Toast.LENGTH_LONG).show()
             startActivity(Intent(this, HomeActivity::class.java))
         } else {
-            Toast.makeText(this, "U Didnt signed in", Toast.LENGTH_LONG).show()
+//            Toast.makeText(this, "U Didnt signed in", Toast.LENGTH_LONG).show()
         }
     }
 
