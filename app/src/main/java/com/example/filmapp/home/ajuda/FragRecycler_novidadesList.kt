@@ -42,8 +42,6 @@ class FragRecycler_novidadesList : Fragment(), NovidadesAdapter.onNovidadeItemCl
     ): View? {
         var view = inflater.inflate(R.layout.fragrecycler_novidadeslist, container, false)
 
-        viewModel.conectDatabase()
-
         //Iniciando o ReciclerView Dúvidas Frequentes
         novidadesListLayoutManager = LinearLayoutManager(context)
         novidadesListAdapter = NovidadesAdapter(this)

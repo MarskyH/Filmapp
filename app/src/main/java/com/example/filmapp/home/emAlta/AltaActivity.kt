@@ -1,15 +1,20 @@
 package com.example.filmapp.home.emAlta
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.R
 import com.example.filmapp.home.descubra.DescubraActivity
 import com.example.filmapp.home.HomeActivity
 import kotlinx.android.synthetic.main.activity_alta.*
+import kotlinx.android.synthetic.main.fragrecycler_assistirmaistarde.*
 
 class AltaActivity : AppCompatActivity() {
 
@@ -17,6 +22,21 @@ class AltaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alta)
 
+        if(testConnection() == true) {
+            setDataOnline()
+        }else{
+            Toast.makeText(this, "Você está offline", Toast.LENGTH_SHORT).show()
+            setDataOffline()
+        }
+
+        setSupportActionBar(toolbarEmAltaPage)
+
+        toolbarEmAltaPage.setNavigationOnClickListener {
+            callHome()
+        }
+    }
+
+    fun setDataOnline(){
         //Inflando o RecyclerView de Melhores da Semana (FragRecycler_melhoresDaSemana)
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fragRecycler_melhoresDaSemanaSpace, FragRecycler_melhoresDaSemana.newInstance())
@@ -34,12 +54,12 @@ class AltaActivity : AppCompatActivity() {
             replace(R.id.fragRecycler_novosEpisodiosSpace, FragRecycler_novosEpisodios.newInstance())
             commit()
         }
+    }
 
-        setSupportActionBar(toolbarEmAltaPage)
-
-        toolbarEmAltaPage.setNavigationOnClickListener {
-            callHome()
-        }
+    fun setDataOffline(){
+        tv_titleMelhoresDaSemana_emAlta.visibility = View.GONE
+        tv_titleEmCartaz_EmAlta.visibility = View.GONE
+        tv_titleNovosEpisodeos_EmAlta.visibility = View.GONE
     }
 
     //Usado para add o Menu a Toolbar
@@ -77,5 +97,12 @@ class AltaActivity : AppCompatActivity() {
     fun callConfiguracoesPage(){
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
+    }
+
+    fun testConnection(): Boolean {
+        val cm = getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
     }
 }

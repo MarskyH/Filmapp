@@ -1,20 +1,226 @@
 package com.example.filmapp.home.melhores
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
+import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
+import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.launch
 import java.math.RoundingMode
+import java.time.LocalDateTime
 
 class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
 
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
+
+    //Realtime Database
+    var USER_ID = user!!.uid
+    var cloudDatabase = FirebaseDatabase.getInstance()
+    var reference = cloudDatabase.reference
+
     var returnAPI = MutableLiveData<BaseMovie>()
     var returnTopMoviesAPI = MutableLiveData<BaseMovie>()
+    var returnAssistirMaisTardeList = MutableLiveData<ArrayList<AssistirMaisTardeScope>>()
+    var returnHistoricoList = MutableLiveData<ArrayList<HistoricoScope>>()
+
+    //Realtime DatabaseInício-----------------------------------------------------------------------
+
+    fun saveInHistoricoList(media: ResultMovie){
+
+        //Verificando se o usuário possui um dipositivo com a versão do android compatível
+        var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime.now().toString()
+        } else {
+            "404"
+        }
+
+        var movie = HistoricoScope(media.id, media.title, media.poster_path, "Movie", date = currentDateTime)
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .child(media.id.toString())
+            .setValue(movie)
+    }
+
+    fun deleteFromHistoricoList(media: ResultMovie) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("historico")
+            .child(media.id.toString())
+            .removeValue()
+    }
+
+    //Esta function retorna o último histórico salvo no Realtime Database
+    fun getHistoricoInCloud() {
+        var historicoList = arrayListOf<HistoricoScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "historico") {
+                                        it.children.forEach {
+
+                                            var media = HistoricoScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                                it.child("seasonNumber").value.toString().toInt(),
+                                                it.child("episodeNumber").value.toString().toInt(),
+                                                it.child("formattedTitle").value.toString(),
+                                                it.child("episodeTitle").value.toString(),
+                                                it.child("formattedEpisodeTitle").value.toString(),
+                                                it.child("date").value.toString()
+                                            )
+
+                                            historicoList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnHistoricoList.value = historicoList
+                historicoList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in HistóricoPage")
+            }
+        })
+    }
+
+    fun checkMovieInHistorico(
+        listAPI: ArrayList<ResultMovie>,
+        listDataBase: ArrayList<HistoricoScope>
+    ): ArrayList<ResultMovie> {
+        var listResult = arrayListOf<ResultMovie>()
+
+        listAPI?.forEach {
+            var media = it
+
+            listDataBase?.forEach {
+
+                if (media.id == it.id)
+                    media.watched = true
+            }
+
+            listResult.add(media)
+        }
+
+        return listResult
+    }
+
+    fun saveInAssistirMaisTardeList(media: ResultMovie){
+        var movie =
+            AssistirMaisTardeScope(id = media.id, title = media.title, poster_path = media.poster_path, "Movie")
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(media.id.toString())
+            .setValue(movie)
+    }
+
+    fun deleteFromAssistirMaisTardeList(media: ResultMovie) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(media.id.toString())
+            .removeValue()
+    }
+
+    //Esta function retorna a última lista salva no Realtime Database
+    fun getAssistirMaisTardeListInCloud() {
+        var assistirMaisTardeList = arrayListOf<AssistirMaisTardeScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "assistirMaisTarde") {
+                                        it.children.forEach {
+
+                                            var media = AssistirMaisTardeScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                            )
+
+                                            assistirMaisTardeList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnAssistirMaisTardeList.value = assistirMaisTardeList
+                assistirMaisTardeList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in MelhoresFilmesList")
+            }
+        })
+    }
+
+    fun checkInAssistirMaisTardeList(
+        listAPI: ArrayList<ResultMovie>,
+        listDataBase: ArrayList<AssistirMaisTardeScope>
+    ): ArrayList<ResultMovie> {
+        var listResult = arrayListOf<ResultMovie>()
+
+        listAPI?.forEach {
+            var media = it
+
+            listDataBase?.forEach {
+
+                if (media.id == it.id)
+                    media.assistirMaisTardeIndication = true
+            }
+
+            listResult.add(media)
+        }
+
+        return listResult
+    }
+
+    //Realtime DatabaseFim--------------------------------------------------------------------------
 
     fun getTopMoviesList(){
         viewModelScope.launch {
@@ -117,26 +323,5 @@ class MelhoresFilmesViewModel(val service: Service) : ViewModel() {
         var baseMovieReturn = BaseMovie(returnAPI.value!!.page, list, returnAPI.value!!.total_results, returnAPI.value!!.total_pages)
 
         return baseMovieReturn
-    }
-
-    fun checkMovieInHistorico(
-        listAPI: ArrayList<ResultMovie>,
-        listDataBase: List<HistoricoEntity>
-    ): ArrayList<ResultMovie> {
-        var listResult = arrayListOf<ResultMovie>()
-
-        listAPI?.forEach {
-            var media = it
-
-            listDataBase?.forEach {
-
-                if (media.id == it.id)
-                    media.watched = true
-            }
-
-            listResult.add(media)
-        }
-
-        return listResult
     }
 }

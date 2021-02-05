@@ -22,6 +22,9 @@ class SplashActivity: AppCompatActivity() {
         var firebase = FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         setContentView(R.layout.layout_splash)
+
+        var firebase = FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+
         splashCoroutine()
     }
 

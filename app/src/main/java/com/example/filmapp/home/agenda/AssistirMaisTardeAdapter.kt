@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
 import com.squareup.picasso.Picasso
 
 class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListener) :
     RecyclerView.Adapter<AssistirMaisTardeAdapter.AssistirMaisTardeViewHolder>() {
 
-    var mediaList = listOf<AssistirMaisTardeEntity>()
+    var mediaList = arrayListOf<AssistirMaisTardeScope>()
+    var isClickable = true
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,7 +31,7 @@ class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListene
         holder: AssistirMaisTardeViewHolder,
         position: Int
     ) {
-        val currentItem: AssistirMaisTardeEntity = mediaList[position]
+        val currentItem: AssistirMaisTardeScope = mediaList[position]
 
         holder.mediaName.text = currentItem.title
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
@@ -54,14 +56,16 @@ class AssistirMaisTardeAdapter(val listener: onAssistirMaisTardeItemClickListene
         }
 
         override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (RecyclerView.NO_POSITION != position) {
-                listener.assistirMaisTardeItemClick(position)
+            if(isClickable == true) {
+                val position = adapterPosition
+                if (RecyclerView.NO_POSITION != position) {
+                    listener.assistirMaisTardeItemClick(position)
+                }
             }
         }
     }
 
-    fun addList(list: List<AssistirMaisTardeEntity>) {
+    fun addList(list: ArrayList<AssistirMaisTardeScope>) {
         mediaList = list
         notifyDataSetChanged()
     }

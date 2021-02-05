@@ -9,66 +9,79 @@ import com.example.filmapp.Services.Service
 import com.example.filmapp.dataBase.AssistirMaisTardeRepository
 import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
+import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AssistirMaisTardeViewModel(app: Application): AndroidViewModel(app) {
 
-    val mediaList: LiveData<List<AssistirMaisTardeEntity>>
-    private val repository: AssistirMaisTardeRepository
+    //Firebase Auth
+    val user = FirebaseAuth.getInstance().currentUser
+
+    //Realtime Database
+    var USER_ID = user!!.uid
+    var cloudDatabase = FirebaseDatabase.getInstance()
+    var reference = cloudDatabase.reference
+
+    var returnAssistirMaisTardeList = MutableLiveData<ArrayList<AssistirMaisTardeScope>>()
 
     init {
-        val assistirMaisTardeDAO = FilmAppDataBase.getDataBase(app).assistirMaisTardeDao()
-        repository = AssistirMaisTardeRepository(assistirMaisTardeDAO)
-        mediaList = repository.readAllData
-    }
-
-    fun saveNewMedia(media: AssistirMaisTardeEntity){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveInAssistirMaisTardeListTask(media)
+        if(cloudDatabase == null){
+            cloudDatabase = FirebaseDatabase.getInstance()
         }
     }
 
-    fun removeMedia(media: AssistirMaisTardeEntity){
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeOfAssistirMaisTardeListTask(media)
-        }
-    }
+    //Realtime DatabaseInício---------------------------------------------------------------------------
 
-    fun checkMovieInList(listAPI: ArrayList<ResultMovie>, listDataBase: List<AssistirMaisTardeEntity>): ArrayList<ResultMovie>{
-        var listResult = arrayListOf<ResultMovie>()
+    //Esta function retorna a última lista salva no Realtime Database
+    fun getAssistirMaisTardeListInCloud() {
+        var assistirMaisTardeList = arrayListOf<AssistirMaisTardeScope>()
 
-        listAPI?.forEach {
-            var media = it
+        cloudDatabase.getReference().child("users/${USER_ID}/assistirMaisTarde").keepSynced(true)
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
 
-            listDataBase?.forEach {
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "assistirMaisTarde") {
+                                        it.children.forEach {
 
-                if(media.id == it.id)
-                    media.assistirMaisTardeIndication = true
+                                            var media = AssistirMaisTardeScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                            )
+
+                                            assistirMaisTardeList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnAssistirMaisTardeList.value = assistirMaisTardeList
+                assistirMaisTardeList = arrayListOf()
             }
 
-            listResult.add(media)
-        }
-
-        return listResult
-    }
-
-    fun checkTVInList(listAPI: ArrayList<ResultTv>, listDataBase: List<AssistirMaisTardeEntity>): ArrayList<ResultTv>{
-        var listResult = arrayListOf<ResultTv>()
-
-        listAPI?.forEach {
-            var media = it
-
-            listDataBase?.forEach {
-
-                if(media.id == it.id)
-                    media.assistirMaisTardeIndication = true
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in AssistirMaisTardeList")
             }
-
-            listResult.add(media)
-        }
-
-        return listResult
+        })
     }
+
+//Realtime DatabaseFim------------------------------------------------------------------------------
 
 }

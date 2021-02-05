@@ -15,6 +15,7 @@ class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
 ) : RecyclerView.Adapter<AcompanhandoAdapter.AcompanhandoViewHolder>() {
 
     var mediaList = listOf<AcompanhandoScope>()
+    var isClickable = true
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -87,9 +88,11 @@ class AcompanhandoAdapter(val listener: onAcompanhandoItemClickListener
         }
 
         override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (RecyclerView.NO_POSITION != position) {
-                listener.AcompanhandoItemClick(position)
+            if(isClickable == true) {
+                val position = adapterPosition
+                if (RecyclerView.NO_POSITION != position) {
+                    listener.AcompanhandoItemClick(position)
+                }
             }
         }
     }

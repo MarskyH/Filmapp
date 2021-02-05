@@ -37,6 +37,7 @@ data class TvDetails(
     val vote_average: Double = 0.0,
     val vote_count: Int = 0,
     var followingStatusIndication: Boolean = false,
+    var assistirMaisTardeIndication: Boolean = false,
     var finished: Int = 0
 ):Serializable {
 }

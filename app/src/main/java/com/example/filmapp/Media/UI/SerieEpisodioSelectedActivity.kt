@@ -64,6 +64,7 @@ class SerieEpisodioSelectedActivity : AppCompatActivity() {
     private fun setUpTabs() {
         val numberSeason = intent.getSerializableExtra("number_season") as? Int
         val numberEp = intent.getSerializableExtra("number_episode") as? Int
+        val episodeTitle = intent.getSerializableExtra("episodeTitle") as? String
         val sinopseEp = intent.getSerializableExtra("sinopse_episode") as? String
         val img = intent.getSerializableExtra("imagem") as? String
         val imgLogo = intent.getSerializableExtra("logo") as? String
@@ -73,7 +74,7 @@ class SerieEpisodioSelectedActivity : AppCompatActivity() {
         val title = intent.getSerializableExtra("title") as? String
         val poster = intent.getSerializableExtra("poster") as? String
         val titulo = "Temporada ${numberSeason} - Episódio ${numberEp}"
-        val Episodio = EpisodioFragment.newInstance(sinopseEp, poster, id,"Tv", img, imgLogo, homepage!!, title, id_ep)
+        val Episodio = EpisodioFragment.newInstance(sinopseEp, poster, id,"Tv", img, imgLogo, homepage!!, title, id_ep, numberEp, numberSeason, episodeTitle)
         val adapter = ViewPagerMedia(supportFragmentManager)
         adapter.addFragment(Episodio, titulo)
         viewPagerSeriesEpisodio.adapter = adapter

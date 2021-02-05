@@ -99,6 +99,7 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
 
+
         if (testConnection() == true) {
             viewModel.getFavoritoist()
             if (Movie == true) {
@@ -370,7 +371,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
             })
         }
     }
-
     fun testConnection(): Boolean {
         val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
@@ -378,6 +378,4 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         return isConnected
 
     }
-
-
 }

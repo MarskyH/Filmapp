@@ -92,6 +92,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         intent.putExtra("id", Serie?.id.toString())
         intent.putExtra("title", Serie?.name)
         intent.putExtra("poster", Serie?.poster_path)
+        intent.putExtra("episodeTitle", episodio.name.toString())
         startActivity(intent)
         adapter.notifyItemChanged(position)
     }

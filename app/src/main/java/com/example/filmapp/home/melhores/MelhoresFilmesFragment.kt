@@ -1,16 +1,21 @@
 package com.example.filmapp.home.melhores
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.filmapp.Entities.Movie.ResultMovie
+import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
@@ -30,6 +35,8 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
     private lateinit var viewModelHistorico: HistoricoViewModel
     var listAssistirMaisTardeDataBase = listOf<AssistirMaisTardeEntity>()
     var listHistoricoDataBase = listOf<HistoricoEntity>()
+    var topMoviesList = arrayListOf<ResultMovie>()
+    var mediaList = arrayListOf<ResultMovie>()
 
     val viewModel by viewModels<MelhoresFilmesViewModel>{
         object : ViewModelProvider.Factory{
@@ -60,26 +67,44 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
         view.rc_melhoresFilmesList.isHorizontalFadingEdgeEnabled
         view.rc_melhoresFilmesList.setHasFixedSize(true)
 
-        //Recebendo os Itens (Filmes e Séries) que estão na lista de Assistir Mais Tarde
-        viewModelAssistirMaisTarde.mediaList.observe(viewLifecycleOwner){
-            listAssistirMaisTardeDataBase = it
+        if(testConnection() == true) {
+            setDataOnline()
+        }else{
+            Toast.makeText(context, "Você está offline", Toast.LENGTH_SHORT).show()
+            setDataOffline()
         }
 
-        //Recebendo os Filmes que o usuário já assistiu
-        viewModelHistorico.mediaList.observe(viewLifecycleOwner){
-            listHistoricoDataBase = it
-        }
+        return view
+    }
 
+    fun setDataOnline(){
+        //Recebe a lista de melhores filmes da API
         viewModel.returnTopMoviesAPI.observe(viewLifecycleOwner){
-            var mediaList = viewModelAssistirMaisTarde.checkMovieInList(it.results, listAssistirMaisTardeDataBase)
-            mediaList = viewModel.checkMovieInHistorico(it.results, listHistoricoDataBase)
+            topMoviesList = it.results
+            viewModel.getAssistirMaisTardeListInCloud()
+        }
+
+        //Recebendo os Itens (Filmes e Séries) que estão na lista de Assistir Mais Tarde e compara
+        //com as séries retornadas pela API
+        viewModel.returnAssistirMaisTardeList.observe(viewLifecycleOwner) {
+            mediaList = viewModel.checkInAssistirMaisTardeList(
+                topMoviesList,
+                it
+            )
+            viewModel.getHistoricoInCloud()
+        }
+
+        viewModel.returnHistoricoList.observe(viewLifecycleOwner){
+            mediaList = viewModel.checkMovieInHistorico(mediaList, it)
             pb_melhoresFilmes.setVisibility(View.INVISIBLE)
             melhoresFilmesAdapter.addList(mediaList)
         }
 
         viewModel.getTopMoviesList()
+    }
 
-        return view
+    fun setDataOffline(){
+
     }
 
     override fun melhoresItemClick(position: Int) {
@@ -101,8 +126,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var newEntity = AssistirMaisTardeEntity(media.id, media.title, media.poster_path, "Movie")
-            viewModelAssistirMaisTarde.saveNewMedia(newEntity)
+            viewModel.saveInAssistirMaisTardeList(media)
             Toast.makeText(context, "Filme adicionado a Agenda", Toast.LENGTH_SHORT).show()
         }
     }
@@ -112,8 +136,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var removeEntity = AssistirMaisTardeEntity(media.id, media.title, media.poster_path, "Movie")
-            viewModelAssistirMaisTarde.removeMedia(removeEntity)
+            viewModel.deleteFromAssistirMaisTardeList(media)
             Toast.makeText(context, "Filme removido da Agenda", Toast.LENGTH_SHORT).show()
         }
     }
@@ -123,15 +146,18 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            //Verificando se o usuário possui um dipositivo com a versão do android compatível
-            var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                LocalDateTime.now().toString()
-            } else {
-                " "
-            }
+//            //Verificando se o usuário possui um dipositivo com a versão do android compatível
+//            var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                LocalDateTime.now().toString()
+//            } else {
+//                " "
+//            }
+//
+//            var newItem = HistoricoEntity(media.id, media.title, media.poster_path, "Movie", date = currentDateTime)
+//            viewModelHistorico.saveNewItem(newItem)
 
-            var newItem = HistoricoEntity(media.id, media.title, media.poster_path, "Movie", date = currentDateTime)
-            viewModelHistorico.saveNewItem(newItem)
+            viewModel.saveInHistoricoList(media)
+
             Toast.makeText(context, "O filme ${media.title} foi adicionado ao Histórico", Toast.LENGTH_SHORT).show()
         }
     }
@@ -141,8 +167,9 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-            var item = HistoricoEntity(media.id, media.title, media.poster_path, "Movie")
-            viewModelHistorico.removeItem(item)
+//            var item = HistoricoEntity(media.id, media.title, media.poster_path, "Movie")
+//            viewModelHistorico.removeItem(item)
+            viewModel.deleteFromHistoricoList(media)
             Toast.makeText(context, "O filme ${media.title} foi removido do Histórico", Toast.LENGTH_SHORT).show()
         }
     }
@@ -162,6 +189,13 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             }
             startActivity(ShareIntent)
         }
+    }
+
+    fun testConnection(): Boolean {
+        val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
+        return isConnected
     }
 
 }

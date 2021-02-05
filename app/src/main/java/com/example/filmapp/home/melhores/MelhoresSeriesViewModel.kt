@@ -9,6 +9,7 @@ import com.example.filmapp.Entities.TV.BaseTv
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
+import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,6 +31,7 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
     var returnAPI = MutableLiveData<BaseTv>()
     var returnTopSeriesAPI = MutableLiveData<BaseTv>()
     var returnAcompanhandoList = MutableLiveData<ArrayList<AcompanhandoScope>>()
+    var returnAssistirMaisTardeList = MutableLiveData<ArrayList<AssistirMaisTardeScope>>()
     var list = arrayListOf<AcompanhandoScope>()
 
 
@@ -112,7 +114,7 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
     }
 
 
-    fun checkSerieInList(
+    fun checkSerieInAcompanhandoList(
         listAPI: ArrayList<ResultTv>,
         listDataBase: ArrayList<AcompanhandoScope>
     ): ArrayList<ResultTv> {
@@ -126,6 +128,91 @@ class MelhoresSeriesViewModel(val service: Service) : ViewModel() {
                 if (media.id == it.id) {
                     media.followingStatusIndication = true
                     media.finished = it.finished
+                }
+            }
+
+            listResult.add(media)
+        }
+
+        return listResult
+    }
+
+    fun saveInAssistirMaisTardeList(media: ResultTv) {
+        var serie =
+            AssistirMaisTardeScope(id = media.id, title = media.name, poster_path = media.poster_path, "Tv")
+
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(media.id.toString())
+            .setValue(serie)
+    }
+
+    fun deleteFromAssistirMaisTardeList(media: ResultTv) {
+        FirebaseDatabase.getInstance().reference
+            .child("users")
+            .child(USER_ID)
+            .child("assistirMaisTarde")
+            .child(media.id.toString())
+            .removeValue()
+    }
+
+    //Esta function retorna a última lista salva no Realtime Database
+    fun getAssistirMaisTardeListInCloud() {
+        var assistirMaisTardeList = arrayListOf<AssistirMaisTardeScope>()
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                dataSnapshot.children.forEach {
+
+                    if (it.key == "users") {
+                        it.children.forEach {
+                            if (it.key == USER_ID) {
+                                it.children.forEach {
+                                    if (it.key == "assistirMaisTarde") {
+                                        it.children.forEach {
+
+                                            var media = AssistirMaisTardeScope(
+                                                it.child("id").value.toString().toInt(),
+                                                it.child("title").value.toString(),
+                                                it.child("poster_path").value.toString(),
+                                                it.child("type").value.toString(),
+                                            )
+
+                                            assistirMaisTardeList.add(media)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                returnAssistirMaisTardeList.value = assistirMaisTardeList
+                assistirMaisTardeList = arrayListOf()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("Return DB Error:", error.message + " in MelhoresSériesList")
+            }
+        })
+    }
+
+    fun checkInAssistirMaisTardeList(
+        listAPI: ArrayList<ResultTv>,
+        listDataBase: ArrayList<AssistirMaisTardeScope>
+    ): ArrayList<ResultTv> {
+        var listResult = arrayListOf<ResultTv>()
+
+        listAPI?.forEach {
+            var media = it
+
+            listDataBase?.forEach {
+
+                if (media.id == it.id) {
+                    media.assistirMaisTardeIndication = true
                 }
             }
 
