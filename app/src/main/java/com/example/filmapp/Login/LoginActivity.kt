@@ -101,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onCancel() {
-                Toast.makeText(this@LoginActivity, "Login Cancelled", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@LoginActivity, "Login Cancelado", Toast.LENGTH_LONG).show()
             }
 
             override fun onError(exception: FacebookException) {
@@ -355,10 +355,10 @@ class LoginActivity : AppCompatActivity() {
 
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
-//            Toast.makeText(this, "U Signed In successfully", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Login concluído.", Toast.LENGTH_LONG).show()
             startActivity(Intent(this, HomeActivity::class.java))
         } else {
-//            Toast.makeText(this, "U Didnt signed in", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Faça Login.", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -375,7 +375,7 @@ class LoginActivity : AppCompatActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
-                        baseContext, "Authentication failed.",
+                        baseContext, "Falha da Autenticação.",
                         Toast.LENGTH_SHORT
                     ).show()
                     updateUI(null)
