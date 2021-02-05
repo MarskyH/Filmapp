@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".Series.Ui.SerieSelectedActivity">
+    tools:context=".Configuracoes.ConfiguracoesActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_series_selected"
@@ -35,14 +35,14 @@
 
             </androidx.appcompat.widget.Toolbar>
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="55dp"
-                android:layout_height="49dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_user_photo" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imageView6"-->
+<!--                android:layout_width="55dp"-->
+<!--                android:layout_height="49dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:srcCompat="@drawable/ic_user_photo" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

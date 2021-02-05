@@ -32,14 +32,6 @@ class FavoritosAdapterSerie(val listener: FavoritosItemClickListener) :
         val currentItem: FavoritoScope = mediaList[position]
         holder.mediaName.text = currentItem.title
         Picasso.get().load(URL_IMAGE + currentItem.poster_path).into(holder.mediaImage)
-
-        holder.mediaImage.setOnClickListener {
-            val intent = Intent(holder.itemView.context, MediaSelectedActivity::class.java)
-            intent.putExtra("poster", currentItem.poster_path)
-            intent.putExtra("movie", false)
-            intent.putExtra("id", currentItem.id)
-            holder.itemView.context.startActivity(intent)
-        }
     }
 
     override fun getItemCount(): Int {
@@ -47,7 +39,7 @@ class FavoritosAdapterSerie(val listener: FavoritosItemClickListener) :
     }
 
     interface FavoritosItemClickListener {
-        fun favoritosItemClick(position: Int)
+        fun favoritosItemClickSerie(position: Int)
         fun favoritosLongClickSerie(position: Int)
     }
 
@@ -64,7 +56,7 @@ class FavoritosAdapterSerie(val listener: FavoritosItemClickListener) :
         override fun onClick(v: View?) {
             val position = adapterPosition
             if (RecyclerView.NO_POSITION != position) {
-                listener.favoritosItemClick(position)
+                listener.favoritosItemClickSerie(position)
             }
         }
         override fun onLongClick(v: View?): Boolean {

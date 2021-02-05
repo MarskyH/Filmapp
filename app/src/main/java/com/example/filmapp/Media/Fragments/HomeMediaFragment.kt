@@ -1,5 +1,6 @@
 package com.example.filmapp.Media.Fragments
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -13,7 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,6 +35,8 @@ import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_home_media.*
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
@@ -71,6 +73,8 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         if (arguments != null) {
             Movie = arguments?.getBoolean(movie)
         }
@@ -95,9 +99,9 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_home_media, container, false)
 
-        if(testConnection() == true) {
-            viewModel.getFavoritoist()
 
+        if (testConnection() == true) {
+            viewModel.getFavoritoist()
             if (Movie == true) {
                 viewModel.config.observe(viewLifecycleOwner) {
                     config = it
@@ -158,55 +162,135 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
                     view.rv_fav.setHasFixedSize(true)
                 }
             }
+        } else {
+            Toast.makeText(activity, "Sem conexão", Toast.LENGTH_SHORT).show()
+            view.tv_pop.visibility = View.GONE
+            view.rv_pop.visibility = View.GONE
+            viewModel.getFavoritoist()
+            if (Movie == true) {
+                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                    it.forEach {
+                        if (it.type == "Movie") {
+                            ListMediaMovieFav.add(it)
+                        }
+                    }
+                    MovieFavAdapter = FavoritosAdapterMovie(this)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    MovieFavAdapter.addList(ListMediaMovieFav)
+                    ListMediaMovieFav = ArrayList()
+                    view.rv_fav.layoutManager = lManager
+                    view.rv_fav.adapter = MovieFavAdapter
+                    view.rv_fav.setHasFixedSize(true)
+                }
+
+            } else {
+                viewModel.returnFavoritoList.observe(viewLifecycleOwner) {
+                    it.forEach {
+                        if (it.type == "Tv") {
+                            ListMediaSerieFav.add(it)
+                        }
+                    }
+                    SerieFavAdapter = FavoritosAdapterSerie(this)
+                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                    SerieFavAdapter.addList(ListMediaSerieFav)
+                    ListMediaSerieFav = ArrayList()
+                    view.rv_fav.layoutManager = lManager
+                    view.rv_fav.adapter = SerieFavAdapter
+                    view.rv_fav.setHasFixedSize(true)
+                }
+            }
         }
         return view
     }
 
 
     override fun homeMediaMovieClick(position: Int) {
-        if (Movie == true) {
-            val media = ListMediaMovie.get(position)
-            val intent = Intent(context, MediaSelectedActivity::class.java)
-            intent.putExtra("poster", media.poster_path)
-            intent.putExtra("movie", Movie)
-            intent.putExtra("sinopse", media.overview)
-            intent.putExtra("id", media.id)
-            startActivity(intent)
-            MovieAdapter.notifyDataSetChanged()
+        Log.i("click", "clicou")
+        if (testConnection() == true) {
+            if (Movie == true) {
+                val media = ListMediaMovie.get(position)
+                val intent = Intent(context, MediaSelectedActivity::class.java)
+                intent.putExtra("poster", media.poster_path)
+                intent.putExtra("movie", Movie)
+                intent.putExtra("sinopse", media.overview)
+                intent.putExtra("id", media.id)
+                startActivity(intent)
+                MovieAdapter.notifyDataSetChanged()
+            }
+        } else {
+            creatAlertOff()
         }
-
 
     }
 
     override fun homeMediaSerieClick(position: Int) {
-        if (Movie == false) {
-            val media = ListMediaSerie.get(position)
+        Log.i("click", "clicou")
+        if (testConnection() == true) {
+            if (Movie == false) {
+                val media = ListMediaSerie.get(position)
+                val intent = Intent(context, MediaSelectedActivity::class.java)
+                intent.putExtra("poster", media.poster_path)
+                intent.putExtra("movie", Movie)
+                intent.putExtra("sinopse", media.overview)
+                intent.putExtra("id", media.id)
+                startActivity(intent)
+                SerieAdapter.notifyDataSetChanged()
+            }
+        } else {
+            creatAlertOff()
+        }
+
+    }
+
+    override fun favoritosItemClickMovie(position: Int) {
+        if (testConnection() == true) {
             val intent = Intent(context, MediaSelectedActivity::class.java)
-            intent.putExtra("poster", media.poster_path)
-            intent.putExtra("movie", Movie)
-            intent.putExtra("sinopse", media.overview)
-            intent.putExtra("id", media.id)
-            startActivity(intent)
-            SerieAdapter.notifyDataSetChanged()
+            var currentItemMovie = ListMediaMovieFav.get(position)
+                intent.putExtra("poster", currentItemMovie.poster_path)
+                intent.putExtra("movie", true)
+                intent.putExtra("id", currentItemMovie.id)
+                startActivity(intent)
+        } else {
+            creatAlertOff()
         }
     }
 
-    override fun favoritosItemClick(position: Int) {
-        viewModelFav.mediaList.observe(viewLifecycleOwner) {
-            val media = it.get(position)
+    override fun favoritosItemClickSerie(position: Int) {
+        if (testConnection() == true) {
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            var currentItemSerie = ListMediaSerieFav.get(position)
+                intent.putExtra("poster", currentItemSerie.poster_path)
+                intent.putExtra("movie", true)
+                intent.putExtra("id", currentItemSerie.id)
+                startActivity(intent)
+        } else {
+            creatAlertOff()
         }
     }
+
 
     override fun favoritosLongClickSerie(position: Int) {
-        val movieFav = ListMediaMovieFav.get(position)
+        Log.i("click", "clicou")
         // creatAlert(movieFav)
         // updateListSerieFav()
     }
 
     override fun favoritosLongClick(position: Int) {
-        val movieFav = ListMediaMovieFav.get(position)
-        //  creatAlert(movieFav)
-        //  updateListFav()
+        Log.i("click", "clicou")
+        if (testConnection() == true) {
+            val movieFav = ListMediaMovieFav.get(position)
+        } else {
+            creatAlertOff()
+        }
+    }
+
+    fun creatAlertOff() {
+        val alertDialog = activity?.let { AlertDialog.Builder(it) }
+        alertDialog?.setMessage("Você precisa de internet para isso, por favor, conecte-se a uma rede e tente novamente")
+        alertDialog?.setCancelable(false)
+        alertDialog?.setNeutralButton("Ok", { dialogInterface: DialogInterface, i: Int ->
+        })
+        alertDialog?.create()?.show()
     }
 
     fun creatAlert(movieFav: FavoritoScope) {
@@ -287,9 +371,6 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
             })
         }
     }
-
-
-
     fun testConnection(): Boolean {
         val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
@@ -297,5 +378,4 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
         return isConnected
 
     }
-
 }

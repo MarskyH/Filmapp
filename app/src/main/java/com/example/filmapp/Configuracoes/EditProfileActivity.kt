@@ -55,20 +55,20 @@ class EditProfileActivity : AppCompatActivity() {
         emailAltt.setText(email)
 
 
-        val profileRef: StorageReference =
-            storageReference.child("users/" + mAuth.currentUser!!.uid + "profile.jpg")
-        profileRef.downloadUrl.addOnSuccessListener { uri->
-            println(uri.toString())
-
-            Picasso.get().load(uri).into(imagemPerfil)
-        }
-
-        changePic.setOnClickListener {
-            Toast.makeText(baseContext, "Botão de trocar foto clicado", Toast.LENGTH_SHORT).show()
-            val openGalleryIntent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(openGalleryIntent, 1000)
-        }
+//        val profileRef: StorageReference =
+//            storageReference.child("users/" + mAuth.currentUser!!.uid + "profile.jpg")
+//        profileRef.downloadUrl.addOnSuccessListener { uri->
+//            println(uri.toString())
+//
+//            Picasso.get().load(uri).into(imagemPerfil)
+//        }
+//
+//        changePic.setOnClickListener {
+//            Toast.makeText(baseContext, "Botão de trocar foto clicado", Toast.LENGTH_SHORT).show()
+//            val openGalleryIntent =
+//                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//            startActivityForResult(openGalleryIntent, 1000)
+//        }
 
         btnSalvar.setOnClickListener {
             if (nomeCompletoAlt.text.toString().isEmpty() || nomeDoUsuarioAlt.text.toString().isEmpty()
@@ -99,35 +99,35 @@ class EditProfileActivity : AppCompatActivity() {
 
     }
 
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        @androidx.annotation.Nullable data: Intent?
-    ) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1000) {
-            if (resultCode == Activity.RESULT_OK) run {
-                var imageUri: Uri? = data?.data
+//    override fun onActivityResult(
+//        requestCode: Int,
+//        resultCode: Int,
+//        @androidx.annotation.Nullable data: Intent?
+//    ) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == 1000) {
+//            if (resultCode == Activity.RESULT_OK) run {
+//                var imageUri: Uri? = data?.data
+//
+//                if (imageUri != null) {
+//                    uploadImageToFirebase(imageUri)
+//                }
+//            }
+//        }
+//    }
 
-                if (imageUri != null) {
-                    uploadImageToFirebase(imageUri)
-                }
-            }
-        }
-    }
 
-
-    fun uploadImageToFirebase(imageUri: Uri) {
-        val fileRef = storageReference.child( "users"+mAuth.currentUser?.uid+"/profile.jpg")
-        fileRef.putFile(imageUri).addOnSuccessListener {
-            fileRef.downloadUrl.addOnSuccessListener { uri ->
-                Picasso.get().load(uri).into(imagemPerfil)
-            }
-        }.addOnFailureListener {
-            Toast.makeText(applicationContext, "Falhou!", Toast.LENGTH_SHORT).show()
-
-        }
-    }
+//    fun uploadImageToFirebase(imageUri: Uri) {
+//        val fileRef = storageReference.child( "users"+mAuth.currentUser?.uid+"/profile.jpg")
+//        fileRef.putFile(imageUri).addOnSuccessListener {
+//            fileRef.downloadUrl.addOnSuccessListener { uri ->
+//                Picasso.get().load(uri).into(imagemPerfil)
+//            }
+//        }.addOnFailureListener {
+//            Toast.makeText(applicationContext, "Falhou!", Toast.LENGTH_SHORT).show()
+//
+//        }
+//    }
 
 
 }

@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.filmapp.Login.LoginActivity
 import com.example.filmapp.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_configuracoes.*
 
 lateinit var  listaInfo : ArrayList<String>
+
+
+private lateinit var mAuth: FirebaseAuth
+
 
 class ConfiguracoesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +35,23 @@ class ConfiguracoesActivity : AppCompatActivity() {
     }
 
     private fun setUpTabs(){
-        val adapter = ViewPagerConfigAdapter(supportFragmentManager)
-        adapter.addFragment(PerfilFragment(), "Perfil")
-        adapter.addFragment(SegurancaFragment(), "Segurança")
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
+        if(user != null) {
+            val adapter = ViewPagerConfigAdapter(supportFragmentManager)
+            adapter.addFragment(PerfilFragment(), "Perfil")
+            adapter.addFragment(SegurancaFragment(), "Segurança")
 //        adapter.addFragment(DesignFragment(), "Design")
-        viewPagerConfig.adapter = adapter
-        tabsConfig.setupWithViewPager(viewPagerConfig)
+            viewPagerConfig.adapter = adapter
+            tabsConfig.setupWithViewPager(viewPagerConfig)
+        } else {
+            val adapter = ViewPagerConfigAdapter(supportFragmentManager)
+            adapter.addFragment(PerfilFragment(), "Perfil")
+//            adapter.addFragment(SegurancaFragment(), "Segurança")
+//        adapter.addFragment(DesignFragment(), "Design")
+            viewPagerConfig.adapter = adapter
+            tabsConfig.setupWithViewPager(viewPagerConfig)
+        }
     }
 
 

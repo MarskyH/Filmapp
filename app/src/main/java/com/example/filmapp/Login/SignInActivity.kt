@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_configuracoes.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity() {
@@ -27,6 +28,10 @@ class SignInActivity : AppCompatActivity() {
 //        toolbarregister.setNavigationOnClickListener {
 //            finish()
 //        }
+
+        toolbarRegistrese.setNavigationOnClickListener {
+            finish()
+        }
 
         btnCadastrar.setOnClickListener {
 
@@ -90,7 +95,7 @@ class SignInActivity : AppCompatActivity() {
 //                    user.put("fCel", cel)
 
                     documentReference.set(user).addOnSuccessListener(this){ task ->
-                            println("signInWithCredential:success")
+                        println("signInWithCredential:success")
 
                     }
 

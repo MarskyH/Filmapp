@@ -18,6 +18,9 @@ class SplashActivity: AppCompatActivity() {
     val scope = CoroutineScope(Dispatchers.Main)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var firebase = FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+
         setContentView(R.layout.layout_splash)
 
         var firebase = FirebaseDatabase.getInstance().setPersistenceEnabled(true)

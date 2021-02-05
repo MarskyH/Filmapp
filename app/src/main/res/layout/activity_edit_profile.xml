@@ -10,6 +10,11 @@
     android:textAlignment="inherit"
     android:textDirection="ltr"
     >
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,35 +27,39 @@
         android:verticalScrollbarPosition="right">
 
 
+
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/imagemPerfil"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="32dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_user_photo" />
 
-            <ImageView
-                android:id="@+id/changePic"
-                android:layout_width="53dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="104dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_acompanhar_ou_add" />
+<!--            <ImageView-->
+<!--                android:id="@+id/imagemPerfil"-->
+<!--                android:layout_width="120dp"-->
+<!--                android:layout_height="120dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginStart="32dp"-->
+<!--                android:layout_marginTop="4dp"-->
+<!--                android:layout_marginEnd="32dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintVertical_bias="0.0"-->
+<!--                app:srcCompat="@drawable/ic_user_photo" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/changePic"-->
+<!--                android:layout_width="53dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:layout_marginEnd="104dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintVertical_bias="1.0"-->
+<!--                app:srcCompat="@drawable/ic_acompanhar_ou_add" />-->
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
