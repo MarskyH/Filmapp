@@ -23,16 +23,6 @@ class SplashActivity: AppCompatActivity() {
         setContentView(R.layout.layout_splash)
 
         var firebase = FirebaseDatabase.getInstance().setPersistenceEnabled(true)
-//        if(FirebaseAuth.getInstance().currentUser == null){
-//            try {
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child("1")
-//                    .removeValue()
-//            }catch (e: Exception){
-//                Log.i("Usuário existe", "Login com sucesso")
-//            }
-//        }
 
         splashCoroutine()
     }

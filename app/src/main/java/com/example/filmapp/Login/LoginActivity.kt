@@ -30,6 +30,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
+import com.google.firebase.firestore.DocumentReference
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -50,11 +51,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var callbackManager: CallbackManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
 
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("731969549194-m34oh6ms65r828mun12clcc4lm2s2fjt.apps.googleusercontent.com")
@@ -65,61 +64,61 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         val user: FirebaseUser? = mAuth.currentUser
         if (user != null) {
-            println("id idfer"+user.providerData[1].providerId)
+            println("id idfer" + user.providerData[1].providerId)
         }
-        updateUI(user)
 
+        updateUI(user)
 
         callbackManager = CallbackManager.Factory.create()
         val loginButton = findViewById<LoginButton>(R.id.login_button)
         loginButton.setOnClickListener {
-            LoginManager.getInstance().logInWithReadPermissions(this, listOf("public_profile", "email"))
+            LoginManager.getInstance()
+                .logInWithReadPermissions(this, listOf("public_profile", "email"))
         }
-        LoginManager.getInstance().registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
-            override fun onSuccess(loginResult: LoginResult?) {
-                Log.d("TAG", "Success Login")
-                val credential = loginResult?.accessToken?.let {
-                    FacebookAuthProvider.getCredential(
-                        it.token)
-                }
-                println("id facebook")
-                println(credential)
-                if (credential != null) {
-                    mAuth.signInWithCredential(credential)
-                    GlobalScope.launch {
-                        delay(2000)
-                        getUserProfile(loginResult?.accessToken, loginResult?.accessToken?.userId)
-                        callHome()
+
+        LoginManager.getInstance()
+            .registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+                override fun onSuccess(loginResult: LoginResult?) {
+                    Log.d("TAG", "Success Login")
+                    val credential = loginResult?.accessToken?.let {
+                        FacebookAuthProvider.getCredential(
+                            it.token
+                        )
                     }
-
-
-
-
+                    println("id facebook")
+                    println(credential)
+                    if (credential != null) {
+                        mAuth.signInWithCredential(credential)
+                        GlobalScope.launch {
+                            delay(2000)
+                            getUserProfile(
+                                loginResult?.accessToken,
+                                loginResult?.accessToken?.userId
+                            )
+                            callHome()
+                        }
+                    }
                 }
 
+                override fun onCancel() {
+                    Toast.makeText(this@LoginActivity, "Login Cancelado", Toast.LENGTH_LONG).show()
+                }
 
-            }
-
-            override fun onCancel() {
-                Toast.makeText(this@LoginActivity, "Login Cancelado", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onError(exception: FacebookException) {
-                Toast.makeText(this@LoginActivity, exception.message, Toast.LENGTH_LONG).show()
-            }
-        })
+                override fun onError(exception: FacebookException) {
+                    Toast.makeText(this@LoginActivity, exception.message, Toast.LENGTH_LONG).show()
+                }
+            })
 
         if (isLoggedIn()) {
 
             FirebaseAuth.AuthStateListener { firebaseAuth ->
 
 
-
                 callHome()
 
             }
 
-        }else{
+        } else {
 
 
         }
@@ -139,20 +138,21 @@ class LoginActivity : AppCompatActivity() {
 //                Log.d(TAG, "facebook:onError", error)
 //            }
 //        })
+
         btnLoginAct.setOnClickListener {
-            signIn()
+            val email = edEmailLogin.text.toString()
+            val password = edSenhaLogin.text.toString()
 
-
+            if(checkFields(email, password) == true) {
+                signIn()
+            }else {
+                Toast.makeText(this, "Email e/ou Senha inválidos", Toast.LENGTH_SHORT).show()
+            }
         }
-
-
-
 
         btnRegisterAct.setOnClickListener {
             callCadastro()
         }
-
-
 
         imageView3.setOnClickListener {
             if (user == null) {
@@ -165,19 +165,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
 
         }
-
-        entrarSemSenha.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-        }
-
-
     }
 
     @SuppressLint("LongLogTag")
     fun getUserProfile(token: AccessToken?, userId: String?) {
-
-
 
         val parameters = Bundle()
         parameters.putString(
@@ -267,8 +258,6 @@ class LoginActivity : AppCompatActivity() {
                 }
 
 
-
-
             }).executeAsync()
 
 //        FirebaseAuth.getInstance().createUserWithEmailAndPassword(facebookEmail, "123456")
@@ -291,11 +280,8 @@ class LoginActivity : AppCompatActivity() {
         val accessToken = AccessToken.getCurrentAccessToken()
         val isLoggedIn = accessToken != null && !accessToken.isExpired
 
-
-
         return isLoggedIn
     }
-
 
     fun callCadastro() {
         var intent = Intent(this, SignInActivity::class.java)
@@ -306,7 +292,6 @@ class LoginActivity : AppCompatActivity() {
         var intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
-
 
     private fun signinFirebaseGoogle() {
         val signInIntent = googleSignInClient.signInIntent
@@ -355,13 +340,11 @@ class LoginActivity : AppCompatActivity() {
 
     fun updateUI(account: FirebaseUser?) {
         if (account != null) {
-            Toast.makeText(this, "Login concluído.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Olá ;)", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, HomeActivity::class.java))
-        } else {
-            Toast.makeText(this, "Faça Login.", Toast.LENGTH_LONG).show()
+            finish()
         }
     }
-
 
     fun signIn() {
         val email = edEmailLogin.text.toString()
@@ -418,7 +401,17 @@ class LoginActivity : AppCompatActivity() {
             )
         }
     }
+
+    fun checkFields(email: String, password: String): Boolean{
+        var emailFieldVerification = email.isNotEmpty()
+        emailFieldVerification = email.isNotBlank()
+        var passwordFieldVerification = password.isNotEmpty()
+        passwordFieldVerification = password.isNotBlank()
+
+        return (emailFieldVerification && passwordFieldVerification)
+    }
 }
+
 //    private fun handleFacebookAccessToken(token: AccessToken) {
 //
 //        val credential = FacebookAuthProvider.getCredential(token.token)
