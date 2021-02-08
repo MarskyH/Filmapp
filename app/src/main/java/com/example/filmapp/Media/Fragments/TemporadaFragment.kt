@@ -62,7 +62,7 @@ class TemporadaFragment(): Fragment()  {
             view.textViewSinopseTemporada.text = sinopse
         }else{
             Log.i("Sinopse temporada", (Season as Season).overview)
-            view.textViewSinopseTemporada.text = "Sem sinopse disponível no momento"
+            view.textViewSinopseTemporada.text = "Não há sinopse disponível no momento."
             print("TESTE DE SINOPSE $sinopse")
         }
         return view

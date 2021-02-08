@@ -1,12 +1,15 @@
 package com.example.filmapp.Series.Fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -17,6 +20,7 @@ import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.historico.HistoricoViewModel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_series_episodio.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgCompart
@@ -33,6 +37,7 @@ class EpisodioFragment : Fragment() {
     private lateinit var viewModelVisto: HistoricoViewModel
     val scope = CoroutineScope(Dispatchers.Main)
     var selcomp: Boolean = false
+    var selMais: Boolean = false
     val picasso = Picasso.get()
     var Poster: String? = null
     var Sinopse: String? = null
@@ -86,7 +91,20 @@ class EpisodioFragment : Fragment() {
         private val numberEp = "number_episode"
         private val numberSeason = "number_season"
         private val episodeTitle = "episodeTitle"
-        fun newInstance(Sinopse: String?, Poster: String?, Id: String?, Type: String?, Img: String?, Logo: String?, HomePage:String, Title: String?, Id_ep: String?, NumberEp: Int?, NumberSeason: Int?, EpisodeTitle: String?): EpisodioFragment {
+        fun newInstance(
+            Sinopse: String?,
+            Poster: String?,
+            Id: String?,
+            Type: String?,
+            Img: String?,
+            Logo: String?,
+            HomePage: String,
+            Title: String?,
+            Id_ep: String?,
+            NumberEp: Int?,
+            NumberSeason: Int?,
+            EpisodeTitle: String?
+        ): EpisodioFragment {
             val fragment = EpisodioFragment()
             val args = Bundle()
             args.putString(sinopse, Sinopse)
@@ -106,30 +124,55 @@ class EpisodioFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        Log.i("idSerie", Id.toString())
-        Log.i("idEp", Id_ep.toString())
-
         val view: View = inflater!!.inflate(R.layout.fragment_series_episodio, container, false)
 
         viewModelVisto = ViewModelProvider(this).get(HistoricoViewModel::class.java)
 
+        //Personalizando a UI
 
-        picasso.load(URL_IMAGE+Img).into(view.imgEp)
-        view.sinopseEp.text = Sinopse
-        picasso.load(URL_IMAGE+Logo).into(view.imgLogo)
-        Log.i("Teste historico", "${Id} ${Title} ${Poster} ${Type}")
+        if (EpisodeTitle != null)
+            view.nameEp.text = EpisodeTitle!!
+        else
+            view.nameEp.visibility = View.GONE
 
-        view.imgCompart.setOnClickListener {
+        if (Img != null)
+            picasso.load(URL_IMAGE + Img).into(view.imgEp)
+        else
+            view.imgEp.visibility = View.GONE
+
+        if(Logo != null)
+            picasso.load(URL_IMAGE + Logo).into(view.imgLogo)
+        else
+            view.imgLogo.setImageResource(R.drawable.ic_add_circle)
+
+        if(Sinopse?.length != 0)
+            view.sinopseEp.text = Sinopse
+        else
+            view.sinopseEp.text = "Não há sinopse disponível no momento."
+
+        view.imgCompartField.setOnClickListener {
             AbrirCompartilhar(Title!!, homePage)
-            AlteraIconCompartilhar()
+
+            if (selcomp == false) {
+                view.imgCompart.setImageResource(R.drawable.ic_compartilhar_grande_roxo)
+                view.textCompart.setTextColor(Color.parseColor("#9D14C7"))
+                selcomp = true
+                scope.launch {
+                    delay(2000)
+                    view.imgCompart?.setImageResource(R.drawable.ic_compartilhar_grande)
+                    view.textCompart.setTextColor(Color.WHITE)
+                    selcomp = false
+                }
+            }
         }
-        view.imgLogo.setOnClickListener {
+
+        view.maisField.setOnClickListener {
             AbrirSiteLogo()
         }
 
@@ -138,42 +181,58 @@ class EpisodioFragment : Fragment() {
         viewModel.getAcompanhadoList()
 
         //Verifica se o usuário está acompanhando a série no qual o episódio pertence
-        viewModel.returnAcompanhandoList.observe(viewLifecycleOwner){
+        viewModel.returnAcompanhandoList.observe(viewLifecycleOwner) {
             var result = viewModel.checkSerieInList(Id!!.toInt(), it)
 
             //Caso o usuário esteja acompanhando a série, a opção de marcar o episódio como
             //assistido será liberada
-            if(result == true){
-                view.imgVisto.visibility = View.VISIBLE
+            if (result == true) {
+                view.imgVistoField.visibility = View.VISIBLE
                 viewModel.getWatchedEpisodesList(Id!!.toInt())
             }
         }
 
         //Verifica se o usuário já assistiu esse episódio
-        viewModel.returnWatchedEpisodesList.observe(viewLifecycleOwner){
+        viewModel.returnWatchedEpisodesList.observe(viewLifecycleOwner) {
             var result = viewModel.checkIfWatchedEpisode(Id_ep!!.toInt(), it)
 
             //Controle da cor do indicador
-            if(result == true){
-                view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+            if (result == true) {
+                view.imgVisto.setImageResource(R.drawable.ic_visto_grande_roxo)
+                view.textVisto.text = "VISTO"
+                view.textVisto.setTextColor(Color.parseColor("#9D14C7"))
                 watched = true
-            }else{
-                view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
+            } else {
+                view.imgVisto.setImageResource(R.drawable.ic_visto_grande)
+                view.textVisto.text = "NÃO VISTO"
+                view.textVisto.setTextColor(Color.WHITE)
                 watched = false
             }
         }
 
-        view.imgVisto.setOnClickListener{
+        view.imgVistoField.setOnClickListener {
             if (watched == true) {
                 viewModel.deleteWatchList(Id_ep!!.toInt(), Id!!.toInt())
                 viewModel.deleteFromHistoricoList(Id_ep!!.toInt())
                 watched = false
-                view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
-            }else{
+                view.imgVisto.setImageResource(R.drawable.ic_visto_grande)
+                view.textVisto.text = "NÃO VISTO"
+                view.textVisto.setTextColor(Color.WHITE)
+            } else {
                 viewModel.addWatchList(Id_ep!!.toInt(), Id!!.toInt())
-                viewModel.saveInHistoricoList(Id!!.toInt(), Title.toString(), Poster.toString(), NumberSeason!!, NumberEp!!, EpisodeTitle.toString(), Id_ep!!.toInt())
+                viewModel.saveInHistoricoList(
+                    Id!!.toInt(),
+                    Title.toString(),
+                    Poster.toString(),
+                    NumberSeason!!,
+                    NumberEp!!,
+                    EpisodeTitle.toString(),
+                    Id_ep!!.toInt()
+                )
                 watched = true
-                view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+                view.imgVisto.setImageResource(R.drawable.ic_visto_grande_roxo)
+                view.textVisto.text = "VISTO"
+                view.textVisto.setTextColor(Color.parseColor("#9D14C7"))
             }
         }
 
@@ -182,25 +241,14 @@ class EpisodioFragment : Fragment() {
         return view
     }
 
-
-    fun AlteraIconCompartilhar() {
-        if (selcomp == false) {
-            imgCompart.setImageResource(R.drawable.ic_compartilhar_roxo)
-            selcomp = true
-            scope.launch {
-                delay(2000)
-                imgCompart.setImageResource(R.drawable.ic_compartilhar)
-                selcomp = false
-            }
-        }
-    }
-
     fun AbrirSiteLogo() {
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(homePage)
-        )
-        startActivity(intent)
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(homePage))
+            Log.i("HOMEPAGE", HomePage.toString())
+            startActivity(intent)
+        }catch (e : Exception){
+            Toast.makeText(activity, "Erro ${e}. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
+        }
     }
 
     fun AbrirCompartilhar(title: String, link: String) {

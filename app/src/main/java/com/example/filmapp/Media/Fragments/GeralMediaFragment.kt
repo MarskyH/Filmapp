@@ -136,7 +136,7 @@ class GeralMediaFragment() : Fragment() {
                 posterBd = movieChecked.poster_path.toString()
                 rateFilm = movieChecked.vote_average
                 progr = rateFilm * 10
-                updateProgressBar()
+//                updateProgressBar()
 
                 if (movieChecked.watched == true) {
                         imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
@@ -184,7 +184,7 @@ class GeralMediaFragment() : Fragment() {
                 numberEP = serieChecked.number_of_episodes
                 rateSerie = serieChecked.vote_average
                 progr = rateSerie * 10
-                updateProgressBar()
+//                updateProgressBar()
 
                 if (serieChecked.followingStatusIndication == true) {
                     if (serieChecked.finished == 1) {
@@ -225,7 +225,7 @@ class GeralMediaFragment() : Fragment() {
         if (Sinopse != "" && Sinopse != null) {
             view.tv_sinopse.text = Sinopse
         } else {
-            view.tv_sinopse.text = "Sem sinopse disponível no momento"
+            view.tv_sinopse.text = "Não há sinopse disponível no momento."
         }
 
         picasso.load(URL_IMAGE + Poster).into(view.img_geral)
@@ -350,10 +350,10 @@ class GeralMediaFragment() : Fragment() {
         }
     }
 
-    fun updateProgressBar() {
-        progress_circular.progress = progr.toInt()
-        tvProgress.text = "$progr%"
-    }
+//    fun updateProgressBar() {
+//        progress_circular.progress = progr.toInt()
+//        tvProgress.text = "$progr%"
+//    }
 
     fun AbrirCompartilhar(title: String, poster_path: String) {
         val ShareIntent = Intent().apply {
