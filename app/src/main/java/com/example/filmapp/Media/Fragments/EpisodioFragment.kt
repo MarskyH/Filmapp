@@ -1,6 +1,7 @@
 package com.example.filmapp.Series.Fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -19,7 +20,10 @@ import com.example.filmapp.Media.Models.EpisodioFragmentViewModel
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.historico.HistoricoViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
@@ -260,6 +264,33 @@ class EpisodioFragment : Fragment() {
         startActivity(ShareIntent)
     }
 
-}
+//    fun creatAlertException(e: Exception) {
+//        val user = FirebaseAuth.getInstance().currentUser
+//        val builder = AlertDialog.Builder(requireActivity()).create()
+//        val view: View =
+//            LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert_erro, null)
+//        builder.setView(view)
+//        builder.show()
+//        view.btAlert_confirm.setOnClickListener {
+//            val firebaseDB =
+//                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}")
+//                    .setValue(e.toString())
+//            Toast.makeText(
+//                activity,
+//                "Erro reportado, desculpe-nos pelo transtorno",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//            builder.dismiss()
+//            getActivity()?.finish();
+//        }
+//        view.btAlert_Notconfirm.setOnClickListener {
+//            Toast.makeText(activity, "Erro ignorado", Toast.LENGTH_SHORT).show()
+//            builder.dismiss()
+//            getActivity()?.finish();
+//
+//        }
+
+    }
+
 
 
