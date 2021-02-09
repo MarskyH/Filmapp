@@ -247,11 +247,11 @@ class EpisodioFragment : Fragment() {
 
     fun AbrirSiteLogo() {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(homePage))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(HomePage))
             Log.i("HOMEPAGE", HomePage.toString())
             startActivity(intent)
         }catch (e : Exception){
-            Toast.makeText(activity, "Erro ${e}. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Estamos com algum problema. Tente novamente mais tarde.", Toast.LENGTH_LONG).show()
         }
     }
 

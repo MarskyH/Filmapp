@@ -100,10 +100,10 @@
             android:id="@+id/edSenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:layout_marginStart="10dp"
             android:textColor="@color/purple_200"
             android:theme="@style/EditTextTheme"
+            android:inputType="textPassword"
             android:layout_marginEnd="10dp"
             />
         <TextView
@@ -117,7 +117,7 @@
             android:id="@+id/senhaConfirmar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:layout_marginStart="10dp"
             android:textColor="@color/purple_200"
             android:theme="@style/EditTextTheme"

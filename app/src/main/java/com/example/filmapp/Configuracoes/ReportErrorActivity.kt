@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_report_error.*
 class ReportErrorActivity : AppCompatActivity() {
 
     var error = "Erro não informado"
+    var errorComponent = "Erro não informado"
 
     val viewModel by viewModels<ReportErrorViewModel>{
         object : ViewModelProvider.Factory{
@@ -31,6 +32,18 @@ class ReportErrorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_error)
 
+        var dados = intent.extras
+        var isForwarded = dados?.getBoolean("isForwarded")
+
+        //Caso seja um report encaminhando, já se tem alguns dados do erro
+        if(isForwarded == true){
+            error = dados?.getString("error").toString()
+            errorComponent = dados?.getString("errorComponent").toString()
+            editText_errorLocation.setText(dados?.getString("errorLocation"))
+        }
+
+        Log.i("venho", isForwarded.toString())
+
         setSupportActionBar(toolbarReportErrorPage)
 
         toolbarReportErrorPage.setNavigationOnClickListener {
@@ -41,7 +54,8 @@ class ReportErrorActivity : AppCompatActivity() {
             viewModel.sendErrorReport(
                 input_errorLocation.editText?.text.toString(),
                 input_errorDescription.editText?.text.toString(),
-                error
+                error,
+                errorComponent
             )
 
             Toast.makeText(this, "Erro reportado, em breve o problema será resolvido", Toast.LENGTH_LONG).show()

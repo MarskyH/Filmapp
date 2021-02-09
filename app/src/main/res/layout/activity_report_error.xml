@@ -42,6 +42,7 @@
                 app:endIconTint="@color/Principal">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_errorLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -63,6 +64,7 @@
                 app:endIconTint="@color/Principal">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editText_errorDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

@@ -18,7 +18,7 @@
     <string name="editText_email_cadastro">Email</string>
     <string name="editText_nomeUsuario_cadastro">Nome de Usuário</string>
     <string name="editText_senha_cadatro">Senha</string>
-    <string name="editText_confirmeSenha_cadatro">Comfirmar Senha</string>
+    <string name="editText_confirmeSenha_cadatro">Confirmar Senha</string>
     <string name="textView_novidades_email_cadastro">Desejo receber novidades no email</string>
     <string name="btn_cadastrar">CADASTRAR</string>
 

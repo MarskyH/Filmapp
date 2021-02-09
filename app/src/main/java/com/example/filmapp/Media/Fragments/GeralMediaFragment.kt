@@ -149,6 +149,12 @@ class GeralMediaFragment() : Fragment() {
 
                 tv_mediaFirstAirDate_geralFrag.text = viewModelDetails.formatFirstAirDate(it.release_date)
 
+                if (it.overview != null) {
+                    tv_sinopse.text = it.overview
+                } else {
+                    tv_sinopse.text = "Não há sinopse disponível no momento."
+                }
+
                 viewModelDetails.getFavoritoist()
                 viewModelDetails.getHistoricoInCloud()
                 viewModelDetails.getAssistirMaisTardeListInCloud()
@@ -162,7 +168,6 @@ class GeralMediaFragment() : Fragment() {
                 posterBd = movieChecked.poster_path.toString()
                 rateFilm = movieChecked.vote_average
                 progr = rateFilm * 10
-//                updateProgressBar()
 
                 if (movieChecked.watched == true) {
                     imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
@@ -219,6 +224,12 @@ class GeralMediaFragment() : Fragment() {
 
                 tv_mediaFirstAirDate_geralFrag.text = viewModelDetails.formatFirstAirDate(it.first_air_date)
 
+                if (it.overview != null) {
+                    tv_sinopse.text = it.overview
+                } else {
+                    tv_sinopse.text = "Não há sinopse disponível no momento."
+                }
+
                 viewModelDetails.getAcompanhadoList()
                 viewModelDetails.getFavoritoist()
                 viewModelDetails.getAssistirMaisTardeListInCloud()
@@ -232,7 +243,6 @@ class GeralMediaFragment() : Fragment() {
                 numberEP = serieChecked.number_of_episodes
                 rateSerie = serieChecked.vote_average
                 progr = rateSerie * 10
-//                updateProgressBar()
 
                 if (serieChecked.followingStatusIndication == true) {
                     if (serieChecked.finished == 1) {
@@ -266,12 +276,6 @@ class GeralMediaFragment() : Fragment() {
         }
 
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
-
-        if (Sinopse != "" && Sinopse != null) {
-            view.tv_sinopse.text = Sinopse
-        } else {
-            view.tv_sinopse.text = "Não há sinopse disponível no momento."
-        }
 
         if((Poster != null) && (Poster!!.isNotEmpty()))
             picasso.load(URL_IMAGE + Poster).into(view.img_geral)

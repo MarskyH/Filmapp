@@ -70,7 +70,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
                 pb_historico.setVisibility(View.INVISIBLE)
                 mediaListAdapter.addList(mediaList)
                 }catch (e : Exception) {
-                    Log.i("ERRO:", "Erro ${e}. Tente novamente mais tarde.")
+                    creatAlertException(e, "viewModel.returnHistoricoList.observe")
                 }
             }
 
@@ -86,7 +86,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
             pb_historico.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(mediaList)
             }catch (e : Exception) {
-                Log.i("ERRO:", "Erro ${e}. Tente novamente mais tarde.")
+                creatAlertException(e, "viewModel.returnHistoricoList.observe")
             }
         }
 
@@ -161,7 +161,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
 
     }
 
-        fun creatAlertException(e: Exception) {
+        fun creatAlertException(e: Exception, errorComponent: String) {
 
             val builder = AlertDialog.Builder(this).create()
             val view: View = LayoutInflater.from(this).inflate(R.layout.custom_alert_erro, null)
@@ -172,6 +172,10 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
             //Caso o usuário queira reportar o Erro
             view.btAlert_confirm.setOnClickListener {
                 var intent = Intent(this, ReportErrorActivity::class.java)
+                intent.putExtra("isForwarded", true)
+                intent.putExtra("errorLocation", "Histórico")
+                intent.putExtra("errorComponent", errorComponent)
+                intent.putExtra("error", e.toString())
 
                 startActivity(intent)
                 builder.dismiss()

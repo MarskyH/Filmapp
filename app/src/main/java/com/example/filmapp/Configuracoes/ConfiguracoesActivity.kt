@@ -77,6 +77,7 @@ class ConfiguracoesActivity : AppCompatActivity() {
 
     fun callReportErrorPage(){
         var intent = Intent(this, ReportErrorActivity::class.java)
+        intent.putExtra("isForwarded", false)
 
         startActivity(intent)
     }
