@@ -6,6 +6,4 @@ class FavoritoScope (
     var poster_path: String  = "",
     var type: String = "",
     var favoritoIndication: Boolean = false) {
-
-
 }

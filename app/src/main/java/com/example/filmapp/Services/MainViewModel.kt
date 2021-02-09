@@ -29,6 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.math.RoundingMode
 import java.time.LocalDateTime
 
 
@@ -38,6 +39,7 @@ class MainViewModel(val service: Service) : ViewModel() {
 
     //Firebase Auth
     val user = FirebaseAuth.getInstance().currentUser
+
     //Realtime Database
     var USER_ID = user!!.uid
     var cloudDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -55,7 +57,7 @@ class MainViewModel(val service: Service) : ViewModel() {
 
     //Realtime Database---------------------------------------------------------------------------------
     init {
-        if(cloudDatabase == null){
+        if (cloudDatabase == null) {
             cloudDatabase = FirebaseDatabase.getInstance()
         }
         Log.i("OFFLINE", "ATIVADO")
@@ -238,16 +240,23 @@ class MainViewModel(val service: Service) : ViewModel() {
         return media
     }
 
-    fun saveInHistoricoList(media: MovieDetails){
+    fun saveInHistoricoList(media: MovieDetails) {
 
         //Verificando se o usuário possui um dipositivo com a versão do android compatível
-        var currentDateTime = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDateTime.now().toString()
-        } else {
-            "404"
-        }
+        var currentDateTime =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                LocalDateTime.now().toString()
+            } else {
+                "404"
+            }
 
-        var movie = HistoricoScope(media.id, media.title, media.poster_path.toString(), "Movie", date = currentDateTime)
+        var movie = HistoricoScope(
+            media.id,
+            media.title,
+            media.poster_path.toString(),
+            "Movie",
+            date = currentDateTime
+        )
 
         FirebaseDatabase.getInstance().reference
             .child("users")
@@ -319,18 +328,23 @@ class MainViewModel(val service: Service) : ViewModel() {
         listDataBase: ArrayList<HistoricoScope>
     ): MovieDetails {
 
-            listDataBase?.forEach {
+        listDataBase?.forEach {
 
-                if (media.id == it.id)
-                    media.watched = true
-            }
+            if (media.id == it.id)
+                media.watched = true
+        }
 
         return media
     }
 
-    fun saveMovieInAssistirMaisTardeList(media: MovieDetails){
+    fun saveMovieInAssistirMaisTardeList(media: MovieDetails) {
         var movie =
-            AssistirMaisTardeScope(id = media.id, title = media.title, poster_path = media.poster_path.toString(), "Movie")
+            AssistirMaisTardeScope(
+                id = media.id,
+                title = media.title,
+                poster_path = media.poster_path.toString(),
+                "Movie"
+            )
 
         FirebaseDatabase.getInstance().reference
             .child("users")
@@ -340,9 +354,14 @@ class MainViewModel(val service: Service) : ViewModel() {
             .setValue(movie)
     }
 
-    fun saveSerieInAssistirMaisTardeList(media: TvDetails){
+    fun saveSerieInAssistirMaisTardeList(media: TvDetails) {
         var movie =
-            AssistirMaisTardeScope(id = media.id, title = media.name, poster_path = media.poster_path, "Tv")
+            AssistirMaisTardeScope(
+                id = media.id,
+                title = media.name,
+                poster_path = media.poster_path,
+                "Tv"
+            )
 
         FirebaseDatabase.getInstance().reference
             .child("users")
@@ -408,11 +427,11 @@ class MainViewModel(val service: Service) : ViewModel() {
         listDataBase: ArrayList<AssistirMaisTardeScope>
     ): MovieDetails {
 
-            listDataBase?.forEach {
+        listDataBase?.forEach {
 
-                if (media.id == it.id)
-                    media.assistirMaisTardeIndication = true
-            }
+            if (media.id == it.id)
+                media.assistirMaisTardeIndication = true
+        }
 
         return media
     }
@@ -487,6 +506,95 @@ class MainViewModel(val service: Service) : ViewModel() {
         }
     }
 
+    fun formatFirstAirDate(date: String): String {
 
+        //Formatação da Data de Lançamento
+        if (date.length == 10) {
+            var year =
+                "${date?.get(0)}" + "${date?.get(1)}" + "${date?.get(2)}" + "${date?.get(3)}"
+            var month = "${date?.get(5)}" + "${date?.get(6)}"
+            var day = "${date?.get(8)}" + "${date?.get(9)}"
+
+            when (month) {
+                "01" -> month = "Janeiro"
+                "02" -> month = "Fevereiro"
+                "03" -> month = "Março"
+                "04" -> month = "Abril"
+                "05" -> month = "Maio"
+                "06" -> month = "Junho"
+                "07" -> month = "Julho"
+                "08" -> month = "Agosto"
+                "09" -> month = "Setembro"
+                "10" -> month = "Outubro"
+                "11" -> month = "Novembro"
+                "12" -> month = "Dezembro"
+                else -> month = " "
+            }
+
+            return day + " de " + month + ", " + year
+
+        }
+
+        return " "
+    }
+
+    fun formatTitle(title: String): String {
+
+        //Formatação do Título
+        if (title.length > 38) {
+            var newTitle = ""
+
+            for (i in 0..35) {
+
+                if (("${title?.get(35)}" == " ") && (i == 35)) {
+                    break
+                }
+
+                newTitle = newTitle + "${title?.get(i)}"
+            }
+
+            return newTitle + "..."
+        } else {
+            return title
+        }
+    }
+
+    fun formatEvaluation(note: Double): Double {
+
+        //Adaptação da Nota - Avaliação
+        var evaluation = (note / 2)
+        evaluation = evaluation.toBigDecimal().setScale(1, RoundingMode.UP).toDouble()
+
+        return evaluation
+    }
+
+    fun returnNumberOfStars(evaluation: Double): Double {
+
+        var numberOfStars = if ((evaluation >= 0) && (evaluation < 0)) {
+            0.0
+        } else if ((evaluation >= 0.5) && (evaluation < 1)) {
+            0.5
+        } else if ((evaluation >= 1) && (evaluation < 1.5)) {
+            1.0
+        } else if ((evaluation >= 1.5) && (evaluation < 2)) {
+            1.5
+        } else if ((evaluation >= 2) && (evaluation < 2.5)) {
+            2.0
+        } else if ((evaluation >= 2.5) && (evaluation < 3)) {
+            2.5
+        } else if ((evaluation >= 3) && (evaluation < 3.5)) {
+            3.0
+        } else if ((evaluation >= 3.5) && (evaluation < 4)) {
+            3.5
+        } else if ((evaluation >= 4) && (evaluation < 4.5)) {
+            4.0
+        } else if ((evaluation >= 4.5) && (evaluation <= 4.6)) {
+            4.5
+        } else {
+            5.0
+        }
+
+        return numberOfStars
+    }
 }
 

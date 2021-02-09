@@ -27,7 +27,7 @@ class MediaEspecificoSerieAdapter(
         viewType: Int
     ): MediasViewHolder {
         var itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_media_especifica, parent, false)
+            .inflate(R.layout.item_poster_grande, parent, false)
         return MediasViewHolder(itemView)
     }
 
@@ -59,8 +59,8 @@ class MediaEspecificoSerieAdapter(
 
     inner class MediasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
-        val tvMediaEspecifica: TextView = itemView.findViewById(R.id.tv_mediaEspecifica)
-        val imgMediaEspecica: ImageView = itemView.findViewById(R.id.img_MediaEspecifica)
+        val tvMediaEspecifica: TextView = itemView.findViewById(R.id.mediaName)
+        val imgMediaEspecica: ImageView = itemView.findViewById(R.id.mediaImage)
 
         init {
             itemView.setOnClickListener(this)

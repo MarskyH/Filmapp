@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -56,11 +57,15 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
     fun setDataOnline(){
         mediaListAdapter.isClickable = true
 
-        viewModel.returnHistoricoList.observe(this){
-            var mediaList = viewModel.formattingItem(it)
-            pb_historico.setVisibility(View.INVISIBLE)
-            mediaListAdapter.addList(mediaList)
-        }
+            viewModel.returnHistoricoList.observe(this) {
+                try {
+                var mediaList = viewModel.formattingItem(it)
+                pb_historico.setVisibility(View.INVISIBLE)
+                mediaListAdapter.addList(mediaList)
+                }catch (e : Exception) {
+                    Log.i("ERRO:", "Erro ${e}. Tente novamente mais tarde.")
+                }
+            }
 
         viewModel.getHistoricoInCloud()
     }

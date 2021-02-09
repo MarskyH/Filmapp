@@ -38,17 +38,3 @@ class FavoritosRepository(private val favoritosDAO: FavoritosDAO){
     }
 
 }
-
-class HistoricoRepository(private val historicoDAO: HistoricoDAO){
-
-    val readAllData: LiveData<List<HistoricoEntity>> = historicoDAO.getHistorico()
-
-    suspend fun saveInHistoricoTask(media: HistoricoEntity){
-        historicoDAO.saveInHistorico(media)
-    }
-
-    suspend fun removeOfHistoricoTask(media: HistoricoEntity){
-        historicoDAO.removeOfHistorico(media)
-    }
-
-}

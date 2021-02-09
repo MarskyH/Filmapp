@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.dataBase.FilmAppDataBase
-import com.example.filmapp.dataBase.HistoricoRepository
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
@@ -141,7 +140,7 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
 
                 for (i in 0..10){
 
-                    if (("${episodeTitle?.get(12)}" == " ") && (i == 12)){
+                    if (("${episodeTitle?.get(10)}" == " ") && (i == 10)){
                         break
                     }
 

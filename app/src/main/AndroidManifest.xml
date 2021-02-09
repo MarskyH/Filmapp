@@ -13,19 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Filmapp"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Configuracoes.ReportErrorActivity"></activity>
 
         <meta-data
-            tools:replace="android:value"
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
 
-
-
-        <activity android:name=".home.ajuda.AjudaDetailsActivity"/>
+        <activity android:name=".home.ajuda.AjudaDetailsActivity" />
         <activity android:name=".Media.UI.MediaSelectedActivity" />
         <activity android:name=".Series.Ui.SerieTemporadaActivity" />
         <activity android:name=".Series.Ui.SerieEpisodioSelectedActivity" />
-        <activity android:name=".Configuracoes.EditProfileActivity"/>
+        <activity android:name=".Configuracoes.EditProfileActivity" />
         <activity android:name=".Configuracoes.ConfiguracoesActivity" />
         <activity android:name=".Login.RecuperarSenhaActivity" />
         <activity android:name=".Login.SignInActivity" />
@@ -38,7 +37,22 @@
         <activity android:name=".home.agenda.AgendaActivity" />
         <activity android:name=".home.emAlta.AltaActivity" />
         <activity android:name=".home.HomeActivity" />
-        <activity android:name="com.facebook.FacebookActivity" android:configChanges= "keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" /> <activity android:name="com.facebook.CustomTabActivity" android:exported="true"> <intent-filter> <action android:name="android.intent.action.VIEW" /> <category android:name="android.intent.category.DEFAULT" /> <category android:name="android.intent.category.BROWSABLE" /> <data android:scheme="@string/fb_login_protocol_scheme" /> </intent-filter> </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

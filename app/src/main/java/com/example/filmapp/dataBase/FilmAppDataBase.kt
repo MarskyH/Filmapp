@@ -6,7 +6,6 @@ import com.example.filmapp.Media.dataBase.FavoritosDAO
 import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
-import com.example.filmapp.home.historico.dataBase.DateTypeConverters
 import com.example.filmapp.home.historico.dataBase.HistoricoDAO
 import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 

@@ -27,8 +27,13 @@ import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_media_geral.*
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.*
+import kotlinx.android.synthetic.main.fragment_series_geral.imgAcompanhar
+import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
+import kotlinx.android.synthetic.main.fragment_series_geral.imgFav
+import kotlinx.android.synthetic.main.fragment_series_geral.imgTarde
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgAcompanhar
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgCompart
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgFav
@@ -120,9 +125,30 @@ class GeralMediaFragment() : Fragment() {
 
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
-                mediaFavoritScope = FavoritoScope(it.id, it.title, it.poster_path.toString(), Type.toString())
+                mediaFavoritScope =
+                    FavoritoScope(it.id, it.title, it.poster_path.toString(), Type.toString())
 
                 movieResult = it
+
+                //Personalização da IU
+                if (it.title != null)
+                    tv_mediaName_geralFrag.text = it.title
+                else
+                    tv_mediaName_geralFrag.text = it.original_title
+
+                if (it.vote_average != null)
+                    tv_evaluation_geralFrag.text =
+                        (viewModelDetails.formatEvaluation(it.vote_average).toString() + "/5")
+                else
+                    tv_evaluation_geralFrag.text = "0.0/5"
+
+                if (it.vote_average != null)
+                    ratingBar_geralFrag.rating =
+                        viewModelDetails.returnNumberOfStars(viewModelDetails.formatEvaluation(it.vote_average))
+                            .toFloat()
+
+                tv_mediaFirstAirDate_geralFrag.text = viewModelDetails.formatFirstAirDate(it.release_date)
+
                 viewModelDetails.getFavoritoist()
                 viewModelDetails.getHistoricoInCloud()
                 viewModelDetails.getAssistirMaisTardeListInCloud()
@@ -139,27 +165,27 @@ class GeralMediaFragment() : Fragment() {
 //                updateProgressBar()
 
                 if (movieChecked.watched == true) {
-                        imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
-                } else if(movieChecked.watched == false) {
+                    imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
+                } else if (movieChecked.watched == false) {
                     imgAcompanhar.setImageResource(R.drawable.ic_check_box)
                 }
             }
 
-            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
+            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner) {
                 movieChecked = viewModelDetails.checkMovieInAssistirMaisTardeList(movieChecked, it)
 
                 if (movieChecked.assistirMaisTardeIndication == true) {
                     imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                } else if(movieChecked.assistirMaisTardeIndication == false) {
+                } else if (movieChecked.assistirMaisTardeIndication == false) {
                     imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
                 }
             }
 
-            viewModelDetails.returnFavoritoListMovie.observe(viewLifecycleOwner){
+            viewModelDetails.returnFavoritoListMovie.observe(viewLifecycleOwner) {
                 mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
-                if (mediaCheckedFavorito.favoritoIndication == true){
+                if (mediaCheckedFavorito.favoritoIndication == true) {
                     imgFav.setImageResource(R.drawable.ic_favorito_select)
-                }else if(mediaCheckedFavorito.favoritoIndication == false){
+                } else if (mediaCheckedFavorito.favoritoIndication == false) {
                     imgFav.setImageResource(R.drawable.ic_favorito_branco)
                 }
             }
@@ -171,6 +197,28 @@ class GeralMediaFragment() : Fragment() {
                 mediaFavoritScope = FavoritoScope(it.id, it.name, it.poster_path, Type.toString())
 
                 serieResult = it
+
+                //Personalização da IU
+                if (it.name != null)
+                    tv_mediaName_geralFrag.text = viewModelDetails.formatTitle(it.name)
+                else
+                    tv_mediaName_geralFrag.text = viewModelDetails.formatTitle(it.original_name)
+
+                if (it.vote_average != null)
+                    tv_evaluation_geralFrag.text =
+                        (viewModelDetails.formatEvaluation(it.vote_average).toString() + "/5")
+                else {
+                    tv_evaluation_geralFrag.visibility = View.GONE
+                    ratingBar_geralFrag.visibility = View.GONE
+                }
+
+                if (it.vote_average != null)
+                    ratingBar_geralFrag.rating =
+                        viewModelDetails.returnNumberOfStars(viewModelDetails.formatEvaluation(it.vote_average))
+                            .toFloat()
+
+                tv_mediaFirstAirDate_geralFrag.text = viewModelDetails.formatFirstAirDate(it.first_air_date)
+
                 viewModelDetails.getAcompanhadoList()
                 viewModelDetails.getFavoritoist()
                 viewModelDetails.getAssistirMaisTardeListInCloud()
@@ -192,35 +240,32 @@ class GeralMediaFragment() : Fragment() {
                     } else {
                         imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
                     }
-                } else if(serieChecked.followingStatusIndication == false) {
+                } else if (serieChecked.followingStatusIndication == false) {
                     imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                 }
             }
 
-            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
+            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner) {
                 serieChecked = viewModelDetails.checkSerieInAssistirMaisTardeList(serieChecked, it)
 
                 if (serieChecked.assistirMaisTardeIndication == true) {
                     imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                } else if(serieChecked.assistirMaisTardeIndication == false) {
+                } else if (serieChecked.assistirMaisTardeIndication == false) {
                     imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
                 }
             }
 
-            viewModelDetails.returnFavoritoListSerie.observe(viewLifecycleOwner){
+            viewModelDetails.returnFavoritoListSerie.observe(viewLifecycleOwner) {
                 mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
-                if (mediaCheckedFavorito.favoritoIndication == true){
+                if (mediaCheckedFavorito.favoritoIndication == true) {
                     imgFav.setImageResource(R.drawable.ic_favorito_select)
-                }else if(mediaCheckedFavorito.favoritoIndication == false){
+                } else if (mediaCheckedFavorito.favoritoIndication == false) {
                     imgFav.setImageResource(R.drawable.ic_favorito_branco)
                 }
             }
         }
 
-
         val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
-
-        Log.i("Sinopse", Sinopse.toString())
 
         if (Sinopse != "" && Sinopse != null) {
             view.tv_sinopse.text = Sinopse
@@ -228,10 +273,11 @@ class GeralMediaFragment() : Fragment() {
             view.tv_sinopse.text = "Não há sinopse disponível no momento."
         }
 
-        picasso.load(URL_IMAGE + Poster).into(view.img_geral)
+        if((Poster != null) && (Poster!!.isNotEmpty()))
+            picasso.load(URL_IMAGE + Poster).into(view.img_geral)
 
         view.imgTarde.setOnClickListener {
-            if(Type == "Tv") {
+            if (Type == "Tv") {
                 if (serieChecked.assistirMaisTardeIndication == true) {
                     viewModelDetails.deleteFromAssistirMaisTardeList(serieResult.id)
                     serieChecked.assistirMaisTardeIndication = false
@@ -247,7 +293,7 @@ class GeralMediaFragment() : Fragment() {
                     imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
                     Toast.makeText(context, "Série adicionada a Agenda", Toast.LENGTH_SHORT).show()
                 }
-            }else if(Type == "Movie"){
+            } else if (Type == "Movie") {
                 if (movieChecked.assistirMaisTardeIndication == true) {
                     viewModelDetails.deleteFromAssistirMaisTardeList(movieResult.id)
                     movieChecked.assistirMaisTardeIndication = false
@@ -267,7 +313,7 @@ class GeralMediaFragment() : Fragment() {
         }
 
         view.imgAcompanhar.setOnClickListener {
-            if(Type == "Tv") {
+            if (Type == "Tv") {
                 if (serieChecked.followingStatusIndication == true) {
                     viewModelDetails.deleteFromAcompanhandoList(serieResult)
                     serieChecked.followingStatusIndication = false
@@ -283,7 +329,7 @@ class GeralMediaFragment() : Fragment() {
                     imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
                     Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
                 }
-            }else if(Type == "Movie"){
+            } else if (Type == "Movie") {
                 if (movieChecked.watched == true) {
                     viewModelDetails.deleteFromHistoricoList(movieResult)
                     movieChecked.watched = false
@@ -297,7 +343,11 @@ class GeralMediaFragment() : Fragment() {
                     viewModelDetails.saveInHistoricoList(movieResult)
                     movieChecked.watched = true
                     imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
-                    Toast.makeText(context, "${Title} foi adicionado ao Histórico", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "${Title} foi adicionado ao Histórico",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -307,13 +357,15 @@ class GeralMediaFragment() : Fragment() {
                 viewModelDetails.deleteFromFavoritoList(mediaFavoritScope)
                 imgFav.setImageResource(R.drawable.ic_favorito_branco)
                 mediaCheckedFavorito.favoritoIndication = false
-                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT)
+                    .show()
 
-            } else if(mediaCheckedFavorito.favoritoIndication == false) {
+            } else if (mediaCheckedFavorito.favoritoIndication == false) {
                 viewModelDetails.saveInFavoritoList(mediaFavoritScope)
                 mediaCheckedFavorito.favoritoIndication = true
                 imgFav.setImageResource(R.drawable.ic_favorito_select)
-                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -325,18 +377,6 @@ class GeralMediaFragment() : Fragment() {
         return view
 
     }
-
-    fun AlteraIconAssistirMaisTarde() {
-        if (selAssistirMaisTarde == false) {
-            imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-            selAssistirMaisTarde = true
-        } else if (selAssistirMaisTarde == true) {
-            imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
-            selAssistirMaisTarde = false
-        }
-
-    }
-
 
     fun AlteraIconCompartilhar() {
         if (selcomp == false) {
@@ -350,11 +390,6 @@ class GeralMediaFragment() : Fragment() {
         }
     }
 
-//    fun updateProgressBar() {
-//        progress_circular.progress = progr.toInt()
-//        tvProgress.text = "$progr%"
-//    }
-
     fun AbrirCompartilhar(title: String, poster_path: String) {
         val ShareIntent = Intent().apply {
             this.action = Intent.ACTION_SEND
@@ -364,12 +399,4 @@ class GeralMediaFragment() : Fragment() {
         startActivity(ShareIntent)
     }
 
-
-    fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-//        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
-    }
-
-    fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-//        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
-    }
 }

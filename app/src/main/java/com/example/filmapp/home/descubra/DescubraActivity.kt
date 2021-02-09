@@ -73,7 +73,7 @@ class DescubraActivity : AppCompatActivity() {
 
     //Usado para add o Menu a Toolbar
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar_config, menu)
+        menuInflater.inflate(R.menu.menu_toolbar_config_only, menu)
         return true
     }
 
