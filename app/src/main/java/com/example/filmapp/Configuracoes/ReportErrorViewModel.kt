@@ -24,8 +24,11 @@ class ReportErrorViewModel() : ViewModel() {
         }
     }
 
-    fun sendErrorReport(error: ErrorReportScope) {
+    fun sendErrorReport(errorLocation: String, errorDescription: String, error:String) {
 
+        var error = ErrorReportScope(USER_ID, errorLocation, errorDescription, error)
+
+        cloudDatabase.getReference().child("developers/errosReportados").keepSynced(true)
         FirebaseDatabase.getInstance().reference
             .child("developers")
             .child("errosReportados")

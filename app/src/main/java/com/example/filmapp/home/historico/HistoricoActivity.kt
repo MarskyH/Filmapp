@@ -1,11 +1,14 @@
 package com.example.filmapp.home.historico
 
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,11 +17,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
+import com.example.filmapp.Configuracoes.ReportErrorActivity
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.home.HomeActivity
 import com.example.filmapp.home.descubra.DescubraActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_historico.*
+import kotlinx.android.synthetic.main.custom_alert.view.*
 
 class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemClickListener {
 
@@ -74,9 +81,13 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         mediaListAdapter.isClickable = false
 
         viewModel.returnHistoricoList.observe(this){
+            try {
             var mediaList = viewModel.formattingItem(it)
             pb_historico.setVisibility(View.INVISIBLE)
             mediaListAdapter.addList(mediaList)
+            }catch (e : Exception) {
+                Log.i("ERRO:", "Erro ${e}. Tente novamente mais tarde.")
+            }
         }
 
         viewModel.getHistoricoInCloud()
@@ -149,5 +160,28 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         return isConnected
 
     }
+
+        fun creatAlertException(e: Exception) {
+
+            val builder = AlertDialog.Builder(this).create()
+            val view: View = LayoutInflater.from(this).inflate(R.layout.custom_alert_erro, null)
+
+            builder.setView(view)
+            builder.show()
+
+            //Caso o usuário queira reportar o Erro
+            view.btAlert_confirm.setOnClickListener {
+                var intent = Intent(this, ReportErrorActivity::class.java)
+
+                startActivity(intent)
+                builder.dismiss()
+                finish()
+            }
+
+            view.btAlert_Notconfirm.setOnClickListener {
+                builder.dismiss()
+                finish()
+            }
+        }
 
 }
