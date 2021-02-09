@@ -1,5 +1,6 @@
 package com.example.filmapp.Series.Fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -16,10 +18,14 @@ import com.example.filmapp.Media.Models.EpisodioFragmentViewModel
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.historico.HistoricoViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.imgCompart
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgCompart
+import kotlinx.android.synthetic.main.fragment_series_temporada.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -119,18 +125,40 @@ class EpisodioFragment : Fragment() {
 
         viewModelVisto = ViewModelProvider(this).get(HistoricoViewModel::class.java)
 
+        if( Img != "" && Img != null){
+            picasso.load(URL_IMAGE+Img).into(view.imgEp)
+        }else{
+            picasso.load(R.drawable.sem_imagem).into(view.imgEp)
+        }
 
-        picasso.load(URL_IMAGE+Img).into(view.imgEp)
-        view.sinopseEp.text = Sinopse
-        picasso.load(URL_IMAGE+Logo).into(view.imgLogo)
-        Log.i("Teste historico", "${Id} ${Title} ${Poster} ${Type}")
+        if( sinopse != "" && sinopse != null){
+            view.sinopseEp.text = Sinopse
+        }else{
+            view.textViewSinopseTemporada.text = "Sem sinopse disponível no momento"
+        }
+
+        if( Logo != "" && Logo != null){
+            picasso.load(URL_IMAGE+Logo).into(view.imgLogo)
+        }else{
+            picasso.load(R.drawable.sem_imagem).into(view.imgEp)
+        }
+
 
         view.imgCompart.setOnClickListener {
-            AbrirCompartilhar(Title!!, homePage)
-            AlteraIconCompartilhar()
+            try {
+                AbrirCompartilhar(Title!!, HomePage!!)
+                AlteraIconCompartilhar()
+            }catch (e:Exception){
+                creatAlertException(e)
+            }
+
         }
         view.imgLogo.setOnClickListener {
-            AbrirSiteLogo()
+            try {
+                AbrirSiteLogo()
+            }catch (e:Exception){
+                creatAlertException(e)
+            }
         }
 
         //Acompanhando/Histórico CodeInicio---------------------------------------------------------
@@ -139,41 +167,55 @@ class EpisodioFragment : Fragment() {
 
         //Verifica se o usuário está acompanhando a série no qual o episódio pertence
         viewModel.returnAcompanhandoList.observe(viewLifecycleOwner){
-            var result = viewModel.checkSerieInList(Id!!.toInt(), it)
+            try {
+                var result = viewModel.checkSerieInList(Id!!.toInt(), it)
 
-            //Caso o usuário esteja acompanhando a série, a opção de marcar o episódio como
-            //assistido será liberada
-            if(result == true){
-                view.imgVisto.visibility = View.VISIBLE
-                viewModel.getWatchedEpisodesList(Id!!.toInt())
+                //Caso o usuário esteja acompanhando a série, a opção de marcar o episódio como
+                //assistido será liberada
+                if(result == true){
+                    view.imgVisto.visibility = View.VISIBLE
+                    viewModel.getWatchedEpisodesList(Id!!.toInt())
+                }
+            }catch (e:Exception){
+                creatAlertException(e)
             }
+
         }
 
         //Verifica se o usuário já assistiu esse episódio
         viewModel.returnWatchedEpisodesList.observe(viewLifecycleOwner){
-            var result = viewModel.checkIfWatchedEpisode(Id_ep!!.toInt(), it)
+            try {
+                var result = viewModel.checkIfWatchedEpisode(Id_ep!!.toInt(), it)
 
-            //Controle da cor do indicador
-            if(result == true){
-                view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
-                watched = true
-            }else{
-                view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
-                watched = false
+                //Controle da cor do indicador
+                if(result == true){
+                    view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+                    watched = true
+                }else{
+                    view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
+                    watched = false
+                }
+            }catch (e:Exception){
+                creatAlertException(e)
             }
+
         }
 
         view.imgVisto.setOnClickListener{
-            if (watched == true) {
-                viewModel.deleteWatchList(Id_ep!!.toInt(), Id!!.toInt())
-                viewModel.deleteFromHistoricoList(Id_ep!!.toInt())
-                watched = false
-                view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
-            }else{
-                viewModel.addWatchList(Id_ep!!.toInt(), Id!!.toInt())
-                viewModel.saveInHistoricoList(Id!!.toInt(), Title.toString(), Poster.toString(), NumberSeason!!, NumberEp!!, EpisodeTitle.toString(), Id_ep!!.toInt())
-                watched = true
-                view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+            try {
+                if (watched == true) {
+                    viewModel.deleteWatchList(Id_ep!!.toInt(), Id!!.toInt())
+                    viewModel.deleteFromHistoricoList(Id_ep!!.toInt())
+                    watched = false
+                    view.imgVisto.setImageResource(R.drawable.ic_visto_branco)
+                }else{
+                    viewModel.addWatchList(Id_ep!!.toInt(), Id!!.toInt())
+                    viewModel.saveInHistoricoList(Id!!.toInt(), Title.toString(), Poster.toString(), NumberSeason!!, NumberEp!!, EpisodeTitle.toString(), Id_ep!!.toInt())
+                    watched = true
+                    view.imgVisto.setImageResource(R.drawable.ic_visto_roxo)
+                }
+            }catch (e:Exception){
+                creatAlertException(e)
             }
         }
 
@@ -198,7 +240,7 @@ class EpisodioFragment : Fragment() {
     fun AbrirSiteLogo() {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(homePage)
+            Uri.parse(HomePage)
         )
         startActivity(intent)
     }
@@ -210,6 +252,32 @@ class EpisodioFragment : Fragment() {
             this.type = "text/plain"
         }
         startActivity(ShareIntent)
+    }
+
+    fun creatAlertException(e: Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB =
+                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}").setValue(e.toString())
+            Toast.makeText(
+                activity,
+                "Erro reportado, desculpe-nos pelo transtorno",
+                Toast.LENGTH_SHORT
+            ).show()
+            builder.dismiss()
+            getActivity()?.finish();
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(activity, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            getActivity()?.finish();
+
+        }
+
     }
 
 }

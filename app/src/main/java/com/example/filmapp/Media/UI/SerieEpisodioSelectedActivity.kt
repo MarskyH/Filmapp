@@ -3,15 +3,22 @@ package com.example.filmapp.Series.Ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.R
 import com.example.filmapp.Series.Fragments.EpisodioFragment
 import com.example.filmapp.home.descubra.DescubraActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_serie_episodio_selected.*
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.*
 
 
@@ -23,7 +30,12 @@ class SerieEpisodioSelectedActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbarEpisodioSelected)
 
-        setUpTabs()
+        try {
+            setUpTabs()
+        } catch (e: Exception) {
+            creatAlertException(e)
+        }
+
 
         toolbarEpisodioSelected.setNavigationOnClickListener {
             finish()
@@ -74,11 +86,51 @@ class SerieEpisodioSelectedActivity : AppCompatActivity() {
         val title = intent.getSerializableExtra("title") as? String
         val poster = intent.getSerializableExtra("poster") as? String
         val titulo = "Temporada ${numberSeason} - Episódio ${numberEp}"
-        val Episodio = EpisodioFragment.newInstance(sinopseEp, poster, id,"Tv", img, imgLogo, homepage!!, title, id_ep, numberEp, numberSeason, episodeTitle)
+        val Episodio = EpisodioFragment.newInstance(
+            sinopseEp,
+            poster,
+            id,
+            "Tv",
+            img,
+            imgLogo,
+            homepage!!,
+            title,
+            id_ep,
+            numberEp,
+            numberSeason,
+            episodeTitle
+        )
         val adapter = ViewPagerMedia(supportFragmentManager)
         adapter.addFragment(Episodio, titulo)
         viewPagerSeriesEpisodio.adapter = adapter
         tabsSeriesEpisodioSelected.setupWithViewPager(viewPagerSeriesEpisodio)
+    }
+
+    fun creatAlertException(e: Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(this).create()
+        val view: View = LayoutInflater.from(this).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB =
+                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}")
+                    .setValue(e)
+            Toast.makeText(
+                this,
+                "Erro reportado, desculpe-nos pelo transtorno",
+                Toast.LENGTH_SHORT
+            ).show()
+            builder.dismiss()
+            finish();
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(this, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            finish();
+
+        }
+
     }
 
 }

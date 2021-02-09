@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,10 @@ import com.example.filmapp.dataBase.FilmAppDataBase
 import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
 import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_media_geral.view.*
 import kotlinx.android.synthetic.main.fragment_series_geral.*
 import kotlinx.android.synthetic.main.fragment_series_geral.view.imgAcompanhar
@@ -115,225 +118,295 @@ class GeralMediaFragment() : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
         viewModelTarde = ViewModelProvider(this).get(AssistirMaisTardeViewModel::class.java)
+
 
         if (Type == "Movie") {
             viewModelDetails.listDetailsMovies.observe(viewLifecycleOwner) {
-                mediaFavoritScope = FavoritoScope(it.id, it.title, it.poster_path.toString(), Type.toString())
+                try {
+                    mediaFavoritScope = FavoritoScope(
+                        it.id,
+                        it.title,
+                        it.poster_path.toString(),
+                        Type.toString()
+                    )
+                    movieResult = it
+                    Sinopse = it.overview
+                    if (Sinopse != "" && Sinopse != null) {
+                        view.tv_sinopse.text = Sinopse
+                    } else {
+                        view.tv_sinopse.text = "Sem sinopse disponível no momento"
+                    }
 
-                movieResult = it
-                viewModelDetails.getFavoritoist()
-                viewModelDetails.getHistoricoInCloud()
-                viewModelDetails.getAssistirMaisTardeListInCloud()
+                    if (Poster != "" && Poster != null) {
+                        picasso.load(URL_IMAGE + Poster).into(view.img_geral)
+                    } else {
+                        picasso.load(R.drawable.sem_imagem).into(view.img_geral)
+                    }
+
+                    viewModelDetails.getFavoritoist()
+                    viewModelDetails.getHistoricoInCloud()
+                    viewModelDetails.getAssistirMaisTardeListInCloud()
+                } catch (e: Exception) {
+                    creatAlert(e)
+                }
             }
-
-            viewModelDetails.getMovieDetails(Id!!)
-
+            viewModelDetails.getMovieDetails(Id.toString())
             viewModelDetails.returnHistoricoList.observe(viewLifecycleOwner) {
-                movieChecked = viewModelDetails.checkMovieInHistorico(movieResult, it)
-                Title = movieChecked.title
-                posterBd = movieChecked.poster_path.toString()
-                rateFilm = movieChecked.vote_average
-                progr = rateFilm * 10
-                updateProgressBar()
-
-                if (movieChecked.watched == true) {
+                try {
+                    movieChecked = viewModelDetails.checkMovieInHistorico(movieResult, it)
+                    Title = movieChecked.title
+                    posterBd = movieChecked.poster_path.toString()
+                    rateFilm = movieChecked.vote_average
+                    progr = rateFilm * 10
+                    updateProgressBar()
+                    if (movieChecked.watched == true) {
                         imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
-                } else if(movieChecked.watched == false) {
-                    imgAcompanhar.setImageResource(R.drawable.ic_check_box)
+                    } else if (movieChecked.watched == false) {
+                        imgAcompanhar.setImageResource(R.drawable.ic_check_box)
+                    }
+                } catch (e: Exception) {
+                    creatAlert(e)
                 }
             }
 
-            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
-                movieChecked = viewModelDetails.checkMovieInAssistirMaisTardeList(movieChecked, it)
-
-                if (movieChecked.assistirMaisTardeIndication == true) {
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                } else if(movieChecked.assistirMaisTardeIndication == false) {
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner) {
+                try {
+                    movieChecked =
+                        viewModelDetails.checkMovieInAssistirMaisTardeList(movieChecked, it)
+                    if (movieChecked.assistirMaisTardeIndication == true) {
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                    } else if (movieChecked.assistirMaisTardeIndication == false) {
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                    }
+                } catch (e: Exception) {
+                    creatAlert(e)
                 }
             }
 
-            viewModelDetails.returnFavoritoListMovie.observe(viewLifecycleOwner){
-                mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
-                if (mediaCheckedFavorito.favoritoIndication == true){
-                    imgFav.setImageResource(R.drawable.ic_favorito_select)
-                }else if(mediaCheckedFavorito.favoritoIndication == false){
-                    imgFav.setImageResource(R.drawable.ic_favorito_branco)
+            viewModelDetails.returnFavoritoListMovie.observe(viewLifecycleOwner) {
+                try {
+                    mediaCheckedFavorito =
+                        viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
+                    if (mediaCheckedFavorito.favoritoIndication == true) {
+                        imgFav.setImageResource(R.drawable.ic_favorito_select)
+                    } else if (mediaCheckedFavorito.favoritoIndication == false) {
+                        imgFav.setImageResource(R.drawable.ic_favorito_branco)
+                    }
+                } catch (e: Exception) {
+                    creatAlert(e)
                 }
             }
         }
+
 
 
         if (Type == "Tv") {
             viewModelDetails.listDetailsSeries.observe(viewLifecycleOwner) {
-                mediaFavoritScope = FavoritoScope(it.id, it.name, it.poster_path, Type.toString())
+                try {
+                    mediaFavoritScope =
+                        FavoritoScope(it.id, it.name, it.poster_path, Type.toString())
 
-                serieResult = it
-                viewModelDetails.getAcompanhadoList()
-                viewModelDetails.getFavoritoist()
-                viewModelDetails.getAssistirMaisTardeListInCloud()
+                    serieResult = it
+                    Sinopse = it.overview
+                    if (Sinopse != "" && Sinopse != null) {
+                        view.tv_sinopse.text = Sinopse
+                    } else {
+                        view.tv_sinopse.text = "Sem sinopse disponível no momento"
+                    }
+
+                    if (Poster != "" && Poster != null) {
+                        picasso.load(URL_IMAGE + Poster).into(view.img_geral)
+                    } else {
+                        picasso.load(R.drawable.sem_imagem).into(view.img_geral)
+                    }
+
+                    viewModelDetails.getAcompanhadoList()
+                    viewModelDetails.getFavoritoist()
+                    viewModelDetails.getAssistirMaisTardeListInCloud()
+                } catch (e: Exception) {
+                    creatAlert(e)
+                }
             }
             viewModelDetails.getTvDetails(Id!!)
-
             viewModelDetails.returnAcompanhandoList.observe(viewLifecycleOwner) {
-                serieChecked = viewModelDetails.checkSerieInAcompanhandoList(serieResult, it)
-                Title = serieChecked.name
-                posterBd = serieChecked.poster_path
-                numberEP = serieChecked.number_of_episodes
-                rateSerie = serieChecked.vote_average
-                progr = rateSerie * 10
-                updateProgressBar()
-
-                if (serieChecked.followingStatusIndication == true) {
-                    if (serieChecked.finished == 1) {
-                        imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
-                    } else {
-                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                try {
+                    serieChecked = viewModelDetails.checkSerieInAcompanhandoList(serieResult, it)
+                    Title = serieChecked.name
+                    posterBd = serieChecked.poster_path
+                    numberEP = serieChecked.number_of_episodes
+                    rateSerie = serieChecked.vote_average
+                    progr = rateSerie * 10
+                    updateProgressBar()
+                    if (serieChecked.followingStatusIndication == true) {
+                        if (serieChecked.finished == 1) {
+                            imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
+                        } else {
+                            imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                        }
+                    } else if (serieChecked.followingStatusIndication == false) {
+                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
                     }
-                } else if(serieChecked.followingStatusIndication == false) {
-                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                } catch (e: Exception) {
+                    creatAlert(e)
                 }
             }
 
-            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner){
-                serieChecked = viewModelDetails.checkSerieInAssistirMaisTardeList(serieChecked, it)
+            viewModelDetails.returnAssistirMaisTardeList.observe(viewLifecycleOwner) {
+                try {
+                    serieChecked =
+                        viewModelDetails.checkSerieInAssistirMaisTardeList(serieChecked, it)
 
-                if (serieChecked.assistirMaisTardeIndication == true) {
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                } else if(serieChecked.assistirMaisTardeIndication == false) {
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                    if (serieChecked.assistirMaisTardeIndication == true) {
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                    } else if (serieChecked.assistirMaisTardeIndication == false) {
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                    }
+                } catch (e: Exception) {
+                    creatAlert(e)
                 }
+
             }
 
-            viewModelDetails.returnFavoritoListSerie.observe(viewLifecycleOwner){
-                mediaCheckedFavorito = viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
-                if (mediaCheckedFavorito.favoritoIndication == true){
-                    imgFav.setImageResource(R.drawable.ic_favorito_select)
-                }else if(mediaCheckedFavorito.favoritoIndication == false){
-                    imgFav.setImageResource(R.drawable.ic_favorito_branco)
+            viewModelDetails.returnFavoritoListSerie.observe(viewLifecycleOwner) {
+                try {
+                    mediaCheckedFavorito =
+                        viewModelDetails.checkFavoritoInList(mediaFavoritScope, it)
+                    if (mediaCheckedFavorito.favoritoIndication == true) {
+                        imgFav.setImageResource(R.drawable.ic_favorito_select)
+                    } else if (mediaCheckedFavorito.favoritoIndication == false) {
+                        imgFav.setImageResource(R.drawable.ic_favorito_branco)
+                    }
+                } catch (e: Exception) {
+                    creatAlert(e)
                 }
+
             }
         }
-
-
-        val view: View = inflater!!.inflate(R.layout.fragment_media_geral, container, false)
-
-        Log.i("Sinopse", Sinopse.toString())
-
-        if (Sinopse != "" && Sinopse != null) {
-            view.tv_sinopse.text = Sinopse
-        } else {
-            view.tv_sinopse.text = "Sem sinopse disponível no momento"
-        }
-
-        picasso.load(URL_IMAGE + Poster).into(view.img_geral)
 
         view.imgTarde.setOnClickListener {
-            if(Type == "Tv") {
-                if (serieChecked.assistirMaisTardeIndication == true) {
-                    viewModelDetails.deleteFromAssistirMaisTardeList(serieResult.id)
-                    serieChecked.assistirMaisTardeIndication = false
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
-                    Toast.makeText(
-                        context,
-                        "Série removida da Agenda",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else if (serieChecked.assistirMaisTardeIndication == false) {
-                    viewModelDetails.saveSerieInAssistirMaisTardeList(serieResult)
-                    serieChecked.assistirMaisTardeIndication = true
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                    Toast.makeText(context, "Série adicionada a Agenda", Toast.LENGTH_SHORT).show()
+            try {
+                if (Type == "Tv") {
+                    if (serieChecked.assistirMaisTardeIndication == true) {
+                        viewModelDetails.deleteFromAssistirMaisTardeList(serieResult.id)
+                        serieChecked.assistirMaisTardeIndication = false
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                        Toast.makeText(
+                            context,
+                            "Série removida da Agenda",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (serieChecked.assistirMaisTardeIndication == false) {
+                        viewModelDetails.saveSerieInAssistirMaisTardeList(serieResult)
+                        serieChecked.assistirMaisTardeIndication = true
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                        Toast.makeText(context, "Série adicionada a Agenda", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else if (Type == "Movie") {
+                    if (movieChecked.assistirMaisTardeIndication == true) {
+                        viewModelDetails.deleteFromAssistirMaisTardeList(movieResult.id)
+                        movieChecked.assistirMaisTardeIndication = false
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
+                        Toast.makeText(
+                            context,
+                            "Filme removido da Agenda",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (movieChecked.assistirMaisTardeIndication == false) {
+                        viewModelDetails.saveMovieInAssistirMaisTardeList(movieResult)
+                        movieChecked.assistirMaisTardeIndication = true
+                        imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
+                        Toast.makeText(context, "Filme adicionado a Agenda", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
-            }else if(Type == "Movie"){
-                if (movieChecked.assistirMaisTardeIndication == true) {
-                    viewModelDetails.deleteFromAssistirMaisTardeList(movieResult.id)
-                    movieChecked.assistirMaisTardeIndication = false
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
-                    Toast.makeText(
-                        context,
-                        "Filme removido da Agenda",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else if (movieChecked.assistirMaisTardeIndication == false) {
-                    viewModelDetails.saveMovieInAssistirMaisTardeList(movieResult)
-                    movieChecked.assistirMaisTardeIndication = true
-                    imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-                    Toast.makeText(context, "Filme adicionado a Agenda", Toast.LENGTH_SHORT).show()
-                }
+            } catch (e: Exception) {
+                creatAlert(e)
             }
+
         }
 
         view.imgAcompanhar.setOnClickListener {
-            if(Type == "Tv") {
-                if (serieChecked.followingStatusIndication == true) {
-                    viewModelDetails.deleteFromAcompanhandoList(serieResult)
-                    serieChecked.followingStatusIndication = false
-                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
-                    Toast.makeText(
-                        context,
-                        "Não está mais acompanhando: ${Title}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else if (serieChecked.followingStatusIndication == false) {
-                    viewModelDetails.saveInAcompanhandoList(serieResult)
-                    serieChecked.followingStatusIndication = true
-                    imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
-                    Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
+            try {
+                if (Type == "Tv") {
+                    if (serieChecked.followingStatusIndication == true) {
+                        viewModelDetails.deleteFromAcompanhandoList(serieResult)
+                        serieChecked.followingStatusIndication = false
+                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando)
+                        Toast.makeText(
+                            context,
+                            "Não está mais acompanhando: ${Title}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (serieChecked.followingStatusIndication == false) {
+                        viewModelDetails.saveInAcompanhandoList(serieResult)
+                        serieChecked.followingStatusIndication = true
+                        imgAcompanhar.setImageResource(R.drawable.ic_acompanhando_roxo)
+                        Toast.makeText(context, "Acompanhando: ${Title}", Toast.LENGTH_SHORT).show()
+                    }
+                } else if (Type == "Movie") {
+                    if (movieChecked.watched == true) {
+                        viewModelDetails.deleteFromHistoricoList(movieResult)
+                        movieChecked.watched = false
+                        imgAcompanhar.setImageResource(R.drawable.ic_check_box)
+                        Toast.makeText(
+                            context,
+                            "${Title} foi removido do Histórico",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (movieChecked.watched == false) {
+                        viewModelDetails.saveInHistoricoList(movieResult)
+                        movieChecked.watched = true
+                        imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
+                        Toast.makeText(
+                            context,
+                            "${Title} foi adicionado ao Histórico",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }else if(Type == "Movie"){
-                if (movieChecked.watched == true) {
-                    viewModelDetails.deleteFromHistoricoList(movieResult)
-                    movieChecked.watched = false
-                    imgAcompanhar.setImageResource(R.drawable.ic_check_box)
-                    Toast.makeText(
-                        context,
-                        "${Title} foi removido do Histórico",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else if (movieChecked.watched == false) {
-                    viewModelDetails.saveInHistoricoList(movieResult)
-                    movieChecked.watched = true
-                    imgAcompanhar.setImageResource(R.drawable.ic_check_box_roxo)
-                    Toast.makeText(context, "${Title} foi adicionado ao Histórico", Toast.LENGTH_SHORT).show()
-                }
+            } catch (e: Exception) {
+                creatAlert(e)
             }
         }
 
         view.imgFav.setOnClickListener {
-            if (mediaCheckedFavorito.favoritoIndication == true) {
-                viewModelDetails.deleteFromFavoritoList(mediaFavoritScope)
-                imgFav.setImageResource(R.drawable.ic_favorito_branco)
-                mediaCheckedFavorito.favoritoIndication = false
-                Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT).show()
+            try {
+                if (mediaCheckedFavorito.favoritoIndication == true) {
+                    viewModelDetails.deleteFromFavoritoList(mediaFavoritScope)
+                    imgFav.setImageResource(R.drawable.ic_favorito_branco)
+                    mediaCheckedFavorito.favoritoIndication = false
+                    Toast.makeText(activity, "${Title} removido dos Favoritos", Toast.LENGTH_SHORT)
+                        .show()
 
-            } else if(mediaCheckedFavorito.favoritoIndication == false) {
-                viewModelDetails.saveInFavoritoList(mediaFavoritScope)
-                mediaCheckedFavorito.favoritoIndication = true
-                imgFav.setImageResource(R.drawable.ic_favorito_select)
-                Toast.makeText(activity, "${Title}  adicionado aos Favoritos", Toast.LENGTH_SHORT).show()
+                } else if (mediaCheckedFavorito.favoritoIndication == false) {
+                    viewModelDetails.saveInFavoritoList(mediaFavoritScope)
+                    mediaCheckedFavorito.favoritoIndication = true
+                    imgFav.setImageResource(R.drawable.ic_favorito_select)
+                    Toast.makeText(
+                        activity,
+                        "${Title}  adicionado aos Favoritos",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            } catch (e: Exception) {
+                creatAlert(e)
             }
+
         }
 
         view.imgCompart.setOnClickListener {
-            AlteraIconCompartilhar()
-            AbrirCompartilhar(Title!!, Poster!!)
+            try {
+                AlteraIconCompartilhar()
+                AbrirCompartilhar(Title!!, Poster!!)
+            } catch (e: Exception) {
+                creatAlert(e)
+            }
         }
-
         return view
-
-    }
-
-    fun AlteraIconAssistirMaisTarde() {
-        if (selAssistirMaisTarde == false) {
-            imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-            selAssistirMaisTarde = true
-        } else if (selAssistirMaisTarde == true) {
-            imgTarde.setImageResource(R.drawable.ic_assistir_mais_tarde)
-            selAssistirMaisTarde = false
-        }
 
     }
 
@@ -364,12 +437,31 @@ class GeralMediaFragment() : Fragment() {
         startActivity(ShareIntent)
     }
 
+    fun creatAlert(e: Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB =
+                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}")
+                    .setValue(e)
+            Toast.makeText(
+                activity,
+                "Erro reportado, desculpe-nos pelo transtorno",
+                Toast.LENGTH_SHORT
+            ).show()
+            builder.dismiss()
+            getActivity()?.finish();
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(activity, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            getActivity()?.finish();
 
-    fun addMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-//        viewModelTarde.saveNewMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
-    }
+        }
 
-    fun removeMaisTardeList(id: Int, title: String, poster_path: String, type: String) {
-//        viewModelTarde.removeMedia(AssistirMaisTardeEntity(id, title, poster_path, type))
     }
 }
+

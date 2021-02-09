@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +26,9 @@ import com.example.filmapp.R
 import com.example.filmapp.Series.Ui.SerieTemporadaActivity
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_series_seasons.view.*
 import java.io.Serializable
 
@@ -78,28 +83,47 @@ class MediaEspecificoFragment() : Fragment(),
         val view: View = inflater!!.inflate(R.layout.fragment_series_seasons, container, false)
         if (Movie == true) {
             viewModelEspecificoFragment.config.observe(viewLifecycleOwner) {
-                config = it
+                try {
+                    config = it
+                } catch (e: Exception) {
+                    creatAlertException(e)
+                }
+
             }
             viewModelEspecificoFragment.getConfig()
             viewModelEspecificoFragment.listSimilar.observe(viewLifecycleOwner) {
-                listaSemelhantes = it
-                var adapter = MediaEspecificoMovieAdapter(listaSemelhantes, this, Movie, config)
-                view?.rv_temporada.adapter = adapter
-                view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
-                view?.rv_temporada.setHasFixedSize(true)
+                try {
+                    listaSemelhantes = it
+                    var adapter = MediaEspecificoMovieAdapter(listaSemelhantes, this, Movie, config)
+                    view?.rv_temporada.adapter = adapter
+                    view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
+                    view?.rv_temporada.setHasFixedSize(true)
+                } catch (e: Exception) {
+                    creatAlertException(e)
+                }
             }
             viewModelEspecificoFragment.getSimilarMovies(Id!!)
         } else {
+
             viewModelEspecificoFragment.config.observe(viewLifecycleOwner) {
-                config = it
+                try {
+                    config = it
+                } catch (e: Exception) {
+                    creatAlertException(e)
+                }
             }
             viewModelEspecificoFragment.getConfig()
             viewModelEspecificoFragment.listDetails.observe(viewLifecycleOwner) {
-                SerieDetails = it
-                val adapter = MediaEspecificoSerieAdapter(SerieDetails, this, config)
-                view?.rv_temporada.adapter = adapter
-                view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
-                view?.rv_temporada.setHasFixedSize(true)
+                try {
+                    SerieDetails = it
+                    val adapter = MediaEspecificoSerieAdapter(SerieDetails, this, config)
+                    view?.rv_temporada.adapter = adapter
+                    view?.rv_temporada.layoutManager = GridLayoutManager(activity, 2)
+                    view?.rv_temporada.setHasFixedSize(true)
+                } catch (e: Exception) {
+                    creatAlertException(e)
+                }
+
             }
             viewModelEspecificoFragment.getDetailsSerie(Id!!)
         }
@@ -107,21 +131,58 @@ class MediaEspecificoFragment() : Fragment(),
     }
 
     override fun SeriemediaClick(position: Int) {
-        val serie = SerieDetails
-        val season = serie.seasons[position]
-        val intent = Intent(context, SerieTemporadaActivity::class.java)
-        intent.putExtra("serie", serie)
-        intent.putExtra("season", season)
-        intent.putExtra("poster_season", season.poster_path)
-        startActivity(intent)
+        try {
+            val serie = SerieDetails
+            val season = serie.seasons[position]
+            val intent = Intent(context, SerieTemporadaActivity::class.java)
+            intent.putExtra("serie", serie)
+            intent.putExtra("season", season)
+            intent.putExtra("poster_season", season.poster_path)
+            startActivity(intent)
+        } catch (e: Exception) {
+            creatAlertException(e)
+        }
+
     }
 
     override fun MoviemediaClick(position: Int) {
-        val movie = listaSemelhantes.results.get(position)
-        val intent = Intent(context, MediaSelectedActivity::class.java)
-        intent.putExtra("poster", movie.poster_path)
-        intent.putExtra("movie", true)
-        intent.putExtra("id", movie.id)
-        startActivity(intent)
+        try {
+            val movie = listaSemelhantes.results.get(position)
+            val intent = Intent(context, MediaSelectedActivity::class.java)
+            intent.putExtra("poster", movie.poster_path)
+            intent.putExtra("movie", true)
+            intent.putExtra("id", movie.id)
+            startActivity(intent)
+        } catch (e: Exception) {
+            creatAlertException(e)
+        }
+
+    }
+
+    fun creatAlertException(e: Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB =
+                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}")
+                    .setValue(e)
+            Toast.makeText(
+                activity,
+                "Erro reportado, desculpe-nos pelo transtorno",
+                Toast.LENGTH_SHORT
+            ).show()
+            builder.dismiss()
+            getActivity()?.finish();
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(activity, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            getActivity()?.finish();
+
+        }
+
     }
 }

@@ -475,6 +475,7 @@ class MainViewModel(val service: Service) : ViewModel() {
         }
     }
 
+
     fun getMovieDetails(id: String) {
         viewModelScope.launch {
             listDetailsMovies.value = service.getDetailsMovie(

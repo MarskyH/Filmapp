@@ -102,66 +102,89 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
         if (testConnection() == true) {
             viewModel.getFavoritoist()
-            if (Movie == true) {
-                viewModel.config.observe(viewLifecycleOwner) {
-                    config = it
-                }
-                viewModel.getConfig()
-                viewModel.listResMovies.observe(viewLifecycleOwner) {
-                    ListMediaMovie = it.results
-                    MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    view.rv_pop.layoutManager = lManager
-                    view.rv_pop.adapter = MovieAdapter
-                    view.rv_pop.setHasFixedSize(true)
-                }
-                viewModel.getPopularMovies(page)
-                setScrollViewFilmes(view.rv_pop)
-                viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
-                    it.forEach {
-                        if (it.type == "Movie") {
-                            ListMediaMovieFavCopy.add(it)
-                            ListMediaMovieFav.add(it)
-                        }
+            try {
+                if (Movie == true) {
+                    viewModel.config.observe(viewLifecycleOwner) {
+                        config = it
                     }
-                    MovieFavAdapter = FavoritosAdapterMovie(this)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    MovieFavAdapter.addList(ListMediaMovieFav)
-                    ListMediaMovieFav = ArrayList()
-                    view.rv_fav.layoutManager = lManager
-                    view.rv_fav.adapter = MovieFavAdapter
-                    view.rv_fav.setHasFixedSize(true)
-                }
+                    viewModel.getConfig()
+                    viewModel.listResMovies.observe(viewLifecycleOwner) {
+                        ListMediaMovie = it.results
+                        MovieAdapter = HomeMediaMovieAdapter(ListMediaMovie, this, Movie, config)
+                        lManager =
+                            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        view.rv_pop.layoutManager = lManager
+                        view.rv_pop.adapter = MovieAdapter
+                        view.rv_pop.setHasFixedSize(true)
+                    }
+                    viewModel.getPopularMovies(page)
+                    setScrollViewFilmes(view.rv_pop)
+                    viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
+                        it.forEach {
+                            if (it.type == "Movie") {
+                                ListMediaMovieFavCopy.add(it)
+                                ListMediaMovieFav.add(it)
+                            }
+                        }
+                        MovieFavAdapter = FavoritosAdapterMovie(this)
+                        lManager =
+                            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        MovieFavAdapter.addList(ListMediaMovieFav)
+                        ListMediaMovieFav = ArrayList()
+                        view.rv_fav.layoutManager = lManager
+                        view.rv_fav.adapter = MovieFavAdapter
+                        view.rv_fav.setHasFixedSize(true)
+                    }
 
-            } else {
+                }
+            } catch (e: Exception) {
+                creatAlertException(e)
+            }
+
+            if (Movie == false) {
                 viewModel.config.observe(viewLifecycleOwner) {
-                    config = it
-                    viewModel.getPopularSeries(page)
+                    try {
+                        config = it
+                        viewModel.getPopularSeries(page)
+                    } catch (e: Exception) {
+                        creatAlertException(e)
+                    }
                 }
                 viewModel.getConfig()
                 viewModel.listResSeries.observe(viewLifecycleOwner) {
-                    ListMediaSerie = it.results
-                    SerieAdapter = HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    view.rv_pop.layoutManager = lManager
-                    view.rv_pop.adapter = SerieAdapter
-                    view.rv_pop.setHasFixedSize(true)
+                    try {
+                        ListMediaSerie = it.results
+                        SerieAdapter =
+                            HomeMediaSerieAdapter(ListMediaSerie, this, Movie, config)
+                        lManager =
+                            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        view.rv_pop.layoutManager = lManager
+                        view.rv_pop.adapter = SerieAdapter
+                        view.rv_pop.setHasFixedSize(true)
+                    } catch (e: Exception) {
+                        creatAlertException(e)
+                    }
                 }
                 setScrollViewSeries(view.rv_pop)
                 viewModel.returnFavoritoListSerie.observe(viewLifecycleOwner) {
-                    it.forEach {
-                        if (it.type == "Tv") {
-                            ListMediaSerieFavCopy.add(it)
-                            ListMediaSerieFav.add(it)
+                    try {
+                        it.forEach {
+                            if (it.type == "Tv") {
+                                ListMediaSerieFavCopy.add(it)
+                                ListMediaSerieFav.add(it)
+                            }
                         }
+                        SerieFavAdapter = FavoritosAdapterSerie(this)
+                        lManager =
+                            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        SerieFavAdapter.addList(ListMediaSerieFav)
+                        ListMediaSerieFav = ArrayList()
+                        view.rv_fav.layoutManager = lManager
+                        view.rv_fav.adapter = SerieFavAdapter
+                        view.rv_fav.setHasFixedSize(true)
+                    } catch (e: Exception) {
+                        creatAlertException(e)
                     }
-                    SerieFavAdapter = FavoritosAdapterSerie(this)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    SerieFavAdapter.addList(ListMediaSerieFav)
-                    ListMediaSerieFav = ArrayList()
-                    view.rv_fav.layoutManager = lManager
-                    view.rv_fav.adapter = SerieFavAdapter
-                    view.rv_fav.setHasFixedSize(true)
                 }
             }
         } else {
@@ -169,38 +192,51 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
             view.tv_pop.visibility = View.GONE
             view.rv_pop.visibility = View.GONE
             viewModel.getFavoritoist()
+
             if (Movie == true) {
                 viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
-                    it.forEach {
-                        if (it.type == "Movie") {
-                            ListMediaMovieFavCopy.add(it)
-                            ListMediaMovieFav.add(it)
+                    try {
+                        it.forEach {
+                            if (it.type == "Movie") {
+                                ListMediaMovieFavCopy.add(it)
+                                ListMediaMovieFav.add(it)
+                            }
                         }
+                        MovieFavAdapter = FavoritosAdapterMovie(this)
+                        lManager =
+                            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        MovieFavAdapter.addList(ListMediaMovieFav)
+                        ListMediaMovieFav = ArrayList()
+                        view.rv_fav.layoutManager = lManager
+                        view.rv_fav.adapter = MovieFavAdapter
+                        view.rv_fav.setHasFixedSize(true)
+                    } catch (e: Exception) {
+                        creatAlertException(e)
                     }
-                    MovieFavAdapter = FavoritosAdapterMovie(this)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    MovieFavAdapter.addList(ListMediaMovieFav)
-                    ListMediaMovieFav = ArrayList()
-                    view.rv_fav.layoutManager = lManager
-                    view.rv_fav.adapter = MovieFavAdapter
-                    view.rv_fav.setHasFixedSize(true)
                 }
+            }
 
-            } else {
+
+            if (Movie == false) {
                 viewModel.returnFavoritoListSerie.observe(viewLifecycleOwner) {
-                    it.forEach {
-                        if (it.type == "Tv") {
-                            ListMediaSerieFavCopy.add(it)
-                            ListMediaSerieFav.add(it)
+                    try {
+                        it.forEach {
+                            if (it.type == "Tv") {
+                                ListMediaSerieFavCopy.add(it)
+                                ListMediaSerieFav.add(it)
+                            }
                         }
+                        SerieFavAdapter = FavoritosAdapterSerie(this)
+                        lManager =
+                            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                        SerieFavAdapter.addList(ListMediaSerieFav)
+                        ListMediaSerieFav = ArrayList()
+                        view.rv_fav.layoutManager = lManager
+                        view.rv_fav.adapter = SerieFavAdapter
+                        view.rv_fav.setHasFixedSize(true)
+                    } catch (e: Exception) {
+                        creatAlertException(e)
                     }
-                    SerieFavAdapter = FavoritosAdapterSerie(this)
-                    lManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                    SerieFavAdapter.addList(ListMediaSerieFav)
-                    ListMediaSerieFav = ArrayList()
-                    view.rv_fav.layoutManager = lManager
-                    view.rv_fav.adapter = SerieFavAdapter
-                    view.rv_fav.setHasFixedSize(true)
                 }
             }
         }
@@ -209,51 +245,59 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
 
     override fun homeMediaMovieClick(position: Int) {
-        Log.i("click", "clicou")
         if (testConnection() == true) {
             if (Movie == true) {
-                val media = ListMediaMovie.get(position)
-                val intent = Intent(context, MediaSelectedActivity::class.java)
-                intent.putExtra("poster", media.poster_path)
-                intent.putExtra("movie", Movie)
-                intent.putExtra("sinopse", media.overview)
-                intent.putExtra("id", media.id)
-                startActivity(intent)
-                MovieAdapter.notifyDataSetChanged()
+                try {
+                    val media = ListMediaMovie.get(position)
+                    val intent = Intent(context, MediaSelectedActivity::class.java)
+                    intent.putExtra("poster", media.poster_path)
+                    intent.putExtra("movie", Movie)
+                    intent.putExtra("sinopse", media.overview)
+                    intent.putExtra("id", media.id)
+                    startActivity(intent)
+                    MovieAdapter.notifyDataSetChanged()
+                } catch (e: Exception) {
+                    creatAlertException(e)
+                }
+            } else {
+                creatAlertOff()
             }
-        } else {
-            creatAlertOff()
         }
-
     }
 
     override fun homeMediaSerieClick(position: Int) {
-        Log.i("click", "clicou")
         if (testConnection() == true) {
             if (Movie == false) {
-                val media = ListMediaSerie.get(position)
-                val intent = Intent(context, MediaSelectedActivity::class.java)
-                intent.putExtra("poster", media.poster_path)
-                intent.putExtra("movie", Movie)
-                intent.putExtra("sinopse", media.overview)
-                intent.putExtra("id", media.id)
-                startActivity(intent)
-                SerieAdapter.notifyDataSetChanged()
+                try {
+                    val media = ListMediaSerie.get(position)
+                    val intent = Intent(context, MediaSelectedActivity::class.java)
+                    intent.putExtra("poster", media.poster_path)
+                    intent.putExtra("movie", Movie)
+                    intent.putExtra("sinopse", media.overview)
+                    intent.putExtra("id", media.id)
+                    startActivity(intent)
+                    SerieAdapter.notifyDataSetChanged()
+                } catch (e: Exception) {
+                    creatAlertException(e)
+                }
+            } else {
+                creatAlertOff()
             }
-        } else {
-            creatAlertOff()
         }
-
     }
 
     override fun favoritosItemClickMovie(position: Int) {
         if (testConnection() == true) {
-            val intent = Intent(context, MediaSelectedActivity::class.java)
-            var currentItemMovie = ListMediaMovieFavCopy.get(position)
-            intent.putExtra("poster", currentItemMovie.poster_path)
-            intent.putExtra("movie", true)
-            intent.putExtra("id", currentItemMovie.id)
-            startActivity(intent)
+            try {
+                val intent = Intent(context, MediaSelectedActivity::class.java)
+                var currentItemMovie = ListMediaMovieFavCopy.get(position)
+                intent.putExtra("poster", currentItemMovie.poster_path)
+                intent.putExtra("movie", true)
+                intent.putExtra("id", currentItemMovie.id)
+                startActivity(intent)
+            } catch (e: Exception) {
+                creatAlertException(e)
+            }
         } else {
             creatAlertOff()
         }
@@ -261,12 +305,16 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     override fun favoritosItemClickSerie(position: Int) {
         if (testConnection() == true) {
-            val intent = Intent(context, MediaSelectedActivity::class.java)
-            var currentItemSerie = ListMediaSerieFavCopy.get(position)
-            intent.putExtra("poster", currentItemSerie.poster_path)
-            intent.putExtra("movie", false)
-            intent.putExtra("id", currentItemSerie.id)
-            startActivity(intent)
+            try {
+                val intent = Intent(context, MediaSelectedActivity::class.java)
+                var currentItemSerie = ListMediaSerieFavCopy.get(position)
+                intent.putExtra("poster", currentItemSerie.poster_path)
+                intent.putExtra("movie", false)
+                intent.putExtra("id", currentItemSerie.id)
+                startActivity(intent)
+            } catch (e: Exception) {
+                creatAlertException(e)
+            }
         } else {
             creatAlertOff()
         }
@@ -274,22 +322,28 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
 
     override fun favoritosLongClickSerie(position: Int) {
-        Log.i("click", "clicou")
         if (testConnection() == true) {
-            val movieFav = ListMediaSerieFavCopy.get(position)
-            creatAlert(movieFav)
-            updateListSerieFav()
+            try {
+                val movieFav = ListMediaSerieFavCopy.get(position)
+                creatAlert(movieFav)
+                updateListSerieFav()
+            } catch (e: Exception) {
+                creatAlertException(e)
+            }
         } else {
             creatAlertOff()
         }
     }
 
     override fun favoritosLongClick(position: Int) {
-        Log.i("click", "clicou")
         if (testConnection() == true) {
-            val movieFav = ListMediaMovieFavCopy.get(position)
-            creatAlert(movieFav)
-            updateListFav()
+            try {
+                val movieFav = ListMediaMovieFavCopy.get(position)
+                creatAlert(movieFav)
+                updateListFav()
+            } catch (e: Exception) {
+                creatAlertException(e)
+            }
         } else {
             creatAlertOff()
         }
@@ -321,23 +375,24 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
 
     }
 
-    fun updateListFav(){
+    fun updateListFav() {
         viewModel.returnFavoritoListMovie.observe(viewLifecycleOwner) {
             it.forEach {
-                if (it.type == "Movie"){
+                if (it.type == "Movie") {
                     ListMediaMovieFav.add(it)
-                }else{
+                } else {
                     ListMediaSerieFav.add(it)
                 }
             }
         }
     }
-    fun updateListSerieFav(){
+
+    fun updateListSerieFav() {
         viewModel.returnFavoritoListSerie.observe(viewLifecycleOwner) {
             it.forEach {
-                if (it.type == "Tv"){
+                if (it.type == "Tv") {
                     ListMediaSerieFav.add(it)
-                }else{
+                } else {
                     ListMediaMovieFav.add(it)
                 }
             }
@@ -384,10 +439,38 @@ class HomeMediaFragment() : Fragment(), HomeMediaMovieAdapter.OnHomeMediaMovieCl
     }
 
     fun testConnection(): Boolean {
-        val cm = activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm =
+            activity?.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
         return isConnected
+
+    }
+
+    fun creatAlertException(e: Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB =
+                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}")
+                    .setValue(e)
+            Toast.makeText(
+                activity,
+                "Erro reportado, desculpe-nos pelo transtorno",
+                Toast.LENGTH_SHORT
+            ).show()
+            builder.dismiss()
+            getActivity()?.finish();
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(activity, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            getActivity()?.finish();
+
+        }
 
     }
 

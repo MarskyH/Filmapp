@@ -4,16 +4,25 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.filmapp.Configuracoes.ConfiguracoesActivity
 import com.example.filmapp.Media.Adapters.ViewPagerMedia
 import com.example.filmapp.Media.Fragments.GeralMediaFragment
 import com.example.filmapp.Media.Fragments.MediaEspecificoFragment
+import com.example.filmapp.Media.dataBase.FavoritoScope
 import com.example.filmapp.R
 import com.example.filmapp.home.descubra.DescubraActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 import kotlinx.android.synthetic.main.activity_media_selected.*
+import kotlinx.android.synthetic.main.custom_alert.view.*
 
 
 class MediaSelectedActivity(): AppCompatActivity() {
@@ -29,8 +38,12 @@ class MediaSelectedActivity(): AppCompatActivity() {
         toolbarMediasSelected.setNavigationOnClickListener {
             finish()
         }
+        try{
+            setUpTabs()
+        }catch (e: Exception){
+            creatAlert(e)
+        }
 
-        setUpTabs()
     }
 
     private fun setUpTabs() {
@@ -86,6 +99,27 @@ class MediaSelectedActivity(): AppCompatActivity() {
     fun callConfiguracoesPage() {
         val intent = Intent(this, ConfiguracoesActivity::class.java)
         startActivity(intent)
+    }
+
+    fun creatAlert(e : Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(this).create()
+        val view: View = LayoutInflater.from(this).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB = FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}").setValue(e)
+            Toast.makeText(this, "Erro reportado, desculpe-nos pelo transtorno", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            finish()
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(this, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            finish()
+
+        }
+
     }
 
 }

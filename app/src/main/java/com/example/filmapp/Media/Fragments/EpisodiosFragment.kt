@@ -1,5 +1,6 @@
 package com.example.filmapp.Series.Fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +22,9 @@ import com.example.filmapp.R
 import com.example.filmapp.Series.Adapter.EpisodiosAdapter
 import com.example.filmapp.Series.Ui.SerieEpisodioSelectedActivity
 import com.example.filmapp.Services.service
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.custom_alert.view.*
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_espisodios.view.*
 import java.io.Serializable
@@ -27,7 +32,7 @@ import java.io.Serializable
 
 class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener {
     var listaEpisodios = SeasonDetails()
-    lateinit var adapter : EpisodiosAdapter
+    lateinit var adapter: EpisodiosAdapter
     var Serie: Serializable? = null
     var Season: Serializable? = null
 
@@ -47,7 +52,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         }
     }
 
-    companion object{
+    companion object {
         private val season = "season"
         private val serie = "serie"
 
@@ -62,38 +67,77 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
     }
 
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val TvSerie = Serie as TvDetails
         val TvSeason = Season as Season
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
-        viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
-            listaEpisodios = it
-            adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
-            view.rv_episodios.adapter = adapter
-            view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
-            view.rv_episodios.setHasFixedSize(true)
+        viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner) {
+            try {
+                listaEpisodios = it
+                adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
+                view.rv_episodios.adapter = adapter
+                view.rv_episodios.layoutManager =
+                    GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+                view.rv_episodios.setHasFixedSize(true)
+            } catch (e: Exception) {
+                creatAlertException(e)
+            }
         }
         viewModelTemporadaFragment.getSeasonDetails(TvSerie.id, TvSeason.season_number)
-        return  view
+        return view
     }
 
     override fun episodioClick(position: Int) {
-        val episodio = listaEpisodios.episodes.get(position)
-        val Serie =  Serie as TvDetails?
-        val intent = Intent(context, SerieEpisodioSelectedActivity::class.java)
-        intent.putExtra("number_episode", episodio.episode_number)
-        intent.putExtra("id_ep", episodio.id.toString())
-        intent.putExtra("sinopse_episode", episodio.overview)
-        intent.putExtra("number_season", episodio.season_number)
-        intent.putExtra("imagem", episodio.still_path)
-        intent.putExtra("logo", Serie?.networks?.get(0)?.logo_path)
-        intent.putExtra("homepage", Serie?.homepage)
-        intent.putExtra("id", Serie?.id.toString())
-        intent.putExtra("title", Serie?.name)
-        intent.putExtra("poster", Serie?.poster_path)
-        intent.putExtra("episodeTitle", episodio.name.toString())
-        startActivity(intent)
-        adapter.notifyItemChanged(position)
+        try {
+            val episodio = listaEpisodios.episodes.get(position)
+            val Serie = Serie as TvDetails?
+            val intent = Intent(context, SerieEpisodioSelectedActivity::class.java)
+            intent.putExtra("number_episode", episodio.episode_number)
+            intent.putExtra("id_ep", episodio.id.toString())
+            intent.putExtra("sinopse_episode", episodio.overview)
+            intent.putExtra("number_season", episodio.season_number)
+            intent.putExtra("imagem", episodio.still_path)
+            intent.putExtra("logo", Serie?.networks?.get(0)?.logo_path)
+            intent.putExtra("homepage", Serie?.homepage)
+            intent.putExtra("id", Serie?.id.toString())
+            intent.putExtra("title", Serie?.name)
+            intent.putExtra("poster", Serie?.poster_path)
+            intent.putExtra("episodeTitle", episodio.name.toString())
+            startActivity(intent)
+            adapter.notifyItemChanged(position)
+        }catch (e:Exception){
+            creatAlertException(e)
+        }
+
+    }
+
+    fun creatAlertException(e: Exception) {
+        val user = FirebaseAuth.getInstance().currentUser
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val view: View = LayoutInflater.from(requireActivity()).inflate(R.layout.custom_alert_erro, null)
+        builder.setView(view)
+        builder.show()
+        view.btAlert_confirm.setOnClickListener {
+            val firebaseDB =
+                FirebaseDatabase.getInstance().getReference().child("erros/${user?.uid}").setValue(e.toString())
+            Toast.makeText(
+                activity,
+                "Erro reportado, desculpe-nos pelo transtorno",
+                Toast.LENGTH_SHORT
+            ).show()
+            builder.dismiss()
+            getActivity()?.finish();
+        }
+        view.btAlert_Notconfirm.setOnClickListener {
+            Toast.makeText(activity, "Erro ignorado", Toast.LENGTH_SHORT).show()
+            builder.dismiss()
+            getActivity()?.finish();
+
+        }
+
     }
 }

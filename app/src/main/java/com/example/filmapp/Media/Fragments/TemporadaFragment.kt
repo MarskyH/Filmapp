@@ -54,9 +54,15 @@ class TemporadaFragment(): Fragment()  {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val sinopse =  (Season as Season).overview
         var view = inflater!!.inflate(R.layout.fragment_series_temporada, container, false)
-        picasso.load(URL_IMAGE + Poster_path).into(view.imgTemporada)
+
+        if( Poster_path != "" && Poster_path != null){
+            picasso.load(URL_IMAGE + Poster_path).into(view.imgTemporada)
+        }else{
+            picasso.load(R.drawable.sem_imagem).into(view.imgTemporada)
+        }
 
         if( sinopse != "" && sinopse != null){
             view.textViewSinopseTemporada.text = sinopse
