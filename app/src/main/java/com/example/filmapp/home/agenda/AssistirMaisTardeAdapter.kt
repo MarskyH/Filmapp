@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.filmapp.Classes.Media
 import com.example.filmapp.R
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
 import com.squareup.picasso.Picasso
 

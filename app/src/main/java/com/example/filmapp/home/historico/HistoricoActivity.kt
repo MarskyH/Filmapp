@@ -50,7 +50,7 @@ class HistoricoActivity : AppCompatActivity(), HistoricoAdapter.onHistoricoItemC
         if(testConnection() == true) {
             setDataOnline()
         }else{
-            Toast.makeText(this, "Você está offline", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.reportingOffline, Toast.LENGTH_SHORT).show()
             setDataOffline()
         }
 

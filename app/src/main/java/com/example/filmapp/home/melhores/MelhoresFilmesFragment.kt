@@ -15,14 +15,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.historico.HistoricoViewModel
-import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import kotlinx.android.synthetic.main.fragment_melhores_filmes.*
 import kotlinx.android.synthetic.main.fragment_melhores_filmes.view.*
 import java.time.LocalDateTime
@@ -33,8 +30,6 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
     private lateinit var melhoresFilmesLayoutManager: LinearLayoutManager
     private lateinit var viewModelAssistirMaisTarde: AssistirMaisTardeViewModel
     private lateinit var viewModelHistorico: HistoricoViewModel
-    var listAssistirMaisTardeDataBase = listOf<AssistirMaisTardeEntity>()
-    var listHistoricoDataBase = listOf<HistoricoEntity>()
     var topMoviesList = arrayListOf<ResultMovie>()
     var mediaList = arrayListOf<ResultMovie>()
 
@@ -70,7 +65,7 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
         if(testConnection() == true) {
             setDataOnline()
         }else{
-            Toast.makeText(context, "Você está offline", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.reportingOffline, Toast.LENGTH_SHORT).show()
             setDataOffline()
         }
 
@@ -167,8 +162,6 @@ class MelhoresFilmesFragment : Fragment(), MelhoresMoviesAdapter.onMelhoresMovie
             var mediaList = it.results
             var media = mediaList.get(position)
 
-//            var item = HistoricoEntity(media.id, media.title, media.poster_path, "Movie")
-//            viewModelHistorico.removeItem(item)
             viewModel.deleteFromHistoricoList(media)
             Toast.makeText(context, "O filme ${media.title} foi removido do Histórico", Toast.LENGTH_SHORT).show()
         }

@@ -28,17 +28,12 @@ import com.example.filmapp.Media.Adapters.FavoritosAdapterMovie
 import com.example.filmapp.Media.Adapters.FavoritosAdapterSerie
 import com.example.filmapp.Media.Adapters.HomeMediaMovieAdapter
 import com.example.filmapp.Media.Adapters.HomeMediaSerieAdapter
-import com.example.filmapp.Media.Models.FavoritosViewModel
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.Media.dataBase.FavoritoScope
-import com.example.filmapp.Media.dataBase.FavoritosEntity
 import com.example.filmapp.R
 import com.example.filmapp.Services.MainViewModel
 import com.example.filmapp.Services.service
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.custom_alert.view.*
-import kotlinx.android.synthetic.main.fragment_home_media.*
 import kotlinx.android.synthetic.main.fragment_home_media.view.*
 
 

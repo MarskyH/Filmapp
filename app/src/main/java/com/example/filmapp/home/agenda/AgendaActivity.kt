@@ -25,7 +25,7 @@ class AgendaActivity : AppCompatActivity() {
         if(testConnection() == true) {
             setDataOnline()
         }else{
-            Toast.makeText(this, "Você está offline", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.reportingOffline, Toast.LENGTH_SHORT).show()
             setDataOffline()
         }
 
@@ -110,6 +110,5 @@ class AgendaActivity : AppCompatActivity() {
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnectedOrConnecting == true
         return isConnected
-
     }
 }

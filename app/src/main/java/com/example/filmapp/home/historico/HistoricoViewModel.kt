@@ -3,21 +3,13 @@ package com.example.filmapp.home.historico
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.dataBase.FilmAppDataBase
-import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
-import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -135,7 +127,7 @@ class HistoricoViewModel(app: Application) : AndroidViewModel(app) {
             }
 
             //Formatação do Título do Episódio
-            if(episodeTitle.length > 11){
+            if(episodeTitle.length > 11){//O certo é 10
                 var newTitle = ""
 
                 for (i in 0..10){

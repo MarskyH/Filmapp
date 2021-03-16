@@ -4,32 +4,21 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Media.UI.MediaSelectedActivity
 import com.example.filmapp.R
 import com.example.filmapp.Services.service
-import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.agenda.AssistirMaisTardeViewModel
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
-import com.example.filmapp.home.descubra.DescubraSeriesAdapter
-import com.example.filmapp.home.emAlta.FragRecycler_emCartaz
-import com.example.filmapp.home.emAlta.FragRecycler_melhoresDaSemana
-import com.example.filmapp.home.emAlta.FragRecycler_novosEpisodios
-import kotlinx.android.synthetic.main.fragment_melhores_filmes.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.*
 import kotlinx.android.synthetic.main.fragment_melhores_series.view.*
 
@@ -38,7 +27,6 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
     private lateinit var melhoresSeriesAdapter: MelhoresSeriesAdapter
     private lateinit var melhoresSeriesLayoutManager: LinearLayoutManager
     private lateinit var viewModelAssistirMaisTarde: AssistirMaisTardeViewModel
-    var listAssistirMaisTardeDataBase = listOf<AssistirMaisTardeEntity>()
     var topSeriesList = arrayListOf<ResultTv>()
     var mediaList = arrayListOf<ResultTv>()
 
@@ -74,7 +62,7 @@ class MelhoresSeriesFragment : Fragment(), MelhoresSeriesAdapter.onMelhoresSerie
         if(testConnection() == true) {
             setDataOnline()
         }else{
-            Toast.makeText(context, "Você está offline", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, R.string.reportingOffline, Toast.LENGTH_SHORT).show()
             setDataOffline()
         }
 

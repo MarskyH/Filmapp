@@ -11,9 +11,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.Movie.ResultMovie
 import com.example.filmapp.R
-import com.example.filmapp.dataBase.AssistirMaisTardeRepository
-import com.example.filmapp.dataBase.FilmAppDataBase
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeDAO
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

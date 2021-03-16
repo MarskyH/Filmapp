@@ -9,7 +9,6 @@ import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.R
-import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.squareup.picasso.Picasso
 

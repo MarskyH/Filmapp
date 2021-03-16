@@ -1,6 +1,5 @@
 package com.example.filmapp.home.acompanhando
 
-import android.R.attr
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -23,8 +22,8 @@ import com.example.filmapp.home.HomeActivity
 import com.example.filmapp.home.descubra.DescubraActivity
 import kotlinx.android.synthetic.main.activity_acompanhando.*
 
+class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener{
 
-class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanhandoItemClickListener {
     private lateinit var mediaListAdapter: AcompanhandoAdapter
     private lateinit var mediaListLayoutManager: RecyclerView.LayoutManager
 
@@ -40,6 +39,7 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_acompanhando)
+
         //Iniciando o ReciclerView Acompanhando
         mediaListLayoutManager = LinearLayoutManager(this)
         mediaListAdapter = AcompanhandoAdapter(this)
@@ -51,7 +51,7 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
         if(testConnection() == true) {
             setDataOnline()
         }else{
-            Toast.makeText(this, "Você está offline. Dados desatualizados", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.reportingOffline, Toast.LENGTH_SHORT).show()
             setDataOffline()
         }
 
@@ -113,17 +113,6 @@ class AcompanhandoActivity : AppCompatActivity(), AcompanhandoAdapter.onAcompanh
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//            if (resultCode === RESULT_OK) {
-//
-//            }
-//            if (resultCode === RESULT_CANCELED) {
-//
-//            }
-//    }
 
     fun callHome(){
         val intent = Intent(this, HomeActivity::class.java)

@@ -59,6 +59,7 @@ class ReportErrorActivity : AppCompatActivity() {
             )
 
             Toast.makeText(this, "Erro reportado, em breve o problema será resolvido", Toast.LENGTH_LONG).show()
+            finish()
         }
     }
 

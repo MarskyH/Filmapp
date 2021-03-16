@@ -2,15 +2,14 @@ package com.example.filmapp.Series.Fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.filmapp.Entities.TV.Season
 import com.example.filmapp.Entities.TV.SeasonDetails
@@ -23,7 +22,8 @@ import com.example.filmapp.Services.service
 import kotlinx.android.synthetic.main.fragment_series_episodio.view.*
 import kotlinx.android.synthetic.main.fragment_series_espisodios.view.*
 import java.io.Serializable
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener {
     var listaEpisodios = SeasonDetails()
@@ -63,17 +63,31 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
 
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val TvSerie = Serie as TvDetails
         val TvSeason = Season as Season
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
+
+        //Teste
+        val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+        Toast.makeText(context, currentDate, Toast.LENGTH_SHORT).show()
+
         viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
             listaEpisodios = it
             adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
             view.rv_episodios.adapter = adapter
-            view.rv_episodios.layoutManager = GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false)
+            view.rv_episodios.layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
             view.rv_episodios.setHasFixedSize(true)
         }
+
         viewModelTemporadaFragment.getSeasonDetails(TvSerie.id, TvSeason.season_number)
         return  view
     }

@@ -29,7 +29,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
     var listUpdated = MutableLiveData<ArrayList<AcompanhandoScope>>()
 
     init {
-        if(cloudDatabase == null){
+        if (cloudDatabase == null) {
             cloudDatabase = FirebaseDatabase.getInstance()
         }
     }
@@ -115,7 +115,7 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
                 it.title = detailsSerie.name
                 it.totalEpisodesWatched = watchedEpisodesList.size
 
-                if(it.totalEpisodesWatched < it.number_of_episodes){
+                if (it.totalEpisodesWatched < it.number_of_episodes) {
                     it.finished = 0
                 }
 
@@ -141,7 +141,8 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
 
                         it.nextEpisodeTitle = nextEpisodeOfUserTitle
                         it.nextEpisodeNumber = nextEpisodeOfUserNumber
-                        it.userProgress = ((it.totalEpisodesWatched.toDouble() / it.number_of_episodes.toDouble()) * 100.0).toInt()
+                        it.userProgress =
+                            ((it.totalEpisodesWatched.toDouble() / it.number_of_episodes.toDouble()) * 100.0).toInt()
 
                     } else if ((it.currentSeason + 1) <= it.number_of_seasons) { //Significa que o usuário está em uma nova temporada
                         it.currentSeason = it.currentSeason + 1
@@ -163,7 +164,8 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
 
                         it.nextEpisodeTitle = nextEpisodeOfUserTitle
                         it.nextEpisodeNumber = nextEpisodeOfUserNumber
-                        it.userProgress = ((it.totalEpisodesWatched.toDouble() / it.number_of_episodes.toDouble()) * 100.0).toInt()
+                        it.userProgress =
+                            ((it.totalEpisodesWatched.toDouble() / it.number_of_episodes.toDouble()) * 100.0).toInt()
 
                     } else {//Significa que o usuário finalizou a série
                         it.userProgress = 100
@@ -181,53 +183,6 @@ class AcompanhandoViewModel(val service: Service) : ViewModel() {
                 }
 
 //Atualização dos dados da série no Realtime Database-----------------------------------------------
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child(USER_ID)
-//                    .child("acompanhando")
-//                    .child(it.id.toString())
-//                    .child("title")
-//                    .setValue(it.title)
-//
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child(USER_ID)
-//                    .child("acompanhando")
-//                    .child(it.id.toString())
-//                    .child("poster_path")
-//                    .setValue(it.poster_path)
-//
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child(USER_ID)
-//                    .child("acompanhando")
-//                    .child(it.id.toString())
-//                    .child("number_of_episodes")
-//                    .setValue(it.number_of_episodes)
-//
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child(USER_ID)
-//                    .child("acompanhando")
-//                    .child(it.id.toString())
-//                    .child("number_of_seasons")
-//                    .setValue(it.number_of_seasons)
-//
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child(USER_ID)
-//                    .child("acompanhando")
-//                    .child(it.id.toString())
-//                    .child("nextEpisodeTitle")
-//                    .setValue(it.nextEpisodeTitle)
-//
-//                FirebaseDatabase.getInstance().reference
-//                    .child("users")
-//                    .child(USER_ID)
-//                    .child("acompanhando")
-//                    .child(it.id.toString())
-//                    .child("nextEpisodeNumber")
-//                    .setValue(it.nextEpisodeNumber)
 
                 cloudDatabase.getReference().child("users/${USER_ID}/acompanhando").keepSynced(true)
                 FirebaseDatabase.getInstance().reference

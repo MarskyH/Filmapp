@@ -7,11 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.filmapp.Entities.APIConfig.LANGUAGE
 import com.example.filmapp.Entities.Movie.BaseMovie
 import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.ResultTv
 import com.example.filmapp.Services.Service
-import com.example.filmapp.home.acompanhando.realtimeDatabase.AcompanhandoScope
 import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
-import com.example.filmapp.home.historico.dataBase.HistoricoEntity
 import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

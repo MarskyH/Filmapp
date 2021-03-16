@@ -3,21 +3,12 @@ package com.example.filmapp.home.agenda
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.filmapp.Entities.Movie.ResultMovie
-import com.example.filmapp.Entities.TV.ResultTv
-import com.example.filmapp.Services.Service
-import com.example.filmapp.dataBase.AssistirMaisTardeRepository
-import com.example.filmapp.dataBase.FilmAppDataBase
-import com.example.filmapp.home.agenda.dataBase.AssistirMaisTardeEntity
 import com.example.filmapp.home.agenda.realtimeDatabase.AssistirMaisTardeScope
-import com.example.filmapp.home.historico.realtimeDatabase.HistoricoScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class AssistirMaisTardeViewModel(app: Application): AndroidViewModel(app) {
 

@@ -36,8 +36,6 @@ class ProximosAdapter(val listener: onProximosItemClickListener): RecyclerView.A
 
         holder.mediaName.setText(currentItem.formattedName)
 
-        //        holder.mediaType.setText(currentItem.mediaType)
-
         var seasonNumber = currentItem.next_episode_to_air.season_number.toString()
         var episodeNumber = currentItem.next_episode_to_air.episode_number. toString()
         var episodeName = currentItem.next_episode_to_air.formattedNameEpisode
@@ -68,7 +66,6 @@ class ProximosAdapter(val listener: onProximosItemClickListener): RecyclerView.A
         val mediaImage: ImageView = itemView.findViewById(R.id.iv_mediaImage_proximosItem)
         val mediaLaunchSite: TextView = itemView.findViewById(R.id.tv_mediaLaunchSite_proximosItem)
         val mediaReleaseDate: TextView = itemView.findViewById(R.id.tv_mediaReleaseDate_proximosItem)
-//        val mediaType: TextView = itemView.findViewById(R.id.tv_mediaType_proximosItem)
         val serieEpisode: TextView = itemView.findViewById(R.id.tv_serieEpisode_proximosItem)
         val serieSeason: TextView = itemView.findViewById(R.id.tv_serieSeason_proximosItem)
 

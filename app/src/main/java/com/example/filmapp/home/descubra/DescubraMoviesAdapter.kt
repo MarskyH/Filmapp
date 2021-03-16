@@ -14,9 +14,6 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
     RecyclerView.Adapter<DescubraMoviesAdapter.DescubraListsViewHolder>() {
 
     var mediaList = arrayListOf<ResultMovie>()
-//    private var assistirMaisTardeIndicationBoolean = false
-//    private var evaluationIndicationBoolean = false
-//    private var shareIndicationBoolean = false
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,41 +31,9 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
         val currentItem: ResultMovie = mediaList[position]
 
         holder.mediaName.text = currentItem.title
-//        holder.mediaDetail1.text = currentItem.release_date
-//        holder.mediaDetail2.text = currentItem.original_language
 
         var url = "https://image.tmdb.org/t/p/w500" + currentItem.poster_path
         Picasso.get().load(url).into(holder.mediaImage)
-
-//        holder.assistirMaisTardeIndication.setOnClickListener {
-//            if(assistirMaisTardeIndicationBoolean == false){
-//                holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde_roxo)
-//                assistirMaisTardeIndicationBoolean = true
-//            }else{
-//                holder.assistirMaisTardeIndication.setImageResource(R.drawable.ic_assistir_mais_tarde)
-//                assistirMaisTardeIndicationBoolean = false
-//            }
-//        }
-//
-//        holder.evaluationIndication.setOnClickListener {
-//            if(evaluationIndicationBoolean == false){
-//                holder.evaluationIndication.setImageResource(R.drawable.ic_estrela_vazia_roxo)
-//                evaluationIndicationBoolean = true
-//            }else{
-//                holder.evaluationIndication.setImageResource(R.drawable.ic_estrela_vazia)
-//                evaluationIndicationBoolean = false
-//            }
-//        }
-//
-//        holder.shareIndication.setOnClickListener {
-//            if(shareIndicationBoolean == false){
-//                holder.shareIndication.setImageResource(R.drawable.ic_compartilhar_roxo)
-//                shareIndicationBoolean = true
-//            }else{
-//                holder.shareIndication.setImageResource(R.drawable.ic_compartilhar)
-//                shareIndicationBoolean = false
-//            }
-//        }
 
     }
 
@@ -84,12 +49,6 @@ class DescubraMoviesAdapter(val listener: onDescubraMovieClickListener) :
         View.OnClickListener {
         val mediaName: TextView = itemView.findViewById(R.id.mediaName)
         val mediaImage: ImageView = itemView.findViewById(R.id.mediaImage)
-//        val mediaDetail1: TextView = itemView.findViewById(R.id.tv_mediaDetail1_medialist)
-//        val mediaDetail2: TextView = itemView.findViewById(R.id.tv_mediaDetail2_medialist)
-
-//        val assistirMaisTardeIndication: ImageView = itemView.findViewById(R.id.assistirMaisTardeIndication_medialist)
-//        val evaluationIndication: ImageView = itemView.findViewById(R.id.evaluationIndication_medialist)
-//        val shareIndication: ImageView = itemView.findViewById(R.id.shareIndication_medialist)
 
         init {
             itemView.setOnClickListener(this)
