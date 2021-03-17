@@ -6,6 +6,7 @@
 
     <!--STRINGS DA LISTA DE EPISÓDIOS -->
     <string name="wordEpisodio">Episódio</string>
+    <string name="comingSoonLabel">Em breve:</string>
 
     <!--REORGANIZADOend......................................................................... -->
 
@@ -181,5 +182,6 @@
     <string name="titulo_toolbar_ReportError">Reportar Erro</string>
     <string name="textView_reportErrorInstructions">Para agilizar a solução desse erro, descreva rapidamente como ele ocorreu. Pense em respostas para perguntas do tipo: O que você estava fazendo antes do erro ocorrer? Começou a acompanhar alguma série ou marcou como assistido algum episódio? O erro ocorreu ao tentar acessar a página de um filme ou série? Se sim, todos os filmes/séries apresentam o mesmo problema?</string>
     <string name="titulo_toolbar_reportError">Reportar um Erro</string>
+
 
 </resources>

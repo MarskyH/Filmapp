@@ -39,10 +39,14 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails,
         }
 
         //Definindo Nome do Episódio
-        if(episodio.name != "" && episodio.name != null){
-            holder.tvTitulo.text = episodio.name
+        if(episodio.released == true) {
+            if (episodio.formattedTitle != "" && episodio.formattedTitle != null) {
+                holder.tvTitulo.text = episodio.formattedTitle
+            } else {
+                holder.tvTitulo.visibility = View.GONE
+            }
         }else{
-            holder.tvTitulo.text = episodio.air_date //Arrumar
+            holder.tvTitulo.setText(R.string.comingSoonLabel)
         }
 
         //Definindo a palavra "Episódio" (varia com a liguagem do app)
@@ -52,13 +56,23 @@ class EpisodiosAdapter(private var listEpisodios: SeasonDetails,
         holder.episodeNumber.text = " " + (position + 1).toString()
 
         //Definindo a Data de Lançamento do episódio
-        holder.episodeAirDate.text = episodio.air_date
+        holder.episodeAirDate.text = episodio.formattedReleaseDate
 
-        //Aq verifica se o episódio já foi assistido ou não
-        if(episodio.watched == true){
-            holder.watchedIndication.setImageResource(R.drawable.ic_visto_grande_roxo)
+        //Verificando se o usuário está acompanhando a série
+        if(listEpisodios.followingStatusIndication == true) {
+            //Verificando se o episódio já foi lançado
+            if (episodio.released == true) {
+                //Verificando se o episódio já foi assistido ou não
+                if (episodio.watched == true) {
+                    holder.watchedIndication.setImageResource(R.drawable.ic_visto_grande_roxo)
+                } else {
+                    holder.watchedIndication.setImageResource(R.drawable.ic_visto_grande)
+                }
+            } else {
+                holder.watchedIndication.visibility = View.GONE
+            }
         }else{
-            holder.watchedIndication.setImageResource(R.drawable.ic_visto_grande)
+            holder.watchedIndication.visibility = View.GONE
         }
 
 

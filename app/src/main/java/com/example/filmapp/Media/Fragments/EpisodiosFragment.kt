@@ -2,6 +2,7 @@ package com.example.filmapp.Series.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ import java.util.*
 
 class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener {
     var listaEpisodios = SeasonDetails()
-    lateinit var adapter : EpisodiosAdapter
+    lateinit var adapter: EpisodiosAdapter
     var Serie: Serializable? = null
     var Season: Serializable? = null
 
@@ -47,7 +48,7 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         }
     }
 
-    companion object{
+    companion object {
         private val season = "season"
         private val serie = "serie"
 
@@ -61,40 +62,60 @@ class EpisodiosFragment() : Fragment(), EpisodiosAdapter.OnEpisodioClickListener
         }
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val TvSerie = Serie as TvDetails
-        val TvSeason = Season as Season
+        var TvSerie = Serie as TvDetails
+        var TvSeason = Season as Season
         val view: View = inflater!!.inflate(R.layout.fragment_series_espisodios, container, false)
 
-        //Teste
-        val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-        Toast.makeText(context, currentDate, Toast.LENGTH_SHORT).show()
+        //Retorna as séries que o usuário está acompanhando
+        viewModelTemporadaFragment.getAcompanhadoList()
 
-        viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner){
-            listaEpisodios = it
+        //Verificando se o usuário está acompanhando a série
+        viewModelTemporadaFragment.returnAcompanhandoList.observe(viewLifecycleOwner) {
+            viewModelTemporadaFragment.checkSerieInAcompanhandoList(TvSerie, it)
+        }
+
+        //Retorna os detalhes da temporada (Episódios, Descrição, etc)
+        viewModelTemporadaFragment.verifiedSeries.observe(viewLifecycleOwner) {
+            if (it.followingStatusIndication == true) {
+                viewModelTemporadaFragment.getSeasonDetails(it.id, TvSeason.season_number, true)
+            } else {
+                viewModelTemporadaFragment.getSeasonDetails(it.id, TvSeason.season_number, false)
+            }
+        }
+
+        //Caminhos diferentes caso o usuário acompanhhe ou não a séries
+        viewModelTemporadaFragment.listSeasonDetails.observe(viewLifecycleOwner) {
+            if (it.followingStatusIndication == true) {
+                //Verificando quais episódios da série o usuário já assistiu
+                viewModelTemporadaFragment.checkWatchedEpisodesList(it)
+            }else{
+                listaEpisodios = viewModelTemporadaFragment.formattingEpisodes(it)
+                adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
+                view.rv_episodios.adapter = adapter
+                view.rv_episodios.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                view.rv_episodios.setHasFixedSize(true)
+            }
+        }
+
+        viewModelTemporadaFragment.returnWatchedEpisodesList.observe(viewLifecycleOwner) {
+            listaEpisodios = viewModelTemporadaFragment.formattingEpisodes(it)
             adapter = EpisodiosAdapter(listaEpisodios, this, TvSerie)
             view.rv_episodios.adapter = adapter
-            view.rv_episodios.layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+            view.rv_episodios.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             view.rv_episodios.setHasFixedSize(true)
         }
 
-        viewModelTemporadaFragment.getSeasonDetails(TvSerie.id, TvSeason.season_number)
-        return  view
+        return view
     }
 
     override fun episodioClick(position: Int) {
         val episodio = listaEpisodios.episodes.get(position)
-        val Serie =  Serie as TvDetails?
+        val Serie = Serie as TvDetails?
         val intent = Intent(context, SerieEpisodioSelectedActivity::class.java)
         intent.putExtra("number_episode", episodio.episode_number)
         intent.putExtra("id_ep", episodio.id.toString())

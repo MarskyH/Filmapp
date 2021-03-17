@@ -10,7 +10,9 @@ data class SeasonDetails(
     val name: String = "",
     val overview: String = "",
     val poster_path: String = "",
-    val season_number: Int = 0
+    val season_number: Int = 0,
+    var followingStatusIndication: Boolean = false,
+    var serieId: Int = 0
 )
 
 data class Episode(
@@ -26,7 +28,10 @@ data class Episode(
     val still_path: String,
     val vote_average: Double,
     val vote_count: Int,
-    var watched: Boolean = false
+    var watched: Boolean = false,
+    var formattedTitle: String,
+    var released: Boolean,
+    var formattedReleaseDate: String
 )
 
 data class Crew(
